@@ -9,8 +9,8 @@ Licensed under BSD-3-Clause
 Source: https://github.com/d3/d3
 
 ### jquery.json-view.js
-Licensed under MIT
-Source: https://github.com/yesmeck/jquery-jsonview
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Source: https://github.com/yesmeck/jquery-jsonview
 
 ### jquery-1.10.2.min.js
 Licensed under MIT
