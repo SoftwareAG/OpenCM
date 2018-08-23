@@ -22,7 +22,7 @@ The project was developed and tested on the following installation:
 ### OpenCM 
 Download OpenCM by
 ```
-git clone https://github.com/SoftwareAG/webMethods-IntegrationServer-OpenCM
+git clone https://github.com/SoftwareAG/OpenCM
 ```
  
 **Install & Configure OpenCM** 
