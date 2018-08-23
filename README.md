@@ -1,5 +1,5 @@
 # OpenCM
-OpenCM is a Configuration Management Repository for webMethods components and is primarily an operational/runtime governance tool of DBP wM components. It can act as a "source of truth" (documentation repo) and provides the ability to audit &amp; compare configuration property information in order to detect discrepancies. 
+OpenCM is a Configuration Management Repository for webMethods components and is primarily an operational/runtime governance tool of DBP wM components. It can act as a "source of truth" (documentation repo) and provides the ability to audit &amp; compare configuration property information in order to detect discrepancies. In addition, it is also used as an operations utility for quick and easy retrieval of property information through its user interface. 
 
 ## Description
 OpenCM extracts configuration property information from runtime environments and stores the information in a local file-based repository. On top of the collected property information, automatic/continuous auditing of property information can then be performed to detect inconsistencies between different installations. OpenCM comes with a user interface for easy navigation and visualization of property information.
