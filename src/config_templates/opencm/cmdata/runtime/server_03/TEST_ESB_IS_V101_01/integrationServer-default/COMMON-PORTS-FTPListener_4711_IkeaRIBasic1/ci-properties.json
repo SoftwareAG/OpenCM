@@ -1,0 +1,1 @@
+{"Port":{"@primary":"false","@alias":"FTPListener_4711_IkeaRIBasic1","Enabled":"true","Number":"4711","Protocol":"FTP","ExtendedProperties":{"Property":[{"@name":"package","$":"IkeaRIBasic1"}]},"IPAccess":{"@accessType":"USE_GLOBAL_DEFAULT"},"URLAccess":{"@accessType":"DENY_BY_DEFAULT"}}}

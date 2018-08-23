@@ -1,0 +1,1 @@
+{"id":"COMMON-JMS-PE_NONTRANSACTIONAL_ALIAS","configurationTypeId":"COMMON-JMS","displayName":"PE_NONTRANSACTIONAL_ALIAS","description":"system generated JMS connection alias","runtimeComponentId":"integrationServer-default","attributes":null}

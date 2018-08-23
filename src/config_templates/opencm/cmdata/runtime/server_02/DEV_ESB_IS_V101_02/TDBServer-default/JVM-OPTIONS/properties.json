@@ -1,0 +1,1 @@
+{"id":"JVM-OPTIONS","configurationTypeId":"JVM-OPTIONS","displayName":"JVM Options","description":"JVM Options to be set as JAVA_OPTS environment variable","runtimeComponentId":"TDBServer-default","attributes":null}

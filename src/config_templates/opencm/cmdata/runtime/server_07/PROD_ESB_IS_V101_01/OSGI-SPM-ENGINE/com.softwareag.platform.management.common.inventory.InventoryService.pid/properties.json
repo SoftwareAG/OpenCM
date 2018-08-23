@@ -1,0 +1,1 @@
+{"id":"com.softwareag.platform.management.common.inventory.InventoryService.pid","configurationTypeId":"COMMON-SYSPROPS","displayName":"Inventory Settings","description":"Inventory service settings","runtimeComponentId":"OSGI-SPM-ENGINE","encoding":"UTF-8","attributes":{"entry":{"key":"updateStatus"}}}

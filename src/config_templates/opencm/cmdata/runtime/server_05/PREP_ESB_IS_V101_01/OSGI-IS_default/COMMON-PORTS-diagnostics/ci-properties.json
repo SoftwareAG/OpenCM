@@ -1,0 +1,1 @@
+{"Port":{"@alias":"diagnostics","Enabled":"false","Type":"DIAGNOSTIC","Number":"10033","Protocol":"JDWP","ExtendedProperties":{"Property":[{"@name":"suspend","$":"n"}]}}}

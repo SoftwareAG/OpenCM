@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="1: LOCAL_ADM_IS_V101_01 <=> LOCAL_ADM_IS_V101_01"
+           tests="620"
+           failures="1"
+           errors="0"
+           skipped="0"
+           time="0.019">
+  <properties />
+            <testcase name="COMMON-SYSPROPS (/watt.server.control.triggerInputControl.delayIncrementInterval)" time="0.018" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest">
+                <failure type="java.lang.AssertionError"
+                  message="expected [10001] but found [10000]"
+              >
+<![CDATA[java.lang.AssertionError: expected [10001] but found [10000]
+  org.testng.Assert.fail(Assert.java:96)
+  org.testng.Assert.failNotEquals(Assert.java:779)
+  org.testng.Assert.assertEqualsImpl(Assert.java:137)
+  org.testng.Assert.assertEquals(Assert.java:118)
+  org.testng.Assert.assertEquals(Assert.java:456)
+  org.testng.Assert.assertEquals(Assert.java:466)
+  com.softwareag.wxcm.audit.assertion.property.PropertyTest.assertProperty(PropertyTest.java:81)
+  sun.reflect.GeneratedMethodAccessor1302.invoke(Unknown Source)
+  sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  java.lang.reflect.Method.invoke(Method.java:498)
+  org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:108)
+  org.testng.internal.Invoker.invokeMethod(Invoker.java:669)
+  org.testng.internal.Invoker.invokeTestMethod(Invoker.java:877)
+  org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1201)
+  org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:124)
+  org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+  org.testng.TestRunner.privateRun(TestRunner.java:772)
+  org.testng.TestRunner.run(TestRunner.java:630)
+  org.testng.SuiteRunner.runTest(SuiteRunner.java:419)
+  org.testng.SuiteRunner.runSequentially(SuiteRunner.java:414)
+  org.testng.SuiteRunner.privateRun(SuiteRunner.java:379)
+  org.testng.SuiteRunner.run(SuiteRunner.java:328)
+  org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+  org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+  org.testng.TestNG.runSuitesSequentially(TestNG.java:1318)
+  org.testng.TestNG.runSuitesLocally(TestNG.java:1243)
+  org.testng.TestNG.runSuites(TestNG.java:1161)
+  org.testng.TestNG.run(TestNG.java:1129)
+  WxCM.priv.audit.node(audit.java:267)
+  sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+  sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  java.lang.reflect.Method.invoke(Method.java:498)
+  com.wm.app.b2b.server.JavaService.baseInvoke(JavaService.java:404)
+  com.wm.app.b2b.server.invoke.InvokeManager.process(InvokeManager.java:668)
+  com.wm.app.b2b.server.util.tspace.ReservationProcessor.process(ReservationProcessor.java:39)
+  com.wm.app.b2b.server.invoke.StatisticsProcessor.process(StatisticsProcessor.java:49)
+  com.wm.app.b2b.server.invoke.ServiceCompletionImpl.process(ServiceCompletionImpl.java:243)
+  com.wm.app.b2b.server.invoke.ValidateProcessor.process(ValidateProcessor.java:49)
+  com.wm.app.b2b.server.invoke.PipelineProcessor.process(PipelineProcessor.java:171)
+  com.wm.app.b2b.server.ACLManager.process(ACLManager.java:299)
+  com.wm.app.b2b.server.invoke.DispatchProcessor.process(DispatchProcessor.java:34)
+  com.wm.app.b2b.server.AuditLogManager.process(AuditLogManager.java:377)
+  com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:567)
+  com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:384)
+  com.wm.app.b2b.server.ServiceManager.invoke(ServiceManager.java:239)
+  com.wm.app.b2b.server.BaseService.invoke(BaseService.java:246)
+  com.wm.lang.flow.FlowInvoke.invoke(FlowInvoke.java:257)
+  com.wm.lang.flow.FlowState.invokeNode(FlowState.java:535)
+  com.wm.lang.flow.FlowState.step(FlowState.java:401)
+  com.wm.lang.flow.FlowState.invoke(FlowState.java:372)
+  com.wm.app.b2b.server.FlowSvcImpl.baseInvoke(FlowSvcImpl.java:1132)
+  com.wm.app.b2b.server.invoke.InvokeManager.process(InvokeManager.java:668)
+  com.wm.app.b2b.server.util.tspace.ReservationProcessor.process(ReservationProcessor.java:39)
+  com.wm.app.b2b.server.invoke.StatisticsProcessor.process(StatisticsProcessor.java:49)
+  com.wm.app.b2b.server.invoke.ServiceCompletionImpl.process(ServiceCompletionImpl.java:243)
+  com.wm.app.b2b.server.invoke.ValidateProcessor.process(ValidateProcessor.java:49)
+  com.wm.app.b2b.server.invoke.PipelineProcessor.process(PipelineProcessor.java:171)
+  com.wm.app.b2b.server.ACLManager.process(ACLManager.java:299)
+  com.wm.app.b2b.server.invoke.DispatchProcessor.process(DispatchProcessor.java:34)
+  com.wm.app.b2b.server.AuditLogManager.process(AuditLogManager.java:377)
+  com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:567)
+  com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:342)
+  com.wm.app.b2b.server.dispatcher.trigger.Trigger.invokeService(Trigger.java:564)
+  com.wm.app.b2b.server.dispatcher.trigger.Trigger.processMessage(Trigger.java:462)
+  com.wm.app.b2b.server.dispatcher.trigger.DefaultTriggerTaskHelper.process(DefaultTriggerTaskHelper.java:255)
+  com.wm.app.b2b.server.dispatcher.trigger.TriggerTask.run(TriggerTask.java:307)
+  com.wm.util.pool.PooledThread.run(PooledThread.java:127)
+  java.lang.Thread.run(Thread.java:748)
+]]>
+      </failure>
+
+          </testcase>
+  
+  
+            <testcase name="COMMON-SYSPROPS (/watt.server.http.authorizationEncoding)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.mbean.auditPerCall)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/eclipse.ignoreApp)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_VariableProcessor/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.package.WSD.pre82WSD.loadExternalResources)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.xml.expandGeneralEntities)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.trigger.removeSubscriptionOnReloadOrReinstall)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.server.handshake.minVersion)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.maxDeliveryCount)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.email.from)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jca.transaction.rollbackOnWriteFailure)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.trigger.reuseSession)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.MTOMStreaming.threshold)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.tx.sweepTime)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_DataCollection/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.config.systemProperties)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.debugFIPS)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cors.exposedHeaders)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.stats.avgTime)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/osgi.noShutdown)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.xsd.useGeneratedURIForCreateXSD)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.storage.skipStoreExistCheck)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.portQueue)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.trigger.managementUI.excludeList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.decrypt.keyStoreAlias)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/org.tanukisoftware.wrapper.WrapperStartStopApp.passthroughMode)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_Structure/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.I18NLogging)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.memberInfoInGroups)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.brokerTransport.dur)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.trigger.preprocess.suspendAndRetryOnError)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ftpConnect.message)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/Resources/ServerThreadPool/AvailableThreadsWarningThreshold)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.new.http.session.context)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.defaultLanguage)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ns.hideWmRoot)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.indoubtresolver.uuidColumnSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmFlatFile/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.groupTag)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.mime.decodeHeaders)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.connection.pingPeriod)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jdbc.derby.commitTolerance)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpClientTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.doNotBind)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.diagnostic.tabular)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.DNescapeChars)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.broker.sync.forceDispatcherInit)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmXSLT/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.dispatcher.exactlyOnce)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftp.noExtensionKey)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.security.async)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.debug.logfile)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ftpLogin.message)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/StoreSettings/TriggerDocumentStore/InitialStoreSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/WM_HOME)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.loginFailureLimit)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.schema.createSchema.omitXSDAny)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cors.supportedMethods)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.debug.layout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.eventAgentPort)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.password.minDigits)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.requireV3Manifests)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.validation.w3cConformant)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.nirvana.durableSubscriber.includeClientId)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.ope.AllowInternalPasswordAccess)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.xsd.useGeneratedURIForNonRPC)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpPassivePort.min)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.eventHandlerUser)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.client.hostnameverification)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.hostAllow)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.db.testSQL)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.xsd.useKnownSchemaLocation)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.default.endpointHTTP)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.json.decodeIntegerAsLong)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.soap.validateResponse)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.serverLogFmt)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/Resources/Session/MaximumStatefulSessions)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cors.maxAge)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.licenses)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.listRequestVars)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.fips.mode)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ssl.keyStoreAlias)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.session.locale.ignore)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.cleanContext)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.stats.logFilesToKeep)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.password.minLength)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpUseDefaultContentHdlr)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.hostMap)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/java.io.tmpdir)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.http401.throwException)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jdbc.moreResults)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.classloader.pkgpriority)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.key)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/java.util.Arrays.useLegacyMergeSort)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.socketpool.sweeperInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.ssl.keyStoreAlias)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmVCS/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.java.unicode)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.statsLogRotateInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.ssl.entrust.toolkit.ssl.fragmentblockcipher)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.validation.skipAbsentStarBody)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.MTOMStreaming.enable)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.illegalNSChars)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpSweepInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.json.prettyPrint)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ws.responseTNS.from.request)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/eclipse.ignoreApp)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.recordToDocument.bufferSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cgi.unicode)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.pub.getFile.checkReadAllowed)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.raiseEventOnException)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.email.waitForServiceCompletion)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.http501-599.throwException)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.indoubtresolver.triggerColumnSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.oauth.token.defaultExpirySeconds)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.date.suppressPatternError)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/Default/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.tx.heuristicFailRetry)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmISExtDC/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.httpPass)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.login.userFtpDir)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.dispatcher.comms.brokerPollingInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jca.connectionPool.thresholdWaitingRequest)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.logEncoding)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.maxClientKeepaliveConns)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/log4j.configuration)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.validation.validationEnabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.um.clientLog.level)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.control.triggerInputControl.delays)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.getFile.checkReadAllowed)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.tx.vm.id)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.gd.async)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.scheduler.ignoreReferenceValidationErrors)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.connection.retryPeriod)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.serial.primaryThread.pollingInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.eventAgentAcl)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.concurrent.consecutiveMessageThreshold)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.useCookies)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.publish.drainCSQInOrder)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.ssh.jsch.ciphers)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.storage.lock.sweepInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.request.timeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.generateRequiredTags)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.ssl.cacheClientSessions)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.mon.auth)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.invoke.maxRetryPeriod)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_StructureProcessor/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.control.threadSensorInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.directive)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.serverlogFilesToKeep)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/StoreSettings/TriggerDocumentStore/User)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.server.cipherSuiteList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.oauth.authCode.expirySeconds)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.extendedDelay.delays)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/StoreSettings/XARecoverystore/StoreLocation)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpPassivePort.max)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/osgi.noShutdown)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.noObjectURL)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.validation.skipMandatoryFields)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.illegalUserChars)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.url.alias.partialMatching)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.service.lazyEval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_2016/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.extendedMessages)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.xml.enforceEntityRef)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.art.tmgr.timeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cors.host)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.oauth.approvalpage.footer)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_Analysis/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.replication.async)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.isIntegrationAgent)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.returnException)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.broker.replyConsumer.multiclient)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/Resources/Session/AvailableStatefulSessionWarningThreshold)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.scheduler.dbTimesUpdated)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.tx.async)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.proxy.fallbackToDirectConnection)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.strictAccessExceptionLogging)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.content.type.default)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/java.io.tmpdir)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ns.decodeJavaService)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jdbc.datadirect.spy.default)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.tx.retryBackoffTime)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.thread.aging.limit)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.messaging.debugTrace)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.publish.useCSQ)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.pubDateTimeFormat.javaSlidingWindow)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.um.clientLog.size)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.RESTDirective.V2)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.eventMgr.maxThreads)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.control.controlledDeliverToTriggers.delayIncrementInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.com.wm.artextdc.configVersion)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.retries)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.client.useJSSE)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.password.encrypt)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.stopRequestTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.security.jaas.jaasRealms)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.connection.pingDestination)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.serviceResults.cacheManager)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/Default/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.hotDeploymentTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.schema.validateIncomingXSD)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmWin32/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.prepend.classes)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmPublic/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.threadKill.interruptThread.enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.trustStore.supportedTypes)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmAssetPublisher/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.control.controlledDeliverToTriggers.pctMaxThreshold)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.schema.generateSubstitutionGroups)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/StoreSettings/OutboundDocumentStore)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpDataConnTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.compile.readFromStdErr)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.password.minSpecialChars)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.jsse.server.enabledCipherSuiteList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/Lidl_DevOps_HH/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.storage.addKeyToStoreIfNotPresent)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.addEmptyHeader)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.pollingSession.timeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.remoteInvoke.queryCSRFToken)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.netEncoding)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.dispatcher.comms.brokerPing)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.broker.replyConsumer.sweeperInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ws.security.timestampPrecisionInMilliseconds)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ssl.trustStoreAlias)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.revInvoke.proxyMapUserCerts)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.wmjms.clientIDSharing)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ns.synchronized)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.producer.pooledSession.timeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.ssl.keyAlias)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.oauth.approvalpage.title)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.warnOnPartValidation)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.validateSOAPMessage)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jdbc.defaultDriver)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.jsse.client.enabledCipherSuiteList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WxCM_Test/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.tx.jobThreads)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.defaultContentHandler)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.eventMgr.minThreads)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.oauth.approvalpage.header)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_2016/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.cachedirective.exclude.packages)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.serviceUsageDSP.RefreshInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.oauth.custom.responseHeader)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.log.alertMaxEntries)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.ssl.keypurposeverification)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.csq.batchProcessingSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.preserveUriReservedChars)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.encodeXSITypeValue)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpPassiveLocalAddr)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_Analysis/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.x-frame-options)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.password.mode)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmWin32/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cachemanager.logsDirectory)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/osgi.install.area)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ftp.listingFileAge)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.trigger.keepAsBrokerEvent)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.broker.replyConsumer.fetchSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cachemanager.connectTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmISExtDC/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.json.decodeRealAsString)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.useStringforAnyTypewithSimpleValue)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.email.validateHost)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.auth.cache.capacity)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.com.wm.isextdc.monitored)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.brokerTransport.max)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/Resources/ServerThreadPool/MaximumThreads)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.scheduler.deleteCompletedTasks)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cgi.cache)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.reuseJmsTxSession)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.math.floatOperation.mode)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.userFtpRootDir)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.oauth.authServer.alias)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cors.supportsCredentials)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.db.blocktimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.tspace.max)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.hideRuntimeEnvironment)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cache.prefetchUser)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_Structure/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.createPackage.ignorePattern)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cronMaxThreads)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.storage.lock.maxDuration)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.publish.usePipelineBrokerEvent)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.useMultiReference)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.json.allowUnquotedFieldNames)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jdbcLogFile)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.soapjms.defaultMessageType)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/sun.lang.ClassLoader.allowArraySyntax)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SoapRPC.useSecondaryType)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.HTTP.useMailWriter)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.ssh.jsch.logging)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.overrideSystemProxyselector)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmFlatFile/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/Resources/Session/SessionTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/StoreSettings/BrokerConfigured)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.concurrent.primaryThread.pollingInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ns.dependencyManager)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jdbc.datadirect.snoop.default)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmTCDBAdapter/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.audit.logDir)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.generateNilTags)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.identifyISGeneratedWSDL)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.trustStoreAlias)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.cert.wmChainVerifier.trustByDefault)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.publish.local.rejectOOS)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.control.memorySensorInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.maxPrefetchSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.tx.heuristicFailRetry)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.streamHandlers)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.concurrent.secondaryThread.pollingInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.broker.producer.multiclient)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmXSLT/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.keyStore.supportedTypes)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.art.synchronousNotification.selectExecuteUser)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/StoreSettings/DefaultDocumentStore/InitialStoreSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.log.maxEntries)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.compile.unicode)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.pre82WSD.ignoreVersionMismatch)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmVCS/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.wmjms.lms.readTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmARTExtDC/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpClientDataConnTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WxCM/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.json.optimizeForUniqueKeys)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.xslt.debug.facList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.reauth.user-agent.list)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.updateManager.versionInfo)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/StoreSettings/TriggerDocumentStore/StoreLocation)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.publish.validateOnIS)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.compile)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WxCM_Test/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SoapRPC.checkHeaders)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.txMail)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.trigger.suspendOnAuditErrorWhen)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.jsse.client.enabledProtocols)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.xslt.debug.logfile)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ws.defaultPrefix)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jdbc.loginTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.hideEPRHostInFault)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.ssl.iaik.serverAllowUnboundRenegotiate)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.webapp.cookies.useRelevantPath)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_Common/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cluster.action.errorOnStartup)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.idr.reaperInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.trigger.local.checkTTL)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.pipeline.processor)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.dispatcher.comms.connectionShareLimit)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.pkg.art.resourcebundlemanager.verbose)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.encodeXSIType)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.server.clientHandshakeTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.emailPortQueue)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.service.list.treatEmptyAsNull)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpDataConn)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.datatype.usejavaregex)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.defaultCountry)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.tx.cluster.lockTimeoutMillis)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.trigger.interruptRetryOnShutdown)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.guaranteedMultisend.alwaysUseTxLogging)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.stat.async)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.MTOMStreaming.cachedFiles.location)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.encodeToUpperCase)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.BrokerDocSync.LockRetries)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.template.enableFilterHtml)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.tspace.location)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.brokerCoder.wireFormat)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.isMicroservicesContainer)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.tx.cluster.lockBreakSecs)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.default.endpointHTTPS)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.control.maxPersist)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ns.useServiceManifest)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ftp.usecommandip)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.timeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.auth.cds.init)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.db.connectionCache)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.logs.dateStampTimeZone)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.reuseSession)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.thread.usage.limit)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.serverclassloadername)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.checkAclsInternally)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.ssl.client.ignoreEmptyAuthoritiesList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.tx.cluster.jobPendingWait)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.DNescapeURL)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.com.wm.isextdc.configVersion)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/StoreSettings/XARecoverystore/InitialStoreSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.monitoringInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cors.allowedOrigins)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.json.quoteFieldNames)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.coder.bincoder.trycontextloaderfirst)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_Common/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.enablePasswordChange)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.completeLoad)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.template.compatibleScope)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ns.backupNodes)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/com.webmethods.sc.auditing.Use80TableFormat)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.allowOptions)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.infradc.artmonitor)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.audit.dbEncoding)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.hw.ncipher.standardPort)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.hostDeny)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.retryWait)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.threadKill.enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.client.handshake.maxVersion)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.tx.defaultTTLMins)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.brokerTransport.ret)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.tspace.timeToLive)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmRoot/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpUseCertMap)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.optimize.monitoring)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmCloud/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.decrypt.keyAlias)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.DNescapePairs)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.cert.wmChainVerifier.enforceExtensionsChecks)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.jmsRetrievalError.async)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.xmlrpc.version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.RESTDirective)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cluster.cacheType)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.debug2.logstringfile)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.dispatcher.join.reaperDelay)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.datatype.patternMatcherPool.delayFill)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.sign.keyAlias)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.pooledConsumer.timeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.debug2.facList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.package.parallel.threads)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmCloud/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.maxRedirects)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ftpPort)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jdbc.driverList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.log.refreshInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.audit.logFilesToKeep)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.stats.logfile)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.enableHotDeployment)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.debugTrace)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.control.freeMemoryThreshold)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.connection.update.restartDelay)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmTCDBAdapter/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.defaultProtocol)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.client.handshake.minVersion)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.email.processReturnedEmails)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.fileEncoding)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.validation.ignoreContent)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.hotDeploymentAutoRecover)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmPublic/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.SOAP.MTOMThreshold)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.WSDL.debug)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.generatedTypeName.localName.prefix)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.jmsDeliveryError.async)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cache.flushMins)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.response.displayISErrorCode)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.trigger.monitoringInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.auth.cache.timeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.um.clientLog.fileDepth)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.session.forceReauthOnExpiration)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.ssl.iaik.debug)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.suppresscwarn)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ws.security.timestampMaximumSkew)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.compile.exitOnError)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.httpChunkSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.log.orphanLoggers)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.validation.multipleRoot)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/java.awt.headless)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmART/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.auth.checkWithSession)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.scheduler.maxWait)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.scheduler.logical.hostname)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.tx.sweepTime)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmAssetPublisher/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.extendedDelay.delayIncrementInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.password.minUpperChars)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.template.enableSecureUrlRedirection)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.header.useSecure)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.useAcceptHeader)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.acl.groupScanInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_StructureProcessor/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ws.security.timestampTimeToLive)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.threadKill.timeout.enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jca.transaction.writeRecoveryRecord)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.ssl.accelerator.provider)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FxMP/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.diagnostic.logFiles.maxMB)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.ftps.client.useJSSE)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.audit.failFastLoggers)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.trigger.raiseEventOnRetryFailure)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.connection.monitorPeriod)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.serviceResults.cache)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.requestCerts)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.email.processReplyEmails)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.exception.async)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.sftpSweepInterval)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.routing.runAsUser)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.serverlogRotateSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cache.gcMins)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.displayDirectories)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ws.defaultNamespace)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.retryCount)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cache.maxEntriesInCache)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.sign.keyStoreAlias)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmART/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.xml.encoding)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.um.producer.transaction.commitRetryCount)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftp.securitychecks)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jdbcLogging)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.password.minLowerChars)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.storage.lock.maxWait)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.noAccessURL)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.deprecatedExceptionLogging)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.generatedTypeName.namespaceName.authority)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.install.service)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.db.share.ISInternal)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.auth.samlResolver)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WxCM/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.oauth.approvalpage.logo)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ftpSystem.message)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ns.lockingMode)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.proxySkipList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/Resources/Session/EnableStatefulSessionLimit)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.audit.displayLogs.convertTime)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.tx.disabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.xmlrpc.compressSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.content.type.mappings)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.db.provider)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.openid.logExceptions)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_Prediction/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.art.page.size)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.ssl.ignoreExpiredChains)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/Resources/ServerThreadPool/MinimumThreads)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.hostAccessMode)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.datatype.patternMatcherPool.minSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.broker.sync.enableBrokerSync)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.sync.timeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.xml.allowedExternalEntities)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ws.71xHandlerChainBehavior)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.db.maintainminimum)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.jsonFormat)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.optimize.jms.server.url)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.control.controlledDeliverToTriggers.delays)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.socketProvider)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.connection.update.blockingTime)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.securityRealm)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cachemanager.parallelThreads)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.uriPath.decodePlus)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.sftp.dateStampFmt)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_Prediction/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.server.handshake.maxVersion)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cors.enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.xslt.debug.level)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ns.generateServiceManifest)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.brokerTypeCoder.verbose)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.client.cipherSuiteList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmARTExtDC/version)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.audit.schemaName)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.interceptor.preprocess.sizeLimit)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.oauth.requireHTTPS)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/StoreSettings/DefaultDocumentStore/StoreLocation)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.stats.pollTime)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jdbc.statementCache)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/org.apache.xml.dtm.DTMManager)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.typeSynchronizer.verbose)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.eventAgentPortEnabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.stats.logRotateSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.DNstripQuotes)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.header.useHttpOnly)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.auth.cache.enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.defaultPackage)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.diagnostic.logperiod)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.security.KeystoreAndTruststore.defaultAliasCreated)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.soap.convertPlainTextHTTPResponseIntoSOAPFault)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.validation.maxErrors)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.proxy.useNonDefaultProxies)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/WmRoot/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.soapjms.request.timeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.allowDirective)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.invokeDirective)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FxMP/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/Lidl_DevOps_HH/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.userAgent)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftp.ignoreErrors)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jms.csq.maxRedeliveryCount)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cors.supportedHeaders)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.transaction.recovery.abandonTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.jndi.searchresult.maxlimit)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.rg.internalregistration.timeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.xmlFormat)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.client.strongcipheronly)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.brokerCoder.verbose)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.dispatcher.messageStore.redeliverOriginalMessage)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.audit.logRotateSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.apiportal.url)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.ssl.iaik.clientAllowUnboundRenegotiate)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ssl.server.strongcipheronly)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.httpUser)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.audit.async)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cronMinThreads)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.schema.generateAllTypeDocuments)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.control.maxPublishOnSuccess)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.httplog)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.jsse.server.enabledProtocols)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.oauth.requirePost)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.interceptor.enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_DataCollection/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-RESOURCES (/Resources/ServerThreadPool/SchedulerThreadThrottle)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.core.datatype.patternMatcherPool.maxSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.clientKeepaliveTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.xml.xmlNodeToDocument.keepDuplicates)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/osgi.install.area)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.ldap.extendedProps)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.ftpConnTimeout)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.localhost)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.cluster.aliasList)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.json.decodeRealAsDouble)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.transaction.recovery.sleepInterval)" time="0.001" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.http.interceptor.impl)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.inetaddress)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.net.defaultBufferSize)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.partner)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="IS-PACKAGES (/packageName/FMPE_VariableProcessor/enabled)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+                <testcase name="COMMON-SYSPROPS (/watt.server.event.session.async)" time="0.000" classname="com.softwareag.wxcm.audit.assertion.property.PropertyTest" />
+      
+</testsuite>

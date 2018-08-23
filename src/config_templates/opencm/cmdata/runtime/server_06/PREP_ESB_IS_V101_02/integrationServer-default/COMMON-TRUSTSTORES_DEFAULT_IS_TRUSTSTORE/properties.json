@@ -1,0 +1,1 @@
+{"id":"COMMON-TRUSTSTORES_DEFAULT_IS_TRUSTSTORE","configurationTypeId":"COMMON-TRUSTSTORES","displayName":"DEFAULT_IS_TRUSTSTORE","description":"Default truststore alias for Integration Server.","runtimeComponentId":"integrationServer-default","attributes":null}

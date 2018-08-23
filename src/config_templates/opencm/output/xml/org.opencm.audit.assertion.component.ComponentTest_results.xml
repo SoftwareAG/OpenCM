@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="8: PROD_ESB_INT_V900_01 vs. PROD_ESB_INT_V900_02"
+           tests="6"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="0.000">
+  <properties />
+  
+  
+            <testcase name="assertComponent" time="0.000" classname="org.opencm.audit.assertion.component.ComponentTest" />
+                <testcase name="assertComponent" time="0.000" classname="org.opencm.audit.assertion.component.ComponentTest" />
+                <testcase name="assertComponent" time="0.000" classname="org.opencm.audit.assertion.component.ComponentTest" />
+                <testcase name="assertComponent" time="0.000" classname="org.opencm.audit.assertion.component.ComponentTest" />
+                <testcase name="assertComponent" time="0.000" classname="org.opencm.audit.assertion.component.ComponentTest" />
+                <testcase name="assertComponent" time="0.000" classname="org.opencm.audit.assertion.component.ComponentTest" />
+      
+</testsuite>

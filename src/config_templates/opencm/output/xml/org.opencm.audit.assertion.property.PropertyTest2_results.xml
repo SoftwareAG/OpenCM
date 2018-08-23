@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="COMMON-LICENSE-TES"
+           tests="1"
+           failures="1"
+           errors="0"
+           skipped="0"
+           time="0.000">
+  <properties />
+            <testcase name="plain-text-property" time="0.000" classname="org.opencm.audit.assertion.property.PropertyTest2">
+                <failure type="java.lang.AssertionError"
+                  message="expected [# This software license, granted by Terracotta Inc. - a Software AG company, is valid for and may only be used# by the licensee of this product (&quot;Licensee&quot;).# Descriptor version: 4# ------------------------------------------------------------------------------------Date of Issue: 2017-02-17Expiration Date: 2021-02-28License Type: TrialLicense Number: 2051137_ProductionLicensee: Schwarz IT Sourcing GmbH &amp; Co. KGProduct: BigMemory MaxEdition: FXCapabilities: TMC, authentication, ehcache, ehcache offheap, failover tuning, search, security, server array offheap, server stripingMax Client Count: 2147483647webMethods OEM: falseehcache.maxOffHeap: 2147483647Gterracotta.serverArray.maxDataStorage: 2147483647GSignature: MC0CFHNKQ1A0yOurM9ULzDg/QYbeX/cAAhUAlHykDcrQ0+u+dDpAMxiT+aURLpw=] but found [# This software license, granted by Terracotta Inc. - a Software AG company, is valid for and may only be used# by the licensee of this product (&quot;Licensee&quot;).# Descriptor version: 4# ------------------------------------------------------------------------------------Date of Issue: 2015-10-16License Type: CommercialLicense Number: 7502333_2038342Licensee: LIDL Stiftung Co. KG - DEVProduct: BigMemory MaxEdition: EXCapabilities: TMC, authentication, ehcache, ehcache offheap, search, security, server array offheapMax Client Count: 20webMethods OEM: trueterracotta.serverArray.maxDataStorage: 100GSignature: MC0CFQCSPOExYTl8WpJeTlNcQEODW3V6OwIUYopdI+E5wVXf6MYKAyeiZ78gEy8=]"
+              >
+<![CDATA[java.lang.AssertionError: expected [# This software license, granted by Terracotta Inc. - a Software AG company, is valid for and may only be used# by the licensee of this product ("Licensee").# Descriptor version: 4# ------------------------------------------------------------------------------------Date of Issue: 2017-02-17Expiration Date: 2021-02-28License Type: TrialLicense Number: 2051137_ProductionLicensee: Schwarz IT Sourcing GmbH & Co. KGProduct: BigMemory MaxEdition: FXCapabilities: TMC, authentication, ehcache, ehcache offheap, failover tuning, search, security, server array offheap, server stripingMax Client Count: 2147483647webMethods OEM: falseehcache.maxOffHeap: 2147483647Gterracotta.serverArray.maxDataStorage: 2147483647GSignature: MC0CFHNKQ1A0yOurM9ULzDg/QYbeX/cAAhUAlHykDcrQ0+u+dDpAMxiT+aURLpw=] but found [# This software license, granted by Terracotta Inc. - a Software AG company, is valid for and may only be used# by the licensee of this product ("Licensee").# Descriptor version: 4# ------------------------------------------------------------------------------------Date of Issue: 2015-10-16License Type: CommercialLicense Number: 7502333_2038342Licensee: LIDL Stiftung Co. KG - DEVProduct: BigMemory MaxEdition: EXCapabilities: TMC, authentication, ehcache, ehcache offheap, search, security, server array offheapMax Client Count: 20webMethods OEM: trueterracotta.serverArray.maxDataStorage: 100GSignature: MC0CFQCSPOExYTl8WpJeTlNcQEODW3V6OwIUYopdI+E5wVXf6MYKAyeiZ78gEy8=]
+  org.testng.Assert.fail(Assert.java:96)
+  org.testng.Assert.failNotEquals(Assert.java:779)
+  org.testng.Assert.assertEqualsImpl(Assert.java:137)
+  org.testng.Assert.assertEquals(Assert.java:118)
+  org.testng.Assert.assertEquals(Assert.java:456)
+  org.testng.Assert.assertEquals(Assert.java:466)
+  org.opencm.audit.assertion.property.PropertyTest2.assertProperty(PropertyTest2.java:87)
+  sun.reflect.GeneratedMethodAccessor2745.invoke(Unknown Source)
+  sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  java.lang.reflect.Method.invoke(Method.java:498)
+  org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:108)
+  org.testng.internal.Invoker.invokeMethod(Invoker.java:669)
+  org.testng.internal.Invoker.invokeTestMethod(Invoker.java:877)
+  org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1201)
+  org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:124)
+  org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+  org.testng.TestRunner.privateRun(TestRunner.java:772)
+  org.testng.TestRunner.run(TestRunner.java:630)
+  org.testng.SuiteRunner.runTest(SuiteRunner.java:419)
+  org.testng.SuiteRunner.runSequentially(SuiteRunner.java:414)
+  org.testng.SuiteRunner.privateRun(SuiteRunner.java:379)
+  org.testng.SuiteRunner.run(SuiteRunner.java:328)
+  org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+  org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+  org.testng.TestNG.runSuitesSequentially(TestNG.java:1318)
+  org.testng.TestNG.runSuitesLocally(TestNG.java:1243)
+  org.testng.TestNG.runSuites(TestNG.java:1161)
+  org.testng.TestNG.run(TestNG.java:1129)
+  OpenCM.priv.twoNodeAudit.auditDefault(twoNodeAudit.java:255)
+  sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+  sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  java.lang.reflect.Method.invoke(Method.java:498)
+  com.wm.app.b2b.server.JavaService.baseInvoke(JavaService.java:404)
+  com.wm.app.b2b.server.invoke.InvokeManager.process(InvokeManager.java:668)
+  com.wm.app.b2b.server.util.tspace.ReservationProcessor.process(ReservationProcessor.java:39)
+  com.wm.app.b2b.server.invoke.StatisticsProcessor.process(StatisticsProcessor.java:49)
+  com.wm.app.b2b.server.invoke.ServiceCompletionImpl.process(ServiceCompletionImpl.java:243)
+  com.wm.app.b2b.server.invoke.ValidateProcessor.process(ValidateProcessor.java:49)
+  com.wm.app.b2b.server.invoke.PipelineProcessor.process(PipelineProcessor.java:171)
+  com.wm.app.b2b.server.ACLManager.process(ACLManager.java:299)
+  com.wm.app.b2b.server.invoke.DispatchProcessor.process(DispatchProcessor.java:34)
+  com.wm.app.b2b.server.AuditLogManager.process(AuditLogManager.java:377)
+  com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:567)
+  com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:384)
+  com.wm.app.b2b.server.ServiceManager.invoke(ServiceManager.java:239)
+  com.wm.app.b2b.server.comm.DefaultServerRequestHandler.handleMessage(DefaultServerRequestHandler.java:120)
+  com.wm.app.b2b.server.HTTPMessageHandler.process(HTTPMessageHandler.java:156)
+  com.wm.app.b2b.server.HTTPDispatch.handleRequest(HTTPDispatch.java:181)
+  com.wm.app.b2b.server.Dispatch.run(Dispatch.java:387)
+  com.wm.util.pool.PooledThread.run(PooledThread.java:127)
+  java.lang.Thread.run(Thread.java:748)
+]]>
+      </failure>
+
+          </testcase>
+  
+  
+  
+</testsuite>

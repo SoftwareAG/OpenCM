@@ -1,0 +1,1 @@
+{"id":"COMMON-PORTS-OPENCM_SYNCH_PORT","configurationTypeId":"COMMON-PORTS","displayName":"FTPSListener@10021","description":"Integration Server FTPS port: 10021","runtimeComponentId":"integrationServer-default","attributes":null}

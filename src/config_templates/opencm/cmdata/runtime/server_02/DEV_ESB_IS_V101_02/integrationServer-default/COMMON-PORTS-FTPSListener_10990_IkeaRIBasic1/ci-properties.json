@@ -1,0 +1,1 @@
+{"Port":{"@primary":"false","@alias":"FTPSListener_10990_IkeaRIBasic1","Enabled":"true","Number":"10990","Protocol":"FTPS","SSL":{"ClientAuth":"REQUEST_CERTIFICATE"},"ExtendedProperties":{"Property":[{"@name":"package","$":"IkeaRIBasic1"},{"@name":"secureclients","$":"false"}]},"IPAccess":{"@accessType":"USE_GLOBAL_DEFAULT"},"URLAccess":{"@accessType":"DENY_BY_DEFAULT"}}}

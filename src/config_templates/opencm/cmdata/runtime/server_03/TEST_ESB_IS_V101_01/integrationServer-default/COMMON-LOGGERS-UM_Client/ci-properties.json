@@ -1,0 +1,1 @@
+{"Logger":{"@alias":"UM_Client","Name":"UM Client Logger","Enabled":"true","Mode":"SYNCHRONOUS","Guaranteed":"false","Destination":"FILE","ExtendedProperties":{"Property":[{"@name":"LogLevel","$":"Error"},{"@name":"LogDepth","$":"2"},{"@name":"LogSize","$":"10"}]}}}

@@ -1,0 +1,1 @@
+{"Port":{"@alias":"ssh","Enabled":"false","Type":"STANDARD","Number":"8022","Protocol":"SSH","ExtendedProperties":{"Property":[{"@name":"jaasRealm","$":"PlatformManagement"},{"@name":"keyFile","$":"@path:osgi.configuration.area/sshd.key"}]}}}

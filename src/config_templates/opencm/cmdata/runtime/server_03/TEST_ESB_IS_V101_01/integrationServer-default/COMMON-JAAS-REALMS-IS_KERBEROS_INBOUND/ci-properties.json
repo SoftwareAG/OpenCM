@@ -1,0 +1,1 @@
+{"plain-text-property":"IS_KERBEROS_INBOUND {	com.sun.security.auth.module.Krb5LoginModule required		refreshKrb5Config=\"true\"		storeKey=\"true\"		isInitiator=\"false\";};"}
