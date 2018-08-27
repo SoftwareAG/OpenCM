@@ -2,11 +2,11 @@
 OpenCM is a Configuration Management Repository for webMethods components and is primarily an operational/runtime governance tool of DBP wM components. It can act as a "source of truth" (documentation repo) and provides the ability to audit & compare configuration property information in order to detect discrepancies. In addition, it is also used as an operations utility for quick and easy retrieval of property information through its user interface.   
  
 ## Description
-OpenCM extracts configuration property information from runtime environments and stores the information in a local file-based repository. On top of the collected property information, automatic/continuous auditing of property information can then be performed to detect inconsistencies between different installations. OpenCM comes with a user interface for easy navigation and visualization of property information.
+OpenCM is an Integration Server package that is centrally installed on a separate administration IS. Main external dependency to OpenCM is SoftwareAG Platform Manager for all remote webMethods installations, which are used to perform property extractions (retrievals) and subsequent storing of the information into a local, file-based, repository. OpenCM comes with a user interface for easy navigation and visualization of property information.
 
 ![Alt text](/github_images/UI-InstallationNode.jpg?raw=true "OpenCM User Interface")
 
-The above example shows the core fix level for an Integration Server on a particular installation. OpenCM is an Integration Server package that is centrally installed on a separate administration IS. Main external dependency to OpenCM is SoftwareAG Platform Manager (on remote installations) which are used to perform property extractions (retrievals).
+The above example shows the core fix level for an Integration Server on a particular installation. On top of the collected property information, automatic/continuous auditing of property information can then be performed to detect inconsistencies between different installations. 
 
 There are two types of comparisons, each one providing a separate type of difference report:
 
@@ -15,7 +15,7 @@ There are two types of comparisons, each one providing a separate type of differ
 
 2. Layered Audits - Excel Report - example shows the same as above, but now including differences across all environments/installations
 ![Alt text](/github_images/UI-Report-02.jpg?raw=true "OpenCM Excel Report")
-
+	
 ## Requirements
 
 The project was developed and tested on the following installation:
