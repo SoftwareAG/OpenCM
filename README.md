@@ -6,14 +6,14 @@ OpenCM extracts configuration property information from runtime environments and
 
 ![Alt text](/github_images/UI-InstallationNode.jpg?raw=true "OpenCM User Interface")
 
-OpenCM is an Integration Server package that is centrally installed on a separate administration IS. Main external dependency to OpenCM is SoftwareAG Platform Manager (on remote installations) which are used to perform property extractions (retrievals).
+The above example shows the core fix level for an Integration Server on a particular installation. OpenCM is an Integration Server package that is centrally installed on a separate administration IS. Main external dependency to OpenCM is SoftwareAG Platform Manager (on remote installations) which are used to perform property extractions (retrievals).
 
 There are two types of comparisons, each one providing a separate type of difference report:
 
-1. 2-Node Audits - Report directly in OpenCM UI
+1. 2-Node Audits - Report directly in OpenCM UI - example shows fix level difference between 2 installations
 ![Alt text](/github_images/UI-Report-01.jpg?raw=true "OpenCM HTML Report")
 
-2. Layered Audits - Excel Report
+2. Layered Audits - Excel Report - example shows the same as above, but now including differences across all environments/installations
 ![Alt text](/github_images/UI-Report-02.jpg?raw=true "OpenCM Excel Report")
 
 ## Requirements
