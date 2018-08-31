@@ -1,0 +1,1 @@
+{"Port":{"@alias":"https","Enabled":"true","Number":"18295","Protocol":"https","BindAddress":"TL-AS142.tasp.tclidl.net","SSL":{"ClientAuth":"REQUEST_CERTIFICATE","KeystoreAlias":"default","TruststoreAlias":"default"},"ExtendedProperties":{"Property":[{"@name":"contextPath"}]}}}

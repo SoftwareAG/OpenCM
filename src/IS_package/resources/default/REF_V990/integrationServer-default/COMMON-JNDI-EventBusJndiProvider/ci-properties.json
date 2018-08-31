@@ -1,0 +1,1 @@
+{"JNDI":{"@alias":"EventBusJndiProvider","Description":"EventBusJndiProvider","Provider":{"URL":"nsp://localhost:18200","InitialContextFactory":"com.pcbsys.nirvana.nSpace.NirvanaContextFactory","User":""}}}

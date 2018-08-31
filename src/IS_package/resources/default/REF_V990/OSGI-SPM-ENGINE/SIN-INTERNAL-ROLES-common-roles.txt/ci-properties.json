@@ -1,0 +1,1 @@
+{"plain-text-property":"[permissions]permission:allow=canwrite,canexecute,canread[roles]role:superadmin=*role:readonlyadmin=canread,canexecuterole:viewer=canread[users]user:\"Administrator\"=superadmin[groups]group:\"Administrators\"=superadmin"}

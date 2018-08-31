@@ -1,0 +1,1 @@
+{"Keystore":{"@alias":"DEFAULT_IS_KEYSTORE","Description":"Default keystore alias for Integration Server.","Type":"JKS","Provider":"SUN","Location":"F:\\SoftwareAG\\DOPS_REF_V990_01\\common\\conf\\keystore.jks","Password":"","HSMBased":"false","Key":{"@alias":"ssos","Password":""},"ExtendedProperties":{"Property":[{"@name":"isLoaded","$":"true"}]}}}

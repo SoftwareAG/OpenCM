@@ -1,4 +1,4 @@
 {
   "key" : "JCE_POLICY_INFO",
-  "value" : "The JCE Unlimited Strength Jurisdiction Policy File was not found. Please install it."
+  "value" : "The JCE Unlimited Strength Jurisdiction Policy File was found"
 }

@@ -1,0 +1,1 @@
+{"@alias":"local","Transport":{"Host":"TL-AS142.tasp.tclidl.net","Port":"18355"},"Auth":{"@type":"BASIC","User":"Administrator"},"ExtendedProperties":{"Property":[{"@name":"acl","$":"Administrators"},{"@name":"retryServer","$":""},{"@name":"keepalive","$":"1"},{"@name":"timeout","$":"5.0"}]}}

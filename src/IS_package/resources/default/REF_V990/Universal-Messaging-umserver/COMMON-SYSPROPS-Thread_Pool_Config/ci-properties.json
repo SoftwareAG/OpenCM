@@ -1,0 +1,1 @@
+{"SchedulerPoolSize":"2","WriteThreadPoolMaxSize":"1000","EnableConnectionThreadPooling":"true","CommonPoolThreadSize":"5","ReadThreadPoolMaxSize":"100","WriteThreadPoolMinSize":"5","ConnectionThreadPoolMaxSize":"10","ThreadIdleQueueSize":"10","ConnectionThreadWaitTime":"120000","ReadThreadPoolMinSize":"4","ConnectionThreadPoolMinSize":"4"}

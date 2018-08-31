@@ -1,1 +1,1 @@
-{"code":"W64","displayName":"Windows 7","version":"6.1","cpuArchitecture":"amd64","cpuCores":"4","cpuType":"PCC","hardwareIds":["00-50-56-C0-00-01","00-50-56-C0-00-08","48-45-20-46-FE-B0"],"latestMeteringTimeStamp":"<none>","logicalCpuCores":"4","physicalCpuCores":"2"}
+{"code":"W64","displayName":"Windows 7","version":"6.1","cpuArchitecture":"amd64","cpuCores":"4","cpuType":"PCC","hardwareIds":["00-50-56-C0-00-01","00-50-56-C0-00-08","0A-00-27-00-00-17","48-45-20-46-FE-B0","50-48-49-4F-4E-43"],"latestMeteringTimeStamp":"<none>","logicalCpuCores":"4","physicalCpuCores":"2"}

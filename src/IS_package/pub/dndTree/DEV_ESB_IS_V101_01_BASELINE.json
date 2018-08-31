@@ -1,0 +1,9 @@
+{
+  "name" : "DEV_ESB_IS_V101_01",
+  "level" : "NODE",
+  "assertionGroup" : "ESB_IS_V101",
+  "spmURL" : "https://server_01.opencm.org:10193/spm",
+  "children" : null,
+  "opencmEnvironment" : "Development",
+  "cceEnvironment" : "Development"
+}

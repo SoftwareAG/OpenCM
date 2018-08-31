@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <value name="node_type">interface</value>
+  <value name="node_subtype">unknown</value>
+  <value name="node_nsName">OpenCM.priv.visualization</value>
+  <value name="is_public">false</value>
+  <value name="shared">CnByaXZhdGUgc3RhdGljIExpbmtlZExpc3Q8Q2hpbGQ+IGdldENvbXBvbmVudHMoRmlsZSBjbURp
+cmVjdG9yeSkgewoJLy8gLS0tLS0tLS0gQ29tcG9uZW50cyAtLS0tLS0tLS0tCglGaWxlW10gY29t
+cG9uZW50cyA9IGNtRGlyZWN0b3J5Lmxpc3RGaWxlcygpOwoJTGlua2VkTGlzdDxDaGlsZD4gY29t
+cG9uZW50Q2hpbGRyZW4gPSBuZXcgTGlua2VkTGlzdDxDaGlsZD4oKTsKCWZvciAoaW50IGMgPSAw
+OyBjIDwgY29tcG9uZW50cy5sZW5ndGg7IGMrKykgewoJCUZpbGUgY29tcG9uZW50RGlyID0gY29t
+cG9uZW50c1tjXTsKCQlpZiAoY29tcG9uZW50RGlyLmlzRGlyZWN0b3J5KCkpIHsKCQkJU3RyaW5n
+IGNvbXBvbmVudE5hbWUgPSBjb21wb25lbnREaXIuZ2V0TmFtZSgpOyAKCQkJQ2hpbGQgY29tcG9u
+ZW50Q2hpbGQgPSBuZXcgQ2hpbGQoKTsKCQkJY29tcG9uZW50Q2hpbGQuc2V0TmFtZShjb21wb25l
+bnROYW1lKTsKCQkJY29tcG9uZW50Q2hpbGQuc2V0TGV2ZWwoIkNPTVBPTkVOVCIpOwoJCQkvLyAt
+LS0tLS0tLSBJbnN0YW5jZXMgLS0tLS0tLS0tLQoJCQlGaWxlW10gaW5zdGFuY2VzID0gY29tcG9u
+ZW50RGlyLmxpc3RGaWxlcygpOwoJCQlMaW5rZWRMaXN0PENoaWxkPiBpbnN0YW5jZUNoaWxkcmVu
+ID0gbmV3IExpbmtlZExpc3Q8Q2hpbGQ+KCk7CgkJCWZvciAoaW50IGkgPSAwOyBpIDwgaW5zdGFu
+Y2VzLmxlbmd0aDsgaSsrKSB7CgkJCQlGaWxlIGluc3RhbmNlRGlyID0gaW5zdGFuY2VzW2ldOwoJ
+CQkJaWYgKGluc3RhbmNlRGlyLmlzRGlyZWN0b3J5KCkpIHsKCQkJCQlTdHJpbmcgaW5zdGFuY2VO
+YW1lID0gaW5zdGFuY2VEaXIuZ2V0TmFtZSgpOyAKCQkJCQlDaGlsZCBpbnN0YW5jZUNoaWxkID0g
+bmV3IENoaWxkKCk7CgkJCQkJaW5zdGFuY2VDaGlsZC5zZXROYW1lKGluc3RhbmNlTmFtZSk7CgkJ
+CQkJaW5zdGFuY2VDaGlsZC5zZXRMZXZlbCgiSU5TVEFOQ0UiKTsKCQkJCQlpbnN0YW5jZUNoaWxk
+cmVuLmFkZChpbnN0YW5jZUNoaWxkKTsKCQkJCX0KCQkJfQoJCQljb21wb25lbnRDaGlsZC5zZXRD
+aGlsZHJlbihpbnN0YW5jZUNoaWxkcmVuKTsKCQkJY29tcG9uZW50Q2hpbGRyZW4uYWRkKGNvbXBv
+bmVudENoaWxkKTsKCQl9Cgl9CglyZXR1cm4gY29tcG9uZW50Q2hpbGRyZW47Cgp9</value>
+  <value name="encodeutf8">true</value>
+  <value name="extends"></value>
+  <array name="implements" type="value" depth="1">
+  </array>
+  <array name="imports" type="value" depth="1">
+    <value>java.io.File</value>
+    <value>java.util.LinkedList</value>
+    <value>java.util.Collections</value>
+    <value>org.opencm.configuration.Configuration</value>
+    <value>org.opencm.configuration.PkgConfiguration</value>
+    <value>org.opencm.configuration.Nodes</value>
+    <value>org.opencm.configuration.Node</value>
+    <value>org.opencm.configuration.Instance</value>
+    <value>org.opencm.d3.Tree</value>
+    <value>org.opencm.d3.Child</value>
+    <value>org.opencm.util.FileUtils</value>
+    <value>org.opencm.util.JsonUtils</value>
+    <value>org.opencm.util.LogUtils</value>
+    <value>org.opencm.util.PackageUtils</value>
+  </array>
+</Values>

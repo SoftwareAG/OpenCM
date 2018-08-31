@@ -1,0 +1,1 @@
+{"Logger":{"@alias":"Mediator_Transaction","Name":"Mediator Transaction Logger","Enabled":"false","Mode":"SYNCHRONOUS","Guaranteed":"false","MaxQueueSize":"100000","Destination":"FILE","MaxRetryAttempts":"3","RetryInterval":"5"}}

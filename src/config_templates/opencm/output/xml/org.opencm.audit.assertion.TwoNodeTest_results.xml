@@ -1,615 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="[7] PREP_ESB_IS_V101_01 <=> PROD_ESB_IS_V101_01"
-           tests="526"
-           failures="1"
+<testsuite name="[1] DEV_ESB_IS_V101_01 <=> DEV_ESB_IS_V101_02"
+           tests="56"
+           failures="0"
            errors="0"
            skipped="0"
-           time="0.000">
+           time="0.023">
   <properties />
-            <testcase name="watt.server.oauth.token.defaultExpirySeconds" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest">
-                <failure type="java.lang.AssertionError"
-                  message="expected [3600] but found [3700]"
-              >
-<![CDATA[java.lang.AssertionError: expected [3600] but found [3700]
-  org.testng.Assert.fail(Assert.java:96)
-  org.testng.Assert.failNotEquals(Assert.java:779)
-  org.testng.Assert.assertEqualsImpl(Assert.java:137)
-  org.testng.Assert.assertEquals(Assert.java:118)
-  org.testng.Assert.assertEquals(Assert.java:456)
-  org.testng.Assert.assertEquals(Assert.java:466)
-  org.opencm.audit.assertion.TwoNodeTest.assertProperty(TwoNodeTest.java:84)
-  sun.reflect.GeneratedMethodAccessor373.invoke(Unknown Source)
-  sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-  java.lang.reflect.Method.invoke(Method.java:498)
-  org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:108)
-  org.testng.internal.Invoker.invokeMethod(Invoker.java:669)
-  org.testng.internal.Invoker.invokeTestMethod(Invoker.java:877)
-  org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1201)
-  org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:124)
-  org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
-  org.testng.TestRunner.privateRun(TestRunner.java:772)
-  org.testng.TestRunner.run(TestRunner.java:630)
-  org.testng.SuiteRunner.runTest(SuiteRunner.java:419)
-  org.testng.SuiteRunner.runSequentially(SuiteRunner.java:414)
-  org.testng.SuiteRunner.privateRun(SuiteRunner.java:379)
-  org.testng.SuiteRunner.run(SuiteRunner.java:328)
-  org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-  org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
-  org.testng.TestNG.runSuitesSequentially(TestNG.java:1318)
-  org.testng.TestNG.runSuitesLocally(TestNG.java:1243)
-  org.testng.TestNG.runSuites(TestNG.java:1161)
-  org.testng.TestNG.run(TestNG.java:1129)
-  OpenCM.priv.twoNodeAudit.auditCustom(twoNodeAudit.java:469)
-  sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-  sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-  sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-  java.lang.reflect.Method.invoke(Method.java:498)
-  com.wm.app.b2b.server.JavaService.baseInvoke(JavaService.java:404)
-  com.wm.app.b2b.server.invoke.InvokeManager.process(InvokeManager.java:668)
-  com.wm.app.b2b.server.util.tspace.ReservationProcessor.process(ReservationProcessor.java:39)
-  com.wm.app.b2b.server.invoke.StatisticsProcessor.process(StatisticsProcessor.java:49)
-  com.wm.app.b2b.server.invoke.ServiceCompletionImpl.process(ServiceCompletionImpl.java:243)
-  com.wm.app.b2b.server.invoke.ValidateProcessor.process(ValidateProcessor.java:49)
-  com.wm.app.b2b.server.invoke.PipelineProcessor.process(PipelineProcessor.java:171)
-  com.wm.app.b2b.server.ACLManager.process(ACLManager.java:299)
-  com.wm.app.b2b.server.invoke.DispatchProcessor.process(DispatchProcessor.java:34)
-  com.wm.app.b2b.server.AuditLogManager.process(AuditLogManager.java:377)
-  com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:567)
-  com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:384)
-  com.wm.app.b2b.server.ServiceManager.invoke(ServiceManager.java:239)
-  com.wm.app.b2b.server.BaseService.invoke(BaseService.java:246)
-  com.wm.lang.flow.FlowInvoke.invoke(FlowInvoke.java:257)
-  com.wm.lang.flow.FlowState.invokeNode(FlowState.java:535)
-  com.wm.lang.flow.FlowState.step(FlowState.java:401)
-  com.wm.lang.flow.FlowState.invoke(FlowState.java:372)
-  com.wm.app.b2b.server.FlowSvcImpl.baseInvoke(FlowSvcImpl.java:1132)
-  com.wm.app.b2b.server.invoke.InvokeManager.process(InvokeManager.java:668)
-  com.wm.app.b2b.server.util.tspace.ReservationProcessor.process(ReservationProcessor.java:39)
-  com.wm.app.b2b.server.invoke.StatisticsProcessor.process(StatisticsProcessor.java:49)
-  com.wm.app.b2b.server.invoke.ServiceCompletionImpl.process(ServiceCompletionImpl.java:243)
-  com.wm.app.b2b.server.invoke.ValidateProcessor.process(ValidateProcessor.java:49)
-  com.wm.app.b2b.server.invoke.PipelineProcessor.process(PipelineProcessor.java:171)
-  com.wm.app.b2b.server.ACLManager.process(ACLManager.java:299)
-  com.wm.app.b2b.server.invoke.DispatchProcessor.process(DispatchProcessor.java:34)
-  com.wm.app.b2b.server.AuditLogManager.process(AuditLogManager.java:377)
-  com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:567)
-  com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:342)
-  com.wm.app.b2b.server.dispatcher.trigger.Trigger.invokeService(Trigger.java:564)
-  com.wm.app.b2b.server.dispatcher.trigger.Trigger.processMessage(Trigger.java:462)
-  com.wm.app.b2b.server.dispatcher.trigger.DefaultTriggerTaskHelper.process(DefaultTriggerTaskHelper.java:255)
-  com.wm.app.b2b.server.dispatcher.trigger.TriggerTask.run(TriggerTask.java:307)
-  com.wm.util.pool.PooledThread.run(PooledThread.java:127)
-  java.lang.Thread.run(Thread.java:748)
-]]>
-      </failure>
-
-          </testcase>
   
   
-            <testcase name="watt.server.jms.trigger.groupTag" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.tx.defaultTTLMins" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.proxy.fallbackToDirectConnection" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.compile.exitOnError" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.reuseJmsTxSession" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.serverLogFmt" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.xml.expandGeneralEntities" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.guaranteedMultisend.alwaysUseTxLogging" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.defaultCountry" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.auth.cds.init" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.httpPass" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.sftp.dateStampFmt" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.http501-599.throwException" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.allowDirective" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpSweepInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.ssl.keypurposeverification" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.brokerTypeCoder.verbose" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.password.mode" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ns.useServiceManifest" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.xml.allowedExternalEntities" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cors.supportedHeaders" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.pub.getFile.checkReadAllowed" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.thread.aging.limit" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.MTOMStreaming.enable" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.date.suppressPatternError" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.xmlrpc.compressSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.db.testSQL" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.control.threadSensorInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.retries" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.publish.useCSQ" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.illegalUserChars" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cors.exposedHeaders" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.password.minSpecialChars" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.retryCount" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.datatype.patternMatcherPool.minSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.client.cipherSuiteList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cluster.cacheType" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ws.security.timestampTimeToLive" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.stats.logFilesToKeep" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.server.handshake.minVersion" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.validation.validationEnabled" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.broker.replyConsumer.sweeperInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.server.clientHandshakeTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.defaultPackage" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.serverclassloadername" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.encodeXSIType" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.ssh.jsch.ciphers" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.coder.bincoder.trycontextloaderfirst" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.HTTP.useMailWriter" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.storage.addKeyToStoreIfNotPresent" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.xml.enforceEntityRef" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.scheduler.logical.hostname" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cache.maxEntriesInCache" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.dispatcher.comms.connectionShareLimit" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cors.maxAge" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.scheduler.ignoreReferenceValidationErrors" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.template.enableFilterHtml" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpPassivePort.min" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.config.systemProperties" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.defaultBufferSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.header.useHttpOnly" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.eventHandlerUser" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.securityRealm" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.streamHandlers" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpConnTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ns.generateServiceManifest" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.oauth.requireHTTPS" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.diagnostic.tabular" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.trigger.keepAsBrokerEvent" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.tx.retryBackoffTime" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.response.displayISErrorCode" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.ssl.iaik.clientAllowUnboundRenegotiate" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.hotDeploymentAutoRecover" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.emailPortQueue" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.oauth.approvalpage.title" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.um.clientLog.level" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.um.producer.transaction.commitRetryCount" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.control.memorySensorInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.eventMgr.minThreads" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cluster.action.errorOnStartup" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.art.page.size" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.hostMap" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.tx.sweepTime" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.security.async" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.install.service" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.um.clientLog.fileDepth" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ns.decodeJavaService" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.tx.cluster.lockTimeoutMillis" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.serial.primaryThread.pollingInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.audit.dbEncoding" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.logs.dateStampTimeZone" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.storage.lock.maxDuration" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.service.lazyEval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.broker.sync.forceDispatcherInit" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.producer.pooledSession.timeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.overrideSystemProxyselector" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.raiseEventOnRetryFailure" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cors.allowedOrigins" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.datatype.usejavaregex" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.schema.generateSubstitutionGroups" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.compile.unicode" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cors.host" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.audit.logRotateSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.checkAclsInternally" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpPassiveLocalAddr" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.hideRuntimeEnvironment" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.displayDirectories" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.xslt.debug.level" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ws.security.timestampPrecisionInMilliseconds" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.storage.lock.maxWait" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.session.async" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.serviceUsageDSP.RefreshInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.preserveUriReservedChars" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.updateManager.versionInfo" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.server.handshake.maxVersion" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.validation.skipMandatoryFields" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.remoteInvoke.queryCSRFToken" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cgi.cache" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cors.supportedMethods" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jdbc.datadirect.snoop.default" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.RESTDirective" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.requireV3Manifests" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.client.hostnameverification" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ns.hideWmRoot" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.session.forceReauthOnExpiration" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.pre82WSD.ignoreVersionMismatch" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.auth.cache.enabled" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.login.userFtpDir" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.csq.maxRedeliveryCount" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ns.dependencyManager" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.password.minUpperChars" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jdbc.defaultDriver" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.I18NLogging" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.fileEncoding" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.returnException" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.RESTDirective.V2" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.client.handshake.minVersion" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.jsonFormat" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.thread.usage.limit" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.ssl.ignoreExpiredChains" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.server.cipherSuiteList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.validation.skipAbsentStarBody" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.brokerTransport.max" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SoapRPC.useSecondaryType" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.xsd.useGeneratedURIForNonRPC" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ws.defaultPrefix" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.noObjectURL" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.rg.internalregistration.timeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.invoke.maxRetryPeriod" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ws.security.timestampMaximumSkew" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.brokerCoder.verbose" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpDataConnTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.routing.runAsUser" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.encodeXSITypeValue" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.listRequestVars" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.control.maxPublishOnSuccess" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.nirvana.durableSubscriber.includeClientId" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.dispatcher.exactlyOnce" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cachemanager.connectTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.publish.usePipelineBrokerEvent" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.isIntegrationAgent" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.messaging.debugTrace" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.suppresscwarn" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.tspace.location" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.brokerTransport.dur" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.serverlogFilesToKeep" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.content.type.mappings" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.validation.multipleRoot" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.sync.timeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.trigger.removeSubscriptionOnReloadOrReinstall" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.ssl.iaik.debug" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.tx.jobThreads" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.deprecatedExceptionLogging" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.httpChunkSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.key" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftp.securitychecks" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.eventAgentPort" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.ssl.entrust.toolkit.ssl.fragmentblockcipher" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.stats.logRotateSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.art.synchronousNotification.selectExecuteUser" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.control.controlledDeliverToTriggers.pctMaxThreshold" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ns.synchronized" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.reauth.user-agent.list" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.mon.auth" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.http401.throwException" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.wmjms.clientIDSharing" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.json.prettyPrint" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.debug.layout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cachemanager.parallelThreads" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.cert.wmChainVerifier.enforceExtensionsChecks" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.connection.update.blockingTime" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.audit.failFastLoggers" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cronMinThreads" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.trigger.interruptRetryOnShutdown" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.oauth.custom.responseHeader" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.validateSOAPMessage" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.stat.async" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.socketpool.sweeperInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.json.quoteFieldNames" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.infradc.artmonitor" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.defaultProtocol" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.completeLoad" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.hostDeny" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.proxySkipList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.connection.update.restartDelay" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ws.71xHandlerChainBehavior" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.tx.cluster.lockBreakSecs" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.csq.batchProcessingSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.extendedDelay.delayIncrementInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.com.wm.isextdc.monitored" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cache.gcMins" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.audit.schemaName" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.template.compatibleScope" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.reuseSession" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.inetaddress" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.compile.readFromStdErr" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.noAccessURL" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.package.WSD.pre82WSD.loadExternalResources" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ftp.usecommandip" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.schema.validateIncomingXSD" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.interceptor.preprocess.sizeLimit" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.userFtpRootDir" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.MTOMStreaming.threshold" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.log.alertMaxEntries" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ssl.trustStoreAlias" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.retryWait" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ws.responseTNS.from.request" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.trigger.local.checkTTL" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.xsd.useKnownSchemaLocation" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.DNescapeURL" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.soapjms.request.timeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.useMultiReference" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.audit.displayLogs.convertTime" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.MTOMThreshold" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.ftps.client.useJSSE" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.oauth.authServer.alias" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.concurrent.secondaryThread.pollingInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.client.useJSSE" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.oauth.authCode.expirySeconds" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.txMail" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.trigger.preprocess.suspendAndRetryOnError" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.publish.drainCSQInOrder" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.scheduler.maxWait" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.extendedProps" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.art.tmgr.timeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.connection.pingPeriod" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.tx.vm.id" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.control.controlledDeliverToTriggers.delays" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.validation.ignoreContent" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.enableHotDeployment" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpUseCertMap" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.stats.avgTime" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.debug2.facList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.password.minLowerChars" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.httplog" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.serverlogRotateSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.dispatcher.messageStore.redeliverOriginalMessage" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.control.maxPersist" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.isMicroservicesContainer" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.soap.validateResponse" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.requestCerts" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.validation.w3cConformant" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.allowOptions" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.log.orphanLoggers" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.ope.AllowInternalPasswordAccess" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.xslt.debug.logfile" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.default.endpointHTTP" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ftp.listingFileAge" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.ssh.jsch.logging" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.jsse.server.enabledCipherSuiteList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.indoubtresolver.triggerColumnSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.publish.validateOnIS" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.pipeline.processor" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.timeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.email.waitForServiceCompletion" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.transaction.recovery.abandonTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.maxDeliveryCount" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftp.noExtensionKey" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.connection.pingDestination" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.control.controlledDeliverToTriggers.delayIncrementInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.header.useSecure" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.cleanContext" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.authorizationEncoding" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.strictAccessExceptionLogging" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.jmsDeliveryError.async" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.client.handshake.maxVersion" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.math.floatOperation.mode" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.trigger.monitoringInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.pkg.art.resourcebundlemanager.verbose" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.localhost" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.url.alias.partialMatching" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.invokeDirective" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.ssl.client.ignoreEmptyAuthoritiesList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.db.share.ISInternal" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.tspace.timeToLive" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.jsse.server.enabledProtocols" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.validation.maxErrors" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.broker.replyConsumer.fetchSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftp.ignoreErrors" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.soapjms.defaultMessageType" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpPassivePort.max" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jdbc.statementCache" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.hw.ncipher.standardPort" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.ssl.cacheClientSessions" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.trigger.managementUI.excludeList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jdbcLogFile" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.datatype.patternMatcherPool.delayFill" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ws.defaultNamespace" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jdbc.driverList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.wmjms.lms.readTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.recordToDocument.bufferSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.stats.logfile" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.brokerTransport.ret" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.stats.pollTime" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.trustStore.supportedTypes" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.debugTrace" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.exception.async" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.enablePasswordChange" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jndi.searchresult.maxlimit" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.classloader.pkgpriority" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.mime.decodeHeaders" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.uriPath.decodePlus" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cgi.unicode" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.pooledConsumer.timeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jca.transaction.writeRecoveryRecord" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.monitoringInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.interceptor.impl" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.com.wm.isextdc.configVersion" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.debug2.logstringfile" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.eventMgr.maxThreads" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.content.type.default" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.oauth.requirePost" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.licenses" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.broker.replyConsumer.multiclient" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.scheduler.dbTimesUpdated" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.httpUser" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.log.refreshInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.threadKill.interruptThread.enabled" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.addEmptyHeader" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.getFile.checkReadAllowed" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.transaction.recovery.sleepInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.auth.cache.timeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.generateNilTags" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.xml.xmlNodeToDocument.keepDuplicates" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ftpLogin.message" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.brokerCoder.wireFormat" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.schema.createSchema.omitXSDAny" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.concurrent.consecutiveMessageThreshold" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.xml.encoding" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.security.jaas.jaasRealms" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.control.freeMemoryThreshold" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.BrokerDocSync.LockRetries" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.json.decodeIntegerAsLong" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.audit.logFilesToKeep" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.trigger.suspendOnAuditErrorWhen" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.jsse.client.enabledProtocols" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cache.flushMins" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.generatedTypeName.localName.prefix" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.sftpSweepInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.generatedTypeName.namespaceName.authority" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.WSDL.debug" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.soap.convertPlainTextHTTPResponseIntoSOAPFault" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.diagnostic.logperiod" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.dispatcher.comms.brokerPing" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.diagnostic.logFiles.maxMB" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.memberInfoInGroups" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.service.list.treatEmptyAsNull" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.directive" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.session.locale.ignore" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.apiportal.url" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.trustStoreAlias" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SoapRPC.checkHeaders" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.interceptor.enabled" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.tspace.max" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.maxPrefetchSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ftpConnect.message" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.serviceResults.cacheManager" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.eventAgentPortEnabled" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ftpSystem.message" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.indoubtresolver.uuidColumnSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jdbc.loginTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.fips.mode" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.partner" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.broker.producer.multiclient" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cluster.aliasList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.tx.disabled" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.DNescapeChars" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cors.enabled" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jdbc.datadirect.spy.default" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.server.strongcipheronly" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.email.processReturnedEmails" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.threadKill.timeout.enabled" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jdbc.derby.commitTolerance" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.clientKeepaliveTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.auth.cache.capacity" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.password.minDigits" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.xslt.debug.facList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.revInvoke.proxyMapUserCerts" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.eventAgentAcl" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.storage.lock.sweepInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.um.clientLog.size" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.typeSynchronizer.verbose" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.debugFIPS" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.concurrent.primaryThread.pollingInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.jsse.client.enabledCipherSuiteList" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.tx.heuristicFailRetry" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.userAgent" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.MTOMStreaming.cachedFiles.location" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.xmlFormat" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.cachedirective.exclude.packages" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.keyStore.supportedTypes" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.warnOnPartValidation" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.identifyISGeneratedWSDL" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.json.decodeRealAsString" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.hideEPRHostInFault" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.audit.async" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.proxy.useNonDefaultProxies" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jca.connectionPool.thresholdWaitingRequest" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.optimize.jms.server.url" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.useCookies" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.json.optimizeForUniqueKeys" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.connection.monitorPeriod" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.ssl.iaik.serverAllowUnboundRenegotiate" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.com.wm.artextdc.configVersion" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.useAcceptHeader" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.acl.groupScanInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.maxClientKeepaliveConns" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.tx.heuristicFailRetry" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.jmsRetrievalError.async" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.DNescapePairs" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.doNotBind" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ssl.client.strongcipheronly" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.oauth.approvalpage.header" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpClientTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cachemanager.logsDirectory" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.serviceResults.cache" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.ssl.accelerator.provider" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.email.from" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.createPackage.ignorePattern" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.java.unicode" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.DNstripQuotes" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.tx.async" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.gd.async" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.control.triggerInputControl.delayIncrementInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.illegalNSChars" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.encodeToUpperCase" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.db.provider" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpClientDataConnTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.oauth.approvalpage.footer" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.schema.generateAllTypeDocuments" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.mbean.auditPerCall" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.event.replication.async" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jca.transaction.rollbackOnWriteFailure" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.stopRequestTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ftpPort" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.tx.sweepTime" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.hostAllow" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.raiseEventOnException" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.extendedDelay.delays" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.datatype.patternMatcherPool.maxSize" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ns.backupNodes" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.oauth.approvalpage.logo" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpDataConn" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.package.parallel.threads" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.db.maintainminimum" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.new.http.session.context" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.logEncoding" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.debug.logfile" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.generateRequiredTags" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.threadKill.enabled" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.password.minLength" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.cert.wmChainVerifier.trustByDefault" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.defaultLanguage" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jdbc.moreResults" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.webapp.cookies.useRelevantPath" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.email.validateHost" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.trigger.reuseSession" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.socketProvider" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.connection.retryPeriod" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.hotDeploymentTimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.audit.logDir" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.broker.sync.enableBrokerSync" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ns.lockingMode" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ldap.extendedMessages" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.db.blocktimeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.ftpUseDefaultContentHdlr" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.statsLogRotateInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.idr.reaperInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.net.maxRedirects" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.request.timeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jms.trigger.pollingSession.timeout" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.json.allowUnquotedFieldNames" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.password.encrypt" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.publish.local.rejectOOS" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.auth.checkWithSession" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.dispatcher.comms.brokerPollingInterval" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.tx.cluster.jobPendingWait" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.storage.skipStoreExistCheck" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.jdbcLogging" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.xsd.useGeneratedURIForCreateXSD" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.portQueue" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.json.decodeRealAsDouble" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cronMaxThreads" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.netEncoding" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.openid.logExceptions" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cors.supportsCredentials" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.security.KeystoreAndTruststore.defaultAliasCreated" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.xmlrpc.version" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.email.processReplyEmails" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.ssl.keyStoreAlias" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.control.triggerInputControl.delays" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.useStringforAnyTypewithSimpleValue" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.dispatcher.join.reaperDelay" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.defaultContentHandler" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.cache.prefetchUser" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.scheduler.deleteCompletedTasks" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.optimize.monitoring" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.http.x-frame-options" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.SOAP.default.endpointHTTPS" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.db.connectionCache" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.hostAccessMode" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.core.template.enableSecureUrlRedirection" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.pubDateTimeFormat.javaSlidingWindow" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="watt.server.loginFailureLimit" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+            <testcase name="wMFix.SPM [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.CDH530 [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.ISMigrationFramework [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.DEV.DigitalEventServicesRuntimeBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.ER [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SUMApi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.tppWS [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.acdl [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.tppParsers [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.DEV.DigitalEventServicesSharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.DES [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.WSSCore [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EmbeddedDatabaseScripts [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.WSSOSGi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.OSGI.Agent [version]" time="0.001" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.integrationServer.ART [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.CentraSite.SharedLibs [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.NUMClient.CommonLibraries [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TPS.Commons [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBLibrariesEhcache [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.Core-nonosgi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBCommon [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.MWS [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.ALL.SIN [version]" time="0.021" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.ES232 [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.BPM [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBCluster [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TESOSGi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.Broker.SharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SJP.Java64.W64 [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBLibrariesStore [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.integrationServer.Core [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBOSGIShared [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EDA.ERSharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.NUMRepository.SharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.CAFRLib [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.DesignerServiceDevelopment [version]" time="0.001" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.integrationServer.FlatFile [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.Core [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SPMShared [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EDA.NERV [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.Broker.JavaApi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SDRepository [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.Eclipse [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.integrationServer.SPM [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBConsole [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.BPMMetadata [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.DEV.DigitalEventServicesLibraries [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBspm [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.OSGI.Platform [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.Audit [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.OSGI.Migration [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TPS.XMLTools [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.DesignerCPP [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.tcdb [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBServer [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
       
 </testsuite>

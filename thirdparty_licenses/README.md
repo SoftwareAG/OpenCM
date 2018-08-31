@@ -1,5 +1,5 @@
 # Third Party Licenses
-OpenCM makes use of a collection of other open source libraries, utilities, images and scripts   
+OpenCM makes use of a collection of other open source libraries, utilities, icons and scripts   
  
 
 ## Java Scripts
@@ -30,7 +30,7 @@ OpenCM makes use of a collection of other open source libraries, utilities, imag
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Originated from http://bl.ocks.org/Thanaporn-sk/20a86f09c938b8dd0e4520a4c68c6315
 
-## Images and Icons
+## Icons
 
 ### tab.png (Tab icon)
 - Licensed under [Creative Commons](https://creativecommons.org)

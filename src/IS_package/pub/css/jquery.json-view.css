@@ -1,0 +1,78 @@
+.json-view {
+    position: relative;
+}
+
+.json-view .collapser {
+    width: 20px;
+    height: 18px;
+    display: block;
+    position: absolute;
+    left: -1.7em;
+    top: -0.2em;
+    z-index: 5;
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgY2xpcC1ydWxlPSJldmVub2RkIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGltYWdlLXJlbmRlcmluZz0ib3B0aW1pemVRdWFsaXR5IiBzaGFwZS1yZW5kZXJpbmc9Imdlb21ldHJpY1ByZWNpc2lvbiIgdGV4dC1yZW5kZXJpbmc9Imdlb21ldHJpY1ByZWNpc2lvbiIgdmlld0JveD0iMCAwIDUwMDAgNTAwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWwogICAgLnN0cjAge3N0cm9rZTojNDM0MjQyO3N0cm9rZS13aWR0aDoxMDB9CiAgICAuZmlsMCB7ZmlsbDp1cmwoI2lkMCl9CiAgIF1dPjwvc3R5bGU+PGxpbmVhckdyYWRpZW50IGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiBpZD0iaWQwIiB4MT0iMjUwMC41NiIgeDI9IjI1MDAuNTYiIHkxPSI5NzUuNTciIHkyPSI0NjI0LjQzIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMwMDhCRkYiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwYWYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cGF0aCBjbGFzcz0iZmlsMCBzdHIwIiBkPSJNMjcwMSA0NDk5bDEwMDAtMTAwMGM1MC01MCAxMDAtMTAwIDEwMC0yMDBzLTEwMC0yMDAtMjAwLTIwMGgtNTAwYy01MCAwLTEwMC01MC0xMDAtMTAwdi0yNTAwYzAtNTAtNTAtMTAwLTEwMC0xMDBoLTgwMGMtNTAgMC0xMDAgNTAtMTAwIDEwMHYyNTAwYzAgNTAtNTAgMTAwLTEwMCAxMDBoLTUwMGMtMTAwIDAtMjAwIDEwMC0yMDAgMjAwczUwIDE1MCAxMDAgMjAwbDEwMDAgMTAwMGMxMzUgMTM1IDI2NSAxMzUgNDAwIDB6IiBpZD0iTGF5ZXJfeDAwMjBfMSIvPjwvc3ZnPg==");
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.json-view .collapsed {
+    -ms-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -khtml-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+.json-view .bl {
+    display: block;
+    padding-left: 20px;
+    margin-left: -20px;
+    position: relative;    
+}
+
+.json-view {
+    font-family: monospace;
+}
+
+.json-view ul {
+    list-style-type: none;
+    padding-left: 2em;
+    border-left: 1px dotted;
+    margin: 0.3em;
+}
+
+.json-view ul li {
+    position: relative;
+}
+
+.json-view .dots,
+.json-view .comments {
+    display: none;
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none;     
+    user-select: none;
+}
+
+.json-view .comments {
+    padding-left: 0.8em;
+    font-style: italic;
+    color: #888;
+}
+
+.json-view .null,
+.json-view .num,
+.json-view .bool,
+.json-view .undef {
+    font-weight: bold;
+    color: #1A01CC;
+}
+
+.json-view .str {
+    color: #000;
+}

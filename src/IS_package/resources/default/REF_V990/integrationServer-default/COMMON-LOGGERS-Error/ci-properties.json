@@ -1,0 +1,1 @@
+{"Logger":{"@alias":"Error","Name":"Error Logger","Enabled":"true","Mode":"SYNCHRONOUS","Guaranteed":"false","MaxQueueSize":"100000","Destination":"FILE","MaxRetryAttempts":"3","RetryInterval":"5"}}

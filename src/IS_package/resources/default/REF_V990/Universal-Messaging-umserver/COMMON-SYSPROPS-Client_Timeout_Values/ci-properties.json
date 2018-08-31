@@ -1,0 +1,1 @@
+{"QueuePushWaitLimit":"200","HighWaterMark":"3000","QueueAccessWaitLimit":"200","QueueBlockLimit":"500","EventTimeout":"60000","LowWaterMark":"1000","TransactionLifeTime":"20000"}

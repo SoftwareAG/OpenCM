@@ -1,0 +1,1 @@
+{"Port":{"@alias":"defaultJmx","Enabled":"true","Type":"STANDARD","Number":"18388","Protocol":"JMX","ExtendedProperties":{"Property":[{"@name":"jaasRealm","$":"PlatformManagement"}]}}}

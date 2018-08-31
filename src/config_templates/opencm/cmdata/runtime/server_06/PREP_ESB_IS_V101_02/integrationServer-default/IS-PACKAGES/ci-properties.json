@@ -3,9 +3,53 @@
   "enabled" : "true",
   "version" : "10.1.0.0.99"
 }, {
+  "packageName" : "FMPE_2016",
+  "enabled" : "false",
+  "version" : "1.0"
+}, {
+  "packageName" : "FMPE_Analysis",
+  "enabled" : "false",
+  "version" : "1.0"
+}, {
+  "packageName" : "FMPE_Common",
+  "enabled" : "false",
+  "version" : "1.0"
+}, {
+  "packageName" : "FMPE_DataCollection",
+  "enabled" : "false",
+  "version" : "1.0"
+}, {
+  "packageName" : "FMPE_Prediction",
+  "enabled" : "false",
+  "version" : "1.0"
+}, {
+  "packageName" : "FMPE_Structure",
+  "enabled" : "false",
+  "version" : "1.0"
+}, {
+  "packageName" : "FMPE_StructureProcessor",
+  "enabled" : "false",
+  "version" : "1.0"
+}, {
+  "packageName" : "FMPE_VariableProcessor",
+  "enabled" : "false",
+  "version" : "1.0"
+}, {
+  "packageName" : "FxMP",
+  "enabled" : "false",
+  "version" : "1.0"
+}, {
+  "packageName" : "IkeaRIBasic1",
+  "enabled" : "true",
+  "version" : "3.3.1"
+}, {
+  "packageName" : "Lidl_DevOps_HH",
+  "enabled" : "true",
+  "version" : "1.2"
+}, {
   "packageName" : "OpenCM",
   "enabled" : "true",
-  "version" : "1.8.2"
+  "version" : "1.8.1"
 }, {
   "packageName" : "WmART",
   "enabled" : "true",
@@ -24,7 +68,7 @@
   "version" : "10.1.0.0.99"
 }, {
   "packageName" : "WmFlatFile",
-  "enabled" : "false",
+  "enabled" : "true",
   "version" : "10.1.0.0.99"
 }, {
   "packageName" : "WmISExtDC",
@@ -40,7 +84,7 @@
   "version" : "10.1.0.0.99"
 }, {
   "packageName" : "WmTCDBAdapter",
-  "enabled" : "false",
+  "enabled" : "true",
   "version" : "10.1.0.0"
 }, {
   "packageName" : "WmVCS",
@@ -54,4 +98,12 @@
   "packageName" : "WmXSLT",
   "enabled" : "true",
   "version" : "10.1.0.0.99"
+}, {
+  "packageName" : "WxCM",
+  "enabled" : "true",
+  "version" : "1.7.0"
+}, {
+  "packageName" : "WxCM_Test",
+  "enabled" : "true",
+  "version" : "1.0"
 } ]

@@ -1,0 +1,117 @@
+{
+  "name" : "DBP",
+  "level" : "DBP",
+  "children" : [ {
+    "name" : "Development",
+    "level" : "ENVIRONMENT",
+    "children" : [ {
+      "name" : "ESB_IS_V101",
+      "level" : "ASS_GROUP",
+      "children" : [ {
+        "name" : "server_01",
+        "level" : "SERVER",
+        "children" : [ {
+          "name" : "DEV_ESB_IS_V101_01",
+          "level" : "NODE",
+          "url" : "server=server_01&node=DEV_ESB_IS_V101_01",
+          "hasBaseline" : false,
+          "hasRuntime" : true
+        } ]
+      }, {
+        "name" : "server_02",
+        "level" : "SERVER",
+        "children" : [ {
+          "name" : "DEV_ESB_IS_V101_02",
+          "level" : "NODE",
+          "url" : "server=server_02&node=DEV_ESB_IS_V101_02",
+          "hasBaseline" : false,
+          "hasRuntime" : true
+        } ]
+      } ]
+    } ]
+  }, {
+    "name" : "Test",
+    "level" : "ENVIRONMENT",
+    "children" : [ {
+      "name" : "ESB_IS_V101",
+      "level" : "ASS_GROUP",
+      "children" : [ {
+        "name" : "server_03",
+        "level" : "SERVER",
+        "children" : [ {
+          "name" : "TEST_ESB_IS_V101_01",
+          "level" : "NODE",
+          "url" : "server=server_03&node=TEST_ESB_IS_V101_01",
+          "hasBaseline" : false,
+          "hasRuntime" : true
+        } ]
+      }, {
+        "name" : "server_04",
+        "level" : "SERVER",
+        "children" : [ {
+          "name" : "TEST_ESB_IS_V101_02",
+          "level" : "NODE",
+          "url" : "server=server_04&node=TEST_ESB_IS_V101_02",
+          "hasBaseline" : false,
+          "hasRuntime" : true
+        } ]
+      } ]
+    } ]
+  }, {
+    "name" : "Pre-Production",
+    "level" : "ENVIRONMENT",
+    "children" : [ {
+      "name" : "ESB_IS_V101",
+      "level" : "ASS_GROUP",
+      "children" : [ {
+        "name" : "server_05",
+        "level" : "SERVER",
+        "children" : [ {
+          "name" : "PREP_ESB_IS_V101_01",
+          "level" : "NODE",
+          "url" : "server=server_05&node=PREP_ESB_IS_V101_01",
+          "hasBaseline" : false,
+          "hasRuntime" : true
+        } ]
+      }, {
+        "name" : "server_06",
+        "level" : "SERVER",
+        "children" : [ {
+          "name" : "PREP_ESB_IS_V101_02",
+          "level" : "NODE",
+          "url" : "server=server_06&node=PREP_ESB_IS_V101_02",
+          "hasBaseline" : false,
+          "hasRuntime" : true
+        } ]
+      } ]
+    } ]
+  }, {
+    "name" : "Production",
+    "level" : "ENVIRONMENT",
+    "children" : [ {
+      "name" : "ESB_IS_V101",
+      "level" : "ASS_GROUP",
+      "children" : [ {
+        "name" : "server_07",
+        "level" : "SERVER",
+        "children" : [ {
+          "name" : "PROD_ESB_IS_V101_01",
+          "level" : "NODE",
+          "url" : "server=server_07&node=PROD_ESB_IS_V101_01",
+          "hasBaseline" : false,
+          "hasRuntime" : true
+        } ]
+      }, {
+        "name" : "server_08",
+        "level" : "SERVER",
+        "children" : [ {
+          "name" : "PROD_ESB_IS_V101_02",
+          "level" : "NODE",
+          "url" : "server=server_08&node=PROD_ESB_IS_V101_02",
+          "hasBaseline" : false,
+          "hasRuntime" : true
+        } ]
+      } ]
+    } ]
+  } ]
+}

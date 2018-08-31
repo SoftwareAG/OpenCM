@@ -1,0 +1,1 @@
+{"Logger":{"@alias":"Service","Name":"Service Logger","Enabled":"true","Mode":"SYNCHRONOUS","Guaranteed":"false","MaxQueueSize":"100000","Destination":"FILE","MaxRetryAttempts":"3","RetryInterval":"5","ExtendedProperties":{"Property":[{"@name":"ServiceLogLevel","$":"perSvc"}]}}}

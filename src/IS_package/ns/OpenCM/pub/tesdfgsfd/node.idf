@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <value name="node_type">interface</value>
+  <value name="node_subtype">unknown</value>
+  <value name="node_nsName">OpenCM.pub.tesdfgsfd</value>
+  <value name="is_public">false</value>
+  <value name="encodeutf8">true</value>
+  <value name="shared">CgkJ</value>
+  <value name="extends"></value>
+  <array name="implements" type="value" depth="1">
+  </array>
+  <array name="imports" type="value" depth="1">
+    <value>de.slackspace.openkeepass.KeePassDatabase</value>
+    <value>de.slackspace.openkeepass.domain.KeePassFile</value>
+    <value>java.util.List</value>
+    <value>de.slackspace.openkeepass.domain.Entry</value>
+    <value>de.slackspace.openkeepass.domain.Group</value>
+  </array>
+</Values>

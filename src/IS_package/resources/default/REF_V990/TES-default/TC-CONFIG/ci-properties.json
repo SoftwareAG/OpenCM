@@ -1,0 +1,1 @@
+{"ns2:tc-config":{"servers":{"server":{"jmx-port":18220,"data":"../data","tsa-port":18210,"tsa-group-port":18230,"name":"DOPS_REF_V990_01","host":"tl-as142.tasp.tclidl.net","index":"../index","logs":"../logs"}},"xmlns:ns2":"http://www.terracotta.org/config"}}
