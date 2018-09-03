@@ -5,10 +5,10 @@
 }, {
   "packageName" : "OpenCM",
   "enabled" : "true",
-  "version" : "1.8.2"
+  "version" : "1.8.1"
 }, {
   "packageName" : "WmART",
-  "enabled" : "false",
+  "enabled" : "true",
   "version" : "10.1.0.0.99"
 }, {
   "packageName" : "WmARTExtDC",
@@ -24,7 +24,7 @@
   "version" : "10.1.0.0.99"
 }, {
   "packageName" : "WmFlatFile",
-  "enabled" : "false",
+  "enabled" : "true",
   "version" : "10.1.0.0.99"
 }, {
   "packageName" : "WmISExtDC",
@@ -54,4 +54,12 @@
   "packageName" : "WmXSLT",
   "enabled" : "true",
   "version" : "10.1.0.0.99"
+}, {
+  "packageName" : "WxCM",
+  "enabled" : "true",
+  "version" : "1.7.0"
+}, {
+  "packageName" : "WxCM_Test",
+  "enabled" : "true",
+  "version" : "1.0"
 } ]

@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="[1] DEV_ESB_IS_V101_01 <=> DEV_ESB_IS_V101_02"
+<testsuite name="[2] TEST_ESB_IS_V101_01 <=> TEST_ESB_IS_V101_02"
            tests="56"
            failures="0"
            errors="0"
            skipped="0"
-           time="0.023">
+           time="0.000">
   <properties />
   
   
-            <testcase name="wMFix.SPM [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.EVS.CDH530 [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.SCGCommon.ISMigrationFramework [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.DEV.DigitalEventServicesRuntimeBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.EVS.ER [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.SUMApi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.tppWS [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.SCGCommon.acdl [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.tppParsers [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.DEV.DigitalEventServicesSharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.EVS.DES [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.WSSCore [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.EmbeddedDatabaseScripts [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.WSSOSGi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.OSGI.Agent [version]" time="0.001" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.integrationServer.ART [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.CentraSite.SharedLibs [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.NUMClient.CommonLibraries [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.TPS.Commons [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.TDBLibrariesEhcache [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.EVS.Core-nonosgi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.TDBCommon [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.SCGCommon.MWS [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.ALL.SIN [version]" time="0.021" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.EVS.ES232 [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.SCGCommon.BPM [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.TDBCluster [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+            <testcase name="wMFix.EVS.CDH530 [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
                 <testcase name="wMFix.TESOSGi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.Broker.SharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.SJP.Java64.W64 [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.TDBLibrariesStore [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.integrationServer.Core [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.TDBOSGIShared [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.EDA.ERSharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.NUMRepository.SharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.CAFRLib [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.DesignerServiceDevelopment [version]" time="0.001" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.integrationServer.FlatFile [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.EVS.Core [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
                 <testcase name="wMFix.SPMShared [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.EDA.NERV [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBCluster [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.OSGI.Agent [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.tcdb [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
                 <testcase name="wMFix.SCGCommon.Broker.JavaApi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.SDRepository [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.Eclipse [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.integrationServer.SPM [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.TDBConsole [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.BPMMetadata [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.ER [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TPS.Commons [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.DEV.DigitalEventServicesRuntimeBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.integrationServer.Core [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
                 <testcase name="wMFix.DEV.DigitalEventServicesLibraries [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.TDBspm [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.OSGI.Platform [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.SCGCommon.Audit [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
                 <testcase name="wMFix.OSGI.Migration [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.integrationServer.SPM [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.integrationServer.ART [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBLibrariesStore [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.Core [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EDA.NERV [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBServer [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.tppParsers [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.OSGI.Platform [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.BPM [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.BPMMetadata [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.ISMigrationFramework [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBLibrariesEhcache [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.WSSCore [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
                 <testcase name="wMFix.TPS.XMLTools [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
                 <testcase name="wMFix.DesignerCPP [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.tcdb [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
-                <testcase name="wMFix.TDBServer [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.acdl [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.DEV.DigitalEventServicesSharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EmbeddedDatabaseScripts [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SUMApi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.Broker.SharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.ALL.SIN [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBConsole [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.DesignerServiceDevelopment [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.tppWS [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.NUMClient.CommonLibraries [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SPM [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.CentraSite.SharedLibs [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.Eclipse [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.ES232 [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.MWS [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EDA.ERSharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBCommon [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBOSGIShared [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.CAFRLib [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.DES [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.integrationServer.FlatFile [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.WSSOSGi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SCGCommon.Audit [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SDRepository [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.SJP.Java64.W64 [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.EVS.Core-nonosgi [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.TDBspm [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
+                <testcase name="wMFix.NUMRepository.SharedBundles [version]" time="0.000" classname="org.opencm.audit.assertion.TwoNodeTest" />
       
 </testsuite>

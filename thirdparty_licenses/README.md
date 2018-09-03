@@ -44,127 +44,118 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 
 ## Java Libraries
 
-### accessors-smart-1.1.jar
+### asm-1.0.2.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/net.minidev/accessors-smart/1.1
+- Source: https://mvnrepository.com/artifact/net.minidev/asm/1.0.2
 
-### commons-codec-1.11.jar
+### client-combined-3.14.0.jar 
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://commons.apache.org/proper/commons-codec/download_codec.cgi
+- Source: https://www.seleniumhq.org/download/
 
-### commons-collections4-4.1.jar
+### commons-collections4-4.2.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://commons.apache.org/proper/commons-collections/download_collections.cgi
+- Source: https://mvnrepository.com/artifact/org.apache.commons/commons-collections4/4.2
 
 ### commons-io-2.6.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://commons.apache.org/proper/commons-io/download_io.cgi
+- Source: https://mvnrepository.com/artifact/commons-io/commons-io/2.6
 
-### commons-lang3-3.5.jar
+### commons-lang3-3.8.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://commons.apache.org/proper/commons-lang/download_lang.cgi
+- Source: https://mvnrepository.com/artifact/org.apache.commons/commons-lang3/3.8
 
-### gson-2.3.1.jar
+### commons-net-3.6.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.google.code.gson/gson/2.3.1
+- Source: https://mvnrepository.com/artifact/commons-net/commons-net/3.6
 
-### guice-3.0.jar
+### guava-26.0-jre.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://github.com/google/guice
+- Source: https://mvnrepository.com/artifact/com.google.guava/guava/26.0-jre
 
-### hamcrest-core-1.3.jar
+### guice-4.2.0.jar
 - Licensed under BSD-2-Clause
-- Source: https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core/1.3
+- Source: https://mvnrepository.com/artifact/com.google.inject/guice/4.2.0
 
-### htmlunit-driver-2.28.5.jar
+### htmlunit-2.32.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.seleniumhq.selenium/htmlunit-driver/2.28.5
+- Source: https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit/2.32
 
-### httpclient-4.5.4.jar
+### htmlunit-cssparser-1.0.0.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient/4.5.4
+- Source: https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit-cssparser/1.0.0
 
-### httpmime-4.5.4.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime/4.5.4
+### htmlunit-core-js-2.32.jar
+- Licensed under [MPL](http://www.mozilla.org/MPL/2.0/index.txt)
+- Source: https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit-core-js/2.32
 
-### jackson-annotations-2.9.0.jar
+### htmlunit-driver-2.32.1.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations/2.9.0.pr2
+- Source: https://github.com/SeleniumHQ/htmlunit-driver/releases
 
-### jackson-core-2.9.0.jar
+### httpclient-4.5.6.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core/2.9.0.pr2
+- Source: https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient/4.5.6
 
-### jackson-core-asl-1.9.13.jar
+### httpmime-4.5.6.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl/1.9.13
+- Source: https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime/4.5.6
 
-### jackson-databind-2.9.0.jar
+### jackson-annotations-2.9.6.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind/2.9.0.pr2
+- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations/2.9.6
 
-### jackson-dataformat-xml-2.9.1.jar
+### jackson-core-2.9.6.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.1
+- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core/2.9.6
 
-### jackson-dataformat-yaml-2.9.0.jar
+### jackson-databind-2.9.6.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.9.0.pr2
+- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind/2.9.6
 
-### jackson-mapper-asl-1.9.13.jar
+### jackson-dataformat-yaml-2.9.6.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl/1.9.13
+- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.9.6
 
 ### jcommander-1.72.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
 - Source: https://mvnrepository.com/artifact/com.beust/jcommander/1.72
 
-### json-20140107.jar
+### json-20180813.jar
 - Licensed under [Json](http://json.org/license.html)
-- Source: https://mvnrepository.com/artifact/org.json/json/20140107
+- Source: https://mvnrepository.com/artifact/org.json/json/20180813
 
-### json-path-2.2.0.jar
+### json-path-2.4.0.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-Source: https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path/2.2.0
+Source: https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path/2.4.0
 
-### json-smart-2.2.1.jar
+### json-smart-2.3.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-Source: https://mvnrepository.com/artifact/net.minidev/json-smart/2.2.1
+Source: https://mvnrepository.com/artifact/net.minidev/json-smart/2.3
 
-### junit-4.12.jar
-- Licensed under [EPL 1.0](http://www.eclipse.org/legal/epl-v10.html)
-- Source: https://mvnrepository.com/artifact/junit/junit/4.12
+### neko-htmlunit-2.32.jar
+- Licensed under [Apache 2.0](http://www.apache.org/licenses)
+- Source: https://mvnrepository.com/artifact/net.sourceforge.htmlunit/neko-htmlunit/2.32
 
 ### poi-3.17.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-Source: https://mvnrepository.com/artifact/org.apache.poi/poi/3.17
+Source: https://www.apache.org/dyn/closer.lua/poi/release/bin/poi-bin-3.17-20170915.zip
 
 ### poi-ooxml-3.17.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml/3.17
+- Source: https://www.apache.org/dyn/closer.lua/poi/release/bin/poi-bin-3.17-20170915.zip
 
 ### poi-ooxml-schemas-3.17.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas/3.17
+- Source: https://www.apache.org/dyn/closer.lua/poi/release/bin/poi-bin-3.17-20170915.zip
 
 ### reportng-1.1.4.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
 - Source: https://mvnrepository.com/artifact/org.uncommons/reportng/1.1.4
 
-### snakeyaml-1.18.jar
+### testng-6.14.3.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.yaml/snakeyaml/1.18
+- Source: http://mvnrepository.com/artifact/org.testng/testng
 
-### tapestry-json-5.4.0.jar
-- Licensed under [Apache](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.apache.tapestry/tapestry-json/5.4.0
-
-### testng-6.11.1-20170808.040503-44.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://github.com/cbeust/testng
-
-	
 ______________________
 These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.	
 
