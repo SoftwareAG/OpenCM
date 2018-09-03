@@ -47,7 +47,7 @@ public final class snapshot
 		
 		if (node == null) {
 			throw new ServiceException("Missing Node Parameter");
-		}
+		} 
 		
 		// --------------------------------------------------------------------
 		// Read in Default Package Properties

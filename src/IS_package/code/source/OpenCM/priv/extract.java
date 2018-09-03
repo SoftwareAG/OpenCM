@@ -40,7 +40,7 @@ public final class extract
 		// @sigtype java 3.5
 		// [i] field:0:required masterPassword
 		// [i] field:0:required node
-		IDataCursor pipelineCursor = pipeline.getCursor();
+		IDataCursor pipelineCursor = pipeline.getCursor(); 
 		String	stMaster = IDataUtil.getString( pipelineCursor, "masterPassword" );
 		String	stNode = IDataUtil.getString( pipelineCursor, "node" );
 		pipelineCursor.destroy();

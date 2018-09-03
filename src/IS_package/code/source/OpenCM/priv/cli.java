@@ -48,7 +48,7 @@ public final class cli
 		// Read in Default Package Properties
 		// --------------------------------------------------------------------
 		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
-		
+		 
 		// --------------------------------------------------------------------
 		// Read in OpenCM Properties
 		// --------------------------------------------------------------------

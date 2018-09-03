@@ -66,7 +66,7 @@ public final class twoNodeAudit
 		String	node = IDataUtil.getString( pipelineCursor, "node" );
 		pipelineCursor.destroy();
 		
-		if (node == null) {
+		if (node == null) { 
 			throw new ServiceException("Missing Node Parameter");
 		}
 		

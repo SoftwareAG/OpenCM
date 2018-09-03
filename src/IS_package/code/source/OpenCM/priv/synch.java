@@ -50,7 +50,7 @@ public final class synch
 		String	stServerName = IDataUtil.getString( pipelineCursor, "serverName" );
 		InputStream ftpis = (InputStream) IDataUtil.get( pipelineCursor, "contentStream" );
 		pipelineCursor.destroy();
-		
+		 
 		// --------------------------------------------------------------------
 		// Read in Default Package Properties
 		// --------------------------------------------------------------------

@@ -27,7 +27,7 @@
 	<section id="canvasArea">
 		<div id="canvasLogo">
 			<!-- <h2><a class="aboutMenuLink" data-bpopup='{"content":"iframe","contentContainer":".aboutFrame","loadUrl":"/OpenCM/about/index.html"}' href="#">OpenCM Configuration Management</a><br/><span>v1.8.0</span></h2> -->
-			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.2</span></h2>
+			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.3</span></h2>
 		</div>
 		<div id="canvasTree"></div>
 	</section>

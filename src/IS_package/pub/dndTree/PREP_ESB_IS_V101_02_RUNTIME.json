@@ -780,6 +780,6 @@
       "level" : "INSTANCE"
     } ]
   } ],
-  "opencmEnvironment" : "Pre-Production",
-  "cceEnvironment" : "Pre-Production"
+  "cceEnvironment" : "Pre-Production",
+  "opencmEnvironment" : "Pre-Production"
 }

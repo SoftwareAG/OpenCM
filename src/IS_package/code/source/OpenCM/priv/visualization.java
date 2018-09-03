@@ -47,7 +47,7 @@ public final class visualization
 		// --------------------------------------------------------------------
 		// Read in Default Package Properties
 		// --------------------------------------------------------------------
-		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
+		PkgConfiguration pkgConfig = PkgConfiguration.instantiate(); 
 		
 		// --------------------------------------------------------------------
 		// Read in OpenCM Properties

@@ -7,11 +7,8 @@ import com.wm.util.Values;
 import com.wm.app.b2b.server.Service;
 import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
-import de.slackspace.openkeepass.KeePassDatabase;
-import de.slackspace.openkeepass.domain.KeePassFile;
-import java.util.List;
-import de.slackspace.openkeepass.domain.Entry;
-import de.slackspace.openkeepass.domain.Group;
+import java.io.InputStream;
+import java.io.IOException;
 // --- <<IS-END-IMPORTS>> ---
 
 public final class tesdfgsfd
@@ -36,29 +33,34 @@ public final class tesdfgsfd
 		// --- <<IS-START(test)>> ---
 		// @sigtype java 3.5
 		System.out.println(" ----------------------------------------------- ");
-		 // Open Database
-		KeePassFile database = KeePassDatabase.getInstance("C:\\SoftwareAG\\keepass\\OpenCM.kdbx").openDatabase("manage");
-			
-		// Retrieve all entries
-		List<Entry> entries = database.getEntries();
-		for (Entry entry : entries) {
-			System.out.println("Title: " + entry.getTitle() + " Password: " + entry.getPassword());
+		 
+		/**
+		import org.linguafranca.pwdb.Credentials;
+		import org.linguafranca.pwdb.Entry;
+		import org.linguafranca.pwdb.Group;
+		import org.linguafranca.pwdb.Icon;
+		import org.linguafranca.pwdb.Visitor;
+		import org.linguafranca.pwdb.Database;
+		import org.linguafranca.pwdb.kdbx.KdbxCreds;
+		import org.linguafranca.pwdb.kdbx.simple.SimpleDatabase;
+		try {
+			 // Open Database
+			String db = "C:\\SoftwareAG\\keepass\\OpenCM.kdbx";
+			String pwd = "manage";
+		    KdbxCreds creds = new KdbxCreds(pwd.getBytes());
+			InputStream inputStream = Class.class.getClassLoader().getResourceAsStream(db);
+			Database database = SimpleDatabase.load(creds, inputStream);
+		    database.visit(new Visitor.Print());
+		} catch (Exception ex) {
+			System.out.println("Exception: " + ex.getMessage());
 		}
 		
-		// Retrieve all top groups
-		List<Group> groups = database.getTopGroups();
-		for (Group group : groups) {
-			System.out.println(group.getName());
-		}
+		*/
+				
 			
 		// --- <<IS-END>> ---
 
                 
 	}
-
-	// --- <<IS-START-SHARED>> ---
-
-		
-	// --- <<IS-END-SHARED>> ---
 }
 

@@ -50,7 +50,7 @@ public final class util
 		// Read in OpenCM Properties
 		// --------------------------------------------------------------------
 		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
-		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
+		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory()); 
 		
 		// pipeline
 		IDataCursor pipelineCursor = pipeline.getCursor();

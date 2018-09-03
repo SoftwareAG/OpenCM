@@ -206,6 +206,178 @@
       "level" : "INSTANCE"
     } ]
   }, {
+    "name" : "NODE-FIXES",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "wMFix.ALL.SIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.BPMMetadata",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.Broker.SharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.CAFRLib",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.CentraSite.SharedLibs",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.DesignerCPP",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.DesignerServiceDevelopment",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.DEV.DigitalEventServicesLibraries",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.DEV.DigitalEventServicesRuntimeBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.DEV.DigitalEventServicesSharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.Eclipse",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.EDA.ERSharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.EDA.NERV",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.EmbeddedDatabaseScripts",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.EVS.CDH530",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.EVS.Core",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.EVS.Core-nonosgi",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.EVS.DES",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.EVS.ER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.EVS.ES232",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.integrationServer.ART",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.integrationServer.Core",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.integrationServer.FlatFile",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.integrationServer.SPM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.NUMClient.CommonLibraries",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.NUMRepository.SharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.OSGI.Agent",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.OSGI.Migration",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.OSGI.Platform",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SCGCommon.acdl",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SCGCommon.Audit",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SCGCommon.BPM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SCGCommon.Broker.JavaApi",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SCGCommon.ISMigrationFramework",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SCGCommon.MWS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SDRepository",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SJP.Java64.W64",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SPM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SPMShared",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SUMApi",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.tcdb",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TDBCluster",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TDBCommon",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TDBConsole",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TDBLibrariesEhcache",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TDBLibrariesStore",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TDBOSGIShared",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TDBServer",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TDBspm",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TESOSGi",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.tppParsers",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.tppWS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TPS.Commons",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.TPS.XMLTools",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.WSSCore",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.WSSOSGi",
+      "level" : "INSTANCE"
+    } ]
+  }, {
     "name" : "NODE-PRODUCTS",
     "level" : "COMPONENT",
     "children" : [ {
@@ -602,6 +774,6 @@
       "level" : "INSTANCE"
     } ]
   } ],
-  "opencmEnvironment" : "Test",
-  "cceEnvironment" : "Test"
+  "cceEnvironment" : "Test",
+  "opencmEnvironment" : "Test"
 }

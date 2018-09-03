@@ -4,6 +4,6 @@
   "assertionGroup" : "ESB_IS_V101",
   "spmURL" : "https://server_07.opencm.org:10193/spm",
   "children" : null,
-  "opencmEnvironment" : "Production",
-  "cceEnvironment" : "Production"
+  "cceEnvironment" : "Production",
+  "opencmEnvironment" : "Production"
 }

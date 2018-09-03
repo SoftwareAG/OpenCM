@@ -35,7 +35,7 @@ public final class util
 		// [o] field:0:required exists
 		String cmDataDir = new File(PackageUtils.getPackageConfigPath()).getParent() + File.separator + "pub" + File.separator + "cmdata";
 		File fDir = new File(cmDataDir);
-		
+		 
 		// pipeline
 		IDataCursor pipelineCursor = pipeline.getCursor();
 		IDataUtil.put( pipelineCursor, "exists", fDir.exists() );

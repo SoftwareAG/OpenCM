@@ -41,7 +41,7 @@ public final class security
 		IDataCursor pipelineCursor = pipeline.getCursor();
 		String	stMaster = IDataUtil.getString( pipelineCursor, "masterPassword" );
 		String	stAction = IDataUtil.getString( pipelineCursor, "action" );
-		pipelineCursor.destroy();
+		pipelineCursor.destroy(); 
 		
 		/*
 		 * Extract Service 

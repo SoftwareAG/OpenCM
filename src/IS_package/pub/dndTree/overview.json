@@ -14,7 +14,7 @@
           "name" : "DEV_ESB_IS_V101_01",
           "level" : "NODE",
           "url" : "server=server_01&node=DEV_ESB_IS_V101_01",
-          "hasBaseline" : false,
+          "hasBaseline" : true,
           "hasRuntime" : true
         } ]
       }, {
