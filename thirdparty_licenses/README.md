@@ -73,7 +73,7 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 - Source: https://mvnrepository.com/artifact/com.google.guava/guava/26.0-jre
 
 ### guice-4.2.0.jar
-- Licensed under BSD-2-Clause
+- Licensed under [Apache 2.0](http://www.apache.org/licenses)
 - Source: https://mvnrepository.com/artifact/com.google.inject/guice/4.2.0
 
 ### htmlunit-2.32.jar
