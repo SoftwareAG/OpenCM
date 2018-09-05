@@ -17,6 +17,7 @@
     <value>org.opencm.configuration.PkgConfiguration</value>
     <value>org.opencm.configuration.Node</value>
     <value>org.opencm.util.LogUtils</value>
+    <value>org.opencm.security.KeyUtils</value>
     <value>org.opencm.extract.configuration.ExtractProperties</value>
     <value>org.opencm.extract.spm.SpmOps</value>
   </array>

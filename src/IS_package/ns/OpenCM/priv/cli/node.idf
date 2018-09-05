@@ -20,9 +20,10 @@
     <value>org.opencm.configuration.PkgConfiguration</value>
     <value>org.opencm.configuration.Nodes</value>
     <value>org.opencm.configuration.Node</value>
-    <value>org.opencm.configuration.Instance</value>
+    <value>org.opencm.configuration.RuntimeComponent</value>
     <value>org.opencm.extract.cce.CceOps</value>
     <value>org.opencm.extract.spm.SpmOps</value>
     <value>org.opencm.util.LogUtils</value>
+    <value>org.opencm.security.KeyUtils</value>
   </array>
 </Values>

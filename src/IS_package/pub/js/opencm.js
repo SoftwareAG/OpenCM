@@ -158,9 +158,15 @@ function performDecrypt() {
 	$('#notification').html("<p>Decrypting Endpoints ....</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
+
 function performGenerateCLI() {
 	$.get( "/invoke/OpenCM.pub.dsp.configuration/generateCCE_CLI");
 	$('#notification').html("<p>Generating Command Central CLI for Node Definitions ....</p>");
+	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+}
+function performSynchSend() {
+	$.get( "/invoke/OpenCM.pub.dsp.configuration/synchSend");
+	$('#notification').html("<p>Synchronizing runtime data to central OpenCM instance ....</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 
@@ -898,8 +904,7 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 		} else {
 			$('#opencm_page').text(opencm_node);
 			$('#ass_group').text(root.assertionGroup);
-			$('#cce_env').text(root.cceEnvironment);
-			$('#opencm_env').text(root.opencmEnvironment);
+			$('#env').text(root.environment);
 			$('#spm_url').text(root.spmURL);
 			$('#cm_hostname').text(opencm_server);
 		

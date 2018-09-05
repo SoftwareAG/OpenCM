@@ -14,36 +14,40 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.opencm.util.Cache;
+
 public class KeyUtils {
 
-	private String masterPwd;
+    public static String OPENCM_MASTER_PASSWORD_GLOBAL_VARIABLE 		= "OPENCM_MASTER_PASSWORD";
+
+	private static String SECRET_SALT 			= "J6%jh0lasX84lK<*2f";
+	private static int SECRET_ITERATION 		= 40000;
+	private static int SECRET_KEY_LENGTH		= 128;
 	
-	private String SECRET_SALT 			= "J6%jh0lasX84lK<*2f";
-	private int SECRET_ITERATION 		= 40000;
-	private int SECRET_KEY_LENGTH		= 128;
-	
-	public KeyUtils(String masterPassword) {
-		this.masterPwd = masterPassword;
+	public static String getMasterPassword() {
+		return Cache.getInstance().get(OPENCM_MASTER_PASSWORD_GLOBAL_VARIABLE);
 	}
 
-	public String encrypt(String stValue) {
+	public static String encrypt(String stValue) {
+		String masterPwd = getMasterPassword();
         String encryptedValue = null;
         try {
-	        SecretKeySpec key = createSecretKey(this.masterPwd.toCharArray(), SECRET_SALT.getBytes(), SECRET_ITERATION, SECRET_KEY_LENGTH);
+	        SecretKeySpec key = createSecretKey(masterPwd.toCharArray(), SECRET_SALT.getBytes(), SECRET_ITERATION, SECRET_KEY_LENGTH);
 	        encryptedValue = encrypt(stValue, key);
         } catch (Exception ex) {
-        	System.out.println("KeyUtils - encrypt :: Exception: " + ex.toString());
+        	System.out.println("OpenCM :: KeyUtils.encrypt() :: Exception: " + ex.toString());
         }
         return encryptedValue;
 	}
 	
-	public String decrypt(String stValue) {
+	public static String decrypt(String stValue) {
+		String masterPwd = getMasterPassword();
         String decryptedValue = null;
         try {
-	        SecretKeySpec key = createSecretKey(this.masterPwd.toCharArray(), SECRET_SALT.getBytes(), SECRET_ITERATION, SECRET_KEY_LENGTH);
+	        SecretKeySpec key = createSecretKey(masterPwd.toCharArray(), SECRET_SALT.getBytes(), SECRET_ITERATION, SECRET_KEY_LENGTH);
 	        decryptedValue = decrypt(stValue, key);
         } catch (Exception ex) {
-        	System.out.println("KeyUtils - decrypt :: Exception: " + ex.toString());
+        	System.out.println("OpenCM :: KeyUtils.decrypt() :: Exception: " + ex.toString());
         }
         return decryptedValue;
 	}

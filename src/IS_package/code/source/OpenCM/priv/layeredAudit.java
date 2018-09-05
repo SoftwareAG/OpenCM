@@ -104,9 +104,9 @@ public final class layeredAudit
 					boolean includeEnv = true;
 					if ((envAuditConfig.getEnvironments() != null) && (envAuditConfig.getEnvironments().size() > 0)) {
 						// Only process nodes that are within the defined environment
-						if (!envAuditConfig.getEnvironments().contains(opencmNode.getOpencm_environment())) {
+						if (!envAuditConfig.getEnvironments().contains(opencmNode.getEnvironment())) {
 							includeEnv = false;
-						}
+						} 
 					}
 					if (includeEnv) {
 						LinkedList<AssertionValue> avs = RepoParser.getAssertionValues(opencmConfig, opencmNode, propConfig, envAuditConfig.getPropertyFilters());

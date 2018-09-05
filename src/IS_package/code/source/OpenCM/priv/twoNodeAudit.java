@@ -67,7 +67,7 @@ public final class twoNodeAudit
 		pipelineCursor.destroy();
 		
 		if (node == null) { 
-			throw new ServiceException("Missing Node Parameter");
+			throw new ServiceException("Missing Node Parameter"); 
 		}
 		
 		// --------------------------------------------------------------------
@@ -120,13 +120,13 @@ public final class twoNodeAudit
 			// Set 2-Node Assertion Pairs
 			// --------------------------------------------------------------------
 			AuditNode node01 = new AuditNode();
-			node01.setEnvironment(openCMNode.getOpencm_environment());
+			node01.setEnvironment(openCMNode.getEnvironment());
 			node01.setHostname(openCMNode.getHostname());
 			node01.setNodeAlias(openCMNode.getNode_name());
 			node01.setRepoType(Configuration.OPENCM_BASELINE_DIR);
 			
 			AuditNode node02 = new AuditNode();
-			node02.setEnvironment(openCMNode.getOpencm_environment());
+			node02.setEnvironment(openCMNode.getEnvironment());
 			node02.setHostname(openCMNode.getHostname());
 			node02.setNodeAlias(openCMNode.getNode_name());
 			node02.setRepoType(Configuration.OPENCM_RUNTIME_DIR);

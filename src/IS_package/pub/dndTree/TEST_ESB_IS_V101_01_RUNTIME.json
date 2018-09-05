@@ -202,6 +202,9 @@
       "name" : "IS-RESOURCES",
       "level" : "INSTANCE"
     }, {
+      "name" : "IS-SYSPROPS",
+      "level" : "INSTANCE"
+    }, {
       "name" : "JCE-POLICY-INFO",
       "level" : "INSTANCE"
     } ]
@@ -774,6 +777,5 @@
       "level" : "INSTANCE"
     } ]
   } ],
-  "cceEnvironment" : "Test",
-  "opencmEnvironment" : "Test"
+  "environment" : "Test"
 }

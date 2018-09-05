@@ -20,10 +20,13 @@
     <value>org.apache.commons.net.ftp.FTPSClient</value>
     <value>org.apache.commons.net.ftp.FTPReply</value>
     <value>org.opencm.configuration.Configuration</value>
+    <value>org.opencm.configuration.Node</value>
+    <value>org.opencm.configuration.Nodes</value>
+    <value>org.opencm.configuration.RuntimeComponent</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
-    <value>org.opencm.synch.SynchConfig</value>
     <value>org.opencm.util.LogUtils</value>
     <value>org.opencm.util.ZipUtils</value>
     <value>org.opencm.util.FileUtils</value>
+    <value>org.opencm.security.KeyUtils</value>
   </array>
 </Values>

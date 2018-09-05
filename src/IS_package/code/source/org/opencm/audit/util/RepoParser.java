@@ -13,7 +13,7 @@ import org.opencm.audit.util.JsonParser;
 import org.opencm.configuration.Configuration;
 import org.opencm.configuration.Node;
 import org.opencm.configuration.Nodes;
-import org.opencm.configuration.Instance;
+import org.opencm.configuration.RuntimeComponent;
 import org.opencm.util.PackageUtils;
 import org.opencm.util.FileUtils;
 import org.opencm.util.LogUtils;
@@ -229,7 +229,7 @@ public class RepoParser {
 	 */
 	public static HashMap<String,AssertionGroup> postProcessValues(Configuration opencmConfig, Nodes opencmNodes, HashMap<String,AssertionGroup> assGroups, AssertionConfig envAuditConfig) {
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Parser - postProcessValues ........... ");
-        LinkedList<String> definedEnvironments = opencmNodes.getAllOpencmEnvironments();
+        LinkedList<String> definedEnvironments = opencmNodes.getAllEnvironments();
 
         // Ignore environments if not explicitly defined in the env audit properties
 		if ((envAuditConfig.getEnvironments() != null) && (envAuditConfig.getEnvironments().size() > 0)) {
@@ -285,15 +285,15 @@ public class RepoParser {
 			    
 				// -- Defined Nodes and potentially its instances
         		for (int i = 0; i < definedEnvironments.size(); i++) {
-			    	LinkedList<Node> tmpNodes = opencmNodes.getNodesByGroupAndOpencmEnv(ag.getAssertionGroup(), definedEnvironments.get(i));
+			    	LinkedList<Node> tmpNodes = opencmNodes.getNodesByGroupAndEnv(ag.getAssertionGroup(), definedEnvironments.get(i));
 			    	if (!instanceServerComponent && (tmpNodes.size() > maxValuesSize)) {
 			    		maxValuesSize = tmpNodes.size(); 
 			    	} else {
 			    		int totalInstances = 0;
 			    		for (int t = 0; t < tmpNodes.size(); t++) {
-			    			LinkedList<Instance> tmpInstances = tmpNodes.get(t).getInstances();
-			    			for (int t2 = 0; t2 < tmpInstances.size(); t2++) {
-			    				if (tmpInstances.get(t2).getName().startsWith(INTEGRATION_SERVER_PREFIX) || tmpInstances.get(t2).getName().startsWith(UNIVERSAL_MESSAGING_PREFIX)) {
+			    			LinkedList<RuntimeComponent> tmpRuntimeComponents = tmpNodes.get(t).getRuntimeComponents();
+			    			for (int t2 = 0; t2 < tmpRuntimeComponents.size(); t2++) {
+			    				if (tmpRuntimeComponents.get(t2).getName().startsWith(INTEGRATION_SERVER_PREFIX) || tmpRuntimeComponents.get(t2).getName().startsWith(UNIVERSAL_MESSAGING_PREFIX)) {
 					    			totalInstances++;
 			    				}
 			    			}
@@ -313,7 +313,7 @@ public class RepoParser {
 		        	String definedEnv = definedEnvironments.get(envIdx);
 
 	        		// Get all the defined nodes for this environment and assertion group
-	        		LinkedList<Node> definedNodes = opencmNodes.getNodesByGroupAndOpencmEnv(ag.getAssertionGroup(),definedEnv);
+	        		LinkedList<Node> definedNodes = opencmNodes.getNodesByGroupAndEnv(ag.getAssertionGroup(),definedEnv);
 
 		        	if (ap.getAssertionEnvironments().get(definedEnv) == null) {
 						// ------------------------------------------------------------
@@ -337,13 +337,13 @@ public class RepoParser {
 			        			Node opencmNode = definedNodes.get(i);
 				        		if (instanceServerComponent) {
 				        			// For Integration Server properties, we want to also add the instance name (opencm component name)
-					        		for (int n = 0; n < opencmNode.getInstances().size(); n++) {
-					        			Instance opencmInstance = opencmNode.getInstances().get(n);
-					        			if (opencmInstance.getName().startsWith(INTEGRATION_SERVER_PREFIX) || opencmInstance.getName().startsWith(UNIVERSAL_MESSAGING_PREFIX)) {
-					        				if (!ae.componentExists(opencmNode.getNode_name(), opencmInstance.getName())) {
+					        		for (int n = 0; n < opencmNode.getRuntimeComponents().size(); n++) {
+					        			RuntimeComponent opencmRuntimeComponent = opencmNode.getRuntimeComponents().get(n);
+					        			if (opencmRuntimeComponent.getName().startsWith(INTEGRATION_SERVER_PREFIX) || opencmRuntimeComponent.getName().startsWith(UNIVERSAL_MESSAGING_PREFIX)) {
+					        				if (!ae.componentExists(opencmNode.getNode_name(), opencmRuntimeComponent.getName())) {
 							        			AssertionValue av = new AssertionValue(ASSERTION_MISSING_DATA);
 							        			av.setNode(opencmNode.getNode_name());
-							        			av.setComponent(opencmInstance.getName());
+							        			av.setComponent(opencmRuntimeComponent.getName());
 							        			ae.addAssertionValue(av);
 							        			currentSize++;
 					        				}
@@ -382,13 +382,13 @@ public class RepoParser {
 			        		for (int i = 0; i < definedNodes.size(); i++) {
 			        			Node opencmNode = definedNodes.get(i);
 				        		if (instanceServerComponent) {
-					        		for (int n = 0; n < opencmNode.getInstances().size(); n++) {
-					        			Instance opencmInstance = opencmNode.getInstances().get(n);
-					        			if (opencmInstance.getName().startsWith(INTEGRATION_SERVER_PREFIX) || opencmInstance.getName().startsWith(UNIVERSAL_MESSAGING_PREFIX)) {
-					        				if (!ae.componentExists(opencmNode.getNode_name(), opencmInstance.getName())) {
+					        		for (int n = 0; n < opencmNode.getRuntimeComponents().size(); n++) {
+					        			RuntimeComponent opencmRuntimeComponent = opencmNode.getRuntimeComponents().get(n);
+					        			if (opencmRuntimeComponent.getName().startsWith(INTEGRATION_SERVER_PREFIX) || opencmRuntimeComponent.getName().startsWith(UNIVERSAL_MESSAGING_PREFIX)) {
+					        				if (!ae.componentExists(opencmNode.getNode_name(), opencmRuntimeComponent.getName())) {
 							        			AssertionValue av = new AssertionValue(ASSERTION_MISSING_DATA);
 							        			av.setNode(opencmNode.getNode_name());
-							        			av.setComponent(opencmInstance.getName());
+							        			av.setComponent(opencmRuntimeComponent.getName());
 							        			postProcessedAGs.get(ag.getAssertionGroup()).getAssertionProperties().get(ap.getPropertyName()).addAssertionValue(opencmNode,av);
 							        			currentSize++;
 					        				}

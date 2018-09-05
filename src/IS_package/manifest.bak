@@ -5,7 +5,9 @@
   <value name="system_package">no</value>
   <value name="version">1.8.3</value>
   <value name="classloader">package</value>
-  <null name="startup_services"/>
+  <record name="startup_services" javaclass="com.wm.util.Values">
+    <null name="OpenCM.pub.startup:startup"/>
+  </record>
   <null name="shutdown_services"/>
   <null name="replication_services"/>
   <null name="requires"/>

@@ -136,6 +136,10 @@ Source: https://mvnrepository.com/artifact/net.minidev/json-smart/2.3
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
 - Source: https://mvnrepository.com/artifact/net.sourceforge.htmlunit/neko-htmlunit/2.32
 
+### openkeepass-0.8.2-wd.jar
+- Licensed under [Apache 2.0](http://www.apache.org/licenses)
+- Source: https://mvnrepository.com/artifact/de.slackspace/openkeepass/0.8.2
+
 ### poi-3.17.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
 Source: https://www.apache.org/dyn/closer.lua/poi/release/bin/poi-bin-3.17-20170915.zip

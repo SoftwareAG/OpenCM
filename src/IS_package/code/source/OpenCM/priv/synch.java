@@ -16,11 +16,14 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.opencm.configuration.Configuration;
+import org.opencm.configuration.Node;
+import org.opencm.configuration.Nodes;
+import org.opencm.configuration.RuntimeComponent;
 import org.opencm.configuration.PkgConfiguration;
-import org.opencm.synch.SynchConfig;
 import org.opencm.util.LogUtils;
 import org.opencm.util.ZipUtils;
 import org.opencm.util.FileUtils;
+import org.opencm.security.KeyUtils;
 // --- <<IS-END-IMPORTS>> ---
 
 public final class synch
@@ -62,6 +65,18 @@ public final class synch
 		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
 		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
 		
+		// --------------------------------------------------------------------
+		// Ensure that master password is stored in cache
+		// --------------------------------------------------------------------
+		if (KeyUtils.getMasterPassword() == null) {
+			try {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Synch:receive : Master Pwd NULL - running startup service ... ");
+				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
+			} catch (Exception ex) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM synch:receive :: " + ex.getMessage());
+			}
+		}
+		
 		File runtimeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR);
 		File serverDir = new File(runtimeDir.getPath() + File.separator + stServerName);
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"synch:receive --> Receive Process Started for " + serverDir.getName() + " -- ");
@@ -73,9 +88,9 @@ public final class synch
 			if (serverDir.exists()) {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"synch:receive --> Removing old Runtime dir: " + serverDir.getName());
 				FileUtils.removeDirectory(serverDir.getPath());
-			}
+			} 
 		
-			// --------------------------------------------------------------------
+			// -------------------------------------------------------------------- 
 			// Extracting content stream into target
 			// --------------------------------------------------------------------
 		    try {
@@ -101,11 +116,6 @@ public final class synch
 	{
 		// --- <<IS-START(send)>> ---
 		// @sigtype java 3.5
-		// [i] field:0:required masterPassword
-		IDataCursor pipelineCursor = pipeline.getCursor();
-		String	stMaster = IDataUtil.getString( pipelineCursor, "masterPassword" );
-		pipelineCursor.destroy();
-		
 		// --------------------------------------------------------------------
 		// Read in Default Package Properties
 		// --------------------------------------------------------------------
@@ -120,24 +130,57 @@ public final class synch
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Synchronization Transfer Process Started... ========== ");
 		
 		// --------------------------------------------------------------------
-		// Read in OpenCM Synch Properties
+		// Ensure that master password is stored in cache
 		// --------------------------------------------------------------------
-		SynchConfig synchConfig = SynchConfig.instantiate(opencmConfig);
+		if (KeyUtils.getMasterPassword() == null) {
+			try {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Synch:send : Master Pwd NULL - running startup service ... ");
+				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
+			} catch (Exception ex) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM synch:send :: " + ex.getMessage());
+			}
+		}
+		
+		// -------------------------------------------------------------------- 
+		// Read in OpenCM Nodes Properties
+		// --------------------------------------------------------------------
+		Nodes nodes = Nodes.instantiate(opencmConfig); 
 		
 		// --------------------------------------------------------------------
-		// Ensure Encrypted password ...
+		// Ensure Encrypted passwords ...
 		// --------------------------------------------------------------------
-		synchConfig.ensureDecryptedPassword(opencmConfig, stMaster);
+		nodes.ensureDecryptedPasswords(opencmConfig);
+		
+		// --------------------------------------------------------------------
+		// Locate Synch Runtime Component for target OpenCM
+		// --------------------------------------------------------------------
+		Node synchNode = nodes.getOpencmSynchNode();
+		if (synchNode == null) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Synch - Send :: No OpenCM Synch Node defined.");
+		}
+		RuntimeComponent synchRuntimeComponent = synchNode.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SYNCH);
+		if (synchRuntimeComponent == null) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Synch - Send :: No OpenCM Synch Runtime Component defined.");
+		}
 		
 		FTPSClient ftp = new FTPSClient();
-		ftp.setConnectTimeout(synchConfig.getTimeout());
+		
+		// --------------------------------------------------------------------
+		// Set Timeout
+		// --------------------------------------------------------------------
+		int tout = 3000;
+		String stTimeout = opencmConfig.getFtps_timeout_ms();
+		if (stTimeout != null) {
+			tout = new Integer(stTimeout).intValue();
+		}
+		ftp.setConnectTimeout(tout);
 		
 		try {
 			// --------------------------------------------------------------------
 			// Open FTP Connection to target
 			// --------------------------------------------------------------------
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Opening FTPS Connection to : " + synchConfig.getRemote_opencm_ftps_server() + ":" + synchConfig.getRemote_opencm_ftps_port());
-			ftp.connect(synchConfig.getRemote_opencm_ftps_server(),synchConfig.getPort());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Opening FTPS Connection to : " + synchNode.getHostname() + ":" + synchRuntimeComponent.getPort());
+			ftp.connect(synchNode.getHostname(),new Integer(synchRuntimeComponent.getPort()).intValue());
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,ftp.getReplyString());
 		
 			// ---------------------------------
@@ -150,12 +193,12 @@ public final class synch
 				return; 
 			}
 			
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"FTPS Connection to " + synchConfig.getRemote_opencm_ftps_server() + " successful.");
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"FTPS Connection to " + synchNode.getHostname() + " successful.");
 			
 			// ---------------------------------
 			// Login
 			// ---------------------------------
-			ftp.login(synchConfig.getRemote_opencm_ftps_username(), synchConfig.getDecryptedPassword(stMaster));
+			ftp.login(synchRuntimeComponent.getUsername(), synchRuntimeComponent.getDecryptedPassword());
 			reply = ftp.getReplyCode();
 			if (!FTPReply.isPositiveCompletion(reply)) {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"FTPS Login Refused : Reply Code = " + reply + " - " + ftp.getReplyString());
@@ -163,7 +206,7 @@ public final class synch
 				return;
 			}
 			
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"FTPS Login with " + synchConfig.getRemote_opencm_ftps_username() + " successful.");
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"FTPS Login with " + synchRuntimeComponent.getUsername() + " successful.");
 			
 			ftp.setBufferSize(1000);
 			ftp.setFileType(FTP.BINARY_FILE_TYPE);

@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 
 import org.opencm.configuration.Configuration;
 import org.opencm.configuration.Node;
-import org.opencm.configuration.Instance;
+import org.opencm.configuration.RuntimeComponent;
 import org.opencm.extract.is.ISPackage;
 import org.opencm.extract.is.JCEPolicyInfo;
 import org.opencm.extract.is.JDBCAdapterConnection;
@@ -26,8 +26,6 @@ import com.wm.app.b2b.server.ServiceException;
 
 
 public class SpmOps {
-
-	public static String SPM_INSTANCE_NAME 			= "SPM";
 
 	private static String SPM_PROP_FILENAME 		= "properties.json"; 
 	private static String SPM_CONF_FILENAME 		= "ci-properties.json"; 
@@ -68,24 +66,24 @@ public class SpmOps {
 	private ExtractNode extractNode;
 	private HttpClient client;
 	private String baseURL;
-	private String masterPwd;
 	
-	public SpmOps(Configuration opencmConfig, Node node, String masterPwd) {
+	public SpmOps(Configuration opencmConfig, Node node) {
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," SpmOps - Preparing for Extraction " + node.getNode_name());
 		this.opencmConfig = opencmConfig;
 		this.opencmNode = node;
-		this.masterPwd = masterPwd;
 		
-		Instance spmInstance = opencmNode.getInstance(SPM_INSTANCE_NAME);
-		if (spmInstance == null) {
+		RuntimeComponent spmRuntimeComponent = opencmNode.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM);
+		if (spmRuntimeComponent == null) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," SpmOps - SPM Node cannot be retrieved from configuration:" + opencmNode.getNode_name());
 			return;
 		}
 		this.extractNode = new ExtractNode(opencmNode.getNode_name());
 		SimpleDateFormat time_formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		this.extractNode.setExtractionDate(time_formatter.format(System.currentTimeMillis()));
-		this.baseURL = spmInstance.getProtocol() + "://" + opencmNode.getHostname() + ":" + spmInstance.getPort();
+		this.baseURL = spmRuntimeComponent.getProtocol() + "://" + opencmNode.getHostname() + ":" + spmRuntimeComponent.getPort();
 		this.client = new HttpClient();
-		this.client.setCredentials(spmInstance.getUsername(), spmInstance.getDecryptedPassword(this.masterPwd));
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," SpmOps - Setting Credentials .... ");
+		this.client.setCredentials(spmRuntimeComponent.getUsername(), spmRuntimeComponent.getDecryptedPassword());
 	}
 
 	public ExtractNode getNode() {
@@ -149,71 +147,6 @@ public class SpmOps {
 		}
 	}
 	
-	public void persist() {
-		String rootPath = opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR; 
-		
-		if (this.extractNode.getPlatformInfo() == null) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Skipping Persistence for node ... " + this.extractNode.getAlias());
-			return;
-		}
-		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Persisting Node information for " + this.extractNode.getAlias());
-		// -----------------------------
-		// Create Server Directory
-		// -----------------------------
-		String stHostName = this.opencmNode.getUnqualifiedHostname();
-		String serverPath = rootPath + File.separator + stHostName;
-		if (!FileUtils.createDirectory(serverPath)) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Server Dir Could not be created - skipping Persistence");
-			return;
-		}
-		FileUtils.writeToFile(serverPath + File.separator + SPM_PROP_FILENAME, this.extractNode.getPlatformInfo());
-		 
-		// -----------------------------
-		// Remove Directory if it exists...
-		// -----------------------------
-		String nodePath = serverPath + File.separator + this.opencmNode.getNode_name();
-		FileUtils.removeDirectory(nodePath);
-					
-		// -----------------------------
-		// Create Node Directory
-		// -----------------------------
-		if (!FileUtils.createDirectory(nodePath)) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Node Dir Could not be created - skipping Persistence");
-			return;
-		}
-		String json = JsonUtils.convertJavaObjectToJson(this.extractNode);
-		FileUtils.writeToFile(nodePath + File.separator + SPM_PROP_FILENAME, json);
-		if ((this.extractNode.getAlias() != null) && this.extractNode.hasComponents()) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Number of Components:  " + this.extractNode.getComponents().size());
-			for (int c = 0; c < this.extractNode.getComponents().size(); c++) {
-				// -----------------------------
-				// Dump all components
-				// -----------------------------
-				ExtractComponent component = this.extractNode.getComponents().get(c);
-				if ((component.getName() != null) && component.hasInstances()) {
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Persisting Component " + component.getName());
-					String compPath = nodePath + File.separator + component.getName();
-					FileUtils.createDirectory(compPath);
-					FileUtils.writeToFile(compPath + File.separator + SPM_PROP_FILENAME, component.getInfo());
-					for (int i = 0; i < component.getInstances().size(); i++) {
-						// -----------------------------
-						// Dump all ExtractInstances
-						// -----------------------------
-						ExtractInstance instance = component.getInstances().get(i);
-						if ((instance.getName() != null) && (instance.getData() != null)) {
-							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Persisting Instance " + instance.getName());
-							String instPath = compPath + File.separator + instance.getName();
-							FileUtils.createDirectory(instPath);
-							FileUtils.writeToFile(instPath + File.separator + SPM_PROP_FILENAME, instance.getInfo());
-							FileUtils.writeToFile(instPath + File.separator + SPM_CONF_FILENAME, instance.getData());
-						}
-					}
-				}
-			}
-		}
-	}
-
 	private String getPlatformInfo() throws ServiceException {
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Getting PlatformInfo for " + this.extractNode.getAlias());
 		this.client.setURL(this.baseURL + SPM_URI_PLATFORM);
@@ -320,8 +253,8 @@ public class SpmOps {
 			// Include IS Additional extractions 
 			// ------------------------------------
 			if (componentName.startsWith("integrationServer-")) {
-				Instance isInstance = this.opencmNode.getInstance(componentName);
-				if (isInstance == null) {
+				RuntimeComponent isRuntimeComponent = this.opencmNode.getRuntimeComponent(componentName);
+				if (isRuntimeComponent == null) {
 					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING,"No Node Instance defined for " + componentName);
 				} else {
 					// Package information
@@ -409,8 +342,8 @@ public class SpmOps {
 	}
 
 	private String getISPackageInfo(ExtractComponent component) throws ServiceException {
-		Instance isInstance = this.opencmNode.getInstance(component.getName());
-		ScreenScraper isScreenScraper = new ScreenScraper(this.opencmConfig, this.opencmNode.getHostname(), isInstance, this.masterPwd);
+		RuntimeComponent isRuntimeComponent = this.opencmNode.getRuntimeComponent(component.getName());
+		ScreenScraper isScreenScraper = new ScreenScraper(this.opencmConfig, this.opencmNode.getHostname(), isRuntimeComponent);
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"getISPackageInfo :: " + component.getName());
 		LinkedList<ISPackage> llPackages = isScreenScraper.getPackages();
 		if (llPackages == null || llPackages.isEmpty()) {
@@ -420,16 +353,16 @@ public class SpmOps {
 	}
 
 	private String getJCEPolicyInfo(ExtractComponent component) throws ServiceException {
-		Instance isInstance = this.opencmNode.getInstance(component.getName());
-		ScreenScraper isScreenScraper = new ScreenScraper(this.opencmConfig, this.opencmNode.getHostname(), isInstance, this.masterPwd);
+		RuntimeComponent isRuntimeComponent = this.opencmNode.getRuntimeComponent(component.getName());
+		ScreenScraper isScreenScraper = new ScreenScraper(this.opencmConfig, this.opencmNode.getHostname(), isRuntimeComponent);
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"getJCEPolicyInfo :: " + component.getName());
 		JCEPolicyInfo jceInfo = isScreenScraper.getJCEInfo();
 		return JsonUtils.convertJavaObjectToJson(jceInfo);
 	}
 	
 	private String getSAPAdapterInfo(ExtractComponent component) throws ServiceException {
-		Instance isInstance = this.opencmNode.getInstance(component.getName());
-		ScreenScraper isScreenScraper = new ScreenScraper(this.opencmConfig, this.opencmNode.getHostname(), isInstance, this.masterPwd);
+		RuntimeComponent isRuntimeComponent = this.opencmNode.getRuntimeComponent(component.getName());
+		ScreenScraper isScreenScraper = new ScreenScraper(this.opencmConfig, this.opencmNode.getHostname(), isRuntimeComponent);
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"getSAPAdapterInfo :: " + component.getName());
 		LinkedList<SAPAdapterConnection> lladapters = isScreenScraper.getSAPAdapterConnections();
 		if (lladapters == null || lladapters.isEmpty()) {
@@ -439,8 +372,8 @@ public class SpmOps {
 	}
 
 	private String getJDBCAdapterInfo(ExtractComponent component) throws ServiceException {
-		Instance isInstance = this.opencmNode.getInstance(component.getName());
-		ScreenScraper isScreenScraper = new ScreenScraper(this.opencmConfig, this.opencmNode.getHostname(), isInstance, this.masterPwd);
+		RuntimeComponent isRuntimeComponent = this.opencmNode.getRuntimeComponent(component.getName());
+		ScreenScraper isScreenScraper = new ScreenScraper(this.opencmConfig, this.opencmNode.getHostname(), isRuntimeComponent);
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"getJDBCAdapterInfo :: " + component.getName());
 		LinkedList<JDBCAdapterConnection> llPackages = isScreenScraper.getJDBCAdapterConnections(this.opencmNode.getVersion());
 		if (llPackages == null || llPackages.isEmpty()) {
@@ -530,6 +463,71 @@ public class SpmOps {
 			}
 		}
 		return spmComponent;
+	}
+
+	public void persist() {
+		String rootPath = opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR; 
+		
+		if (this.extractNode.getPlatformInfo() == null) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Skipping Persistence for node ... " + this.extractNode.getAlias());
+			return;
+		}
+		
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Persisting Node information for " + this.extractNode.getAlias());
+		// -----------------------------
+		// Create Server Directory
+		// -----------------------------
+		String stHostName = this.opencmNode.getUnqualifiedHostname();
+		String serverPath = rootPath + File.separator + stHostName;
+		if (!FileUtils.createDirectory(serverPath)) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Server Dir Could not be created - skipping Persistence");
+			return;
+		}
+		FileUtils.writeToFile(serverPath + File.separator + SPM_PROP_FILENAME, this.extractNode.getPlatformInfo());
+		 
+		// -----------------------------
+		// Remove Directory if it exists...
+		// -----------------------------
+		String nodePath = serverPath + File.separator + this.opencmNode.getNode_name();
+		FileUtils.removeDirectory(nodePath);
+					
+		// -----------------------------
+		// Create Node Directory
+		// -----------------------------
+		if (!FileUtils.createDirectory(nodePath)) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Node Dir Could not be created - skipping Persistence");
+			return;
+		}
+		String json = JsonUtils.convertJavaObjectToJson(this.extractNode);
+		FileUtils.writeToFile(nodePath + File.separator + SPM_PROP_FILENAME, json);
+		if ((this.extractNode.getAlias() != null) && this.extractNode.hasComponents()) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Number of Components:  " + this.extractNode.getComponents().size());
+			for (int c = 0; c < this.extractNode.getComponents().size(); c++) {
+				// -----------------------------
+				// Dump all components
+				// -----------------------------
+				ExtractComponent component = this.extractNode.getComponents().get(c);
+				if ((component.getName() != null) && component.hasInstances()) {
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Persisting Component " + component.getName());
+					String compPath = nodePath + File.separator + component.getName();
+					FileUtils.createDirectory(compPath);
+					FileUtils.writeToFile(compPath + File.separator + SPM_PROP_FILENAME, component.getInfo());
+					for (int i = 0; i < component.getInstances().size(); i++) {
+						// -----------------------------
+						// Dump all ExtractInstances
+						// -----------------------------
+						ExtractInstance instance = component.getInstances().get(i);
+						if ((instance.getName() != null) && (instance.getData() != null)) {
+							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Persisting Instance " + instance.getName());
+							String instPath = compPath + File.separator + instance.getName();
+							FileUtils.createDirectory(instPath);
+							FileUtils.writeToFile(instPath + File.separator + SPM_PROP_FILENAME, instance.getInfo());
+							FileUtils.writeToFile(instPath + File.separator + SPM_CONF_FILENAME, instance.getData());
+						}
+					}
+				}
+			}
+		}
 	}
 
 

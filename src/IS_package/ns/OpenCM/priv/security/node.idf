@@ -14,8 +14,10 @@
     <value>java.util.LinkedList</value>
     <value>org.opencm.configuration.Configuration</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
+    <value>org.opencm.security.KeyUtils</value>
     <value>org.opencm.configuration.Nodes</value>
     <value>org.opencm.configuration.Node</value>
-    <value>org.opencm.configuration.Instance</value>
+    <value>org.opencm.configuration.RuntimeComponent</value>
+    <value>org.opencm.util.LogUtils</value>
   </array>
 </Values>

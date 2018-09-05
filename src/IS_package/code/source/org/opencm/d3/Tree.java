@@ -8,8 +8,7 @@ public class Tree {
 	private String name;
 	private String level;
 	private String assertionGroup;
-	private String cceEnv;
-	private String opencmEnv;
+	private String env;
 	private String spmURL;
 	private LinkedList<Child> children;
 	
@@ -36,19 +35,11 @@ public class Tree {
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public String getCceEnvironment() {
-		return this.cceEnv;
+	public String getEnvironment() {
+		return this.env;
 	}
-	public void setCceEnvironment(String env) {
-		this.cceEnv = env;
-	}
-	
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public String getOpencmEnvironment() {
-		return this.opencmEnv;
-	}
-	public void setOpencmEnvironment(String env) {
-		this.opencmEnv = env;
+	public void setEnvironment(String env) {
+		this.env = env;
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)

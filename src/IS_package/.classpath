@@ -25,5 +25,6 @@
 	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/commons-io-2.6.jar"/>
 	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/json-20180813.jar"/>
 	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/reportng-1.1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/openkeepass-0.8.2-wd.jar"/>
 	<classpathentry kind="output" path="code/classes"/>
 </classpath>

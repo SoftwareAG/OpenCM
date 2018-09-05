@@ -10,6 +10,7 @@ import com.wm.app.b2b.server.ServiceException;
 import java.io.File;
 import org.opencm.configuration.PkgConfiguration;
 import org.opencm.configuration.Configuration;
+import org.opencm.util.Cache;
 import org.opencm.util.PackageUtils;
 // --- <<IS-END-IMPORTS>> ---
 
@@ -26,6 +27,26 @@ public final class util
 
 	// ---( server methods )---
 
+
+
+
+	public static final void addToCache (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(addToCache)>> ---
+		// @sigtype java 3.5
+		// [i] field:0:required key
+		// [i] field:0:required value
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String	stKey = IDataUtil.getString( pipelineCursor, "key" );
+		String	stValue = IDataUtil.getString( pipelineCursor, "value" );
+		pipelineCursor.destroy();
+		Cache.getInstance().set(stKey, stValue);
+			
+		// --- <<IS-END>> ---
+
+                
+	}
 
 
 
@@ -137,7 +158,7 @@ public final class util
 		pipelineCursor.destroy();
 		
 		// pipeline
-		IDataCursor pipelineCursor_1 = pipeline.getCursor();
+		IDataCursor pipelineCursor_1 = pipeline.getCursor(); 
 		
 		try {
 			java.io.File fDirectory = new java.io.File(stDirectory);

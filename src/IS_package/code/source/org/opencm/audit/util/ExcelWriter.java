@@ -100,7 +100,7 @@ public class ExcelWriter {
 				if ((assConfig.getEnvironments() != null) && (assConfig.getEnvironments().size() > 0)) {
 					envs = assConfig.getEnvironments();
 				} else {
-					envs = opencmNodes.getAllOpencmEnvironments();
+					envs = opencmNodes.getAllEnvironments();
 				}
 
 		        // Create Title 2 Row with Environment names:

@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 import org.opencm.configuration.Configuration;
 import org.opencm.configuration.Node;
-import org.opencm.configuration.Instance;
+import org.opencm.configuration.RuntimeComponent;
 import org.opencm.util.HttpClient;
 import org.opencm.util.JsonUtils;
 import org.opencm.util.LogUtils;
@@ -31,12 +31,12 @@ public class CceOps {
 	private HttpClient client;
 	private String baseURL;
 
-	public CceOps(Configuration opencmConfig, Node node, String masterPwd) {
-		Instance cceInstance = node.getInstance(CCE_INSTANCE_NAME);
+	public CceOps(Configuration opencmConfig, Node node) {
+		RuntimeComponent cceInstance = node.getRuntimeComponent(CCE_INSTANCE_NAME);
 		this.opencmConfig = opencmConfig;
 		this.baseURL = cceInstance.getProtocol() + "://" + node.getHostname() + ":" + cceInstance.getPort();
 		this.client = new HttpClient();
-		this.client.setCredentials(cceInstance.getUsername(), cceInstance.getDecryptedPassword(masterPwd));
+		this.client.setCredentials(cceInstance.getUsername(), cceInstance.getDecryptedPassword());
 		this.client.setJsonContent();
 	}
 

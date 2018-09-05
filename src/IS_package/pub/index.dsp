@@ -27,7 +27,7 @@
 	<section id="canvasArea">
 		<div id="canvasLogo">
 			<!-- <h2><a class="aboutMenuLink" data-bpopup='{"content":"iframe","contentContainer":".aboutFrame","loadUrl":"/OpenCM/about/index.html"}' href="#">OpenCM Configuration Management</a><br/><span>v1.8.0</span></h2> -->
-			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.3</span></h2>
+			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.4</span></h2>
 		</div>
 		<div id="canvasTree"></div>
 	</section>
@@ -92,6 +92,7 @@
                     <li id="conf_Encrypt"><a href="javascript:;" onclick="performEncrypt();">Encrypt Endpoints</a></li>
                     <li id="conf_Decrypt"><a href="javascript:;" onclick="performDecrypt();">Decrypt Endpoints</a></li>
                     <li id="conf_GenerateCLI"><a href="javascript:;" onclick="performGenerateCLI();">Generate CCE CLI</a></li>
+                    <li id="conf_SynchSend"><a href="javascript:;" onclick="performSynchSend();">Synchronize :: Send</a></li>
                   </ul>
 			</li>
 			<!-- About Menu -->
@@ -103,8 +104,7 @@
             <h2 id="opencm_page"></h2>
             <div class="accordion-container" id="opencm-node-details">
                 <p class="propDetails" align="left">Assertion Group: <span id="ass_group"></span></p>
-                <p class="propDetails" align="left">CCE Environment: <span id="cce_env"></span></p>
-                <p class="propDetails" align="left">OpenCM Environment: <span id="opencm_env"></span></p>
+                <p class="propDetails" align="left">Environment: <span id="env"></span></p>
                 <p class="propDetails" align="left">SPM URL: <span id="spm_url"></span></p>
             </div>
 			<h3 class="accordion-trigger" id="selection-server-trigger">Server: <span id="cm_hostname"></span></h3>

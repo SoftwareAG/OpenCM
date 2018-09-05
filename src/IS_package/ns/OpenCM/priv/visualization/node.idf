@@ -37,12 +37,14 @@ bmVudENoaWxkKTsKCQl9Cgl9CglyZXR1cm4gY29tcG9uZW50Q2hpbGRyZW47Cgp9</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
     <value>org.opencm.configuration.Nodes</value>
     <value>org.opencm.configuration.Node</value>
-    <value>org.opencm.configuration.Instance</value>
+    <value>org.opencm.configuration.RuntimeComponent</value>
     <value>org.opencm.d3.Tree</value>
+    <value>org.opencm.extract.spm.SpmOps</value>
     <value>org.opencm.d3.Child</value>
     <value>org.opencm.util.FileUtils</value>
     <value>org.opencm.util.JsonUtils</value>
     <value>org.opencm.util.LogUtils</value>
     <value>org.opencm.util.PackageUtils</value>
+    <value>org.opencm.security.KeyUtils</value>
   </array>
 </Values>

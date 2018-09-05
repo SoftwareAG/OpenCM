@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import com.gargoylesoftware.htmlunit.WebClient;
 import org.opencm.configuration.Configuration;
-import org.opencm.configuration.Instance;
+import org.opencm.configuration.RuntimeComponent;
 import org.opencm.configuration.Node;
 import org.opencm.util.LogUtils;
 import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
@@ -22,19 +22,19 @@ public class ScreenScraper {
 	private HtmlUnitDriver driver;
 	private String baseURL;
 
-	public ScreenScraper(Configuration opencmConfig, String serverName, Instance isInstance, String masterPwd) {
+	public ScreenScraper(Configuration opencmConfig, String serverName, RuntimeComponent isRuntimeComponent) {
 		this.opencmConfig = opencmConfig;
 		this.driver = new HtmlUnitDriver(true) {
 		    protected WebClient modifyWebClient(WebClient client) {
 				WebClient modifiedClient = super.modifyWebClient(client);
 				modifiedClient.getOptions().setThrowExceptionOnScriptError(false);
 		        DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
-		        creds.addCredentials(isInstance.getUsername(), isInstance.getDecryptedPassword(masterPwd));
+		        creds.addCredentials(isRuntimeComponent.getUsername(), isRuntimeComponent.getDecryptedPassword());
 		        modifiedClient.setCredentialsProvider(creds); 
 		        return modifiedClient; 
 		    }
 		};
-		this.baseURL = isInstance.getProtocol() + "://" + serverName + ":" + isInstance.getPort();
+		this.baseURL = isRuntimeComponent.getProtocol() + "://" + serverName + ":" + isRuntimeComponent.getPort();
 	}
 	
 	public LinkedList<ISPackage> getPackages() {

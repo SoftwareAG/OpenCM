@@ -3,7 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
 <head>
-  <title>OpenCM 2-Node Audit - Fixes - [6] TEST_ESB_IS_V101_01 <=> PREP_ESB_IS_V101_01</title>
+  <title>OpenCM 2-Node Audit - IS Packages - [6] TEST_ESB_IS_V101_01 <=> PREP_ESB_IS_V101_01</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="description" content="TestNG unit test results." />
   <link href="reportng.css" rel="stylesheet" type="text/css" />
@@ -18,6 +18,102 @@
 
 
 
+  <table class="resultsTable">
+    <tr><th colspan="3" class="header failed">Failed Tests</th></tr>
+          <tr>
+        <td colspan="3" class="group">org.opencm.audit.assertion.TwoNodeTest</td>
+      </tr>
+            
+<tr>
+  <td class="method">
+                  OpenCM [version]
+      </td>
+  <td class="duration">
+    0.001s
+  </td>
+  <td class="result">
+        
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 1.7.1<br/>Value 02: 1.8.1</span><br />
+    
+        
+
+        <a href="javascript:toggleElement('exception-0', 'block')" title="Click to expand/collapse"><b>java.lang.AssertionError: expected [1.8.1] but found [1.7.1]</b></a><br />
+    <div class="stackTrace" id="exception-0">
+              org.testng.Assert.fail(Assert.java:96)<br />
+              org.testng.Assert.failNotEquals(Assert.java:776)<br />
+              org.testng.Assert.assertEqualsImpl(Assert.java:137)<br />
+              org.testng.Assert.assertEquals(Assert.java:118)<br />
+              org.testng.Assert.assertEquals(Assert.java:453)<br />
+              org.testng.Assert.assertEquals(Assert.java:463)<br />
+              org.opencm.audit.assertion.TwoNodeTest.assertProperty(TwoNodeTest.java:84)<br />
+              sun.reflect.GeneratedMethodAccessor646.invoke(Unknown Source)<br />
+              sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)<br />
+              java.lang.reflect.Method.invoke(Method.java:498)<br />
+              org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)<br />
+              org.testng.internal.Invoker.invokeMethod(Invoker.java:583)<br />
+              org.testng.internal.Invoker.invokeTestMethod(Invoker.java:719)<br />
+              org.testng.internal.Invoker.invokeTestMethods(Invoker.java:989)<br />
+              org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)<br />
+              org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)<br />
+              org.testng.TestRunner.privateRun(TestRunner.java:648)<br />
+              org.testng.TestRunner.run(TestRunner.java:505)<br />
+              org.testng.SuiteRunner.runTest(SuiteRunner.java:455)<br />
+              org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)<br />
+              org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)<br />
+              org.testng.SuiteRunner.run(SuiteRunner.java:364)<br />
+              org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)<br />
+              org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)<br />
+              org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)<br />
+              org.testng.TestNG.runSuitesLocally(TestNG.java:1137)<br />
+              org.testng.TestNG.runSuites(TestNG.java:1049)<br />
+              org.testng.TestNG.run(TestNG.java:1017)<br />
+              OpenCM.priv.twoNodeAudit.auditCustom(twoNodeAudit.java:469)<br />
+              sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br />
+              sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)<br />
+              sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)<br />
+              java.lang.reflect.Method.invoke(Method.java:498)<br />
+              com.wm.app.b2b.server.JavaService.baseInvoke(JavaService.java:404)<br />
+              com.wm.app.b2b.server.invoke.InvokeManager.process(InvokeManager.java:748)<br />
+              com.wm.app.b2b.server.util.tspace.ReservationProcessor.process(ReservationProcessor.java:39)<br />
+              com.wm.app.b2b.server.invoke.StatisticsProcessor.process(StatisticsProcessor.java:50)<br />
+              com.wm.app.b2b.server.invoke.ServiceCompletionImpl.process(ServiceCompletionImpl.java:243)<br />
+              com.wm.app.b2b.server.invoke.ValidateProcessor.process(ValidateProcessor.java:49)<br />
+              com.wm.app.b2b.server.invoke.PipelineProcessor.process(PipelineProcessor.java:171)<br />
+              com.wm.app.b2b.server.ACLManager.process(ACLManager.java:299)<br />
+              com.wm.app.b2b.server.invoke.DispatchProcessor.process(DispatchProcessor.java:34)<br />
+              com.wm.app.b2b.server.AuditLogManager.process(AuditLogManager.java:377)<br />
+              com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:626)<br />
+              com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:441)<br />
+              com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:397)<br />
+              com.wm.app.b2b.server.ServiceManager.invoke(ServiceManager.java:252)<br />
+              com.wm.app.b2b.server.BaseService.invoke(BaseService.java:229)<br />
+              com.wm.lang.flow.FlowInvoke.invoke(FlowInvoke.java:257)<br />
+              com.wm.lang.flow.FlowState.invokeNode(FlowState.java:535)<br />
+              com.wm.lang.flow.FlowState.step(FlowState.java:401)<br />
+              com.wm.lang.flow.FlowState.invoke(FlowState.java:372)<br />
+              com.wm.app.b2b.server.FlowSvcImpl.baseInvoke(FlowSvcImpl.java:1132)<br />
+              com.wm.app.b2b.server.invoke.InvokeManager.process(InvokeManager.java:748)<br />
+              com.wm.app.b2b.server.util.tspace.ReservationProcessor.process(ReservationProcessor.java:39)<br />
+              com.wm.app.b2b.server.invoke.StatisticsProcessor.process(StatisticsProcessor.java:50)<br />
+              com.wm.app.b2b.server.invoke.ServiceCompletionImpl.process(ServiceCompletionImpl.java:243)<br />
+              com.wm.app.b2b.server.invoke.ValidateProcessor.process(ValidateProcessor.java:49)<br />
+              com.wm.app.b2b.server.invoke.PipelineProcessor.process(PipelineProcessor.java:171)<br />
+              com.wm.app.b2b.server.ACLManager.process(ACLManager.java:299)<br />
+              com.wm.app.b2b.server.invoke.DispatchProcessor.process(DispatchProcessor.java:34)<br />
+              com.wm.app.b2b.server.AuditLogManager.process(AuditLogManager.java:377)<br />
+              com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:626)<br />
+              com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:441)<br />
+              com.wm.app.b2b.server.invoke.InvokeManager.invoke(InvokeManager.java:355)<br />
+              com.wm.app.b2b.server.dispatcher.trigger.Trigger.invokeService(Trigger.java:564)<br />
+              com.wm.app.b2b.server.dispatcher.trigger.Trigger.processMessage(Trigger.java:462)<br />
+              com.wm.app.b2b.server.dispatcher.trigger.DefaultTriggerTaskHelper.process(DefaultTriggerTaskHelper.java:255)<br />
+              com.wm.app.b2b.server.dispatcher.trigger.TriggerTask.run(TriggerTask.java:307)<br />
+              com.wm.util.pool.PooledThread.run(PooledThread.java:127)<br />
+              java.lang.Thread.run(Thread.java:748)<br />
+                </div>
+      </td>
+</tr>
+      </table>
 
 
   <table class="resultsTable">
@@ -28,14 +124,14 @@
             
 <tr>
   <td class="method">
-                  wMFix.ALL.SIN [version]
+                  Default [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0003-0257<br/>Value 02: 10.1.0.0003-0257</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -43,14 +139,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.BPMMetadata [version]
+                  Default [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0004-0514<br/>Value 02: 10.1.0.0004-0514</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.99<br/>Value 02: 10.1.0.0.99</span><br />
     
         
 
@@ -58,14 +154,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.Broker.SharedBundles [version]
+                  OpenCM [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 9.6.0.0009-0649<br/>Value 02: 9.6.0.0009-0649</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -73,14 +169,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.CAFRLib [version]
+                  WmART [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0004-0278<br/>Value 02: 10.1.0.0004-0278</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -88,14 +184,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.CentraSite.SharedLibs [version]
+                  WmART [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0012-0751<br/>Value 02: 10.1.0.0012-0751</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.99<br/>Value 02: 10.1.0.0.99</span><br />
     
         
 
@@ -103,14 +199,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.DEV.DigitalEventServicesLibraries [version]
+                  WmARTExtDC [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0003-0273<br/>Value 02: 10.1.0.0003-0273</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -118,14 +214,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.DEV.DigitalEventServicesRuntimeBundles [version]
+                  WmARTExtDC [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0003-0273<br/>Value 02: 10.1.0.0003-0273</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.76<br/>Value 02: 10.1.0.0.76</span><br />
     
         
 
@@ -133,14 +229,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.DEV.DigitalEventServicesSharedBundles [version]
+                  WmAssetPublisher [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0265<br/>Value 02: 10.1.0.0002-0265</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -148,14 +244,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.DesignerCPP [version]
+                  WmAssetPublisher [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0033<br/>Value 02: 10.1.0.0001-0033</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.99<br/>Value 02: 10.1.0.0.99</span><br />
     
         
 
@@ -163,14 +259,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.DesignerServiceDevelopment [version]
+                  WmCloud [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0006-0206<br/>Value 02: 10.1.0.0006-0206</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -178,14 +274,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.EDA.ERSharedBundles [version]
+                  WmCloud [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0005-0246<br/>Value 02: 10.1.0.0005-0246</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.99<br/>Value 02: 10.1.0.0.99</span><br />
     
         
 
@@ -193,14 +289,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.EDA.NERV [version]
+                  WmFlatFile [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0005-0246<br/>Value 02: 10.1.0.0005-0246</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -208,14 +304,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.EVS.CDH530 [version]
+                  WmFlatFile [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0126<br/>Value 02: 10.1.0.0001-0126</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.99<br/>Value 02: 10.1.0.0.99</span><br />
     
         
 
@@ -223,14 +319,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.EVS.Core [version]
+                  WmISExtDC [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0126<br/>Value 02: 10.1.0.0001-0126</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -238,14 +334,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.EVS.Core-nonosgi [version]
+                  WmISExtDC [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0120<br/>Value 02: 10.1.0.0001-0120</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.76<br/>Value 02: 10.1.0.0.76</span><br />
     
         
 
@@ -253,14 +349,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.EVS.DES [version]
+                  WmPublic [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0126<br/>Value 02: 10.1.0.0001-0126</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -268,14 +364,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.EVS.ER [version]
+                  WmPublic [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0100<br/>Value 02: 10.1.0.0001-0100</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.99<br/>Value 02: 10.1.0.0.99</span><br />
     
         
 
@@ -283,14 +379,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.EVS.ES232 [version]
+                  WmRoot [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0126<br/>Value 02: 10.1.0.0001-0126</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -298,14 +394,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.Eclipse [version]
+                  WmRoot [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 4.6.3.0001-0118<br/>Value 02: 4.6.3.0001-0118</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.99<br/>Value 02: 10.1.0.0.99</span><br />
     
         
 
@@ -313,14 +409,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.EmbeddedDatabaseScripts [version]
+                  WmTCDBAdapter [enabled]
       </td>
   <td class="duration">
-    0.000s
+    0.001s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0006-0026<br/>Value 02: 10.1.0.0006-0026</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -328,14 +424,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.NUMClient.CommonLibraries [version]
+                  WmTCDBAdapter [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0008-110585<br/>Value 02: 10.1.0.0008-110585</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0<br/>Value 02: 10.1.0.0</span><br />
     
         
 
@@ -343,14 +439,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.NUMRepository.SharedBundles [version]
+                  WmVCS [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0008-110585<br/>Value 02: 10.1.0.0008-110585</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -358,14 +454,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.OSGI.Agent [version]
+                  WmVCS [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0469<br/>Value 02: 10.1.0.0001-0469</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.99<br/>Value 02: 10.1.0.0.99</span><br />
     
         
 
@@ -373,14 +469,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.OSGI.Migration [version]
+                  WmWin32 [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0005-0325<br/>Value 02: 10.1.0.0005-0325</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: false<br/>Value 02: false</span><br />
     
         
 
@@ -388,14 +484,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.OSGI.Platform [version]
+                  WmWin32 [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0005-0540<br/>Value 02: 10.1.0.0005-0540</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.99<br/>Value 02: 10.1.0.0.99</span><br />
     
         
 
@@ -403,14 +499,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.SCGCommon.Audit [version]
+                  WmXSLT [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0207<br/>Value 02: 10.1.0.0001-0207</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -418,14 +514,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.SCGCommon.BPM [version]
+                  WmXSLT [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0479<br/>Value 02: 10.1.0.0002-0479</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 10.1.0.0.99<br/>Value 02: 10.1.0.0.99</span><br />
     
         
 
@@ -433,14 +529,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.SCGCommon.Broker.JavaApi [version]
+                  WxCM [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 9.6.0.0010-0706<br/>Value 02: 9.6.0.0010-0706</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -448,14 +544,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.SCGCommon.ISMigrationFramework [version]
+                  WxCM [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0002<br/>Value 02: 10.1.0.0001-0002</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 1.7.0<br/>Value 02: 1.7.0</span><br />
     
         
 
@@ -463,14 +559,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.SCGCommon.MWS [version]
+                  WxCM_Test [enabled]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0004-0278<br/>Value 02: 10.1.0.0004-0278</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: true<br/>Value 02: true</span><br />
     
         
 
@@ -478,389 +574,14 @@
 </tr>
 <tr>
   <td class="method">
-                  wMFix.SCGCommon.acdl [version]
+                  WxCM_Test [version]
       </td>
   <td class="duration">
     0.000s
   </td>
   <td class="result">
         
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0012<br/>Value 02: 10.1.0.0001-0012</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.SDRepository [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0007-0253<br/>Value 02: 10.1.0.0007-0253</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.SJP.Java64.W64 [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0011-0005<br/>Value 02: 10.1.0.0011-0005</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.SPM [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0012-0279<br/>Value 02: 10.1.0.0012-0279</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.SPMShared [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0012-0086<br/>Value 02: 10.1.0.0012-0086</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.SUMApi [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0009-0254<br/>Value 02: 10.1.0.0009-0254</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TDBCluster [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0032<br/>Value 02: 10.1.0.0002-0032</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TDBCommon [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0032<br/>Value 02: 10.1.0.0002-0032</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TDBConsole [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0032<br/>Value 02: 10.1.0.0002-0032</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TDBLibrariesEhcache [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0032<br/>Value 02: 10.1.0.0002-0032</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TDBLibrariesStore [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0032<br/>Value 02: 10.1.0.0002-0032</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TDBOSGIShared [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0032<br/>Value 02: 10.1.0.0002-0032</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TDBServer [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0032<br/>Value 02: 10.1.0.0002-0032</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TDBspm [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0032<br/>Value 02: 10.1.0.0002-0032</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TESOSGi [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 4.3.4.0008-0002<br/>Value 02: 4.3.4.0008-0002</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TPS.Commons [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0036<br/>Value 02: 10.1.0.0001-0036</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.TPS.XMLTools [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0037<br/>Value 02: 10.1.0.0001-0037</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.WSSCore [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0007-0692<br/>Value 02: 10.1.0.0007-0692</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.WSSOSGi [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0007-0692<br/>Value 02: 10.1.0.0007-0692</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.integrationServer.ART [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0009<br/>Value 02: 10.1.0.0002-0009</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.integrationServer.Core [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0007-0007<br/>Value 02: 10.1.0.0007-0007</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.integrationServer.FlatFile [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0003<br/>Value 02: 10.1.0.0002-0003</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.integrationServer.SPM [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0003-0001<br/>Value 02: 10.1.0.0003-0001</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.tcdb [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0008<br/>Value 02: 10.1.0.0002-0008</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.tppParsers [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0002-0036<br/>Value 02: 10.1.0.0002-0036</span><br />
-    
-        
-
-      </td>
-</tr>
-<tr>
-  <td class="method">
-                  wMFix.tppWS [version]
-      </td>
-  <td class="duration">
-    0.000s
-  </td>
-  <td class="result">
-        
-          <i>Method arguments: </i><span class="arguments"><br/>Value 01: 10.1.0.0001-0036<br/>Value 02: 10.1.0.0001-0036</span><br />
+          <i>Method arguments: </i><span class="arguments"><br/><i>integrationServer-default <=> integrationServer-default</i><br/>Value 01: 1.0<br/>Value 02: 1.0</span><br />
     
         
 

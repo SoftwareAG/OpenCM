@@ -46,6 +46,8 @@ public class Configuration {
     private String config_directory;
     private String cmdata_root;
     private String output_dir;
+    private EndpointConfiguration endpoint_config;
+    private String ftps_timeout_ms;
     private String debug_level;
     
     public Configuration() {
@@ -67,7 +69,6 @@ public class Configuration {
 		return null;
     }
     
-    
     public String getCmdata_root() {
         return this.cmdata_root;
     }
@@ -79,6 +80,18 @@ public class Configuration {
     }
     public void setOutput_dir(String path) {
         this.output_dir = path;
+    }
+    public EndpointConfiguration getEndpoint_config() {
+        return this.endpoint_config;
+    }
+    public void setEndpoint_config(EndpointConfiguration endpoint_cfg) {
+        this.endpoint_config = endpoint_cfg;
+    }
+    public String getFtps_timeout_ms() {
+        return this.ftps_timeout_ms;
+    }
+    public void setFtps_timeout_ms(String ms) {
+        this.ftps_timeout_ms = ms;
     }
     public String getDebug_level() {
         return this.debug_level;

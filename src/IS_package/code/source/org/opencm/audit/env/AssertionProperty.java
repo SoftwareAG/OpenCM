@@ -49,12 +49,12 @@ public class AssertionProperty {
     }
     
     public void addAssertionValue(Node opencmNode, AssertionValue av) {
-		if (!this.envs.containsKey(opencmNode.getOpencm_environment())) {
-			AssertionEnvironment ae = new AssertionEnvironment(opencmNode.getOpencm_environment());
+		if (!this.envs.containsKey(opencmNode.getEnvironment())) {
+			AssertionEnvironment ae = new AssertionEnvironment(opencmNode.getEnvironment());
 			ae.addAssertionValue(av);
 			this.envs.put(ae.getEnvironment(), ae);
 		} else {
-			this.envs.get(opencmNode.getOpencm_environment()).addAssertionValue(av);
+			this.envs.get(opencmNode.getEnvironment()).addAssertionValue(av);
 		}
     }
     

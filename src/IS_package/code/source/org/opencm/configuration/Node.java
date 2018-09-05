@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Node {
 	
-	
 	public static String NODE_VERSION_900 			= "V900";
 	public static String NODE_VERSION_960 			= "V960";
 	public static String NODE_VERSION_980 			= "V980";
@@ -23,11 +22,10 @@ public class Node {
 	public static String NODE_VERSION_106 			= "V106";
 
     private String node_name;
-    private String cce_environment;
-    private String opencm_environment;
+    private String environment;
     private String hostname;
     private String assertion_group;
-    private LinkedList<Instance> instances;
+    private LinkedList<RuntimeComponent> runtimeComponents;
     // Added during processing
     private String repoType;
     
@@ -40,17 +38,11 @@ public class Node {
     public void setNode_name(String name) {
         this.node_name = name;
     }
-    public String getCce_environment() {
-        return this.cce_environment;
+    public String getEnvironment() {
+        return this.environment;
     }
-    public void setCce_environment(String env) {
-        this.cce_environment = env;
-    }
-    public String getOpencm_environment() {
-        return this.opencm_environment;
-    }
-    public void setOpencm_environment(String env) {
-        this.opencm_environment = env;
+    public void setEnvironment(String env) {
+        this.environment = env;
     }
     public String getHostname() {
         return this.hostname;
@@ -73,18 +65,19 @@ public class Node {
     public void setAssertion_group(String group) {
         this.assertion_group = group;
     }
-    public LinkedList<Instance> getInstances() {
-        return this.instances;
+    public LinkedList<RuntimeComponent> getRuntimeComponents() {
+        return this.runtimeComponents;
     }
-    public void setInstances(LinkedList<Instance> instances) {
-        this.instances = instances;
+    public void setRuntimeComponents(LinkedList<RuntimeComponent> runtimeComponents) {
+        this.runtimeComponents = runtimeComponents;
     }
     
-    public Instance getInstance(String instanceName) {
-    	for (int i = 0; i < getInstances().size(); i++) {
-    		Instance nodeInstance = getInstances().get(i);
-    		if (nodeInstance.getName().equals(instanceName)) {
-    			return nodeInstance;
+    @JsonIgnore
+    public RuntimeComponent getRuntimeComponent(String rcName) {
+    	for (int i = 0; i < getRuntimeComponents().size(); i++) {
+    		RuntimeComponent nodeComp = getRuntimeComponents().get(i);
+    		if (nodeComp.getName().equals(rcName)) {
+    			return nodeComp;
     		}
     	}
         return null;
@@ -103,10 +96,9 @@ public class Node {
     	Node node = new Node();
 		node.setNode_name(getNode_name());
 		node.setAssertion_group(getAssertion_group());
-		node.setCce_environment(getCce_environment());
+		node.setEnvironment(getEnvironment());
 		node.setHostname(getHostname());
-		node.setInstances(getInstances());
-		node.setOpencm_environment(getOpencm_environment());
+		node.setRuntimeComponents(getRuntimeComponents());
 		return node;
     }
     

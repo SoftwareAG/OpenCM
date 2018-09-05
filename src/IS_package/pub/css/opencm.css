@@ -664,6 +664,10 @@ a#RightButton.highlighted:hover {
 #conf_GenerateCLI>a:before {
     content: "\2611"
 }
+#conf_SynchSend>a:before {
+    content: "\21C9"
+}
+
 #gravityOption>a:before {
     content: "\2299"
 }

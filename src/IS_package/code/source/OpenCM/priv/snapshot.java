@@ -41,7 +41,7 @@ public final class snapshot
 		// [i] field:0:required node
 		// pipeline
 		IDataCursor pipelineCursor = pipeline.getCursor();
-		String	node = IDataUtil.getString( pipelineCursor, "node" );
+		String	node = IDataUtil.getString( pipelineCursor, "node" ); 
 		pipelineCursor.destroy();
 		
 		

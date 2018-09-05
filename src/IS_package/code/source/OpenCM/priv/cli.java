@@ -16,10 +16,11 @@ import org.opencm.configuration.Configuration;
 import org.opencm.configuration.PkgConfiguration;
 import org.opencm.configuration.Nodes;
 import org.opencm.configuration.Node;
-import org.opencm.configuration.Instance;
+import org.opencm.configuration.RuntimeComponent;
 import org.opencm.extract.cce.CceOps;
 import org.opencm.extract.spm.SpmOps;
 import org.opencm.util.LogUtils;
+import org.opencm.security.KeyUtils;
 // --- <<IS-END-IMPORTS>> ---
 
 public final class cli
@@ -55,10 +56,22 @@ public final class cli
 		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
 		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
 		
+		// --------------------------------------------------------------------
+		// Ensure that master password is stored in cache
+		// --------------------------------------------------------------------
+		if (KeyUtils.getMasterPassword() == null) {
+			try {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Generate CLI: Master Pwd NULL - running startup service ... ");
+				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
+			} catch (Exception ex) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM cli:generate :: " + ex.getMessage());
+			}
+		}
+		
 		// -------------------------------------------------------------------- 
 		// Read in OpenCM Nodes Properties
 		// --------------------------------------------------------------------
-		Nodes nodes = Nodes.instantiate(opencmConfig);
+		Nodes nodes = Nodes.instantiate(opencmConfig); 
 		
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"CLI Generation - Starting Process ...... ");
 		
@@ -72,16 +85,16 @@ public final class cli
 		sb.append(System.lineSeparator());
 		
 		// Set CCE properties
-		Node cceNode = nodes.getNode("local");
+		Node cceNode = nodes.getCommandCentralNode();
 		if (cceNode == null) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"CLI Generation - No Node defined for \"local\"");
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"CLI Generation - No Command Central Node defined.");
 		}
-		Instance cceInstance = cceNode.getInstance(CceOps.CCE_INSTANCE_NAME);
-		if (cceInstance == null) {
+		RuntimeComponent cceRuntimeComponent = cceNode.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_CCE);
+		if (cceRuntimeComponent == null) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"CLI Generation - No CCE Instance defined for \"local\"");
 		}
-		String cceURL = cceInstance.getProtocol() + "://" + cceNode.getHostname() + ":" + cceInstance.getPort();
-		String cceUser = cceInstance.getUsername();
+		String cceURL = cceRuntimeComponent.getProtocol() + "://" + cceNode.getHostname() + ":" + cceRuntimeComponent.getPort();
+		String cceUser = cceRuntimeComponent.getUsername();
 		
 		sb.append("SET CCE_URL=" + cceURL + System.lineSeparator());
 		sb.append("SET CCE_USERNAME=" + cceUser + System.lineSeparator());
@@ -89,10 +102,10 @@ public final class cli
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
 		sb.append("rem      Defining CCE Environments .......... " + System.lineSeparator());
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
-		LinkedList<String> cceEnvironments = nodes.getAllCceEnvironments();
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Generating Environments ...... " + cceEnvironments.size());
-		for (int i = 0; i < cceEnvironments.size(); i++) {
-			String env = cceEnvironments.get(i);
+		LinkedList<String> environments = nodes.getAllEnvironments();
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Generating Environments ...... " + environments.size());
+		for (int i = 0; i < environments.size(); i++) {
+			String env = environments.get(i);
 			sb.append(".\\sagcc create landscape environments alias=" + env + " name=" + env + " description=\"" + env + " Environment\" -s %CCE_URL% -u %CCE_USER%" + System.lineSeparator());
 		}
 		sb.append(System.lineSeparator());
@@ -100,10 +113,10 @@ public final class cli
 		sb.append("rem                        Defining CCE Nodes  .......... " + System.lineSeparator());
 		sb.append("rem ==========================================================================" + System.lineSeparator());
 		
-		for (int i = 0; i < cceEnvironments.size(); i++) {
-			String env = cceEnvironments.get(i);
+		for (int i = 0; i < environments.size(); i++) {
+			String env = environments.get(i);
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  - Processing Nodes for Environment: " + env);
-			LinkedList<String> cceAssertionGroups = nodes.getAllAssertionGroupsForCceEnvironment(env);
+			LinkedList<String> cceAssertionGroups = nodes.getAllAssertionGroupsForEnvironment(env);
 			for (int a = 0; a < cceAssertionGroups.size(); a++) {
 				String assGroup = cceAssertionGroups.get(a);
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"    Processing Layer: " + assGroup);
@@ -111,15 +124,15 @@ public final class cli
 				sb.append("rem      [" + env + "] -> " + assGroup + " Layer" + System.lineSeparator());
 				sb.append("rem ----------------------------------------------------" + System.lineSeparator());
 				sb.append("echo \"Generating nodes for [" + env + "] -> " + assGroup + " Layer .... " + System.lineSeparator());
-				LinkedList<Node> cceAssertionGroupNodes = nodes.getNodesByGroupAndCceEnv(assGroup, env);
+				LinkedList<Node> cceAssertionGroupNodes = nodes.getNodesByGroupAndEnv(assGroup, env);
 				for (int n = 0; n < cceAssertionGroupNodes.size(); n++) {
 					Node node = cceAssertionGroupNodes.get(n);
 					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"      Processing Node: " + node.getNode_name());
-					Instance nodeInstance = node.getInstance(SpmOps.SPM_INSTANCE_NAME);
-					if (nodeInstance == null) {
+					RuntimeComponent nodeRuntimeComponent = node.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM);
+					if (nodeRuntimeComponent == null) {
 						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"CLI Generation - No SPM Instance defined for node " + node.getNode_name());
 					}
-					String spmURL = nodeInstance.getProtocol() + "://" + node.getHostname() + ":" + nodeInstance.getPort();
+					String spmURL = nodeRuntimeComponent.getProtocol() + "://" + node.getHostname() + ":" + nodeRuntimeComponent.getPort();
 					sb.append(".\\sagcc create landscape nodes alias=" + node.getNode_name() + " url=" + spmURL + " -s %CCE_URL% -u %CCE_USER%" + System.lineSeparator()); 
 					sb.append(".\\sagcc add landscape environments " + env + " nodes nodeAlias=" + node.getNode_name() + " -s %CCE_URL% -u %CCE_USER%" + System.lineSeparator()); 
 					sb.append(System.lineSeparator());

@@ -780,6 +780,5 @@
       "level" : "INSTANCE"
     } ]
   } ],
-  "cceEnvironment" : "Development",
-  "opencmEnvironment" : "Development"
+  "environment" : "Development"
 }
