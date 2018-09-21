@@ -1,0 +1,316 @@
+{
+  "name" : "ADM_CCE_V100_01",
+  "level" : "NODE",
+  "assertionGroup" : "CCE_V100",
+  "spmURL" : "https://cce_admin_server.opencm.org:8093/spm",
+  "children" : [ {
+    "name" : "NODE-PRODUCTS",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "ACDLDeployerSharedBundle",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "CCE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "CCE-CCplugins",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "CLI",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "CustomInstall",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "DatabaseComponentConfigurator",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "DatabaseScripts",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "embeddedDatabaseScripts",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "integrationServerMigrationFrameworkLib",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "jsw",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "LARSharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "license",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "LICRepository",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "LICSharedLibsJava",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "LICUtil",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "log4j",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "MfcAll",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "OSGI",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SCGCommon",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SCGCommonExt",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "sjp",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SPM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SUM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "TESOSGi",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppAnt",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppCommons",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppDB",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppGf",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppGfJaxb",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppMisc",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppModelling",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppParsers",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppSAML2",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppSEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppServlet",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppSpring",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppWS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "TPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "WDYSharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "WISSharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "WISSharedLibs",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "WSIddj",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "WSSOSGi",
+      "level" : "INSTANCE"
+    } ]
+  }, {
+    "name" : "OSGI-CCE",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "COMMON-JAVASYSPROPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JVM-OPTIONS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOCAL-USERS-Administrator",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOCAL-USERS-DEV_IS_01_Administrator",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOG-log_config.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-MEMORY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-defaultHttp",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-defaultHttps",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-defaultJmx",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-diagnostics",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-ssh",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SAG-INSTALL-DIR",
+      "level" : "INSTANCE"
+    } ]
+  }, {
+    "name" : "OSGI-CCE-ENGINE",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "COMMON-ADMINUI",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CREDENTIALS-DEFAULT_ADMINISTRATOR",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CREDENTIALS-NONE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CREDENTIALS-SDC_Hakan_Hansson",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CREDENTIALS-TRUSTED",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JAAS-jaas.config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LICENSE-CCE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LICLOC-CCE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-com.softwareag.platform.management.ssl.connection.properties",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-com.softwareag.plm.cce.monitoring.LandscapeMonitoringService.properties",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SIN-INTERNAL-GROUPS-groups.txt",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SIN-INTERNAL-ROLES-roles.txt",
+      "level" : "INSTANCE"
+    } ]
+  }, {
+    "name" : "OSGI-SPM",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "COMMON-JAVASYSPROPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JVM-OPTIONS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOCAL-USERS-Administrator",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOG-log_config.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-MEMORY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-defaultHttp",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-defaultHttps",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-defaultJmx",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-diagnostics",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-ssh",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SAG-INSTALL-DIR",
+      "level" : "INSTANCE"
+    } ]
+  }, {
+    "name" : "OSGI-SPM-ENGINE",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "com.softwareag.platform.management.common.inventory.InventoryService.pid",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "com.softwareag.platform.management.common.monitoring.BasicMonitoringService",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JAAS-jaas.config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOG-log_config.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-fix-SDC_MIRROR_webMethods_Fixes_10.0",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-IMAGE_webMethods_10.0_W64.zip",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-IMAGE_webMethods_Fixes_10.0_W64.zip",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-MCHHANSSON04-8092-fix-SDC_MIRROR_webMethods_Fixes_10.0-repository",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-MCHHANSSON04-8092-MIRROR_webMethods_10.0-repository",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-MCHHANSSON04-8092-SDC_MIRROR_webMethods_10.0-repository",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-sdc-hq.softwareag.com-dataservewebM100-repository",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-sdc.softwareag.com-updates-prodRepo",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-SDC_MIRROR_webMethods_10.0",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SIN-INTERNAL-GROUPS-groups.txt",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SIN-INTERNAL-ROLES-roles.txt",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SPM-NODEID",
+      "level" : "INSTANCE"
+    } ]
+  } ],
+  "environment" : "Administration"
+}

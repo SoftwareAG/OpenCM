@@ -1,1 +1,0 @@
-{"JNDI":{"@alias":"DEFAULT_IS_JNDI_PROVIDER","Description":"system generated JNDI provider alias","Provider":{"URL":"nsp://localhost:9000","InitialContextFactory":"com.pcbsys.nirvana.nSpace.NirvanaContextFactory","User":""}}}

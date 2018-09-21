@@ -15,21 +15,21 @@
           "level" : "NODE",
           "url" : "server=central_opencm_server&node=ADM_IS_V101_01",
           "hasBaseline" : false,
-          "hasRuntime" : false
+          "hasRuntime" : true
         } ]
       } ]
     }, {
-      "name" : "CCE_V101",
+      "name" : "CCE_V100",
       "level" : "ASS_GROUP",
       "children" : [ {
         "name" : "cce_admin_server",
         "level" : "SERVER",
         "children" : [ {
-          "name" : "ADM_CCE_V101_01",
+          "name" : "ADM_CCE_V100_01",
           "level" : "NODE",
-          "url" : "server=cce_admin_server&node=ADM_CCE_V101_01",
+          "url" : "server=cce_admin_server&node=ADM_CCE_V100_01",
           "hasBaseline" : false,
-          "hasRuntime" : false
+          "hasRuntime" : true
         } ]
       } ]
     } ]

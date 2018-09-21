@@ -1,16 +1,23 @@
 package org.opencm.util;
 
+import java.util.ArrayList;
+
 import org.apache.http.HttpEntity; 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.SSLContext;
@@ -31,9 +38,9 @@ import com.wm.app.b2b.server.ServiceException;
 
 public class HttpClient {
 
-	private int HTTP_CONNECTION_TIMEOUT = 10000;
-	private int HTTP_REQUEST_TIMEOUT = 10000;
-	private int HTTP_SOCKET_TIMEOUT = 10000;
+	private int HTTP_CONNECTION_TIMEOUT = 30000;
+	private int HTTP_REQUEST_TIMEOUT = 30000;
+	private int HTTP_SOCKET_TIMEOUT = 30000;
 	
 	private String url;
 	private String username;
@@ -45,6 +52,7 @@ public class HttpClient {
 	private boolean isJson = false;
 	private boolean isXmlOrText = false;
 
+	private ArrayList<BasicNameValuePair> params;
 	private CloseableHttpClient httpClient;
 	private CloseableHttpClient httpsClient;
 
@@ -150,6 +158,148 @@ public class HttpClient {
 		}
 	}
 
+	public void addParameter(String name, String value) {
+		if (this.params == null) {
+			this.params = new ArrayList<BasicNameValuePair>();
+		}
+		this.params.add(new BasicNameValuePair(name, value));
+	}
+	
+	public void flushParameters() {
+		this.params = null;
+	}
+	
+	public void post() throws ServiceException {
+		
+		try {
+			CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+			credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(this.username,this.password));
+			HttpClientContext localContext = HttpClientContext.create();
+			localContext.setCredentialsProvider(credentialsProvider);
+			
+			RequestConfig reqConfig = RequestConfig.custom()
+					.setConnectTimeout(HTTP_CONNECTION_TIMEOUT)
+					.setConnectionRequestTimeout(HTTP_REQUEST_TIMEOUT)
+					.setSocketTimeout(HTTP_SOCKET_TIMEOUT)
+					.build();
+			
+			CloseableHttpClient client;
+			if (this.isSSL) {
+				client = getHttpsClient();
+			} else {
+				client = getHttpClient();
+			}
+
+			HttpPost httpPost = new HttpPost(this.url);
+			httpPost.setConfig(reqConfig);
+			httpPost.addHeader("DoNotCreateSession", "true");
+			
+			if (this.params != null) {
+				httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+			}
+
+			CloseableHttpResponse httpResp = client.execute(httpPost,localContext);
+			
+			try {
+			    this.statusLine = httpResp.getStatusLine().toString();
+			    this.statusCode = httpResp.getStatusLine().getStatusCode();
+			    HttpEntity respEntity = httpResp.getEntity();
+			    this.response = EntityUtils.toString(respEntity);
+			    EntityUtils.consume(respEntity);
+			} finally {
+				httpResp.close();
+			}
+		} catch (Exception ex) {
+			throw new ServiceException("HttpClient :: " + ex.toString());
+		}
+	}
+
+	public void put() throws ServiceException {
+		
+		try {
+			CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+			credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(this.username,this.password));
+			HttpClientContext localContext = HttpClientContext.create();
+			localContext.setCredentialsProvider(credentialsProvider);
+			
+			RequestConfig reqConfig = RequestConfig.custom()
+					.setConnectTimeout(HTTP_CONNECTION_TIMEOUT)
+					.setConnectionRequestTimeout(HTTP_REQUEST_TIMEOUT)
+					.setSocketTimeout(HTTP_SOCKET_TIMEOUT)
+					.build();
+			
+			CloseableHttpClient client;
+			if (this.isSSL) {
+				client = getHttpsClient();
+			} else {
+				client = getHttpClient();
+			}
+
+			HttpPut httpPut = new HttpPut(this.url);
+			httpPut.setConfig(reqConfig);
+			httpPut.addHeader("DoNotCreateSession", "true");
+			
+			if (this.params != null) {
+				httpPut.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+			}
+
+			CloseableHttpResponse httpResp = client.execute(httpPut,localContext);
+			
+			try {
+			    this.statusLine = httpResp.getStatusLine().toString();
+			    this.statusCode = httpResp.getStatusLine().getStatusCode();
+			    HttpEntity respEntity = httpResp.getEntity();
+			    this.response = EntityUtils.toString(respEntity);
+			    EntityUtils.consume(respEntity);
+			} finally {
+				httpResp.close();
+			}
+		} catch (Exception ex) {
+			throw new ServiceException("HttpClient :: " + ex.toString());
+		}
+	}
+	
+	public void delete() throws ServiceException {
+		
+		try {
+			CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+			credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(this.username,this.password));
+			HttpClientContext localContext = HttpClientContext.create();
+			localContext.setCredentialsProvider(credentialsProvider);
+			
+			RequestConfig reqConfig = RequestConfig.custom()
+					.setConnectTimeout(HTTP_CONNECTION_TIMEOUT)
+					.setConnectionRequestTimeout(HTTP_REQUEST_TIMEOUT)
+					.setSocketTimeout(HTTP_SOCKET_TIMEOUT)
+					.build();
+			
+			CloseableHttpClient client;
+			if (this.isSSL) {
+				client = getHttpsClient();
+			} else {
+				client = getHttpClient();
+			}
+
+			HttpDelete httpDelete = new HttpDelete(this.url);
+			httpDelete.setConfig(reqConfig);
+			httpDelete.addHeader("DoNotCreateSession", "true");
+			
+			CloseableHttpResponse httpResp = client.execute(httpDelete,localContext);
+			
+			try {
+			    this.statusLine = httpResp.getStatusLine().toString();
+			    this.statusCode = httpResp.getStatusLine().getStatusCode();
+			    HttpEntity respEntity = httpResp.getEntity();
+			    this.response = EntityUtils.toString(respEntity);
+			    EntityUtils.consume(respEntity);
+			} finally {
+				httpResp.close();
+			}
+		} catch (Exception ex) {
+			throw new ServiceException("HttpClient :: " + ex.toString());
+		}
+	}
+	
 	public String getStatusLine() {
 		return this.statusLine;
 	}

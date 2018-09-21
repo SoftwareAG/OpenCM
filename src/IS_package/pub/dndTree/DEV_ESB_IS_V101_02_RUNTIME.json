@@ -106,6 +106,9 @@
       "name" : "COMMON-LOCAL-USERS-opencm",
       "level" : "INSTANCE"
     }, {
+      "name" : "COMMON-LOCAL-USERS-opencm_extracter",
+      "level" : "INSTANCE"
+    }, {
       "name" : "COMMON-LOCAL-USERS-opencm_synch",
       "level" : "INSTANCE"
     }, {
@@ -541,6 +544,9 @@
       "level" : "INSTANCE"
     }, {
       "name" : "SPM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SUM",
       "level" : "INSTANCE"
     }, {
       "name" : "tcdb",

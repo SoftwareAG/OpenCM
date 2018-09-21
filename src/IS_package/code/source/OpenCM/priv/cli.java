@@ -17,8 +17,6 @@ import org.opencm.configuration.PkgConfiguration;
 import org.opencm.configuration.Nodes;
 import org.opencm.configuration.Node;
 import org.opencm.configuration.RuntimeComponent;
-import org.opencm.extract.cce.CceOps;
-import org.opencm.extract.spm.SpmOps;
 import org.opencm.util.LogUtils;
 import org.opencm.security.KeyUtils;
 // --- <<IS-END-IMPORTS>> ---
@@ -85,7 +83,7 @@ public final class cli
 		sb.append(System.lineSeparator());
 		
 		// Set CCE properties
-		Node cceNode = nodes.getCommandCentralNode();
+		Node cceNode = nodes.getNode(opencmConfig.getCce_mgmt_node());
 		if (cceNode == null) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"CLI Generation - No Command Central Node defined.");
 		}

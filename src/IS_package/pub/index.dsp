@@ -27,7 +27,7 @@
 	<section id="canvasArea">
 		<div id="canvasLogo">
 			<!-- <h2><a class="aboutMenuLink" data-bpopup='{"content":"iframe","contentContainer":".aboutFrame","loadUrl":"/OpenCM/about/index.html"}' href="#">OpenCM Configuration Management</a><br/><span>v1.8.0</span></h2> -->
-			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.4</span></h2>
+			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.5</span></h2>
 		</div>
 		<div id="canvasTree"></div>
 	</section>
@@ -91,8 +91,9 @@
                     <li id="conf_UpdateTree"><a href="javascript:;" onclick="performTreeUpdate();">Refresh Tree</a></li>
                     <li id="conf_Encrypt"><a href="javascript:;" onclick="performEncrypt();">Encrypt Endpoints</a></li>
                     <li id="conf_Decrypt"><a href="javascript:;" onclick="performDecrypt();">Decrypt Endpoints</a></li>
-                    <li id="conf_GenerateCLI"><a href="javascript:;" onclick="performGenerateCLI();">Generate CCE CLI</a></li>
                     <li id="conf_SynchSend"><a href="javascript:;" onclick="performSynchSend();">Synchronize :: Send</a></li>
+                    <li id="conf_CceRefresh"><a href="javascript:;" onclick="performCceRefresh();">Command Central: Create All</a></li>
+                    <li id="conf_CceAddNode"><a href="javascript:;" onclick="performCceAddNode();">Command Central: Add Node</a></li>
                   </ul>
 			</li>
 			<!-- About Menu -->
@@ -112,6 +113,7 @@
                 <p class="propDetails" align="left">Operating System: <span id="cm_os_name"></span> (<span id="cm_os_code"></span>)</p>
                 <p class="propDetails" align="left">OS Version: <span id="cm_os_version"></span></p>
                 <p class="propDetails" align="left">CPU Cores: <span id="cm_server_cpuCores"></span></p>
+                <p class="propDetails" align="left">Extracted by: <span id="cm_server_extractAlias"></span></p>
             </div>
             <div class="accordion-container" id="no-cmdata-details">
 			  <span id="cm_no_cmdata">

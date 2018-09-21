@@ -47,6 +47,10 @@ public class Configuration {
     private String cmdata_root;
     private String output_dir;
     private EndpointConfiguration endpoint_config;
+    private String cce_mgmt_node;
+    private boolean cce_mgmt_enforce_extraction_node;
+    private String local_opencm_node;
+    private String target_opencm_node;
     private String ftps_timeout_ms;
     private String debug_level;
     
@@ -86,6 +90,30 @@ public class Configuration {
     }
     public void setEndpoint_config(EndpointConfiguration endpoint_cfg) {
         this.endpoint_config = endpoint_cfg;
+    }
+    public String getCce_mgmt_node() {
+        return this.cce_mgmt_node;
+    }
+    public void setCce_mgmt_node(String node) {
+        this.cce_mgmt_node = node;
+    }
+    public boolean getCce_mgmt_enforce_extraction_node() {
+        return this.cce_mgmt_enforce_extraction_node;
+    }
+    public void setCce_mgmt_enforce_extraction_node(Boolean node) {
+        this.cce_mgmt_enforce_extraction_node = node;
+    }
+    public String getLocal_opencm_node() {
+        return this.local_opencm_node;
+    }
+    public void setLocal_opencm_node(String node) {
+        this.local_opencm_node = node;
+    }
+    public String getTarget_opencm_node() {
+        return this.target_opencm_node;
+    }
+    public void setTarget_opencm_node(String node) {
+        this.target_opencm_node = node;
     }
     public String getFtps_timeout_ms() {
         return this.ftps_timeout_ms;

@@ -74,14 +74,19 @@ function notifyMissingLink(what) {
 }
 
 function extractWithProps() {
-	$.get( "/invoke/OpenCM.pub.dsp.snapshots/initiateSnapshot", { node: "PROPS" } );
-	$('#notification').html("<p>Runtime snapshot generation started....</p>");
-	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	if (confirm('Extract runtime information from all environment and nodes defined in extract.properties?')) {
+		$.get( "/invoke/OpenCM.pub.dsp.snapshots/initiateSnapshot", { node: "PROPS" } );
+		$('#notification').html("<p>Runtime snapshot generation started....</p>");
+		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	} else {
+		$('#notification').html("<p>Extraction cancelled ....</p>");
+		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	}
 }
 
 function extractNode() {
 	$.get( "/invoke/OpenCM.pub.dsp.snapshots/initiateSnapshot", { node: opencm_node } );
-	$('#notification').html("<p>Runtime snapshot generation started for " + opencm_node + "....</p>");
+	$('#notification').html("<p>Runtime extraction started for " + opencm_node + "....</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 
@@ -154,20 +159,44 @@ function performEncrypt() {
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 function performDecrypt() {
-	$.get( "/invoke/OpenCM.pub.dsp.configuration/decrypt");
-	$('#notification').html("<p>Decrypting Endpoints ....</p>");
+	if (confirm('Decrypt all passwords in the nodes.properties file?')) {
+		$.get( "/invoke/OpenCM.pub.dsp.configuration/decrypt");
+		$('#notification').html("<p>Decrypting Endpoints ....</p>");
+		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	} else {
+		$('#notification').html("<p>Decryption cancelled ....</p>");
+		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	}
+}
+function performCceRefresh() {
+	if (confirm('This will delete all existing enviornments and node definitions in Command Central and create new ones based on the OpenCM node definitions. Confirm to contine:')) {
+		$.get( "/invoke/OpenCM.pub.dsp.configuration/manageCCEnodes", { action: "refreshAll", node: null} );
+		$('#notification').html("<p>Creating all nodes and environments within Command Central ....</p>");
+		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	} else {
+		$('#notification').html("<p>CCE refresh cancelled ....</p>");
+		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	}
+}
+function performCceAddNode() {
+	$.get( "/invoke/OpenCM.pub.dsp.configuration/manageCCEnodes", { action: "generateNode", node: opencm_node} );
+	$('#notification').html("<p>Creating the " + opencm_node + " node within Command Central ....</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
-
 function performGenerateCLI() {
 	$.get( "/invoke/OpenCM.pub.dsp.configuration/generateCCE_CLI");
 	$('#notification').html("<p>Generating Command Central CLI for Node Definitions ....</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 function performSynchSend() {
-	$.get( "/invoke/OpenCM.pub.dsp.configuration/synchSend");
-	$('#notification').html("<p>Synchronizing runtime data to central OpenCM instance ....</p>");
-	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	if (confirm('Synchronize all locally extracted runtime information and send to target OpenCM component via FTPS?')) {
+		$.get( "/invoke/OpenCM.pub.dsp.configuration/synchSend");
+		$('#notification').html("<p>Synchronizing runtime data to central OpenCM instance ....</p>");
+		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	} else {
+		$('#notification').html("<p>Synchronization cancelled ....</p>");
+		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	}
 }
 
 // Get JSON data
@@ -781,6 +810,7 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 				$('#cm_os_code').empty().append(json.code);
 				$('#cm_os_version').empty().append(json.version);
 				$('#cm_server_cpuCores').empty().append(json.cpuCores);
+			    $('#cm_server_extractAlias').empty().append(json.extractAlias);
 			}
 		});
 		
@@ -937,12 +967,14 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 			$('#audit_PerformBaselineSingleAudit').hide();
 			$('#audit_PerformDefaultRuntimeAudit').hide();
 			$('#audit_PerformDefaultBaselineAudit').hide();
+			$('#conf_CceAddNode').hide();
 		} else {
 			$('#extractNodeMenu').show();
 			$('#promoteRuntimeMenu').show();
 			$('#audit_PerformBaselineSingleAudit').show();
 			$('#audit_PerformDefaultRuntimeAudit').show();
 			$('#audit_PerformDefaultBaselineAudit').show();
+			$('#conf_CceAddNode').show();
 		}
     }
 

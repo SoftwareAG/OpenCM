@@ -396,34 +396,6 @@ public class Nodes {
     }
     
     @JsonIgnore
-    public Node getCommandCentralNode() {
-    	// Retrieves the first node with a cce runtime component
-		for (int i = 0; i < getNodes().size(); i++) {
-			Node n = getNodes().get(i);
-			for (int rc = 0; rc < n.getRuntimeComponents().size(); rc++) {
-				if (n.getRuntimeComponents().get(rc).getName().equals(RuntimeComponent.RUNTIME_COMPONENT_NAME_CCE)) {
-					return n;
-				}
-			}
-		}
-        return null;
-    }
-    
-    @JsonIgnore
-    public Node getOpencmSynchNode() {
-    	// Retrieves the first node with an opencm synch runtime component
-		for (int i = 0; i < getNodes().size(); i++) {
-			Node n = getNodes().get(i);
-			for (int rc = 0; rc < n.getRuntimeComponents().size(); rc++) {
-				if (n.getRuntimeComponents().get(rc).getName().equals(RuntimeComponent.RUNTIME_COMPONENT_NAME_SYNCH)) {
-					return n;
-				}
-			}
-		}
-        return null;
-    }
-    
-    @JsonIgnore
     public String getEncryptedPassword(String nodeName, String rcName) {
     	Node node = getNode(nodeName);
 		for (int i = 0; i < node.getRuntimeComponents().size(); i++) {

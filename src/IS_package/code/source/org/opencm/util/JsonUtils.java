@@ -1,12 +1,13 @@
 package org.opencm.util;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.wm.app.b2b.server.ServiceException;
@@ -84,6 +85,16 @@ public class JsonUtils {
     	return null;
     }
     
+    public static String getJsonValue(File jsonFile, String stKey) {
+    	try {
+			ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+			return mapper.readTree(jsonFile).at(stKey).textValue();
+    	} catch (Exception e) {
+    		System.out.println("OpenCM [WARNING] : JsonUtils - getJsonValue: " + e.toString());
+    	}
+    	return null;
+    }
+    
     public static String getJsonValue(String jsonString, String stKey) {
     	try {
 			ObjectMapper mapper = new ObjectMapper(new JsonFactory());
@@ -94,5 +105,15 @@ public class JsonUtils {
     	return null;
     }
     
+    public static String addField(String jsonString, String jsonField, String stValue) {
+    	try {
+			ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+			JsonNode jn = mapper.readTree(jsonString);
+			return ((ObjectNode) jn).put(jsonField,stValue).toString();
+    	} catch (Exception e) {
+    		System.out.println("OpenCM [WARNING] : JsonUtils - addElement: " + e.toString());
+    	}
+    	return null;
+    }
     
 }

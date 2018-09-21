@@ -1,1 +1,0 @@
-{"@alias":"local","Transport":{"Host":"MCHHANSSON04.eur.ad.sag","Port":"5555"},"Auth":{"@type":"BASIC","User":"Administrator"},"ExtendedProperties":{"Property":[{"@name":"acl","$":"Administrators"},{"@name":"retryServer","$":""},{"@name":"keepalive","$":"1"},{"@name":"timeout","$":"5.0"}]}}

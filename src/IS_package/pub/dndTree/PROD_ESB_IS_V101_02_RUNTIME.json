@@ -106,6 +106,9 @@
       "name" : "COMMON-LOCAL-USERS-opencm",
       "level" : "INSTANCE"
     }, {
+      "name" : "COMMON-LOCAL-USERS-opencm_extracter",
+      "level" : "INSTANCE"
+    }, {
       "name" : "COMMON-LOCAL-USERS-opencm_synch",
       "level" : "INSTANCE"
     }, {
@@ -543,6 +546,9 @@
       "name" : "SPM",
       "level" : "INSTANCE"
     }, {
+      "name" : "SUM",
+      "level" : "INSTANCE"
+    }, {
       "name" : "tcdb",
       "level" : "INSTANCE"
     }, {
@@ -677,22 +683,6 @@
       "level" : "INSTANCE"
     }, {
       "name" : "SAG-INSTALL-DIR",
-      "level" : "INSTANCE"
-    } ]
-  }, {
-    "name" : "OSGI-IS_default-EventRouting",
-    "level" : "COMPONENT",
-    "children" : [ {
-      "name" : "Default",
-      "level" : "INSTANCE"
-    }, {
-      "name" : "EventTypeAssociations",
-      "level" : "INSTANCE"
-    }, {
-      "name" : "RuntimeConfiguration",
-      "level" : "INSTANCE"
-    }, {
-      "name" : "UniversalMessaging",
       "level" : "INSTANCE"
     } ]
   }, {

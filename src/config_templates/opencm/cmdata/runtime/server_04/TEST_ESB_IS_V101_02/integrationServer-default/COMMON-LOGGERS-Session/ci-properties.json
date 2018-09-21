@@ -1,1 +1,0 @@
-{"Logger":{"@alias":"Session","Name":"Session Logger","Enabled":"true","Mode":"SYNCHRONOUS","Guaranteed":"false","MaxQueueSize":"100000","Destination":"FILE","MaxRetryAttempts":"3","RetryInterval":"5","ExtendedProperties":{"Property":[{"@name":"QueueType","$":"lwq"},{"@name":"ConnectionAlias"},{"@name":"NumberOfReaders","$":"1"}]}}}

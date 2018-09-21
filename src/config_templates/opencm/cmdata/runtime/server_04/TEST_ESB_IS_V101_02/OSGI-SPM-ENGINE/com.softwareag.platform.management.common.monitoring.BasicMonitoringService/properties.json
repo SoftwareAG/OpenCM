@@ -1,1 +1,0 @@
-{"id":"com.softwareag.platform.management.common.monitoring.BasicMonitoringService","configurationTypeId":"COMMON-SYSPROPS","displayName":"Monitoring Settings","description":"Monitoring service settings","runtimeComponentId":"OSGI-SPM-ENGINE","encoding":"UTF-8","attributes":{"entry":{"key":"updateStatus"}}}

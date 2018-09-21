@@ -61,6 +61,8 @@ public class SpmOps {
 	public static String SPM_INST_SAP_CONNS 		= "SAP-ADAPTERS";
 	public static String SPM_INST_JDBC_CONNS 		= "JDBC-ADAPTERS"; 
 
+	private static String SPM_JSONFIELD_EXTRACT_ALIAS	= "extractAlias"; 
+	
 	private Configuration opencmConfig;
 	private Node opencmNode;
 	private ExtractNode extractNode;
@@ -168,7 +170,18 @@ public class SpmOps {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,"getPlatformInfo :: " + client.getURL() + " - " + client.getStatusLine());
 			return null;
 		}
-		return client.getResponse();
+		
+		// -----------------------------------------------------
+		// Add Local OpenCM node name to platform info
+		// -----------------------------------------------------
+		String platformInfo = client.getResponse();
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Platform INFO: " + platformInfo);
+		String localOpencmNode = opencmConfig.getLocal_opencm_node();
+		if (localOpencmNode == null) {
+			// default
+			localOpencmNode = "OPENCM";
+		}
+		return JsonUtils.addField(platformInfo, SPM_JSONFIELD_EXTRACT_ALIAS, localOpencmNode);
 	}
 
 	private String getNodeInfo() throws ServiceException {
@@ -531,4 +544,21 @@ public class SpmOps {
 	}
 
 
+	public static boolean isExtractionLocal(Configuration opencmConfig, String serverPath) {
+		
+		File serverProps = new File(serverPath + File.separator + SpmOps.SPM_PROP_FILENAME);
+		if (!serverProps.exists()) {
+			return false;
+		}
+		try {
+			String extractNode = JsonUtils.getJsonValue(serverProps,"/" + SPM_JSONFIELD_EXTRACT_ALIAS);
+			if ((extractNode != null) && extractNode.equals(opencmConfig.getLocal_opencm_node())) {
+				return true;
+			}
+		} catch (Exception ex) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"SpmOps :: isExtractionLocal :: " + ex.getMessage());
+		}
+
+		return false;
+	}
 }

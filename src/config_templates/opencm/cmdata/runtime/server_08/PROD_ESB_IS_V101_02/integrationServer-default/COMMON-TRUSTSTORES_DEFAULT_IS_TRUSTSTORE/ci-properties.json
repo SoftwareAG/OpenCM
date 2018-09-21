@@ -1,1 +1,0 @@
-{"Truststore":{"@alias":"DEFAULT_IS_TRUSTSTORE","Description":"Default truststore alias for Integration Server.","Type":"JKS","Provider":"SUN","Location":"..\\..\\..\\common\\conf\\platform_truststore.jks","Password":"","ExtendedProperties":{"Property":[{"@name":"isLoaded","$":"true"},{"@name":"certficateAliases","$":"ssos"}]}}}

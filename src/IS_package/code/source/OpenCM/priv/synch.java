@@ -19,6 +19,7 @@ import org.opencm.configuration.Configuration;
 import org.opencm.configuration.Node;
 import org.opencm.configuration.Nodes;
 import org.opencm.configuration.RuntimeComponent;
+import org.opencm.extract.spm.SpmOps;
 import org.opencm.configuration.PkgConfiguration;
 import org.opencm.util.LogUtils;
 import org.opencm.util.ZipUtils;
@@ -154,13 +155,15 @@ public final class synch
 		// --------------------------------------------------------------------
 		// Locate Synch Runtime Component for target OpenCM
 		// --------------------------------------------------------------------
-		Node synchNode = nodes.getOpencmSynchNode();
+		Node synchNode = nodes.getNode(opencmConfig.getTarget_opencm_node());
 		if (synchNode == null) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Synch - Send :: No OpenCM Synch Node defined.");
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Synch - Send :: No OpenCM Target Synch Node defined.");
+			return;
 		}
 		RuntimeComponent synchRuntimeComponent = synchNode.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SYNCH);
 		if (synchRuntimeComponent == null) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Synch - Send :: No OpenCM Synch Runtime Component defined.");
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Synch - Send :: No OpenCM Synch Runtime Component for FTPS defined.");
+			return;
 		}
 		
 		FTPSClient ftp = new FTPSClient();
@@ -231,6 +234,15 @@ public final class synch
 			for (int i = 0; i < dirs.size(); i++) {
 				File serverDir = new File(runtimeDir + File.separator + dirs.get(i));
 				if (!serverDir.exists() || !serverDir.isDirectory()) {
+					continue;
+				}
+				
+				// ------------------------------------------------------
+				// Only send nodes that are considered "local" here
+				// I.e. to support bi-directional transfer, we only send what was extracted here
+				// ------------------------------------------------------
+				if (!SpmOps.isExtractionLocal(opencmConfig, serverDir.getPath())) {
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," -- Ignoring non-local snapshot data :: " + serverDir.getName());
 					continue;
 				}
 				

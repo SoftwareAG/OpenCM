@@ -1,7 +1,0 @@
-{
-  "installTime" : "2017-10-18T09:24:16.856+02:00",
-  "version" : "10.1.0.0.217",
-  "platformInfo" : "{\"code\":\"W64\",\"displayName\":\"Windows 7\",\"version\":\"6.1\",\"cpuArchitecture\":\"amd64\",\"cpuCores\":\"4\",\"cpuType\":\"PCC\",\"hardwareIds\":[\"00-50-56-C0-00-01\",\"00-50-56-C0-00-08\",\"48-45-20-46-FE-B0\"],\"latestMeteringTimeStamp\":\"<none>\",\"logicalCpuCores\":\"4\",\"physicalCpuCores\":\"2\"}",
-  "alias" : "TEST_ESB_IS_V101_01",
-  "extractionDate" : "2018-05-18 12:27:25"
-}

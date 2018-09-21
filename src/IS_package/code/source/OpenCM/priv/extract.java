@@ -106,7 +106,7 @@ public final class extract
 				}
 				if ((extractProps.getNodes() != null) && !extractProps.getNodes().isEmpty()) {
 					for (int i = 0; i < extractProps.getNodes().size(); i++) { 
-						Node opencmNode = nodes.getNode(extractProps.getNodes().get(i)); 
+						Node opencmNode = nodes.getNode(extractProps.getNodes().get(i));
 						if (opencmNode == null) {
 							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"No OpenCM Node defined for .. " + extractProps.getNodes().get(i));
 						} else {
