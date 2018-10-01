@@ -1,0 +1,1 @@
+{"id":"COMMON-JAAS-REALMS-IS_KERBEROS_OUTBOUND","configurationTypeId":"COMMON-JAAS-REALMS","displayName":"IS_KERBEROS_OUTBOUND","description":"JAAS Realms configuration type","runtimeComponentId":"integrationServer-default","encoding":"UTF-8","attributes":null}

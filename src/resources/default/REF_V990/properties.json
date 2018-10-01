@@ -1,0 +1,7 @@
+{
+  "installTime" : "2018-05-08T09:35:22.840+02:00",
+  "version" : "9.9.0.0.208",
+  "platformInfo" : "{\"code\":\"W64\",\"displayName\":\"Windows Server 2008 R2\",\"version\":\"6.1\",\"cpuArchitecture\":\"amd64\",\"cpuCores\":\"4\",\"cpuType\":\"PCB\",\"hardwareIds\":\"00-50-56-9D-EC-4B\",\"latestMeteringTimeStamp\":\"<none>\",\"extractAlias\":\"DOPS_ADM_IS_V101_01\"}",
+  "alias" : "DOPS_REF_V990_01",
+  "extractionDate" : "2018-09-26 10:55:22"
+}

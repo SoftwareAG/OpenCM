@@ -1,1 +1,0 @@
-{"Port":{"@alias":"jmx","Enabled":"true","Type":"DIAGNOSTIC","Number":"18220","Protocol":"JMX","BindAddress":"0.0.0.0"}}

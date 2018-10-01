@@ -1,0 +1,1 @@
+{"id":"COMMON-JAAS-jaas.config","configurationTypeId":"COMMON-JAAS","displayName":"JAAS Settings","description":"Java Authentication and Authorization (JAAS) settings","url":"file:/F:/SoftwareAG/DOPS_REF_V990_01/profiles/SPM/configuration/security/jaas.config","runtimeComponentId":"OSGI-SPM-ENGINE","encoding":"UTF-8","attributes":{"entry":{"key":"updateStatus"}}}

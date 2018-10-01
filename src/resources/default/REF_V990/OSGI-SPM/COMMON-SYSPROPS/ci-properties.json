@@ -1,0 +1,1 @@
+{"java.io.tmpdir":"\"%OSGI_INSTALL_AREA%/workspace/temp\"","osgi.noShutdown":"true","osgi.install.area":"\"%OSGI_INSTALL_AREA%\"","com.softwareg.plm.sum.cc.override.resolve.validation":"false","java.util.logging.config.file":"\"%OSGI_INSTALL_AREA%/configuration/logging/spm_logging.properties\"","eclipse.ignoreApp":"true"}

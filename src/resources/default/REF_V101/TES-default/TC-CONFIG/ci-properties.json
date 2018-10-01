@@ -1,0 +1,1 @@
+{"tc:tc-config":{"servers":{"server":{"data":"../work/terracotta/server-data","host":"tl-as142.tasp.tclidl.net","name":"DOPS_REF_V101_01","offheap":{"maxDataSize":"512m","enabled":true},"logs":"../work/terracotta/server-data"},"restartable":{"enabled":true}},"xmlns:tc":"http://www.terracotta.org/config"}}

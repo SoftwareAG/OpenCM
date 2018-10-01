@@ -1,0 +1,1 @@
+{"ZoneDefaultCanSend":"true","MaximumReconnectTime":"20000","Timeout":"120000","ZoneDefaultCanRecv":"true","MinimumReconnectTime":"1000","KeepAliveResetTime":"35000","EstablishmentTime":"30000","WriteDelayTimeout":"30000","KeepAliveInterval":"10000","WriteDelayOnFail":"false"}

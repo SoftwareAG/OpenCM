@@ -1,0 +1,1 @@
+{"id":"Default","configurationTypeId":"SERVICE-GROUP","displayName":"Default","description":"The default event group includes all event types that are not added to other defined groups","runtimeComponentId":"OSGI-MWS_default-EventRouting","attributes":null}

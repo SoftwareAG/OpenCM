@@ -1,0 +1,1 @@
+{"ExitOnMemoryError":"true","ExitOnInterfaceFailure":"false","ExitOnDiskIOError":"true","EmergencyThreshold":"94","ThrottleAllPublishersAtThreshold":"true","IOSleepTime":"500","EnableJMX":"false","WarningThreshold":"85","MemoryMonitoring":"2000","IORetryCount":"10","AutoThreadDumpOnExit":"true","JMXRMIServerURLString":"service:jmx:rmi:///jndi/rmi://localhost:9999/server"}

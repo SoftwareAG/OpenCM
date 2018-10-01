@@ -1,0 +1,1 @@
+{"id":"Default","configurationTypeId":"SERVICE-GROUP-DES","displayName":"Default","description":"The default event group includes all event types that are not added to other defined groups","runtimeComponentId":"OSGI-IS_default-DigitalEventServices","attributes":null}

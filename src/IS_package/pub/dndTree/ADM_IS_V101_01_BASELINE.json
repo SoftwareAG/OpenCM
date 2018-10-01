@@ -1,8 +1,0 @@
-{
-  "name" : "ADM_IS_V101_01",
-  "level" : "NODE",
-  "assertionGroup" : "ADM_IS_V101",
-  "spmURL" : "https://central_opencm_server.opencm.org:10193/spm",
-  "children" : null,
-  "environment" : "Administration"
-}

@@ -1,0 +1,1 @@
+{"id":"COMMON-COMPONENT-ENDPOINTS-TASKENGINE","configurationTypeId":"COMMON-COMPONENT-ENDPOINTS","displayName":"Task Engine Endpoint","description":"Connection to Integration Server from Task Engine","runtimeComponentId":"TaskEngineRuntime-default","attributes":null}

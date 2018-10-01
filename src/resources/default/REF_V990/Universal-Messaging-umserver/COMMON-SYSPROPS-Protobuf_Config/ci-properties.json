@@ -1,0 +1,1 @@
+{"ProtobufDescriptorsOutputDir":"C:\\SoftwareAG\\nirvana\\server\\nirvana/plugins/htdocs/","ProtobufDescriptorsInputDir":"C:\\SoftwareAG\\nirvana\\server\\nirvana/plugins/ProtobufDescriptors","CacheEventFilter":"true","MinimumProtobufBuilders":"2","useChannelLevelProtobufCache":"true","UpdateDescriptorsInterval":"60000","MaximumProtobufBuilders":"4","FilterProtobufEvents":"true"}

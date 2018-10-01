@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <value name="node_type">interface</value>
+  <value name="node_subtype">unknown</value>
+  <value name="node_nsName">OpenCM.priv.cce</value>
+  <value name="is_public">false</value>
+  <value name="shared">cHJpdmF0ZSBzdGF0aWMgdm9pZCBnZW5lcmF0ZU5vZGUoQ29uZmlndXJhdGlvbiBvcGVuY21Db25m
+aWcsIENjZVV0aWxzIGNjZVV0aWxzLCBOb2RlIG9wZW5jbU5vZGUsIFN0cmluZyBlbnZBbGlhcykg
+ewoJaWYgKCFvcGVuY21Ob2RlLmdldE5vZGVfbmFtZSgpLmVxdWFscyhvcGVuY21Db25maWcuZ2V0
+Q2NlX21nbXRfbm9kZSgpKSkgewoJCWNjZVV0aWxzLmRlbGV0ZU5vZGUob3BlbmNtTm9kZS5nZXRO
+b2RlX25hbWUoKSk7Cgl9CglSdW50aW1lQ29tcG9uZW50IHNwbVJ1bnRpbWUgPSBvcGVuY21Ob2Rl
+LmdldFJ1bnRpbWVDb21wb25lbnQoUnVudGltZUNvbXBvbmVudC5SVU5USU1FX0NPTVBPTkVOVF9O
+QU1FX1NQTSk7CglTdHJpbmcgc3BtVXJsID0gc3BtUnVudGltZS5nZXRQcm90b2NvbCgpICsgIjov
+LyIgKyBvcGVuY21Ob2RlLmdldEhvc3RuYW1lKCkgKyAiOiIgKyBzcG1SdW50aW1lLmdldFBvcnQo
+KTsKCUxvZ1V0aWxzLmxvZyhvcGVuY21Db25maWcuZ2V0RGVidWdfbGV2ZWwoKSxDb25maWd1cmF0
+aW9uLk9QRU5DTV9MT0dfSU5GTywiICAgLSBDcmVhdGluZyBOb2RlIDo6ICIgKyBvcGVuY21Ob2Rl
+LmdldE5vZGVfbmFtZSgpKTsKCWlmIChvcGVuY21Ob2RlLmdldE5vZGVfbmFtZSgpLmVxdWFscyhv
+cGVuY21Db25maWcuZ2V0Q2NlX21nbXRfbm9kZSgpKSkgewoJCS8vIFVwZGF0ZSB0aGUgbG9jYWwg
+Q0NFIG5vZGUgYWxpYXMgdG8gbWF0Y2ggdGhlIE9wZW5DTSBDQ0Ugbm9kZSBhbGlhcwoJCWNjZVV0
+aWxzLnVwZGF0ZU5vZGVOYW1lKCJsb2NhbCIsIG9wZW5jbU5vZGUuZ2V0Tm9kZV9uYW1lKCkpOwoJ
+CWNjZVV0aWxzLmFzc2lnbk5vZGVUb0VudihlbnZBbGlhcywgImxvY2FsIik7Cgl9IGVsc2UgewoJ
+CWNjZVV0aWxzLmNyZWF0ZU5vZGUob3BlbmNtTm9kZS5nZXROb2RlX25hbWUoKSwgc3BtVXJsKTsK
+CQljY2VVdGlscy5hc3NpZ25Ob2RlVG9FbnYoZW52QWxpYXMsIG9wZW5jbU5vZGUuZ2V0Tm9kZV9u
+YW1lKCkpOwoJfQoJCn0=</value>
+  <value name="encodeutf8">true</value>
+  <value name="extends"></value>
+  <array name="implements" type="value" depth="1">
+  </array>
+  <array name="imports" type="value" depth="1">
+    <value>java.io.File</value>
+    <value>java.util.LinkedList</value>
+    <value>org.opencm.configuration.Configuration</value>
+    <value>org.opencm.configuration.PkgConfiguration</value>
+    <value>org.opencm.configuration.Nodes</value>
+    <value>org.opencm.configuration.Node</value>
+    <value>org.opencm.configuration.RuntimeComponent</value>
+    <value>org.opencm.extract.spm.SpmOps</value>
+    <value>org.opencm.util.CceUtils</value>
+    <value>org.opencm.util.LogUtils</value>
+    <value>org.opencm.security.KeyUtils</value>
+  </array>
+</Values>

@@ -1,0 +1,1 @@
+{"id":"COMMON-JAAS-jaas.config","configurationTypeId":"COMMON-JAAS","displayName":"JAAS Settings","description":"Java Authentication and Authorization (JAAS) settings","runtimeComponentId":"OSGI-SPM-ENGINE","encoding":"UTF-8","attributes":{"entry":{"key":"updateStatus"}}}

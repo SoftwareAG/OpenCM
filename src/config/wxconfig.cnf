@@ -1,0 +1,72 @@
+# This is a new config file. Please add new entries in the following format
+# key = value
+#
+#
+# Below are some examples for system properties that might be useful
+#
+# jvm.os.name=${sys:os.name}
+# jvm.file.encoding=${sys:file.encoding}
+# jvm.file.separator=${sys:file.separator}
+# jvm.java.home=${sys:java.home}
+#
+# wm.installRoot=${sys:com.softwareag.install.root}
+# wm.homeDir=${sys:WM_HOME}
+# wm.is.homeDir=${sys:watt.server.homeDir}
+# wm.is.hostname=${sys:wxConfig.hostname} 
+# wm.is.primaryPort=${sys:watt.server.port}
+# wm.is.diagPort=${sys:watt.server.diagnostic.port}
+# wm.is.threadPool=${sys:watt.server.threadPool}
+# wm.is.samlResolver=${sys:watt.server.auth.samlResolver}
+# wm.is.illegalNSChars=${sys:watt.server.illegalNSChars}
+
+
+# Auto-Setup
+# ==================
+
+# Un-comment the following line to turn on auto-setup
+#wx.config.autoSetup.execute=true
+
+# Number of milliseconds to wait in the background before starting the processing
+# of adapter configurations on package startup. This is the global default value.
+# It is possible to have a different value per package using the same key in the
+# repsective package's configuration
+#wx.config.autoSetup.adapter.sleepMillis.startup=2000
+
+
+# Package Dependency
+# ==================
+#
+# By default WxConfig automatically adds a dependency to itself for
+# packages that use WxConfig. Until v1.3 that dependency was
+# NOT version-specific ("*.*" used as version number). From v1.4
+# onwards the dependency will be set to the version of WxConfig.
+# So if you are running WxConfig 1.4.x, all packages will get
+# a dependency to "1.4". Also, when you upgrade to WxConfig 1.5.x,
+# the dependency will be upgraded to "1.5".
+#
+# It is possible, though generally not
+# recommended, to instruct WxConfig that it should NOT change an
+# existing, not version-specific depedency. So if package "A" already
+# has a dependency to "WxConfig (*.*)" the latter will not be
+# touched. The net result will be that package "A" runs with all
+# versions of WxConfig. In that case it must be ensured manually,
+# that no features of WxConfig are used that are newer than the
+# version run on any Integration Server.
+# To enable the upgrade skip, when a general dependency exists,
+# uncomment the following line.
+#wx.config.dependency.update.skip.anyVersion=true
+
+# In addition the creation and/or update can be skipped
+# altogether. A typical use-case would be that WxConfig
+# serves as an editor to files (e.g. SQL scripts), but does
+# not provide any functionality other than that. So on 
+# systems that have WxConfig installed, there is an added
+# value, while the package with e.g. the SQL scripts does not
+# get "tainted" by an automatically created dependency to
+# WxConfig; the latter would make it unusable on systems
+# that do not have WxConfig.
+#wx.config.dependency.create.skip=true
+
+opencm.org.wxconfig.key01=whatever
+opencm.org.wxconfig.key02=whatever
+

@@ -1,0 +1,81 @@
+[ {
+  "packageName" : "Default",
+  "enabled" : "true",
+  "version" : "9.12.0.0.91"
+}, {
+  "packageName" : "WmART",
+  "enabled" : "true",
+  "version" : "9.12.0.0.91"
+}, {
+  "packageName" : "WmARTExtDC",
+  "enabled" : "true",
+  "version" : "9.12.0.0.81"
+}, {
+  "packageName" : "WmAssetPublisher",
+  "enabled" : "true",
+  "version" : "9.12.0.0.91"
+}, {
+  "packageName" : "WmBusinessRules",
+  "enabled" : "true",
+  "version" : "9.12.0.6.316"
+}, {
+  "packageName" : "WmCloud",
+  "enabled" : "true",
+  "version" : "9.12.0.0.91"
+}, {
+  "packageName" : "WmFlatFile",
+  "enabled" : "true",
+  "version" : "9.12.0.0.91"
+}, {
+  "packageName" : "WmISExtDC",
+  "enabled" : "true",
+  "version" : "9.12.0.0.81"
+}, {
+  "packageName" : "WmJDBCAdapter",
+  "enabled" : "true",
+  "version" : "9.10.0.0"
+}, {
+  "packageName" : "WmMediator",
+  "enabled" : "true",
+  "version" : "9.12.0.0014-0157"
+}, {
+  "packageName" : "WmMonitor",
+  "enabled" : "true",
+  "version" : "9.12.0.0.115"
+}, {
+  "packageName" : "WmPRT",
+  "enabled" : "true",
+  "version" : "9.12.0.0.30"
+}, {
+  "packageName" : "WmPublic",
+  "enabled" : "true",
+  "version" : "9.12.0.0.91"
+}, {
+  "packageName" : "WmRoot",
+  "enabled" : "true",
+  "version" : "9.12.0.0.91"
+}, {
+  "packageName" : "WmSAP",
+  "enabled" : "true",
+  "version" : "7.1.0.0.718"
+}, {
+  "packageName" : "WmTaskClient",
+  "enabled" : "true",
+  "version" : "9.12.0.0.265"
+}, {
+  "packageName" : "WmTomcat",
+  "enabled" : "false",
+  "version" : "9.12.0.0.91"
+}, {
+  "packageName" : "WmVCS",
+  "enabled" : "true",
+  "version" : "9.12.0.0.91"
+}, {
+  "packageName" : "WmWin32",
+  "enabled" : "false",
+  "version" : "9.12.0.0.91"
+}, {
+  "packageName" : "WmXSLT",
+  "enabled" : "true",
+  "version" : "9.12.0.0.91"
+} ]
