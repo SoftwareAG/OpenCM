@@ -27,7 +27,7 @@
 	<section id="canvasArea">
 		<div id="canvasLogo">
 			<!-- <h2><a class="aboutMenuLink" data-bpopup='{"content":"iframe","contentContainer":".aboutFrame","loadUrl":"/OpenCM/about/index.html"}' href="#">OpenCM Configuration Management</a><br/><span>v1.8.0</span></h2> -->
-			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.6</span></h2>
+			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.7</span></h2>
 		</div>
 		<div id="canvasTree"></div>
 	</section>
@@ -85,15 +85,25 @@
 			       %endinvoke%
                   </ul>
 			</li>
-			<!-- Configuration Menu -->
-			<li id="confMenu"><a href="#">Administration</a>
+			<!-- OpenCM Configuration Menu -->
+			<li id="confMenu"><a href="#">OpenCM Administration</a>
                   <ul class="subMenu confMenu">
                     <li id="conf_UpdateTree"><a href="javascript:;" onclick="performTreeUpdate();">Refresh Tree</a></li>
-                    <li id="conf_Encrypt"><a href="javascript:;" onclick="performEncrypt();">Encrypt Endpoints</a></li>
-                    <li id="conf_Decrypt"><a href="javascript:;" onclick="performDecrypt();">Decrypt Endpoints</a></li>
+  			        %invoke OpenCM.pub.dsp.configuration:getConfig%
+ 					 %ifvar endpoint_config_type equals('opencm')%
+						<li id="conf_Encrypt"><a href="javascript:;" onclick="performEncrypt();">Encrypt Endpoints</a></li>
+						<li id="conf_Decrypt"><a href="javascript:;" onclick="performDecrypt();">Decrypt Endpoints</a></li>
+					 %endif%
+			        %endinvoke%
                     <li id="conf_SynchSend"><a href="javascript:;" onclick="performSynchSend();">Synchronize :: Send</a></li>
-                    <li id="conf_CceRefresh"><a href="javascript:;" onclick="performCceRefresh();">Command Central: Create All</a></li>
-                    <li id="conf_CceAddNode"><a href="javascript:;" onclick="performCceAddNode();">Command Central: Add Node</a></li>
+                  </ul>
+			</li>
+			<!-- Command Central Configuration Menu -->
+			<li id="confMenu"><a href="#">Command Central</a>
+                  <ul class="subMenu cceMenu">
+                    <li id="conf_CceRefresh"><a href="javascript:;" onclick="performCceRefresh();">Create All Nodes</a></li>
+                    <li id="conf_CceAddNode"><a href="javascript:;" onclick="performCceAddNode();">Add Node</a></li>
+                    <li id="conf_CceFixScript"><a href="javascript:;" onclick="performGenerateCceFixScript();">Create Fix Script</a></li>
                   </ul>
 			</li>
 			<!-- About Menu -->

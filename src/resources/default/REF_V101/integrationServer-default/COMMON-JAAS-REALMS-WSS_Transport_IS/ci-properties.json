@@ -1,1 +1,0 @@
-{"plain-text-property":"WSS_Transport_IS {	com.wm.app.b2b.server.auth.jaas.X509LoginModule requisite;	com.wm.app.b2b.server.auth.jaas.BasicLoginModule requisite;};"}

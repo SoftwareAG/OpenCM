@@ -256,6 +256,11 @@ ul#optionsMenu>li:hover .confMenu {
     left: 160;
 	top: 40px;
 }
+ul#optionsMenu>li:hover .cceMenu {
+    display: block;
+    left: 160;
+	top: 40px;
+}
 ul#optionsMenu>li:hover .aboutMenu {
     display: block;
     left: 160;
@@ -476,6 +481,9 @@ ul.subMenu li a:only-child {
 .confMenu {
     min-width: 200px
 }
+.cceMenu {
+    min-width: 200px
+}
 .filter,
 .gravity {
     min-width: 180px
@@ -631,6 +639,9 @@ a#RightButton.highlighted:hover {
 #confMenu>a:before {
     content: "\2692"
 }
+#cceMenu>a:before {
+    content: "\2692"
+}
 #audit_PerformBaselineSingleAudit>a:before {
     content: "\21BB"
 }
@@ -667,7 +678,7 @@ a#RightButton.highlighted:hover {
 #conf_CceAddNode>a:before {
     content: "\21BB"
 }
-#conf_GenerateCLI>a:before {
+#conf_CceFixScript>a:before {
     content: "\2611"
 }
 #conf_SynchSend>a:before {

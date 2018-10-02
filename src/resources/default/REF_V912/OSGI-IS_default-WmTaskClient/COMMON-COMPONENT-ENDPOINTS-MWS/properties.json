@@ -1,1 +1,0 @@
-{"id":"COMMON-COMPONENT-ENDPOINTS-MWS","configurationTypeId":"COMMON-COMPONENT-ENDPOINTS","displayName":"My webMethods Server Endpoint","description":"Connection to My webMethods Server with TaskClient","runtimeComponentId":"OSGI-IS_default-WmTaskClient","attributes":null}

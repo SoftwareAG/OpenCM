@@ -31,8 +31,6 @@ public class Configuration {
     public static String OPENCM_RESULTS_DIR_CLI 		= "cli";
     public static String OPENCM_RESULTS_DIR_DNDTREE 	= "dndTree";
 
-    public static String OPENCM_OUTPUT_CLI			= "cce_cli.bat";
-    
     public static String OPENCM_BASELINE_DIR 		= "baseline";
     public static String OPENCM_RUNTIME_DIR 		= "runtime";
     public static String OPENCM_DEFAULT_DIR 		= "default";

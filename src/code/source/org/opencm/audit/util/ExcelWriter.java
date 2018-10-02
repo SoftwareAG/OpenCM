@@ -25,7 +25,8 @@ import org.opencm.audit.env.AssertionGroup;
 import org.opencm.audit.env.AssertionProperty;
 import org.opencm.audit.env.AssertionEnvironment;
 import org.opencm.audit.env.AssertionValue;
-import org.opencm.audit.util.RepoParser;
+import org.opencm.repository.util.RepoUtils;
+
 
 public class ExcelWriter {
 
@@ -186,7 +187,7 @@ public class ExcelWriter {
 			            		if (ap.getDefaultValue() != null) {
 									valueCell.setCellValue(ap.getDefaultValue());
 			            		} else {
-									valueCell.setCellValue(RepoParser.ASSERTION_DEFAULT_VALUE_MISSING);
+									valueCell.setCellValue(RepoUtils.ASSERTION_DEFAULT_VALUE_MISSING);
 			            		}
 			            	}
 			            	
@@ -234,7 +235,7 @@ public class ExcelWriter {
 				            }
 							
 							LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"    Cells Created on row " + (currentRowIdx-1) + " retrieved...");
-							if ((av.getMissingInfo() == null) || (av.getMissingInfo().equals(RepoParser.ASSERTION_MISSING_DATA))) {
+							if ((av.getMissingInfo() == null) || (av.getMissingInfo().equals(RepoUtils.ASSERTION_MISSING_DATA))) {
 								LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"    Setting cell values... on row " + (currentRowIdx-1) + " retrieved...");
 								if (av.componentIsFixed() || av.getComponent() == null) {
 							        // Write only node name in first column 
@@ -276,7 +277,7 @@ public class ExcelWriter {
 						        
 							} else {
 								// Either undefined or missing data
-								if (av.getMissingInfo().equals(RepoParser.ASSERTION_UNDEFINED_NODE)) {
+								if (av.getMissingInfo().equals(RepoUtils.ASSERTION_UNDEFINED_NODE)) {
 							        nodeCell.setCellStyle(styles.get("undefinedData"));
 							        valueCell.setCellStyle(styles.get("undefinedData"));
 								}

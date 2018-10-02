@@ -1,1 +1,0 @@
-{"tc:tc-config":{"servers":{"server":{"data":"../work/terracotta/server-data","host":"localhost","name":"%h","offheap":{"maxDataSize":"512m","enabled":true},"logs":"../work/terracotta/server-data"},"restartable":{"enabled":true}},"xmlns:tc":"http://www.terracotta.org/config"}}

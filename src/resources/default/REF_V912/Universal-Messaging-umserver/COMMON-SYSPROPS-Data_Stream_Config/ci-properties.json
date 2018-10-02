@@ -1,1 +1,0 @@
-{"FanoutTraversalType":"0","SendInitialMapping":"true","FanoutTaskQueueSize":"32","ParallelFanoutThreshold":"50","OffloadMulticastWrite":"false","MaxSessionIdSize":"14","MonitorTimer":"10000"}

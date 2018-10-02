@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import org.opencm.configuration.Configuration;
 import org.opencm.configuration.Node;
-import org.opencm.audit.util.RepoParser;
+import org.opencm.repository.util.RepoUtils;
 
 public class AssertionGroup {
 
@@ -61,7 +61,7 @@ public class AssertionGroup {
     	// No property exist with the same name and existing instance name
 		AssertionProperty ap = new AssertionProperty(av.getPropertyName());
 		if (includeDefault) {
-			ap.setDefaultValue(RepoParser.getDefaultValue(opencmConfig, av));
+			ap.setDefaultValue(RepoUtils.getDefaultValue(opencmConfig, av));
 		}
 		ap.addAssertionValue(opencmNode, av);
 		this.properties.put(av.getPropertyName(), ap);

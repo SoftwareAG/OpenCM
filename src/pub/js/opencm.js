@@ -183,9 +183,9 @@ function performCceAddNode() {
 	$('#notification').html("<p>Creating the " + opencm_node + " node within Command Central ....</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
-function performGenerateCLI() {
-	$.get( "/invoke/OpenCM.pub.dsp.configuration/generateCCE_CLI");
-	$('#notification').html("<p>Generating Command Central CLI for Node Definitions ....</p>");
+function performGenerateCceFixScript() {
+	$.get( "/invoke/OpenCM.pub.dsp.configuration/generateCceFixScript", { node: opencm_node} );
+	$('#notification').html("<p>Generating Command Central CLI script for Fix installation based on " + opencm_node + " ...</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 function performSynchSend() {
@@ -968,6 +968,7 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 			$('#audit_PerformDefaultRuntimeAudit').hide();
 			$('#audit_PerformDefaultBaselineAudit').hide();
 			$('#conf_CceAddNode').hide();
+			$('#conf_CceFixScript').hide();
 		} else {
 			$('#extractNodeMenu').show();
 			$('#promoteRuntimeMenu').show();
@@ -975,6 +976,7 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 			$('#audit_PerformDefaultRuntimeAudit').show();
 			$('#audit_PerformDefaultBaselineAudit').show();
 			$('#conf_CceAddNode').show();
+			$('#conf_CceFixScript').show();
 		}
     }
 

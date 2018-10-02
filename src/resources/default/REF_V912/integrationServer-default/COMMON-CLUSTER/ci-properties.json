@@ -1,1 +1,0 @@
-{"Enabled":"false","Servers":{"Server":{"URL":""}},"ExtendedProperties":{"Property":[{"@name":"SessionTimeout","$":"60"},{"@name":"PendingRestart","$":"false"},{"@name":"ActionOnStartupError","$":"standalone"}]}}

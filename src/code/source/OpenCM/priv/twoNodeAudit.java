@@ -27,7 +27,7 @@ import org.opencm.audit.configuration.AuditNodesConfiguration;
 import org.opencm.audit.configuration.Property;
 import org.opencm.audit.env.AssertionValue;
 import org.opencm.audit.env.AssertionValuePair;
-import org.opencm.audit.util.RepoParser;
+import org.opencm.repository.util.RepoUtils;
 import org.opencm.audit.configuration.AuditNodePair;
 import org.opencm.audit.configuration.AuditNode;
 import org.opencm.configuration.Nodes;
@@ -219,7 +219,7 @@ public final class twoNodeAudit
 						    // Get Assertion Values for Baseline
 							// --------------------------------------------------------------------
 							refProps.setComponent(baselineCompPath.getName()); // Always the actual component name (not normalized)
-						    LinkedList<AssertionValue> avsBaseline = RepoParser.getAssertionValues(opencmConfig, opencmBaselineNode, refProps, auditProps.getPropertyFilters());
+						    LinkedList<AssertionValue> avsBaseline = RepoUtils.getAssertionValues(opencmConfig, opencmBaselineNode, refProps, auditProps.getPropertyFilters());
 							if (avsBaseline.size() == 0) {
 								continue;
 							}
@@ -227,7 +227,7 @@ public final class twoNodeAudit
 							// --------------------------------------------------------------------
 						    // Get Assertion Values for Runtime
 							// --------------------------------------------------------------------
-						    LinkedList<AssertionValue> avsRuntime = RepoParser.getAssertionValues(opencmConfig, opencmRuntimeNode, refProps, auditProps.getPropertyFilters());
+						    LinkedList<AssertionValue> avsRuntime = RepoUtils.getAssertionValues(opencmConfig, opencmRuntimeNode, refProps, auditProps.getPropertyFilters());
 							if (avsRuntime.size() == 0) {
 								continue;
 							}
@@ -236,7 +236,7 @@ public final class twoNodeAudit
 							// --------------------------------------------------------------------
 						    // Generate value pairs and put into store
 							// --------------------------------------------------------------------
-							LinkedList<AssertionValuePair> avsPairs = RepoParser.createAssertionValuePairs(avsBaseline,avsRuntime,false,false); // Do not ignore anything
+							LinkedList<AssertionValuePair> avsPairs = RepoUtils.createAssertionValuePairs(avsBaseline,avsRuntime,false,false); // Do not ignore anything
 							if (avsPairs.size() == 0) {
 								continue;
 							}
@@ -398,7 +398,7 @@ public final class twoNodeAudit
 				// --------------------------------------------------------------------
 			    // Get Assertion Values for Node 01
 				// --------------------------------------------------------------------
-			    LinkedList<AssertionValue> avsNode01 = RepoParser.getAssertionValues(opencmConfig, opencmNode01, refProps, auditProps.getPropertyFilters());
+			    LinkedList<AssertionValue> avsNode01 = RepoUtils.getAssertionValues(opencmConfig, opencmNode01, refProps, auditProps.getPropertyFilters());
 				if (avsNode01.size() == 0) {
 					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING," - Assertion skipped: no data found for " + opencmNode01.getNode_name() + " in repo " + opencmNode01.getRepositoryType());
 					continue;
@@ -408,7 +408,7 @@ public final class twoNodeAudit
 				// --------------------------------------------------------------------
 			    // Get Assertion Values for Node 02
 				// --------------------------------------------------------------------
-			    LinkedList<AssertionValue> avsNode02 = RepoParser.getAssertionValues(opencmConfig, opencmNode02, refProps, auditProps.getPropertyFilters());
+			    LinkedList<AssertionValue> avsNode02 = RepoUtils.getAssertionValues(opencmConfig, opencmNode02, refProps, auditProps.getPropertyFilters());
 				if (avsNode02.size() == 0) {
 					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING," - Assertion skipped: no data found for " + opencmNode02.getNode_name() + " in repo " + opencmNode02.getRepositoryType());
 					continue;
@@ -418,7 +418,7 @@ public final class twoNodeAudit
 				// --------------------------------------------------------------------
 			    // Generate value pairs and put into store
 				// --------------------------------------------------------------------
-				LinkedList<AssertionValuePair> avsPairs = RepoParser.createAssertionValuePairs(avsNode01,avsNode02,false,false); // Always pick up on missing values
+				LinkedList<AssertionValuePair> avsPairs = RepoUtils.createAssertionValuePairs(avsNode01,avsNode02,false,false); // Always pick up on missing values
 				if (avsPairs.size() == 0) {
 					continue;
 				}
@@ -605,7 +605,7 @@ public final class twoNodeAudit
 					    // Get Assertion Values for Default
 						// --------------------------------------------------------------------
 						refProps.setComponent(refCompPath.getName()); // Always the actual component name (not normalized)
-					    LinkedList<AssertionValue> avsDefault = RepoParser.getAssertionValues(opencmConfig, defaultRefNode, refProps, auditProps.getPropertyFilters());
+					    LinkedList<AssertionValue> avsDefault = RepoUtils.getAssertionValues(opencmConfig, defaultRefNode, refProps, auditProps.getPropertyFilters());
 						if (avsDefault.size() == 0) {
 							continue;
 						}
@@ -614,8 +614,8 @@ public final class twoNodeAudit
 					    // Get Assertion Values for Runtime
 						// --------------------------------------------------------------------
 						// For runtime, it is possible/likely that the component name is different from default:
-						refProps.setComponent(RepoParser.normalizeComponentName(refCompPath.getName()));
-					    LinkedList<AssertionValue> avsRuntime = RepoParser.getAssertionValues(opencmConfig, repoNode, refProps, auditProps.getPropertyFilters());
+						refProps.setComponent(RepoUtils.normalizeComponentName(refCompPath.getName()));
+					    LinkedList<AssertionValue> avsRuntime = RepoUtils.getAssertionValues(opencmConfig, repoNode, refProps, auditProps.getPropertyFilters());
 						if (avsRuntime.size() == 0) {
 							continue;
 						}
@@ -624,7 +624,7 @@ public final class twoNodeAudit
 						// --------------------------------------------------------------------
 					    // Generate value pairs and put into store
 						// --------------------------------------------------------------------
-						LinkedList<AssertionValuePair> avsPairs = RepoParser.createAssertionValuePairs(avsDefault,avsRuntime,true,false); // Ignore additional default values but do not ignore additional runtime values
+						LinkedList<AssertionValuePair> avsPairs = RepoUtils.createAssertionValuePairs(avsDefault,avsRuntime,true,false); // Ignore additional default values but do not ignore additional runtime values
 						if (avsPairs.size() == 0) {
 							continue;
 						}

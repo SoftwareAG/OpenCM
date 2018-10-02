@@ -1,1 +1,0 @@
-{"Enabled":"true","Name":"Terracotta Server Array Cluster","Servers":{"Server":{"@name":"TL-AS142","URL":"tsa://localhost:9510","ExtendedProperties":{"Property":[{"@name":"Index","$":"null"},{"@name":"Data","$":"../work/terracotta/server-data"}]}}},"ExtendedProperties":{"Property":[{"@name":"Restartable","$":"true"}]}}

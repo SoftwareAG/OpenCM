@@ -1,1 +1,0 @@
-{"@alias":"TASKENGINE","Description":"Connection to Integration Server from Task Engine","Transport":{"@type":"MANUAL","Protocol":"HTTP","Host":"localhost","Port":"5555"},"Auth":{"@type":"BASIC","User":"Administrator"}}

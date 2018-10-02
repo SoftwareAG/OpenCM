@@ -28,8 +28,8 @@ import com.wm.app.b2b.server.ServiceException;
 
 public class SpmOps {
 
-	private static String SPM_PROP_FILENAME 		= "properties.json"; 
-	private static String SPM_CONF_FILENAME 		= "ci-properties.json"; 
+	public static String SPM_PROP_FILENAME 			= "properties.json"; 
+	public static String SPM_CONF_FILENAME 			= "ci-properties.json"; 
 
 	private static String SPM_URI_PLATFORM 			= "/spm/inventory/platform";
 	private static String SPM_URI_NODE_INFO			= "/spm/inventory/products/SPM"; 
@@ -57,6 +57,9 @@ public class SpmOps {
 	private static String SPM_JSONPATH_FIXES 		= "/fixes/fix"; 
 	private static String SPM_JSONFIELD_FIX			= "id"; 
 
+	public static String SPM_COMP_NAME 				= "OSGI-SPM"; 
+	public static String SPM_INST_INSTALL_DIR		= "SAG-INSTALL-DIR"; 
+	
 	public static String SPM_INST_PACKAGES 			= "IS-PACKAGES"; 
 	public static String SPM_INST_JCE_INFO 			= "JCE-POLICY-INFO"; 
 	public static String SPM_INST_SAP_CONNS 		= "SAP-ADAPTERS";
@@ -567,25 +570,5 @@ public class SpmOps {
 		}
 	}
 
-	/** - Removed: using explicitly defined environments instead
-	public static boolean isExtractionLocal(Configuration opencmConfig, String serverPath) {
-		
-		File serverProps = new File(serverPath + File.separator + SpmOps.SPM_PROP_FILENAME);
-		if (!serverProps.exists()) {
-			return false;
-		}
-		try {
-			String extractNode = JsonUtils.getJsonValue(serverProps,"/" + SPM_JSONFIELD_EXTRACT_ALIAS);
-			if ((extractNode != null) && extractNode.equals(opencmConfig.getLocal_opencm_node())) {
-				return true;
-			}
-		} catch (Exception ex) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"SpmOps :: isExtractionLocal :: " + ex.getMessage());
-		}
-
-		return false;
-	}
-	
-	**/
 	
 }

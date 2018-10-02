@@ -1,7 +1,8 @@
 package org.opencm.audit.env;
 
 import java.io.File;
-import org.opencm.audit.util.RepoParser;
+import org.opencm.repository.util.RepoUtils;
+
 
 public class AssertionValue {
 
@@ -147,7 +148,7 @@ public class AssertionValue {
     }
     
     public boolean isMatchedWith(AssertionValue av) {
-    	if (RepoParser.normalizeComponentName(getComponent()).equals(RepoParser.normalizeComponentName(av.getComponent()))) {
+    	if (RepoUtils.normalizeComponentName(getComponent()).equals(RepoUtils.normalizeComponentName(av.getComponent()))) {
     		if (getInstance().equals(av.getInstance())) {
     			if (getPropertyName().equals(av.getPropertyName())) {
     				setMatched(true);

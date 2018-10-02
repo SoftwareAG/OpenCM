@@ -1,1 +1,0 @@
-{"MaxEventsPerSchedule":"50","ActiveThreadPoolSize":"2","MaxQueueSizeToUse":"100","UseQueuedLocalJoinHandler":"false","RemoteJoinAckBatchSize":"10","RemoteJoinAckInterval":"100","IdleThreadPoolSize":"1"}

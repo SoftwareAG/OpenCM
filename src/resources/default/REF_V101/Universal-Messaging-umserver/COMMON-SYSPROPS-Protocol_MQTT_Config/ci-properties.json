@@ -1,1 +1,0 @@
-{"Strict":"true","IgnoreClientIDLength":"true","SupportZeroLength":"true","DisconnectOnSecurityException":"true","EnforceAlphaNumericClientID":"false","DisconnectClientsOnPublishFailure":"true","Timeout":"5000","Enable":"true","MaxOutstanding":"64000","QoS0AsTransient":"false","SessionStateTTL":"259200000","EnableAutoCreateTopics":"true"}

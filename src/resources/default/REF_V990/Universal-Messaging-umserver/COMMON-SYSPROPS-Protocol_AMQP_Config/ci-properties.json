@@ -1,1 +1,0 @@
-{"AllowUserTransformation":"false","SASL_DIGEST-MD5":"false","BufferSize":"1024","QueuePrefix":"queue://","SASL_Anonymous":"true","SASL_Plain":"false","Timeout":"60000","MaxFrameSize":"10000000","Enable":"false","TransformToUse":"1","TopicPrefix":"topic://","SubscriberCredit":"1000","SASL_CRAM-MD5":"false","AnonymousUser":"anonymous_amqp","DefaultNodeMode":"0"}

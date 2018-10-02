@@ -20,7 +20,7 @@
     <value>org.opencm.util.LogUtils</value>
     <value>org.opencm.configuration.Node</value>
     <value>org.opencm.audit.util.ExcelWriter</value>
-    <value>org.opencm.audit.util.RepoParser</value>
+    <value>org.opencm.repository.util.RepoUtils</value>
     <value>org.opencm.audit.env.*</value>
   </array>
 </Values>

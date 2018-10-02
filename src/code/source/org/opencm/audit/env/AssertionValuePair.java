@@ -1,6 +1,7 @@
 package org.opencm.audit.env;
 
-import org.opencm.audit.util.RepoParser;
+import org.opencm.repository.util.RepoUtils;
+
 
 public class AssertionValuePair {
 
@@ -26,15 +27,15 @@ public class AssertionValuePair {
             return "<br/>[ERROR IN PROCESSING] <br/>Node 01: NULL AND Node 02: NULL";
     	}
     	if (this.av01 == null) {
-    		componentName01 = RepoParser.ASSERTION_MISSING_COMPONENT;
-    		value01 = RepoParser.ASSERTION_MISSING_DATA;
+    		componentName01 = RepoUtils.ASSERTION_MISSING_COMPONENT;
+    		value01 = RepoUtils.ASSERTION_MISSING_DATA;
     	} else {
     		componentName01 = getAssertionValue_01().getComponent();
     		value01 = getAssertionValue_01().getValue();
     	}
     	if (this.av02 == null) {
-    		componentName02 = RepoParser.ASSERTION_MISSING_COMPONENT;
-    		value02 = RepoParser.ASSERTION_MISSING_DATA;
+    		componentName02 = RepoUtils.ASSERTION_MISSING_COMPONENT;
+    		value02 = RepoUtils.ASSERTION_MISSING_DATA;
     	} else {
     		componentName02 = getAssertionValue_02().getComponent();
     		value02 = getAssertionValue_02().getValue();

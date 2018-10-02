@@ -1,1 +1,0 @@
-{"id":"local-EventDataStore","configurationTypeId":"EVENT-PERSISTENCE-DES","displayName":"local-EventDataStore","description":"Default Event Data Store (Elasticsearch 2.3.2) configuration.","runtimeComponentId":"OSGI-MWS_default-DigitalEventServices","attributes":null}

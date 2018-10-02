@@ -16,7 +16,7 @@ import org.opencm.configuration.Nodes;
 import org.opencm.util.LogUtils;
 import org.opencm.configuration.Node;
 import org.opencm.audit.util.ExcelWriter;
-import org.opencm.audit.util.RepoParser;
+import org.opencm.repository.util.RepoUtils;
 import org.opencm.audit.env.*;
 // --- <<IS-END-IMPORTS>> ---
 
@@ -109,7 +109,7 @@ public final class layeredAudit
 						} 
 					}
 					if (includeEnv) {
-						LinkedList<AssertionValue> avs = RepoParser.getAssertionValues(opencmConfig, opencmNode, propConfig, envAuditConfig.getPropertyFilters());
+						LinkedList<AssertionValue> avs = RepoUtils.getAssertionValues(opencmConfig, opencmNode, propConfig, envAuditConfig.getPropertyFilters());
 						for (int v = 0; v < avs.size(); v++) {
 							assGroups.get(assGroup).addAssertionValue(opencmConfig, opencmNode, avs.get(v), true);
 						}
@@ -123,7 +123,7 @@ public final class layeredAudit
 		 * However, we need to identify assertion values that are missing:
 		 * 	They can either be undefined (no nodes present) or missing data
 		 ***********************************/
-		HashMap<String,AssertionGroup> postProcessedGroups = RepoParser.postProcessValues(opencmConfig, opencmNodes, assGroups, envAuditConfig);
+		HashMap<String,AssertionGroup> postProcessedGroups = RepoUtils.postProcessValues(opencmConfig, opencmNodes, assGroups, envAuditConfig);
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Post Processed groups: " + postProcessedGroups.size());
 		ExcelWriter ex = new ExcelWriter(opencmConfig);
 		ex.writeAssertionGroups(opencmNodes, postProcessedGroups, properties, envAuditConfig);

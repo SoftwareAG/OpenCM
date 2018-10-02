@@ -31,7 +31,7 @@
     <value>org.opencm.audit.configuration.Property</value>
     <value>org.opencm.audit.env.AssertionValue</value>
     <value>org.opencm.audit.env.AssertionValuePair</value>
-    <value>org.opencm.audit.util.RepoParser</value>
+    <value>org.opencm.repository.util.RepoUtils</value>
     <value>org.opencm.audit.configuration.AuditNodePair</value>
     <value>org.opencm.audit.configuration.AuditNode</value>
     <value>org.opencm.configuration.Nodes</value>

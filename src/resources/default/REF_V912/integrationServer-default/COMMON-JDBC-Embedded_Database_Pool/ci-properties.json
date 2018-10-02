@@ -1,1 +1,0 @@
-{"Pool":{"@alias":"Embedded_Database_Pool","Name":"Embedded_Database_Pool","MinSize":"0","MaxSize":"10","MaxIdleTime":"60000","DatabaseServer":{"@type":"DERBY","URL":"jdbc:derby:embedded;create=true","User":"APP"},"ExtendedProperties":{"Property":[{"@name":"AvailConnWarningThreshold","$":"0"},{"@name":"WaitingThreadThresholdCount","$":"0"}]}}}

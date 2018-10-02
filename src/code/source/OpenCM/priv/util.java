@@ -57,6 +57,7 @@ public final class util
 		// @sigtype java 3.5
 		// [o] field:0:required cmdata_root
 		// [o] field:0:required output_dir
+		// [o] field:0:required endpoint_config_type
 		// [o] field:0:required debug_level
 		// [o] field:0:required package_directory
 		// [o] field:0:required two_node_audit_directory
@@ -77,6 +78,7 @@ public final class util
 		IDataCursor pipelineCursor = pipeline.getCursor();
 		IDataUtil.put( pipelineCursor, "cmdata_root", opencmConfig.getCmdata_root() );
 		IDataUtil.put( pipelineCursor, "output_dir", opencmConfig.getOutput_dir() );
+		IDataUtil.put( pipelineCursor, "endpoint_config_type", opencmConfig.getEndpoint_config().getType());
 		IDataUtil.put( pipelineCursor, "debug_level", opencmConfig.getDebug_level() );
 		// -----------------
 		String packageConfig = PackageUtils.getPackageConfigPath();

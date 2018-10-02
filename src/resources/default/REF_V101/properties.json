@@ -1,7 +1,0 @@
-{
-  "installTime" : "2018-09-25T09:55:04.632+02:00",
-  "version" : "10.1.0.0.217",
-  "platformInfo" : "{\"code\":\"W64\",\"displayName\":\"Windows Server 2008 R2\",\"version\":\"6.1\",\"cpuArchitecture\":\"amd64\",\"cpuCores\":\"4\",\"cpuType\":\"PCB\",\"hardwareIds\":\"00-50-56-9D-EC-4B\",\"latestMeteringTimeStamp\":\"<none>\",\"logicalCpuCores\":\"4\",\"physicalCpuCores\":\"4\",\"extractAlias\":\"DOPS_ADM_IS_V101_01\"}",
-  "alias" : "DOPS_REF_V101_01",
-  "extractionDate" : "2018-09-26 09:21:59"
-}

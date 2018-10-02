@@ -1,1 +1,0 @@
-{"Enabled":"true","Name":"Terracotta Server Array Cluster","Servers":{"Server":{"@name":"DOPS_REF_V101_01","URL":"tsa://tl-as142.tasp.tclidl.net:9510","ExtendedProperties":{"Property":[{"@name":"Index","$":"null"},{"@name":"Data","$":"../work/terracotta/server-data"}]}}},"ExtendedProperties":{"Property":[{"@name":"Restartable","$":"true"}]}}

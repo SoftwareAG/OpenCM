@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Iterator;
 import org.opencm.configuration.Node;
-import org.opencm.audit.util.RepoParser;
+import org.opencm.repository.util.RepoUtils;
+
 
 public class AssertionProperty {
 
@@ -66,7 +67,7 @@ public class AssertionProperty {
     		Iterator<AssertionValue> itVal = ae.getValues().iterator();
         	while (itVal.hasNext()) {
         		AssertionValue av = itVal.next();
-        		if (av.isFiltered() || ((av.getMissingInfo() != null) && (av.getMissingInfo().equals(RepoParser.ASSERTION_UNDEFINED_NODE)))) {
+        		if (av.isFiltered() || ((av.getMissingInfo() != null) && (av.getMissingInfo().equals(RepoUtils.ASSERTION_UNDEFINED_NODE)))) {
         			// ignore...
         			continue;
         		}
