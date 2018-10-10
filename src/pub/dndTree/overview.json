@@ -13,7 +13,7 @@
         "children" : [ {
           "name" : "ADM_CCE_V100_01",
           "level" : "NODE",
-          "url" : "server=cce_admin_server&node=ADM_CCE_V100_01",
+          "url" : "node=ADM_CCE_V100_01",
           "hasBaseline" : false,
           "hasRuntime" : true
         } ]
@@ -27,7 +27,7 @@
         "children" : [ {
           "name" : "ADM_IS_V101_01",
           "level" : "NODE",
-          "url" : "server=central_opencm_server&node=ADM_IS_V101_01",
+          "url" : "node=ADM_IS_V101_01",
           "hasBaseline" : false,
           "hasRuntime" : true
         } ]
@@ -45,7 +45,7 @@
         "children" : [ {
           "name" : "DEV_ESB_IS_V101_01",
           "level" : "NODE",
-          "url" : "server=server_01&node=DEV_ESB_IS_V101_01",
+          "url" : "node=DEV_ESB_IS_V101_01",
           "hasBaseline" : true,
           "hasRuntime" : true
         } ]
@@ -55,7 +55,7 @@
         "children" : [ {
           "name" : "DEV_ESB_IS_V101_02",
           "level" : "NODE",
-          "url" : "server=server_02&node=DEV_ESB_IS_V101_02",
+          "url" : "node=DEV_ESB_IS_V101_02",
           "hasBaseline" : false,
           "hasRuntime" : true
         } ]
@@ -73,7 +73,7 @@
         "children" : [ {
           "name" : "TEST_ESB_IS_V101_01",
           "level" : "NODE",
-          "url" : "server=server_03&node=TEST_ESB_IS_V101_01",
+          "url" : "node=TEST_ESB_IS_V101_01",
           "hasBaseline" : false,
           "hasRuntime" : true
         } ]
@@ -83,7 +83,7 @@
         "children" : [ {
           "name" : "TEST_ESB_IS_V101_02",
           "level" : "NODE",
-          "url" : "server=server_04&node=TEST_ESB_IS_V101_02",
+          "url" : "node=TEST_ESB_IS_V101_02",
           "hasBaseline" : false,
           "hasRuntime" : true
         } ]
@@ -101,7 +101,7 @@
         "children" : [ {
           "name" : "PREP_ESB_IS_V101_01",
           "level" : "NODE",
-          "url" : "server=server_05&node=PREP_ESB_IS_V101_01",
+          "url" : "node=PREP_ESB_IS_V101_01",
           "hasBaseline" : false,
           "hasRuntime" : true
         } ]
@@ -111,7 +111,7 @@
         "children" : [ {
           "name" : "PREP_ESB_IS_V101_02",
           "level" : "NODE",
-          "url" : "server=server_06&node=PREP_ESB_IS_V101_02",
+          "url" : "node=PREP_ESB_IS_V101_02",
           "hasBaseline" : false,
           "hasRuntime" : true
         } ]
@@ -129,7 +129,7 @@
         "children" : [ {
           "name" : "PROD_ESB_IS_V101_01",
           "level" : "NODE",
-          "url" : "server=server_07&node=PROD_ESB_IS_V101_01",
+          "url" : "node=PROD_ESB_IS_V101_01",
           "hasBaseline" : false,
           "hasRuntime" : true
         } ]
@@ -139,7 +139,7 @@
         "children" : [ {
           "name" : "PROD_ESB_IS_V101_02",
           "level" : "NODE",
-          "url" : "server=server_08&node=PROD_ESB_IS_V101_02",
+          "url" : "node=PROD_ESB_IS_V101_02",
           "hasBaseline" : false,
           "hasRuntime" : true
         } ]

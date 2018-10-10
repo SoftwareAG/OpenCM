@@ -78,13 +78,15 @@ public final class snapshot
 			throw new ServiceException("Directory Does not Exist: " + fBaselineDir.getPath());
 		}
 		
+		/**
 		String baselineServerDir = baselineDir + File.separator + opencmNode.getUnqualifiedHostname();
 		File fBaselineServerDir = new File(baselineServerDir);
 		if (!fBaselineServerDir.exists()) {
 			FileUtils.createDirectory(baselineServerDir);
 		}
+		*/
 		
-		String baselineNodeDir = baselineServerDir + File.separator + opencmNode.getNode_name();
+		String baselineNodeDir = baselineDir + File.separator + opencmNode.getNode_name();
 		File fBaselineNodeDir = new File(baselineNodeDir);
 		
 		String runtimeDir = opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR;
@@ -93,13 +95,15 @@ public final class snapshot
 			throw new ServiceException("Directory Does not Exist: " + fRuntimeDir.getPath());
 		}
 		
+		/**
 		String runtimeServerDir = runtimeDir + File.separator + opencmNode.getUnqualifiedHostname();
 		File fRuntimeServerDir = new File(runtimeServerDir);
 		if (!fRuntimeServerDir.exists()) {
 			throw new ServiceException("Directory Does not Exist: " + fRuntimeServerDir.getPath());
 		}
+		*/
 		
-		String runtimeNodeDir = runtimeServerDir + File.separator + opencmNode.getNode_name();
+		String runtimeNodeDir = runtimeDir + File.separator + opencmNode.getNode_name();
 		File fRuntimeNodeDir = new File(runtimeNodeDir);
 		if (!fRuntimeNodeDir.exists()) {
 			throw new ServiceException("Directory Does not Exist: " + fRuntimeNodeDir.getPath());
@@ -112,7 +116,7 @@ public final class snapshot
 			}
 			
 			// Copy directory from runtime to baseline
-			org.apache.commons.io.FileUtils.copyDirectoryToDirectory(fRuntimeNodeDir, fBaselineServerDir);
+			org.apache.commons.io.FileUtils.copyDirectoryToDirectory(fRuntimeNodeDir, fBaselineDir);
 		} catch (IOException ex) {
 			throw new ServiceException("OpenCM promoteSnapshot: " + ex.toString());
 		}

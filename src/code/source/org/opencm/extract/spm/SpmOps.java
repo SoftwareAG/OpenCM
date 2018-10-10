@@ -66,13 +66,13 @@ public class SpmOps {
 	public static String SPM_INST_JDBC_CONNS 		= "JDBC-ADAPTERS"; 
 	public static String SPM_INST_WXCONFIG_INFO		= "WXCONFIG-INFO"; 
 
-	private static String SPM_JSONFIELD_EXTRACT_ALIAS	= "extractAlias"; 
-	
 	private Configuration opencmConfig;
 	private Node opencmNode;
 	private ExtractNode extractNode;
 	private HttpClient client;
 	private String baseURL;
+	private String platformJson;
+	private String nodeJson;
 	
 	public SpmOps(Configuration opencmConfig, Node node) {
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," SpmOps - Preparing for Extraction " + node.getNode_name());
@@ -100,21 +100,33 @@ public class SpmOps {
 	public void extractAll() {
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," SpmOps - Extracting Node " + this.extractNode.getAlias());
 		try {
+			
 			// ----------------------------------
 			// Get SPM platform info
 			// ----------------------------------
-			this.extractNode.setPlatformInfo(getPlatformInfo());
-			if (this.extractNode.getPlatformInfo() == null) {
+			this.platformJson = getPlatformInfo();
+			if (this.platformJson == null) {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Unable to get Platform Info, exiting ... ");
 				return;
 			}
-	
+			
+			// -----------------------------------------------------
+			// Add Local OpenCM node as "extractor" 
+			// -----------------------------------------------------
+			String localOpencmNode = opencmConfig.getSynch_local_opencm_node();
+			if (localOpencmNode != null) {
+				// default
+				this.extractNode.setExtractAlias(localOpencmNode);
+			} else {
+				this.extractNode.setExtractAlias("OPENCM");
+			}
+			
 			// ----------------------------------
 			// Get relevant SPM node info
 			// ----------------------------------
-			String nodeJson = getNodeInfo();
-			this.extractNode.setInstallTime(JsonUtils.getJsonValue(nodeJson, SPM_NODE_INSTALL));
-			this.extractNode.setVersion(JsonUtils.getJsonValue(nodeJson, SPM_NODE_VERSION));
+			this.nodeJson = getNodeInfo();
+			// this.extractNode.setInstallTime(JsonUtils.getJsonValue(nodeJson, SPM_NODE_INSTALL));
+			// this.extractNode.setVersion(JsonUtils.getJsonValue(nodeJson, SPM_NODE_VERSION));
 	
 			// ----------------------------------
 			// Loop through all SPM discovered components and instances and gets Instance data
@@ -150,7 +162,6 @@ public class SpmOps {
 			}			
 		} catch (ServiceException ex) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Exception during extraction ... " + ex.toString());
-			this.extractNode.setPlatformInfo(null);
 		}
 	}
 	
@@ -176,17 +187,7 @@ public class SpmOps {
 			return null;
 		}
 		
-		// -----------------------------------------------------
-		// Add Local OpenCM node name to platform info
-		// -----------------------------------------------------
-		String platformInfo = client.getResponse();
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Platform INFO: " + platformInfo);
-		String localOpencmNode = opencmConfig.getSynch_local_opencm_node();
-		if (localOpencmNode == null) {
-			// default
-			localOpencmNode = "OPENCM";
-		}
-		return JsonUtils.addField(platformInfo, SPM_JSONFIELD_EXTRACT_ALIAS, localOpencmNode);
+		return client.getResponse();
 	}
 
 	private String getNodeInfo() throws ServiceException {
@@ -207,7 +208,7 @@ public class SpmOps {
 			client.setResponse(JsonUtils.convertToJson(client.getResponse()));
 		}
 		if (client.getResponse() == null) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"getNodeInfo :: Unable to get Platform info string ...");
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"getNodeInfo :: Unable to get Node info string ...");
 		}
 		if (client.getStatusCode() != 200) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,"getNodeInfo :: " + client.getURL() + " - " + client.getStatusLine());
@@ -508,12 +509,12 @@ public class SpmOps {
 	public void persist() {
 		String rootPath = opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR; 
 		
+		/**
 		if (this.extractNode.getPlatformInfo() == null) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Skipping Persistence for node ... " + this.extractNode.getAlias());
 			return;
 		}
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Persisting Node information for " + this.extractNode.getAlias());
 		// -----------------------------
 		// Create Server Directory
 		// -----------------------------
@@ -524,13 +525,17 @@ public class SpmOps {
 			return;
 		}
 		FileUtils.writeToFile(serverPath + File.separator + SPM_PROP_FILENAME, this.extractNode.getPlatformInfo());
+		
+		*/
 		 
-		// -----------------------------
-		// Remove Directory if it exists...
-		// -----------------------------
-		String nodePath = serverPath + File.separator + this.opencmNode.getNode_name();
+		// --------------------------------------
+		// Remove Node Directory if it exists...
+		// --------------------------------------
+		String nodePath = rootPath + File.separator + this.opencmNode.getNode_name();
 		FileUtils.removeDirectory(nodePath);
 					
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Persisting Node information for " + this.extractNode.getAlias());
+		
 		// -----------------------------
 		// Create Node Directory
 		// -----------------------------
@@ -538,8 +543,17 @@ public class SpmOps {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Node Dir Could not be created - skipping Persistence");
 			return;
 		}
-		String json = JsonUtils.convertJavaObjectToJson(this.extractNode);
+		// -----------------------------
+		// Construct Node Information
+		// -----------------------------
+		String json = JsonUtils.addNode(this.platformJson, "nodeInfo", this.nodeJson);
+		json = JsonUtils.addField(json, "hostname", this.opencmNode.getHostname());
+		json = JsonUtils.addField(json, "extractionDate", this.extractNode.getExtractionDate());
+		json = JsonUtils.addField(json, "extractAlias", this.extractNode.getExtractAlias());
 		FileUtils.writeToFile(nodePath + File.separator + SPM_PROP_FILENAME, json);
+		// ----------------------------------------
+		// Iterate over components and instances
+		// ----------------------------------------
 		if ((this.extractNode.getAlias() != null) && this.extractNode.hasComponents()) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Number of Components:  " + this.extractNode.getComponents().size());
 			for (int c = 0; c < this.extractNode.getComponents().size(); c++) {
@@ -569,6 +583,5 @@ public class SpmOps {
 			}
 		}
 	}
-
 	
 }

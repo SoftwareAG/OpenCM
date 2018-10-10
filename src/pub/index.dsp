@@ -24,10 +24,17 @@
         <span class="auditButton b-close"><span>X</span></span>
         <div class="aboutFrame"></div>
     </div>
+    <div id="assertPopup">
+        <span class="auditButton b-close"><span>X</span></span>
+        <div class="assertFrame"></div>
+    </div>
+    <div id="inventoryPopup">
+        <span class="auditButton b-close"><span>X</span></span>
+        <div class="inventoryFrame"></div>
+    </div>
 	<section id="canvasArea">
 		<div id="canvasLogo">
-			<!-- <h2><a class="aboutMenuLink" data-bpopup='{"content":"iframe","contentContainer":".aboutFrame","loadUrl":"/OpenCM/about/index.html"}' href="#">OpenCM Configuration Management</a><br/><span>v1.8.0</span></h2> -->
-			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.7</span></h2>
+			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.8</span></h2>
 		</div>
 		<div id="canvasTree"></div>
 	</section>
@@ -45,6 +52,10 @@
 				   <li id="promoteRuntimeMenu"><a href="javascript:;" onclick="promoteNode();">Promote Node to Baseline</a></li>
                </ul>
 			</li>
+			<!-- Inventory Menu -->
+	        <li id="inventoryMenu"><a class="inventoryMenuLink" data-bpopup='{"content":"iframe","contentContainer":".inventoryFrame","loadUrl":"/OpenCM/inventory/index.dsp"}' href="#">Inventory</a></li>
+			<!-- Assert Menu -->
+			<!-- <li id="assertMenu"><a class="assertMenuLink" data-bpopup='{"content":"iframe","contentContainer":".assertFrame","loadUrl":"/OpenCM/assert.html"}' href="#">Assertions</a></li> -->
 			<!-- Audit Menu -->
 			<li id="auditTwoNodeMenu"><a href="#">2-Node Assertions</a>
                   <ul class="subMenu auditTwoNodeMenu">
@@ -118,7 +129,7 @@
                 <p class="propDetails" align="left">Environment: <span id="env"></span></p>
                 <p class="propDetails" align="left">SPM URL: <span id="spm_url"></span></p>
             </div>
-			<h3 class="accordion-trigger" id="selection-server-trigger">Server: <span id="cm_hostname"></span></h3>
+			<h3 class="accordion-trigger" id="selection-server-trigger">Server: <span id="cm_server_hostname"></span></h3>
             <div class="accordion-container" id="server-details">
                 <p class="propDetails" align="left">Operating System: <span id="cm_os_name"></span> (<span id="cm_os_code"></span>)</p>
                 <p class="propDetails" align="left">OS Version: <span id="cm_os_version"></span></p>

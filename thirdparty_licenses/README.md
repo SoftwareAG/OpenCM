@@ -16,6 +16,10 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Source: https://jquery.com/download/
 
+### datatables.min.js
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Source: https://datatables.net
+
 ### opencm.js
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Originated from http://bl.ocks.org/Thanaporn-sk/20a86f09c938b8dd0e4520a4c68c6315
@@ -25,6 +29,10 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 ### jquery.json-view.css
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Source: https://github.com/yesmeck/jquery-jsonview
+
+### datatables.min.css
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Source: https://datatables.net
 
 ### opencm.css
 - Licensed under [MIT](https://opensource.org/licenses/MIT)

@@ -132,7 +132,7 @@ public final class visualization
 						Child nodeChild = new Child();
 						nodeChild.setName(nodeName);
 						nodeChild.setLevel("NODE");
-						nodeChild.setUrl("server=" + server + "&node=" + nodeName);
+						nodeChild.setUrl("node=" + nodeName);
 						nodeChild.setHasBaseline(false); 
 						nodeChild.setHasRuntime(false); 
 						
@@ -141,7 +141,7 @@ public final class visualization
 						// -------------------------------------
 						// ------------ BASELINE ---------------
 						// -------------------------------------
-						File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + serverChild.getName() + File.separator + nodeChild.getName());
+						File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + nodeChild.getName());
 						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Inspecting Baseline: " + baselineNodeDir.getPath());
 						Tree nodeTree = new Tree();
 						nodeTree.setName(nodeName);
@@ -162,7 +162,7 @@ public final class visualization
 						// -------------------------------------
 						// ------------  RUNTIME ---------------
 						// -------------------------------------
-						File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + serverChild.getName() + File.separator + nodeChild.getName());
+						File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + nodeChild.getName());
 						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Inspecting Runtime: " + runtimeNodeDir.getPath());
 						nodeTree = new Tree();
 						nodeTree.setName(nodeName);

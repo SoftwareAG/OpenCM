@@ -105,6 +105,18 @@ public class JsonUtils {
     	return null;
     }
     
+    public static String addNode(String jsonString, String jsonField, String stNode) {
+    	try {
+			ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+			JsonNode jnMain = mapper.readTree(jsonString);
+			JsonNode jnAdd = mapper.readTree(stNode);
+			return ((ObjectNode) jnMain).set(jsonField,jnAdd).toString();
+    	} catch (Exception e) {
+    		System.out.println("OpenCM [WARNING] : JsonUtils - addElement: " + e.toString());
+    	}
+    	return null;
+    }
+    
     public static String addField(String jsonString, String jsonField, String stValue) {
     	try {
 			ObjectMapper mapper = new ObjectMapper(new JsonFactory());

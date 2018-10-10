@@ -206,6 +206,19 @@ public class Nodes {
     }
     
     @JsonIgnore
+    public LinkedList<String> getAllFQNServerNamesByEnvAndLayer(String opencmEnvName, String layer) {
+    	LinkedList<String> servers = new LinkedList<String>();
+		for (int i = 0; i < this.nodes.size(); i++) {
+			String env = this.nodes.get(i).getEnvironment();
+			String grp = this.nodes.get(i).getAssertion_group();
+			if (env.equals(opencmEnvName) && grp.equals(layer) && !servers.contains(this.nodes.get(i).getHostname())) {
+				servers.add(this.nodes.get(i).getHostname());
+			}
+    	}
+        return servers;
+    }
+    
+    @JsonIgnore
     public LinkedList<String> getAllAssertionGroups(String nodeName) {
     	Node node = getNode(nodeName);
     	LinkedList<String> groups = new LinkedList<String>();
@@ -315,6 +328,17 @@ public class Nodes {
     	LinkedList<Node> nodes = new LinkedList<Node>();
 		for (int i = 0; i < this.nodes.size(); i++) {
 			if (this.nodes.get(i).getEnvironment().equals(env) && this.nodes.get(i).getAssertion_group().equals(group) && this.nodes.get(i).getUnqualifiedHostname().equals(unqualifiedServerName) && !nodes.contains(this.nodes.get(i))) {
+				nodes.add(this.nodes.get(i));
+			}
+		}
+        return nodes;
+    }
+    
+    @JsonIgnore
+    public LinkedList<Node> getNodesByEnvLayerAndFQNServer(String env, String layer, String fqHostname) {
+    	LinkedList<Node> nodes = new LinkedList<Node>();
+		for (int i = 0; i < this.nodes.size(); i++) {
+			if (this.nodes.get(i).getEnvironment().equals(env) && this.nodes.get(i).getAssertion_group().equals(layer) && this.nodes.get(i).getHostname().equals(fqHostname) && !nodes.contains(this.nodes.get(i))) {
 				nodes.add(this.nodes.get(i));
 			}
 		}

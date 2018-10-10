@@ -48,10 +48,10 @@ public final class synch
 	{
 		// --- <<IS-START(receive)>> ---
 		// @sigtype java 3.5
-		// [i] field:0:required serverName
+		// [i] field:0:required node
 		// [i] object:0:required contentStream
 		IDataCursor pipelineCursor = pipeline.getCursor();
-		String	stServerName = IDataUtil.getString( pipelineCursor, "serverName" );
+		String	stNodeName = IDataUtil.getString( pipelineCursor, "node" );
 		InputStream ftpis = (InputStream) IDataUtil.get( pipelineCursor, "contentStream" );
 		pipelineCursor.destroy();
 		 
@@ -66,6 +66,15 @@ public final class synch
 		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
 		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
 		
+		if (stNodeName == null) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"synch:receive --> No node name passed ");
+			return;
+		} 
+		if (ftpis == null) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"synch:receive --> No ftpis stream passed ");
+			return;
+		} 
+		
 		// --------------------------------------------------------------------
 		// Ensure that master password is stored in cache
 		// --------------------------------------------------------------------
@@ -79,23 +88,23 @@ public final class synch
 		}
 		
 		File runtimeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR);
-		File serverDir = new File(runtimeDir.getPath() + File.separator + stServerName);
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"synch:receive --> Receive Process Started for " + serverDir.getName() + " -- ");
+		File nodeDir = new File(runtimeDir.getPath() + File.separator + stNodeName);
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"synch:receive --> Receive Process Started for " + nodeDir.getName() + " -- ");
 		
 		if (ftpis != null) {
 			// --------------------------------------------------------------------
 			// Remove existing runtime directory
 			// --------------------------------------------------------------------
-			if (serverDir.exists()) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"synch:receive --> Removing old Runtime dir: " + serverDir.getName());
-				FileUtils.removeDirectory(serverDir.getPath());
+			if (nodeDir.exists()) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"synch:receive --> Removing old Runtime dir: " + nodeDir.getName());
+				FileUtils.removeDirectory(nodeDir.getPath());
 			} 
 		
 			// -------------------------------------------------------------------- 
 			// Extracting content stream into target
 			// --------------------------------------------------------------------
 		    try {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"synch:receive --> Extracting into : " + serverDir.getPath());
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"synch:receive --> Extracting into : " + nodeDir.getPath());
 				ZipUtils.decompress(ftpis, runtimeDir);
 				ftpis.close();
 		    } catch (Exception ex) {
@@ -231,29 +240,28 @@ public final class synch
 			// Based on defined environments to synch, loop through each node
 			// --------------------------------------------------------------------
 			LinkedList<String> syncEnvs = opencmConfig.getSynch_envs();
-			LinkedList<String> sentServerData = new LinkedList<String>();
 			for (int i = 0; i < syncEnvs.size(); i++) {
 				String envName = syncEnvs.get(i);
 				LinkedList<Node> opencmNodes = nodes.getNodesByEnvironment(envName);
 				for (int n = 0; n < opencmNodes.size(); n++) {
 					Node currNode = opencmNodes.get(n);
-					File serverDir = new File(runtimeDir + File.separator + currNode.getUnqualifiedHostname());
-					if (!serverDir.exists() || !serverDir.isDirectory() || sentServerData.contains(serverDir.getPath())) {
+					File nodeDir = new File(runtimeDir + File.separator + currNode.getNode_name());
+					if (!nodeDir.exists() || !nodeDir.isDirectory()) {
 						continue;
 					}
 					
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," --> Zipping and Sending Server Extraction :: " + serverDir.getName());
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," --> Zipping and Sending Nodes Extraction :: " + currNode.getNode_name());
 					// ------------------------------------------------------
-					// Zip up server directory
+					// Zip up Nodes directory
 					// ------------------------------------------------------
-					ByteArrayInputStream bais = new ByteArrayInputStream(ZipUtils.compress(serverDir).toByteArray());
+					ByteArrayInputStream bais = new ByteArrayInputStream(ZipUtils.compress(nodeDir).toByteArray());
 					
 					// ------------------------------------------------------
-					// Send server zip file
+					// Send node zip file
 					// ------------------------------------------------------
 				    try {
-					    if (!ftp.storeFile(serverDir.getName(), bais)) {
-							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING,"Unable to send and store the zip for " + serverDir.getName() + ":: "  + ftp.getReplyString());
+					    if (!ftp.storeFile(currNode.getNode_name(), bais)) {
+							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING,"Unable to send and store the zip for " + currNode.getNode_name() + ":: "  + ftp.getReplyString());
 					    }
 				    } catch (Exception ex) {
 						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"FTP storeFile Exception :: " + ex.getMessage());
@@ -261,53 +269,10 @@ public final class synch
 				    
 				    bais.close();
 					
-				    sentServerData.add(serverDir.getPath());
 				}
 				
 			}
 		
-			/**
-			 * 
-			// --------------------------------------------------------------------
-			// Loop through the runtime server directories
-			// --------------------------------------------------------------------
-			LinkedList<String> dirs = FileUtils.getSubDirectories(runtimeDir, "*");
-			for (int i = 0; i < dirs.size(); i++) {
-				File serverDir = new File(runtimeDir + File.separator + dirs.get(i));
-				if (!serverDir.exists() || !serverDir.isDirectory()) {
-					continue;
-				}
-				
-				// ------------------------------------------------------
-				// Only send nodes that are considered "local" here
-				// I.e. to support bi-directional transfer, we only send what was extracted here
-				// ------------------------------------------------------
-				if (!SpmOps.isExtractionLocal(opencmConfig, serverDir.getPath())) {
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," -- Ignoring non-local snapshot data :: " + serverDir.getName());
-					continue;
-				}
-				
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," --> Zipping and Sending Server Extraction :: " + serverDir.getName());
-				// ------------------------------------------------------
-				// Zip up server directory
-				// ------------------------------------------------------
-				ByteArrayInputStream bais = new ByteArrayInputStream(ZipUtils.compress(serverDir).toByteArray());
-				
-				// ------------------------------------------------------
-				// Send server zip file
-				// ------------------------------------------------------
-			    try {
-				    if (!ftp.storeFile(serverDir.getName(), bais)) {
-						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING,"Unable to send and store the zip for " + serverDir.getName() + ":: "  + ftp.getReplyString());
-				    }
-			    } catch (Exception ex) {
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"FTP storeFile Exception :: " + ex.getMessage());
-			    }
-			    
-			    bais.close();
-				
-			}
-			**/
 			
 			ftp.logout();
 		

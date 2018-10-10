@@ -241,6 +241,11 @@ ul#optionsMenu>li:hover .repoMenu {
     left: 160;
 	top: 40px;
 }
+ul#optionsMenu>li:hover .assertMenu {
+    display: block;
+    left: 160;
+	top: 40px;
+}
 ul#optionsMenu>li:hover .auditTwoNodeMenu {
     display: block;
     left: 160;
@@ -261,6 +266,11 @@ ul#optionsMenu>li:hover .cceMenu {
     left: 160;
 	top: 40px;
 }
+ul#optionsMenu>li:hover .inventoryMenu {
+    display: block;
+    left: 160;
+	top: 40px;
+}
 ul#optionsMenu>li:hover .aboutMenu {
     display: block;
     left: 160;
@@ -271,6 +281,81 @@ ul#optionsMenu>li:hover .aboutMenu {
     margin: 0;
     padding: 0 5px 0 0
 }
+
+/* Popup Area */
+#popupArea {
+    color: #3498db;
+    background: #FFFFFF;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden
+}
+#popupArea,
+body {
+    background: #18202a;
+    font-size: 14px;
+    font-family: Open Sans, Helvetica, Arial, sans-serif;
+    line-height: 1;
+    overflow: hidden;
+    position: fixed
+}
+section#popupArea {
+    margin: 0 0;
+    padding: 0;
+    background-color: #ffffff
+}
+#popupArea table {
+    *border-collapse: collapse; /* IE7 and lower */
+    border-spacing: 0;
+    width: 100%
+}
+#popupArea div {
+    position: relative;
+	top: 0;
+    padding: 17px
+}
+/* Popup Headings */
+#popupArea h2 {
+    box-sizing: border-box;
+    background: #dce9f9;
+    text-align: center;
+	color: #3498db;
+    display: block;
+    height: 40px;
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    vertical-align: middle;
+    font-size: 1.3em
+}
+#popupArea h3 {
+	background: #dce9f9;
+    cursor: pointer;
+    padding: .5em;
+    padding-right: 4px;
+    font-size: 1.3em;
+    font-weight: 100
+}
+#popupArea h4 {
+	background: #FFFFFF;
+    color: #3498db;
+    display: block;
+    font-size: 1.1em;
+    font-weight: 100;
+    margin: 10;
+    padding: 0 10px;
+    text-align: left
+}
+#popupLinkArrow>a:before {
+    padding-right: 4px;
+    content: "\25BA"
+}
+
+
 
 /* Graph Area */
 #canvasArea,
@@ -344,6 +429,7 @@ section#canvasArea {
     font-weight: 100;
     font-size: 1.3em;
 }
+
 #generalDetails {
     width: auto;
     box-sizing: border-box;
@@ -358,16 +444,14 @@ section#canvasArea {
     color: #69c
 }
 #generalDetails h4 {
-    /* background: #1b252e; */
 	background: #FFFFFF;
-    /* color: #ecf0f1; */
     color: #3498db;
     display: block;
     font-size: 1.1em;
     font-weight: 100;
-    margin: 0;
-    padding: 10px 0;
-    text-align: center
+    margin: 10;
+    padding: 0 10px;
+    text-align: left
 }
 #detailsArea #generalDetails h5 {
     border-bottom: 1px solid #3498db;
@@ -378,13 +462,11 @@ section#canvasArea {
     text-align: center
 }
 #inst-details .propDetails>span {
-    /* color: #D8ECFC; */
     color: #000000;
     font-weight: 100;
     padding: 0 10px
 }
 #comp-details .propDetails>span {
-    /* color: #D8ECFC; */
     color: #000000;
     font-weight: 100;
     padding: 0 10px
@@ -466,11 +548,11 @@ ul.subMenu li a:only-child {
     float: right
 }
 
-.aboutMenu {
-    min-width: 150px;
-}
 .repoMenu {
     min-width: 200px
+}
+.assertMenu {
+    min-width: 150px;
 }
 .auditTwoNodeMenu {
     min-width: 200px
@@ -483,6 +565,12 @@ ul.subMenu li a:only-child {
 }
 .cceMenu {
     min-width: 200px
+}
+.inventoryMenu {
+    min-width: 150px;
+}
+.aboutMenu {
+    min-width: 150px;
 }
 .filter,
 .gravity {
@@ -630,6 +718,9 @@ a#RightButton.highlighted:hover {
 #removeSnapshotMenu>a:before {
     content: "\220E"
 }
+#assertMenu>a:before {
+    content: "\2714"
+}
 #auditTwoNodeMenu>a:before {
     content: "\2714"
 }
@@ -641,6 +732,9 @@ a#RightButton.highlighted:hover {
 }
 #cceMenu>a:before {
     content: "\2692"
+}
+#inventoryMenu>a:before {
+    content: "\22A1"
 }
 #audit_PerformBaselineSingleAudit>a:before {
     content: "\21BB"
@@ -1234,4 +1328,107 @@ marker path {
 	background:url('loader.gif') center center no-repeat;
 	min-height:800px;
 	min-width:1600px
+}
+#assertPopup,.bMulti{
+	background-color:#fff;
+	border-radius:10px 10px 10px 10px;
+	box-shadow:0 0 25px 5px #999;
+	color:#111;
+	display:none;
+	min-width:450px;
+	padding:25px
+}
+#assertPopup iframe{
+	background:url('loader.gif') center center no-repeat;
+	min-height:800px;
+	min-width:1600px
+}
+#inventoryPopup,.bMulti{
+	background-color:#fff;
+	border-radius:10px 10px 10px 10px;
+	box-shadow:0 0 25px 5px #999;
+	color:#111;
+	display:none;
+	min-width:450px;
+	padding:25px
+}
+#inventoryPopup iframe{
+	background:url('loader.gif') center center no-repeat;
+	min-height:800px;
+	min-width:1600px
+}
+/* Table properties for popup area */
+.bordered {
+    border: solid #ccc 1px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 1px #ccc; 
+    -moz-box-shadow: 0 1px 1px #ccc; 
+    box-shadow: 0 1px 1px #ccc;         
+}
+
+.bordered tr:hover {
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;     
+}    
+    
+.bordered td, .bordered th {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;    
+}
+
+.bordered th {
+    background-color: #dce9f9;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+    background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:     -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:      -o-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:         linear-gradient(top, #ebf3fc, #dce9f9);
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; 
+    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;  
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;        
+    border-top: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5); 
+}
+
+.bordered td:first-child, .bordered th:first-child {
+    border-left: none;
+}
+
+.bordered th:first-child {
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+
+.bordered th:last-child {
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+
+.bordered th:only-child{
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+
+.bordered tr:last-child td:first-child {
+    -moz-border-radius: 0 0 0 6px;
+    -webkit-border-radius: 0 0 0 6px;
+    border-radius: 0 0 0 6px;
+}
+
+.bordered tr:last-child td:last-child {
+    -moz-border-radius: 0 0 6px 0;
+    -webkit-border-radius: 0 0 6px 0;
+    border-radius: 0 0 6px 0;
 }

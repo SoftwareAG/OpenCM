@@ -60,6 +60,8 @@ public final class cli
 		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
 		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
 		
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Fix Script Generation Process Started based on " + stNode);
+		
 		// --------------------------------------------------------------------
 		// Check arguments
 		// --------------------------------------------------------------------
@@ -141,7 +143,7 @@ public final class cli
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
 		sb.append("rem      Set Appropriate Script Directory: " + System.lineSeparator());
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
-		sb.append("SET SCRIPT_DIR=D:\\SoftwareAG\\scripts" + System.lineSeparator());
+		sb.append("SET SCRIPT_DIR=" + opencmConfig.getOutput_dir() + File.separator + Configuration.OPENCM_RESULTS_DIR_CLI + System.lineSeparator());
 		sb.append(System.lineSeparator());
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
 		sb.append("rem      Set Appropriate CCE Install Directory: " + System.lineSeparator());
@@ -173,13 +175,13 @@ public final class cli
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
 		sb.append("rem      Change Directory: " + System.lineSeparator());
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
-		sb.append("cd %CCE_INSTALL_DIR%" + System.lineSeparator());
+		sb.append("cd %CCE_INSTALL_DIR%\\CommandCentral\\client\\bin" + System.lineSeparator());
 		sb.append(System.lineSeparator());
 		
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
 		sb.append("rem      Install Fixes: " + System.lineSeparator());
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
-		sb.append("call .\\sagcc exec provisioning fixes " + opencmNode.getNode_name() + " %FIX_REPO% install artifacts=" + sbFixList.toString() + System.lineSeparator());
+		sb.append("call .\\sagcc exec provisioning fixes " + opencmNode.getNode_name() + " %FIX_REPO% install artifacts=" + sbFixList.toString() + " -s %CCE_URL% -u %CCE_USERNAME%" + System.lineSeparator());
 		sb.append(System.lineSeparator());
 		
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
@@ -188,53 +190,10 @@ public final class cli
 		sb.append("cd %SCRIPT_DIR%" + System.lineSeparator());
 		sb.append(System.lineSeparator());
 		
-		/**
-		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
-		sb.append("rem      Defining CCE Environments .......... " + System.lineSeparator());
-		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
-		LinkedList<String> environments = nodes.getAllEnvironments();
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Generating Environments ...... " + environments.size());
-		for (int i = 0; i < environments.size(); i++) {
-			String env = environments.get(i);
-			sb.append(".\\sagcc create landscape environments alias=" + env + " name=" + env + " description=\"" + env + " Environment\" -s %CCE_URL% -u %CCE_USER%" + System.lineSeparator());
-		}
 		sb.append(System.lineSeparator());
-		sb.append("rem ==========================================================================" + System.lineSeparator());
-		sb.append("rem                        Defining CCE Nodes  .......... " + System.lineSeparator());
-		sb.append("rem ==========================================================================" + System.lineSeparator());
-		
-		for (int i = 0; i < environments.size(); i++) {
-			String env = environments.get(i);
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  - Processing Nodes for Environment: " + env);
-			LinkedList<String> cceAssertionGroups = nodes.getAllAssertionGroupsForEnvironment(env);
-			for (int a = 0; a < cceAssertionGroups.size(); a++) {
-				String assGroup = cceAssertionGroups.get(a);
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"    Processing Layer: " + assGroup);
-				sb.append("rem ----------------------------------------------------" + System.lineSeparator());
-				sb.append("rem      [" + env + "] -> " + assGroup + " Layer" + System.lineSeparator());
-				sb.append("rem ----------------------------------------------------" + System.lineSeparator());
-				sb.append("echo \"Generating nodes for [" + env + "] -> " + assGroup + " Layer .... " + System.lineSeparator());
-				LinkedList<Node> cceAssertionGroupNodes = nodes.getNodesByGroupAndEnv(assGroup, env);
-				for (int n = 0; n < cceAssertionGroupNodes.size(); n++) {
-					Node node = cceAssertionGroupNodes.get(n);
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"      Processing Node: " + node.getNode_name());
-					RuntimeComponent nodeRuntimeComponent = node.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM);
-					if (nodeRuntimeComponent == null) {
-						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"CLI Generation - No SPM Instance defined for node " + node.getNode_name());
-					}
-					String spmURL = nodeRuntimeComponent.getProtocol() + "://" + node.getHostname() + ":" + nodeRuntimeComponent.getPort();
-					sb.append(".\\sagcc create landscape nodes alias=" + node.getNode_name() + " url=" + spmURL + " -s %CCE_URL% -u %CCE_USER%" + System.lineSeparator()); 
-					sb.append(".\\sagcc add landscape environments " + env + " nodes nodeAlias=" + node.getNode_name() + " -s %CCE_URL% -u %CCE_USER%" + System.lineSeparator()); 
-					sb.append(System.lineSeparator());
-				}
-			}
-		} 
-		**/
-		
-		sb.append(System.lineSeparator());
-		sb.append("echo \"------------------------------------------------------ " + System.lineSeparator());
-		sb.append("echo \"--            Processing Completed                  -- " + System.lineSeparator());
-		sb.append("echo \"------------------------------------------------------ " + System.lineSeparator());
+		sb.append("echo \"------------------------------------------------------ \"" + System.lineSeparator());
+		sb.append("echo \"--         Fix Script Submitted ...                 -- \"" + System.lineSeparator());
+		sb.append("echo \"------------------------------------------------------ \"" + System.lineSeparator());
 		
 		
 		// ------------------------------------------------------
@@ -254,7 +213,7 @@ public final class cli
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"CLI Generation - Exception: " + ex.toString());
 		}
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"CLI Generation - Process Completed ...... ");
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," -------------- Fix Script Generation Process Completed   ------------   ");
 			
 		// --- <<IS-END>> ---
 

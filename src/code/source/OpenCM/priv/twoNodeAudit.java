@@ -96,8 +96,8 @@ public final class twoNodeAudit
 			for (int i = 0; i < openCMNodes.size(); i++) { 
 				Node openCMNode = openCMNodes.get(i);
 				// Ensure we have both baseline and runtime available...
-				File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + openCMNode.getUnqualifiedHostname() + File.separator + openCMNode.getNode_name());
-				File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + openCMNode.getUnqualifiedHostname() + File.separator + openCMNode.getNode_name());
+				File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + openCMNode.getNode_name());
+				File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + openCMNode.getNode_name());
 				if (baselineNodeDir.exists() && runtimeNodeDir.exists()) {
 					validNodes.add(openCMNode);
 				}
@@ -106,8 +106,8 @@ public final class twoNodeAudit
 			// Single node 
 			Node openCMNode = nodes.getNode(node);
 			// Ensure we have both baseline and runtime available...
-			File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + openCMNode.getUnqualifiedHostname() + File.separator + openCMNode.getNode_name());
-			File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + openCMNode.getUnqualifiedHostname() + File.separator + openCMNode.getNode_name());
+			File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + openCMNode.getNode_name());
+			File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + openCMNode.getNode_name());
 			if (baselineNodeDir.exists() && runtimeNodeDir.exists()) {
 				validNodes.add(openCMNode);
 			}
@@ -203,7 +203,7 @@ public final class twoNodeAudit
 			// ------------------------------------------------------
 			// For each nodePair - Main Processing...
 			// ------------------------------------------------------
-			File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + opencmBaselineNode.getUnqualifiedHostname() + File.separator + opencmBaselineNode.getNode_name());
+			File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + opencmBaselineNode.getNode_name());
 			File [] fBaselineCompDirectories = baselineNodeDir.listFiles();
 			for (File baselineCompPath:fBaselineCompDirectories) {
 				if (baselineCompPath.isDirectory()) {
@@ -568,7 +568,7 @@ public final class twoNodeAudit
 		// --------------------------------------------------------------------
 		// Define reference directory
 		// --------------------------------------------------------------------
-		String defaultDir = PackageUtils.getPackageResourcePath() + File.separator + Configuration.OPENCM_DEFAULT_DIR + File.separator + Configuration.OPENCM_REFERENCE_DIR_PREFIX + stVersion;
+		String defaultDir = opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_DEFAULT_DIR + File.separator + Configuration.OPENCM_REFERENCE_DIR_PREFIX + stVersion;
 		File defaultReferenceDir = new File(defaultDir);
 		if (!defaultReferenceDir.exists() || !defaultReferenceDir.isDirectory()) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL, "auditDefault :: Reference Directory (for default values) does not exist: " + defaultReferenceDir.getPath());

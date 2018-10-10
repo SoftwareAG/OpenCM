@@ -10,7 +10,7 @@ public class ExtractNode {
 	private String extrationDate;
 	private String installTime;
 	private String version;
-	private String platformInfo;
+	private String extractAlias;
 	private LinkedList<ExtractComponent> components;
 
 	public ExtractNode(String alias) {
@@ -49,14 +49,14 @@ public class ExtractNode {
 		this.version = ver; 
 	}
 
-	public String getPlatformInfo() {
-		return this.platformInfo;
+	public String getExtractAlias() {
+		return this.extractAlias;
 	}
 	
-	public void setPlatformInfo(String info) {
-		this.platformInfo = info; 
+	public void setExtractAlias(String alias) {
+		this.extractAlias = alias; 
 	}
-
+	
     @JsonIgnore
 	public LinkedList<ExtractComponent> getComponents() {
 		return this.components;

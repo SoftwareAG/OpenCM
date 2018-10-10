@@ -41,7 +41,7 @@ public class RepoUtils {
 
 	public static LinkedList<String> getFixList(Configuration opencmConfig, Node opencmNode) {
 		LinkedList<String> fixList = new LinkedList<String>();
-		File fixesDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + opencmNode.getUnqualifiedHostname() + File.separator + opencmNode.getNode_name() + File.separator + SpmOps.SPM_COMP_FIXES);
+		File fixesDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + opencmNode.getNode_name() + File.separator + SpmOps.SPM_COMP_FIXES);
 		if (!fixesDirectory.exists()) {
 			return fixList;
 		}
@@ -52,7 +52,7 @@ public class RepoUtils {
 				if (fixDir.isDirectory()) {
 					File jsonFixInfo = new File(fixDir.getPath() + File.separator + SpmOps.SPM_CONF_FILENAME);
 					if (jsonFixInfo.exists()) {
-						String fixName = JsonUtils.getJsonValue(jsonFixInfo,"/fixName");
+						String fixName = JsonUtils.getJsonValue(jsonFixInfo,"/id");
 						String fixVersion = JsonUtils.getJsonValue(jsonFixInfo,"/version");
 						fixList.add(fixName + "_" + fixVersion);
 					}
@@ -67,7 +67,7 @@ public class RepoUtils {
 	}
 	
 	public static String getInstallDir(Configuration opencmConfig, Node opencmNode) {
-		File spmDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + opencmNode.getUnqualifiedHostname() + File.separator + opencmNode.getNode_name() + File.separator + SpmOps.SPM_COMP_NAME);
+		File spmDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + opencmNode.getNode_name() + File.separator + SpmOps.SPM_COMP_NAME);
 		if (!spmDirectory.exists()) {
 			return null;
 		}
@@ -103,7 +103,7 @@ public class RepoUtils {
 		if (opencmNode.getRepositoryType().equals(Configuration.OPENCM_DEFAULT_DIR)) {
 			nodeDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_DEFAULT_DIR + File.separator + Configuration.OPENCM_REFERENCE_DIR_PREFIX + opencmNode.getNode_name());
 		} else {
-			nodeDirectory = new File(opencmConfig.getCmdata_root()  + File.separator + opencmNode.getRepositoryType() + File.separator + opencmNode.getUnqualifiedHostname() + File.separator + opencmNode.getNode_name());
+			nodeDirectory = new File(opencmConfig.getCmdata_root()  + File.separator + opencmNode.getRepositoryType() + File.separator + opencmNode.getNode_name());
 		}
 
 		if ((nodeDirectory != null) && (nodeDirectory.exists())) {
