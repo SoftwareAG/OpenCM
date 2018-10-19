@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head>
+  <title>OpenCM Configuration Management Respoitory - Menu</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="About OpenCM." />
+  <link rel="stylesheet" type="text/css" href="../css/opencm.css" />
+  <link rel="stylesheet" type="text/css" href="../css/datatables.min.css"/>
+  <script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="../js/datatables.min.js"></script>
+  <script>
+  	$(document).ready(function() {
+		var arrEnvs = Array();
+		var arrLayers = Array();
+		var arrServers = Array();
+		var totalNodes = 0;
+		$.each(top.window.opencm_nodes, function( index, env ) {
+			var envServers = 0;
+			var envNodes = 0;
+			if ($.inArray(env.name, arrEnvs) == -1) {
+				arrEnvs.push(env.name);
+			}
+			$.each(env.layers, function( index, layer ) {
+				var layServers = 0;
+				var layNodes = 0;
+				if ($.inArray(layer.name, arrLayers) == -1) {
+					arrLayers.push(layer.name);
+				}
+				$.each(layer.servers, function( index, server ) {
+					envServers++;
+					layServers++;
+					if ($.inArray(server.name, arrServers) == -1) {
+						arrServers.push(server.name);
+					}
+					$.each(server.nodes, function( index, node ) {
+						envNodes++;
+						layNodes++;
+						totalNodes++;
+					})
+				})
+			})
+		});
+
+	
+		var dataSet = [
+						[ "Environments", arrEnvs.length ],
+						[ "Layers", arrLayers.length ],
+						[ "Servers", arrServers.length ],
+						[ "Installations", totalNodes ]
+					  ];
+		$('#summary').DataTable( {
+			data: dataSet,
+			ordering: false,
+			info:     false,
+			paging: false,
+			filter: false,
+			columns: [
+				{ title: "Total" },
+				{ title: "#" }
+			],
+			columnDefs: [
+				{ 
+				targets: '_all',
+				className: 'dt-head-left' }
+			]
+		} );
+		
+	}); 
+   </script>
+</head>
+
+
+<body style="margin-top: 0;">
+
+<section id="popupArea">
+  <h2></h2>
+  </br></br>
+  <h3 align="center">Summary</h3>
+  <table id="summary" class="display" width="100%"></table>	
+</section>
+</body>
+</html>

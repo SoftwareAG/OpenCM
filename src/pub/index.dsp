@@ -10,11 +10,51 @@
     <link rel="icon" href="img/tab.png" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="css/opencm.css" />
     <link rel="stylesheet" type="text/css" href="css/jquery.json-view.css" />
+    <link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
     <title>OpenCM</title>
 </head>
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/d3.v3.min.js"></script>
 <script src="js/jquery.json-view.js"></script>
+<script type="text/javascript" src="js/datatables.min.js"></script>
+<script>
+ 	var opencm_nodes = [
+		%invoke OpenCM.pub.dsp.configuration:getNodes%
+			%loop Environment%
+			 {"name": "%value name%",
+			  "layers": [
+				%loop Layer%
+			     {"name": "%value name%",
+				  "servers": [
+					%loop Server%
+					 {"name": "%value name%",
+					  "nodes": [
+						%loop Node%
+						 {"name": "%value name%",
+						  "rcs": [
+							%loop RuntimeComponent%
+							  {"name": "%value name%",
+							   "protocol": "%value protocol%",
+							   "port": "%value port%",
+							   "username": "%value username%"
+							  }
+							  %loopsep ','%
+						    %endloop%
+						 ]}
+						 %loopsep ','%
+						%endloop%
+				     ]}
+					 %loopsep ','%
+				   %endloop%
+				 ]}
+				 %loopsep ','%
+			   %endloop%
+			  ]}
+			 %loopsep ','%
+		   %endloop%
+		%endinvoke%
+	  ];
+</script>
 <body>
     <div id="auditReport">
         <span class="auditButton b-close"><span>X</span></span>
@@ -34,7 +74,7 @@
     </div>
 	<section id="canvasArea">
 		<div id="canvasLogo">
-			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repo</a><br/><span>v1.8.8</span></h2>
+			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repository</a><br/><span>v1.8.9</span></h2>
 		</div>
 		<div id="canvasTree"></div>
 	</section>
@@ -42,7 +82,7 @@
 	<nav id="optionsArea">
 	   <ul id="optionsMenu">
 			<!-- Repository Menu -->
-			<li id="repoMenu"><a href="/OpenCM">OpenCM Repository</a>
+			<li id="repoMenu"><a href="/OpenCM">Repository</a>
                <ul class="subMenu repoMenu">
 				   <!-- Initiate Full Snapshot generation -->
 				   <li id="extractFromPropsMenu"><a href="javascript:;" onclick="extractWithProps();">Extract using Properties</a></li>
@@ -53,9 +93,9 @@
                </ul>
 			</li>
 			<!-- Inventory Menu -->
-	        <li id="inventoryMenu"><a class="inventoryMenuLink" data-bpopup='{"content":"iframe","contentContainer":".inventoryFrame","loadUrl":"/OpenCM/inventory/index.dsp"}' href="#">Inventory</a></li>
+	        <li id="inventoryMenu"><a class="inventoryMenuLink" data-bpopup='{"content":"iframe","contentContainer":".inventoryFrame","loadUrl":"/OpenCM/inventory"}' href="#">Inventory</a></li>
 			<!-- Assert Menu -->
-			<!-- <li id="assertMenu"><a class="assertMenuLink" data-bpopup='{"content":"iframe","contentContainer":".assertFrame","loadUrl":"/OpenCM/assert.html"}' href="#">Assertions</a></li> -->
+			<!-- <li id="assertMenu"><a class="assertMenuLink" data-bpopup='{"content":"iframe","contentContainer":".assertFrame","loadUrl":"/OpenCM/assert"}' href="#">Assertions</a></li> -->
 			<!-- Audit Menu -->
 			<li id="auditTwoNodeMenu"><a href="#">2-Node Assertions</a>
                   <ul class="subMenu auditTwoNodeMenu">
@@ -167,8 +207,12 @@
 			<div class="accordion-container" id="selection-config">
 				<div id="cmdata-runtime-content" class="hidden"/>
 			</div>
+		    <div id="nodesTableDiv">
+		       <table id="all_nodes" class="display" width="90%"></table>	
+		    </div>
         </section>
     </aside>
+	
   <script src="js/opencm.js"></script>
   %invoke OpenCM.pub.dsp.util:hasCmdataLink%
   	%ifvar exists equals('false')%

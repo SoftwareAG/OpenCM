@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Cache {
 
-	private HashMap<String, String> hm;
+	private HashMap<String, Object> hm;
 	 
 	private static Cache sc = new Cache();
 		
@@ -14,14 +14,14 @@ public class Cache {
 		
 	//Private constructor to prevent instantiation
 	private Cache() {
-		hm = new HashMap<String, String>();
+		hm = new HashMap<String, Object>();
 	}
 	 
-	public void set(String key, String value) {
+	public void set(String key, Object value) {
 		hm.put(key, value);
 	}
 	 
-	public String get(String key) {
+	public Object get(String key) {
 		return hm.get(key);
 	}
 

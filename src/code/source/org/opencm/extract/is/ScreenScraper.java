@@ -69,8 +69,8 @@ public class ScreenScraper {
 			}
 			
 		} catch (Exception ex) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"ScreenScraper.getISPackages() :: " + driver.getCurrentUrl());
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"  --> Exception :: " + ex.getMessage());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"ScreenScraper.getISPackages() :: " + driver.getCurrentUrl());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"  --> Exception :: " + ex.getMessage());
 		} finally {
 			driver.quit();
 		}
@@ -91,8 +91,8 @@ public class ScreenScraper {
 			jceInfo.setValue(this.driver.findElement(By.xpath("//b[text()='ssl']/following::td")).getText());
 			
 		} catch (Exception ex) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"ScreenScraper.getJCE() :: " + driver.getCurrentUrl());
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"  --> Exception :: " + ex.getMessage());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"ScreenScraper.getJCE() :: " + driver.getCurrentUrl());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"  --> Exception :: " + ex.getMessage());
 		} finally {
 			driver.quit();
 		}
@@ -171,8 +171,8 @@ public class ScreenScraper {
 			}
 			
 		} catch (Exception ex) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"ScreenScraper.getSAPAdapterConnections() :: " + driver.getCurrentUrl());
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"  --> Exception :: " + ex.getMessage());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"ScreenScraper.getSAPAdapterConnections() :: " + driver.getCurrentUrl());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"  --> Exception :: " + ex.getMessage());
 		} finally {
 			driver.quit();
 		}
@@ -239,8 +239,8 @@ public class ScreenScraper {
 			}
 			
 		} catch (Exception ex) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"ScreenScraper.getJDBCAdapterConnections() :: " + driver.getCurrentUrl());
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"  --> Exception :: " + ex.getMessage());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"ScreenScraper.getJDBCAdapterConnections() :: " + driver.getCurrentUrl());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"  --> Exception :: " + ex.getMessage());
 		} finally {
 			driver.quit();
 		}
@@ -263,8 +263,8 @@ public class ScreenScraper {
 			}
 			
 		} catch (Exception ex) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"ScreenScraper.getWxConfigInfo() :: " + driver.getCurrentUrl());
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"  --> Exception :: " + ex.getMessage());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"ScreenScraper.getWxConfigInfo() :: " + driver.getCurrentUrl());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"  --> Exception :: " + ex.getMessage());
 		} finally {
 			driver.quit();
 		}

@@ -63,7 +63,7 @@
   font-weight:bold;
 }
 .not-selected {
-  font-weight:normtal;
+  font-weight:normal;
 }
 
 #myProgress {
@@ -294,29 +294,15 @@ ul#optionsMenu>li:hover .aboutMenu {
     overflow-y: auto;
     overflow-x: hidden
 }
-#popupArea,
-body {
-    background: #18202a;
-    font-size: 14px;
-    font-family: Open Sans, Helvetica, Arial, sans-serif;
-    line-height: 1;
-    overflow: hidden;
-    position: fixed
-}
-section#popupArea {
-    margin: 0 0;
-    padding: 0;
-    background-color: #ffffff
-}
-#popupArea table {
-    *border-collapse: collapse; /* IE7 and lower */
-    border-spacing: 0;
-    width: 100%
-}
 #popupArea div {
     position: relative;
 	top: 0;
     padding: 17px
+}
+#popupArea #env-select {
+    position: fixed;
+	top: 200;
+    padding: 5px
 }
 /* Popup Headings */
 #popupArea h2 {
@@ -333,7 +319,7 @@ section#popupArea {
     font-size: 1.3em
 }
 #popupArea h3 {
-	background: #dce9f9;
+    background: #dce9f9;
     cursor: pointer;
     padding: .5em;
     padding-right: 4px;
@@ -341,12 +327,26 @@ section#popupArea {
     font-weight: 100
 }
 #popupArea h4 {
+    color: #3498db;
+    display: block;
+    font-size: 1.1em;
+    font-weight: 0;
+    margin: 10;
+    padding: 0 10px;
+    text-align: left
+}
+#popupArea p {
+    color: #2E268C;
+    padding: .5em;
+    padding-right: 4px;
+    font-size: 1.0em;
+}
+#popupArea select {
 	background: #FFFFFF;
     color: #3498db;
     display: block;
     font-size: 1.1em;
     font-weight: 100;
-    margin: 10;
     padding: 0 10px;
     text-align: left
 }
@@ -356,10 +356,37 @@ section#popupArea {
 }
 
 
+/* Audit Configuration */
+#auditConfArea {
+    color: #3498db;
+    background: #FFFFFF;
+    height: 100%;
+}
+
+#auditConfArea h2 {
+    box-sizing: border-box;
+    background: #dce9f9;
+    text-align: center;
+	color: #3498db;
+    display: block;
+    height: 40px;
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    vertical-align: middle;
+    font-size: 1.3em
+}
+.sol-caret-container {
+    position: absolute;
+    display: inline-block;
+    width: 25px;
+    right: 0px;
+    top: 10px;
+    bottom: 0px;
+}
 
 /* Graph Area */
-#canvasArea,
-body {
+#canvasArea, body {
     background: #18202a;
     font-size: 14px;
     font-family: Open Sans, Helvetica, Arial, sans-serif;
@@ -401,7 +428,6 @@ section#canvasArea {
     color: #34495e;
     font-size: .6em
 }
-
 /* Properties Details Area */
 #detailsArea {
     color: #3498db;
@@ -453,6 +479,13 @@ section#canvasArea {
     padding: 0 10px;
     text-align: left
 }
+
+
+#detailsArea #generalDetails #nodesTableDiv {
+    padding: 20px;
+}
+
+
 #detailsArea #generalDetails h5 {
     border-bottom: 1px solid #3498db;
     font-size: .9em;
@@ -1357,78 +1390,11 @@ marker path {
 	min-height:800px;
 	min-width:1600px
 }
-/* Table properties for popup area */
-.bordered {
-    border: solid #ccc 1px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 1px 1px #ccc; 
-    -moz-box-shadow: 0 1px 1px #ccc; 
-    box-shadow: 0 1px 1px #ccc;         
+/* Datatables image icons */
+td.details-control {
+    background: url('../img/details_open.png') no-repeat center center;
+    cursor: pointer;
 }
-
-.bordered tr:hover {
-    background: #fbf8e9;
-    -o-transition: all 0.1s ease-in-out;
-    -webkit-transition: all 0.1s ease-in-out;
-    -moz-transition: all 0.1s ease-in-out;
-    -ms-transition: all 0.1s ease-in-out;
-    transition: all 0.1s ease-in-out;     
-}    
-    
-.bordered td, .bordered th {
-    border-left: 1px solid #ccc;
-    border-top: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;    
-}
-
-.bordered th {
-    background-color: #dce9f9;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
-    background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
-    background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);
-    background-image:     -ms-linear-gradient(top, #ebf3fc, #dce9f9);
-    background-image:      -o-linear-gradient(top, #ebf3fc, #dce9f9);
-    background-image:         linear-gradient(top, #ebf3fc, #dce9f9);
-    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; 
-    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;  
-    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;        
-    border-top: none;
-    text-shadow: 0 1px 0 rgba(255,255,255,.5); 
-}
-
-.bordered td:first-child, .bordered th:first-child {
-    border-left: none;
-}
-
-.bordered th:first-child {
-    -moz-border-radius: 6px 0 0 0;
-    -webkit-border-radius: 6px 0 0 0;
-    border-radius: 6px 0 0 0;
-}
-
-.bordered th:last-child {
-    -moz-border-radius: 0 6px 0 0;
-    -webkit-border-radius: 0 6px 0 0;
-    border-radius: 0 6px 0 0;
-}
-
-.bordered th:only-child{
-    -moz-border-radius: 6px 6px 0 0;
-    -webkit-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 0 0;
-}
-
-.bordered tr:last-child td:first-child {
-    -moz-border-radius: 0 0 0 6px;
-    -webkit-border-radius: 0 0 0 6px;
-    border-radius: 0 0 0 6px;
-}
-
-.bordered tr:last-child td:last-child {
-    -moz-border-radius: 0 0 6px 0;
-    -webkit-border-radius: 0 0 6px 0;
-    border-radius: 0 0 6px 0;
+tr.shown td.details-control {
+    background: url('../img/details_close.png') no-repeat center center;
 }

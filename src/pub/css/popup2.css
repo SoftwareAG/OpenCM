@@ -1,0 +1,36 @@
+/* Audit Configuration */
+body,
+main {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%
+}
+
+#auditConfArea {
+    color: #3498db;
+    background: #ffffff;
+    height: 100%;
+	vertical-align: middle;
+}
+.sol-caret-container {
+    position: absolute;
+    display: inline-block;
+    width: 25px;
+    right: 0px;
+    top: 10px;
+    bottom: 0px;
+}
+#auditConfArea h2 {
+    box-sizing: border-box;
+    background: #dce9f9;
+    text-align: center;
+	color: #3498db;
+    display: block;
+    height: 40px;
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    vertical-align: middle;
+    font-size: 1.3em
+}

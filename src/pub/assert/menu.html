@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head>
+  <title>OpenCM Configuration Management Respoitory - Menu</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="About OpenCM." />
+  <link rel="stylesheet" type="text/css" href="../css/sol.css" />
+  <link rel="stylesheet" type="text/css" href="../css/opencm.css" />
+  <script src="../js/jquery-1.10.2.min.js"></script>
+  <script src="../js/sol.js"></script>
+  <script>
+ 	$(document).ready(function() {
+       $('#env-select').searchableOptionList({
+            data: function () {
+				var arrEnvs = top.window.getInventoryData("environments");
+				var menuOpts = Array();
+				$.each(arrEnvs, function( index, env ) {
+					var option = { type: "option" , value: env, label: env };
+					menuOpts.push(option); 
+				});
+                return menuOpts;
+            },
+			texts: {
+				noItemsAvailable: 'Empty',
+				selectAll: 'All',
+				selectNone: 'None',
+				searchplaceholder: 'Select/Search Environments'
+			},
+			showSelectionBelowList: 'true'
+       });
+       $('#layer-select').searchableOptionList({
+            data: function () {
+				var arrLayers = top.window.getInventoryData("layers");
+				var menuOpts = Array();
+				$.each(arrLayers, function( index, layer ) {
+					var option = { type: "option" , value: layer, label: layer };
+					menuOpts.push(option); 
+				});
+                return menuOpts;
+            },
+			texts: {
+				noItemsAvailable: 'Empty',
+				selectAll: 'All',
+				selectNone: 'None',
+				searchplaceholder: 'Select/Search Layers'
+			},
+			showSelectionBelowList: 'true'
+       });
+       $('#node-select').searchableOptionList({
+            data: function () {
+				var arrNodes = top.window.getInventoryData("nodes");
+				var menuOpts = Array();
+				$.each(arrNodes, function( index, node ) {
+					var option = { type: "option" , value: node, label: node };
+					menuOpts.push(option); 
+				});
+                return menuOpts;
+            },
+			texts: {
+				noItemsAvailable: 'Empty',
+				selectAll: 'All',
+				selectNone: 'None',
+				searchplaceholder: 'Select/Search Installation Nodes'
+			},
+			showSelectionBelowList: 'true'
+       });
+	}); 
+  </script>
+  
+</head>
+
+<body style="margin-top: 0;">
+	<section id="auditConfArea">
+	  <h2></h2>
+		</br></br>
+		<h3>Audit Configuration</h3>
+		<select id="env-select" name="character" multiple="multiple" ></select>
+		</br></br>
+		<select id="layer-select" name="character" multiple="multiple" ></select>
+		</br></br>
+		<select id="node-select" name="character" multiple="multiple" ></select>
+	</section>
+</body>
+</html>

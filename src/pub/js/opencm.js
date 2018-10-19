@@ -47,21 +47,18 @@ function getQueryVariable(variable)
 }
 
 var opencm_node = getQueryVariable("node");
-var overview_page = false;
 var node_page = false;
 
 if ((opencm_node != null) && (opencm_node != "")) {
 	node_page = true;
-} else {
-	overview_page = true;
 }
 
 var cm_action = getQueryVariable("action");
 
-if (overview_page) {
-	var json_tree = "dndTree/overview.json";
-} else {
+if (node_page) {
 	var json_tree = "dndTree/" + opencm_node + "_RUNTIME.json";			// Always display tree based on runtime.... (baseline may exist as well)
+} else {
+	var json_tree = "dndTree/overview.json";
 }
 
 var cmdataBaselineExists = false;
@@ -523,7 +520,15 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 			d = toggleChildren(d);
 			update(d);
 		}
-		if (overview_page) {
+		if (node_page) {
+			if ((d.level == "NODE") || (d.level == "COMPONENT")) {
+			  centerNode(d);
+			}
+			if (d.level == "INSTANCE") {
+				d3.select(this).select("text").style("fill", "blue").style("font-weight", "bold");
+				d3.select(this).select("circle").style("fill", "blue");
+			}
+		} else {
 			if (d.level == "ASS_GROUP") {
 				if (d.children != null) {
 					d.children.forEach(function(d) {
@@ -534,14 +539,6 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 			}
 			if ((d.level == "ROOT") || (d.level == "ENVIRONMENT") || (d.level == "ASS_GROUP")) {
 				centerNode(d);
-			}
-		} else {
-			if ((d.level == "NODE") || (d.level == "COMPONENT")) {
-			  centerNode(d);
-			}
-			if (d.level == "INSTANCE") {
-				d3.select(this).select("text").style("fill", "blue").style("font-weight", "bold");
-				d3.select(this).select("circle").style("fill", "blue");
 			}
 		}
 		displayProps(d);
@@ -576,7 +573,15 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
             // d.y = (d.depth * (maxLabelLength * 15)); //maxLabelLength * 15px
             // alternatively to keep a fixed scale one can set a fixed depth per level
             // Normalize for fixed-depth by commenting out below line
-			if (overview_page) {
+			if (node_page) {
+				if (d.parent == null) {
+					d.y = (d.depth * 200); //300px per level.
+				} else if (d.level == "COMPONENT") {
+					d.y = (d.depth * 250); 
+				} else {
+					d.y = (d.depth * 200); 
+				}
+			} else {
 				if (d.parent == null) {
 					d.y = (d.depth * 100); //100px per level.
 				} else if (d.level == "ENVIRONMENT") {
@@ -584,14 +589,6 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 				} else if (d.level == "ASS_GROUP") {
 					d.y = (d.depth * 250); 
 				} else if (d.level == "SERVER") {
-					d.y = (d.depth * 250); 
-				} else {
-					d.y = (d.depth * 200); 
-				}
-			} else {
-				if (d.parent == null) {
-					d.y = (d.depth * 200); //300px per level.
-				} else if (d.level == "COMPONENT") {
 					d.y = (d.depth * 250); 
 				} else {
 					d.y = (d.depth * 200); 
@@ -636,12 +633,12 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
             })
             .style("fill-opacity", 0)
             .style("fill", function(d) {
-              if (overview_page && (d.level == "NODE") && !d.hasRuntime) {
+              if (!node_page && (d.level == "NODE") && !d.hasRuntime) {
 					return "red"; 
 			  }
 			})
 			.attr("class", function(d) {
-				if (overview_page && (d.level == "NODE")) { return 'overviewNode'; } 
+				if (!node_page && (d.level == "NODE")) { return 'overviewNode'; } 
 				if (d.parent == null) { return 'nodeLevel1'; 
 				} else if ((d.level == "NODE") || (d.level == "ENVIRONMENT") || (d.level == "ASS_GROUP")) { return 'nodeLevel2';  
 				} else if (d.level == "COMPONENT") { return 'nodeLevel3'; 
@@ -883,7 +880,7 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 			return;
 		}
 		
-		if (overview_page) {
+		if (!node_page) {
 			return;
 		}
 			
@@ -939,12 +936,7 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 		// Hide Notification area
 		$('#notification').hide();
 		
-		if (overview_page) {
-			$('#opencm_page').text("CM Repository Overview");
-			$('#opencm-node-details').hide();
-			$('#no-cmdata-details').hide();
-			$('#cm_no_cmdata').hide();
-		} else {
+		if (node_page) {
 			$('#opencm_page').text(opencm_node);
 			$('#ass_group').text(root.assertionGroup);
 			$('#env').text(root.environment);
@@ -958,6 +950,11 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 				$('#no-cmdata-details').show();
 				$('#cm_no_cmdata').show();
 			}
+		} else {
+			$('#opencm_page').text("OpenCM Installation Nodes Inventory");
+			$('#opencm-node-details').hide();
+			$('#no-cmdata-details').hide();
+			$('#cm_no_cmdata').hide();
 		}
 
 		// Hide All Other Properties (server and node info will be delayed (asynch call to read properties)
@@ -972,15 +969,7 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 		$('#selection-cmdata-baseline-properties').hide();
 		$('#selection-cmdata-runtime-properties').hide();
 
-		if (overview_page) {
-			$('#extractNodeMenu').hide();
-			$('#promoteRuntimeMenu').hide();
-			$('#audit_PerformBaselineSingleAudit').hide();
-			$('#audit_PerformDefaultRuntimeAudit').hide();
-			$('#audit_PerformDefaultBaselineAudit').hide();
-			$('#conf_CceAddNode').hide();
-			$('#conf_CceFixScript').hide();
-		} else {
+		if (node_page) {
 			$('#extractNodeMenu').show();
 			$('#promoteRuntimeMenu').show();
 			$('#audit_PerformBaselineSingleAudit').show();
@@ -988,6 +977,14 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 			$('#audit_PerformDefaultBaselineAudit').show();
 			$('#conf_CceAddNode').show();
 			$('#conf_CceFixScript').show();
+		} else {
+			$('#extractNodeMenu').hide();
+			$('#promoteRuntimeMenu').hide();
+			$('#audit_PerformBaselineSingleAudit').hide();
+			$('#audit_PerformDefaultRuntimeAudit').hide();
+			$('#audit_PerformDefaultBaselineAudit').hide();
+			$('#conf_CceAddNode').hide();
+			$('#conf_CceFixScript').hide();
 		}
     }
 
@@ -1287,3 +1284,94 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 		zIndex: 9997
 	}
 })(jQuery);
+
+// Inventory functions
+function getInventoryData(scope) {
+	var opencmData = Array();
+	if (scope == "environments") {
+		$.each(opencm_nodes, function( index, env ) {
+			opencmData.push(env.name);
+		});
+	} else if (scope == "layers") {
+		$.each(opencm_nodes, function( index, env ) {
+			$.each(env.layers, function( index, layer ) {
+				if ($.inArray(layer.name, opencmData) == -1) {
+					opencmData.push(layer.name);
+				}
+			});
+		});
+	} else if (scope == "nodes") {
+		$.each(opencm_nodes, function( index, env ) {
+			$.each(env.layers, function( index, layer ) {
+				$.each(layer.servers, function( index, server ) {
+					$.each(server.nodes, function( index, node ) {
+						opencmData.push( node.name );
+					});
+				});
+			});
+		});
+	} else if (scope == "overview") {
+		$.each(opencm_nodes, function( index, env ) {
+			$.each(env.layers, function( index, layer ) {
+				$.each(layer.servers, function( index, server ) {
+					$.each(server.nodes, function( index, node ) {
+						opencmData.push([ server.name, node.name ]);
+					});
+				});
+			});
+		});
+	} else if (scope == "inventory") {
+		$.each(opencm_nodes, function( index, env ) {
+			$.each(env.layers, function( index, layer ) {
+				$.each(layer.servers, function( index, server ) {
+					$.each(server.nodes, function( index, node ) {
+						var rcs = Array();	// Runtime Components
+						$.each(node.rcs, function( index, rc ) {
+							rcs.push( {name: rc.name, protocol: rc.protocol, port: rc.port, username: rc.username } );
+						});
+						opencmData.push( { env: env.name, 
+										   layer: layer.name, 
+										   server: server.name, 
+										   node: node.name,
+										   rcs: rcs
+										   });
+						
+					});
+				});
+			});
+		});
+	}
+	
+	return opencmData;
+}
+
+if (node_page) {
+	$('#nodesTableDiv').hide();
+} else {
+	$(document).ready(function() {
+		$('#all_nodes').DataTable( {
+			data: getInventoryData("overview"),
+			ordering: false,
+			info:     false,
+			paging:   true,
+			filter:   true,
+			pageLength: 25,
+			dom: '<"top"f>rt<"bottom"p>',
+			columns: [
+				{ title: "Hostname" },
+				{ title: "Node Name",
+				  render: function(data, type, row, meta){
+					return '<a target="_top" href="/OpenCM/?node='+data+'">' + data + '</a>';
+				  }
+				}
+			],
+			columnDefs: [
+				{ 
+				targets: '_all',
+				className: 'dt-head-left' }
+			]
+		} );
+		
+	}); 
+}
+

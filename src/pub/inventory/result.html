@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head>
+  <title>OpenCM Configuration Management Respoitory - Main</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="Assertion Result" />
+  <link rel="stylesheet" type="text/css" href="../css/opencm.css" />
+  <link rel="stylesheet" type="text/css" href="../css/datatables.min.css"/>
+  <script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="../js/datatables.min.js"></script>
+   <script>
+	function format ( d ) {
+		var rcData = '';
+		for (var i = 0; i < d.rcs.length; i++) {
+			if (d.rcs[i].name == "OSGI-SPM") {
+				var spmURL = d.rcs[i].protocol + "://" + d.server + ":" + d.rcs[i].port + "/spm";
+				rcData += '<tr><td>SPM URL:</td><td><a target="_blank" href="' + spmURL + '">' + spmURL + '</a></td></tr>';
+			} else if (d.rcs[i].name.startsWith("integrationServer-")) {
+				var isURL = d.rcs[i].protocol + "://" + d.server + ":" + d.rcs[i].port;
+				rcData += '<tr><td>IS URL:</td><td><a target="_blank" href="' + isURL + '">' + isURL + '</a></td></tr>';
+			}
+		}
+		return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' + rcData + '</table>';
+	}   
+	$(document).ready(function() {
+		var table = $('#inventory_nodes').DataTable( {
+			data: top.window.getInventoryData("inventory"),
+			ordering: true,
+			pageLength: 10,
+			columns: [
+				{
+					"className":      'details-control',
+					"orderable":      false,
+					"data":           null,
+					"defaultContent": ''
+				},
+				{ data: "env" },
+				{ data: "layer" },
+				{ data: "server" },
+				{ data: "node" ,
+				  render: function(data, type, row, meta){
+					return '<a target="_top" href="/OpenCM/?node='+data+'">' + data + '</a>';
+				  }
+				}
+			],
+			columnDefs: [
+				{ 
+				targets: '_all',
+				className: 'dt-head-left' }
+			]
+		});
+		$('#inventory_nodes tbody').on('click', 'td.details-control', function () {
+			var tr = $(this).closest('tr');
+			var row = table.row( tr );
+	 
+			if ( row.child.isShown() ) {
+				row.child.hide();
+				tr.removeClass('shown');
+			}
+			else {
+				row.child( format(row.data()) ).show();
+				tr.addClass('shown');
+			}
+		});
+	
+	}); 
+   </script>
+  </head>
+<body>
+
+<section id="popupArea">
+  <h2>Infrastructure Inventory</h2>
+  <div>
+	<table id="inventory_nodes" class="display" style="width:90%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Environment</th>
+                <th>Layer</th>
+                <th>Hostname</th>
+                <th>Installation Node</th>
+            </tr>
+        </thead>
+	</table>	
+  </div>
+</section>
+</body>
+</html>

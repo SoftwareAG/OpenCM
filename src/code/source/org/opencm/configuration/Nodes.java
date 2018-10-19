@@ -23,10 +23,13 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SequenceWriter;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.opencm.security.KeyUtils;
+import org.opencm.util.Cache;
 import org.opencm.util.LogUtils;
 
 public class Nodes {
-	
+
+    public static final String  		NODES_CACHE_KEY					= "OPENCM_NODES";
+
 	private static final String 		KEEPASS_PROPERTY_HOSTNAME 		= 	"host";
 	private static final String 		KEEPASS_PROPERTY_PROTOCOL 		= 	"protocol";
 	private static final String 		KEEPASS_PROPERTY_PORT 			= 	"port";
@@ -41,7 +44,11 @@ public class Nodes {
     }
     
     public static Nodes instantiate(Configuration opencmConfig) {
-    	Nodes opencmNodes = null;
+    	Nodes opencmNodes = (Nodes) Cache.getInstance().get(NODES_CACHE_KEY);
+    	if (opencmNodes != null) {
+    		return opencmNodes;
+    	}
+
     	if (opencmConfig.getEndpoint_config().getType().equals(EndpointConfiguration.ENDPOINT_CONFIG_KEEPASS)) {
     		// Using Keepass as a db for endpoints
     		String keepassDb = opencmConfig.getEndpoint_config().getDb();
@@ -121,6 +128,7 @@ public class Nodes {
         	}
     	}
     	
+    	Cache.getInstance().set(NODES_CACHE_KEY, opencmNodes);
     	return opencmNodes;
     }
     

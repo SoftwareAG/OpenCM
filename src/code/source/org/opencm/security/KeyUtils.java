@@ -25,7 +25,7 @@ public class KeyUtils {
 	private static int SECRET_KEY_LENGTH		= 128;
 	
 	public static String getMasterPassword() {
-		return Cache.getInstance().get(OPENCM_MASTER_PASSWORD_GLOBAL_VARIABLE);
+		return (String) Cache.getInstance().get(OPENCM_MASTER_PASSWORD_GLOBAL_VARIABLE);
 	}
 
 	public static String encrypt(String stValue) {

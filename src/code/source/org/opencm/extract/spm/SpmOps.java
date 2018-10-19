@@ -507,6 +507,12 @@ public class SpmOps {
 	}
 
 	public void persist() {
+		
+		if (this.platformJson == null) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"No Platform Info: Skipping Persistence for node " + this.opencmNode.getNode_name());
+			return;
+		}
+		
 		String rootPath = opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR; 
 		
 		/**
@@ -539,10 +545,18 @@ public class SpmOps {
 		// -----------------------------
 		// Create Node Directory
 		// -----------------------------
-		if (!FileUtils.createDirectory(nodePath)) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Node Dir Could not be created - skipping Persistence");
+		try {
+			java.nio.file.Files.createDirectories(java.nio.file.Paths.get(nodePath));
+		} catch (Exception ex) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Node Dir Could not be created - skipping Persistence :: " + ex.getMessage());
 			return;
 		}
+		/**
+		if (!FileUtils.createDirectory(nodePath)) {
+			return;
+		}
+		**/
+		
 		// -----------------------------
 		// Construct Node Information
 		// -----------------------------

@@ -2,15 +2,15 @@
 
 <Values version="2.0">
   <value name="name">OpenCM</value>
-  <value name="version">1.8.8</value>
+  <value name="version">1.8.9</value>
   <value name="build"></value>
   <value name="patch_nums"></value>
   <value name="description"></value>
-  <value name="target_pkg_version">1.8.8</value>
+  <value name="target_pkg_version">1.8.9</value>
   <value name="jvm_version">1.8.0_181</value>
   <value name="source_server_version">10.1.0.0</value>
   <value name="target_server_version">10.1.0.0</value>
-  <value name="time">2018-10-10 09:25:27 CEST</value>
+  <value name="time">2018-10-19 11:30:07 CEST</value>
   <value name="type">full</value>
   <null name="retainPatchHistory"/>
   <value name="target_pkg_name">OpenCM</value>
