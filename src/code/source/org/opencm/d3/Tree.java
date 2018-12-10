@@ -7,7 +7,7 @@ public class Tree {
 
 	private String name;
 	private String level;
-	private String assertionGroup;
+	private String layer;
 	private String env;
 	private String spmURL;
 	private LinkedList<Child> children;
@@ -27,11 +27,11 @@ public class Tree {
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public String getAssertionGroup() {
-		return this.assertionGroup;
+	public String getLayer() {
+		return this.layer;
 	}
-	public void setAssertionGroup(String group) {
-		this.assertionGroup = group;
+	public void setLayer(String layer) {
+		this.layer = layer;
 	}
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)

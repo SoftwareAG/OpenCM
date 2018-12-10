@@ -49,10 +49,10 @@ public class Nodes {
     		return opencmNodes;
     	}
 
-    	if (opencmConfig.getEndpoint_config().getType().equals(EndpointConfiguration.ENDPOINT_CONFIG_KEEPASS)) {
+    	if (opencmConfig.getInventory_config().getType().equals(InventoryConfiguration.INVENTORY_CONFIG_KEEPASS)) {
     		// Using Keepass as a db for endpoints
-    		String keepassDb = opencmConfig.getEndpoint_config().getDb();
-    		String opencmGroup = opencmConfig.getEndpoint_config().getTop_group();
+    		String keepassDb = opencmConfig.getInventory_config().getDb();
+    		String opencmGroup = opencmConfig.getInventory_config().getTop_group();
         	String masterPwd = KeyUtils.getMasterPassword();
     		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," KeepassDB: " + keepassDb);
     		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Top Group: " + opencmGroup);
@@ -88,7 +88,14 @@ public class Nodes {
     						LinkedList<RuntimeComponent> runtimeComponents = new LinkedList<RuntimeComponent>();
     						for (int c = 0; c < components.size(); c++) {
     							Entry component = components.get(c);
-    	                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"       Keepass: Processing Component : " + component.getTitle());
+       	                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"       Keepass: Processing Component : " + component.getTitle());
+       	                		if (!component.getTitle().equals(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM) &&  
+   	                				!component.getTitle().equals(RuntimeComponent.RUNTIME_COMPONENT_NAME_CCE) &&
+   	                				!component.getTitle().equals(RuntimeComponent.RUNTIME_COMPONENT_NAME_SYNCH) &&
+	                				!component.getTitle().startsWith(RuntimeComponent.RUNTIME_COMPONENT_NAME_IS_PREFIX)) {
+       	                			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"       Keepass: Ignoring Component : " + component.getTitle());
+       	                			continue;
+    	                		}
     	                		RuntimeComponent runtimeComponent = new RuntimeComponent();
     							if (node.getHostname() == null) {
         							node.setHostname(component.getPropertyByName(KEEPASS_PROPERTY_HOSTNAME).getValue());
@@ -111,7 +118,7 @@ public class Nodes {
     		} 
     		
     	} else {
-    		// Using OpenCM nodes.properties as a db for endpoints
+    		// Using OpenCM nodes.properties as an inventory store
         	File opencmNodesFile = new File(opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_NODES_PROPS);
         	if (!opencmNodesFile.exists()) {
         		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Nodes - File not found: " + opencmNodesFile.getPath());
@@ -405,7 +412,7 @@ public class Nodes {
     @JsonIgnore
     public void ensureDecryptedPasswords(Configuration opencmConfig) {
     	
-    	if (!opencmConfig.getEndpoint_config().getType().equals(EndpointConfiguration.ENDPOINT_CONFIG_OPENCM)) {
+    	if (!opencmConfig.getInventory_config().getType().equals(InventoryConfiguration.INVENTORY_CONFIG_OPENCM)) {
     		return;
     	}
     	

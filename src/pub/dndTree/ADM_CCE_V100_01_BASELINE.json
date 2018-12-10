@@ -1,8 +1,0 @@
-{
-  "name" : "ADM_CCE_V100_01",
-  "level" : "NODE",
-  "assertionGroup" : "CCE_V100",
-  "spmURL" : "https://cce_admin_server.opencm.org:8093/spm",
-  "children" : null,
-  "environment" : "Administration"
-}

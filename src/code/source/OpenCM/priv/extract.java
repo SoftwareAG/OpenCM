@@ -9,12 +9,13 @@ import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
 import java.util.LinkedList;
 import org.opencm.configuration.Configuration;
-import org.opencm.configuration.Nodes;
 import org.opencm.configuration.PkgConfiguration;
-import org.opencm.configuration.Node;
+import org.opencm.configuration.model.*;
+import org.opencm.inventory.Inventory;
+import org.opencm.inventory.Installation;
 import org.opencm.util.LogUtils;
 import org.opencm.security.KeyUtils;
-import org.opencm.extract.configuration.ExtractProperties;
+import org.opencm.extract.configuration.*;
 import org.opencm.extract.spm.SpmOps;
 // --- <<IS-END-IMPORTS>> ---
 
@@ -70,75 +71,105 @@ public final class extract
 		}
 		
 		// --------------------------------------------------------------------
-		// Read in OpenCM Nodes Properties
+		// Read in Inventory
 		// --------------------------------------------------------------------
-		Nodes nodes = Nodes.instantiate(opencmConfig);
+		Inventory inv = Inventory.instantiate(opencmConfig);
 		
 		// --------------------------------------------------------------------
 		// Ensure Encrypted passwords ...
 		// --------------------------------------------------------------------
-		nodes.ensureDecryptedPasswords(opencmConfig);
+		inv.ensureEncryptedPasswords(opencmConfig);
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Defining the Nodes for Extraction based on: " + stNode);
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Extraction job parameter: " + stNode);
 		
 		// --------------------------------------------------------------------
 		// Define which nodes to extract 
 		// --------------------------------------------------------------------
-		LinkedList<Node> lNodes = new LinkedList<Node>();
+		LinkedList<Installation> installations = new LinkedList<Installation>();
+		
 		if (stNode.equals("PROPS")) {
-			// Use defined Properties as per config file 
 			// --------------------------------------------------------------------
 			// Read in OpenCM Extract Properties
 			// --------------------------------------------------------------------
-			ExtractProperties extractProps = ExtractProperties.instantiate(opencmConfig);
-			
-			if (extractProps.getExtractAll()) {
-				// --------------------------------------------------------------------
-				// All CCE nodes 
-				// --------------------------------------------------------------------
-				lNodes.addAll(nodes.getNodes());
-			} else {
-				if ((extractProps.getOpencm_environments() != null) && !extractProps.getOpencm_environments().isEmpty()) {
-					for (int i = 0; i < extractProps.getOpencm_environments().size(); i++) { 
-						String env = extractProps.getOpencm_environments().get(i);
-						lNodes.addAll(nodes.getNodesByEnvironment(env));
-					}
-				}
-				if ((extractProps.getNodes() != null) && !extractProps.getNodes().isEmpty()) {
-					for (int i = 0; i < extractProps.getNodes().size(); i++) { 
-						Node opencmNode = nodes.getNode(extractProps.getNodes().get(i));
-						if (opencmNode == null) {
-							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"No OpenCM Node defined for .. " + extractProps.getNodes().get(i));
+			ExtractConfiguration extractConfig = ExtractConfiguration.instantiate(opencmConfig);
+			LinkedList<Organisation> extractOrgs = extractConfig.getExtract();
+			for (int o = 0; o < extractOrgs.size(); o++) {
+				Organisation extractOrg = extractOrgs.get(o);
+				if ((extractOrg.getDepartments() == null) || (extractOrg.getDepartments().size() == 0)) {
+					// Collect all nodes defined under this Org
+					LinkedList<Installation> invNodes = inv.getInstallations(extractOrg.getOrg(),null,null);
+					installations = addInstallations(installations, invNodes);
+				} else {
+					LinkedList<Department> extractDeps = extractOrg.getDepartments();
+					for (int d = 0; d < extractDeps.size(); d++) {
+						Department extractDep = extractDeps.get(d);
+						if ((extractDep.getEnvironments() == null) || (extractDep.getEnvironments().size() == 0)) {
+							// Collect all nodes defined under this Dep
+							LinkedList<Installation> invNodes = inv.getInstallations(extractOrg.getOrg(),extractDep.getDep(),null);
+							installations = addInstallations(installations, invNodes);
 						} else {
-							lNodes.add(opencmNode);
+							LinkedList<Environment> extractEnvs = extractDep.getEnvironments();
+							for (int e = 0; e < extractEnvs.size(); e++) {
+								Environment extractEnv = extractEnvs.get(e);
+								if ((extractEnv.getNodes() == null) || (extractEnv.getNodes().size() == 0)) {
+									// Collect all nodes defined under this Env
+									LinkedList<Installation> invNodes = inv.getInstallations(extractOrg.getOrg(),extractDep.getDep(),extractEnv.getEnv());
+									installations = addInstallations(installations, invNodes);
+								} else {
+									// Add individual nodes
+									LinkedList<String> extractNodes = extractEnv.getNodes();
+									for (int n = 0; n < extractNodes.size(); n++) {
+										installations = addInstallation(installations, inv.getInstallation(extractNodes.get(n)));
+									}
+								}
+							}
 						}
 					}
 				}
 			}
-			
+				
 		} else {
 			// Single node extract
-			lNodes.add(nodes.getNode(stNode));
+			installations.add(inv.getInstallation(stNode));
 		}
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Ready for Extraction: " + lNodes.size() + " to process...");
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Ready for Extraction: " + installations.size() + " to process...");
 		
 		// --------------------------------------------------------------------
 		// Extract All nodes
 		// --------------------------------------------------------------------
-		for (int i = 0; i < lNodes.size(); i++) {
-			Node opencmNode = lNodes.get(i);
-			SpmOps spm = new SpmOps(opencmConfig, opencmNode);
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Extracting Node .. " + opencmNode.getNode_name());
+		for (int i = 0; i < installations.size(); i++) {
+			Installation installation = installations.get(i);
+			SpmOps spm = new SpmOps(opencmConfig, inv, installation);
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Extracting Node .. " + installation.getName());
 			spm.extractAll();
 			spm.persist(); 
 		}
-		
+			
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Extraction Process Completed... ========== ");
 			
 		// --- <<IS-END>> ---
 
                 
 	}
+
+	// --- <<IS-START-SHARED>> ---
+	private static LinkedList<Installation> addInstallation(LinkedList<Installation> nodeList, Installation inst) {
+		if ((inst != null) && !nodeList.contains(inst)) {
+			nodeList.add(inst);
+		}
+		return nodeList;
+	}
+	private static LinkedList<Installation> addInstallations(LinkedList<Installation> nodeList, LinkedList<Installation> toAdd) {
+		for (int i = 0; i < toAdd.size(); i++) {
+			Installation inst = toAdd.get(i);
+			if (!nodeList.contains(inst)) {
+				nodeList.add(inst);
+			}
+		}
+		return nodeList;
+	}
+		
+	// --- <<IS-END-SHARED>> ---
 }
 

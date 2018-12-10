@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import org.opencm.audit.assertion.AssertionStore;
+import org.opencm.configuration.model.Organisation;
 import org.opencm.util.LogUtils;
 
 public class Configuration {
@@ -15,12 +16,14 @@ public class Configuration {
     public static String OPENCM_MAIN_CONFIG 						= "opencm.properties";
     
     public static String OPENCM_NODES_PROPS 						= "nodes.properties";
+    public static String OPENCM_INVENTORY 							= "inventory.properties";
     public static String OPENCM_EXCTRACT_PROPS 						= "extract.properties";
     public static String OPENCM_SYNCH_PROPS 						= "synch.properties";
     public static String OPENCM_AUDIT_DEFAULT_PROPS 				= "default_auditing.properties";
     public static String OPENCM_AUDIT_TWO_NODE_PROPS 				= "audit_nodes.properties";
     public static String OPENCM_AUDIT_BASELINE_RUNTIME_NODE_PROPS 	= "baseline_runtime_node.properties";
     
+    public static String OPENCM_CONFIG_DIR_AUDIT 				= "audit";
     public static String OPENCM_CONFIG_DIR_TWO_NODE_AUDIT 		= "audit_two_node";
     public static String OPENCM_CONFIG_DIR_LAYERED_AUDIT 		= "audit_layered";
     
@@ -45,15 +48,15 @@ public class Configuration {
     private String config_directory;
     private String cmdata_root;
     private String output_dir;
-    private EndpointConfiguration endpoint_config;
+    private InventoryConfiguration inventory_config;
     private String cce_mgmt_node;
-    private boolean cce_mgmt_prepend_sequence;
-    private boolean cce_mgmt_append_layer;
-    private LinkedList<String> cce_mgmt_create_envs;
+    private String cce_mgmt_group_syntax;
+    private String cce_mgmt_group_delim;
+    private LinkedList<Organisation> cce_mgmt_create;
     private String synch_local_opencm_node;
     private String synch_target_opencm_node;
     private String synch_ftps_timeout_ms;
-    private LinkedList<String> synch_envs;
+    private LinkedList<Organisation> synch;
     private String debug_level;
     
     public Configuration() {
@@ -87,11 +90,11 @@ public class Configuration {
     public void setOutput_dir(String path) {
         this.output_dir = path;
     }
-    public EndpointConfiguration getEndpoint_config() {
-        return this.endpoint_config;
+    public InventoryConfiguration getInventory_config() {
+        return this.inventory_config;
     }
-    public void setEndpoint_config(EndpointConfiguration endpoint_cfg) {
-        this.endpoint_config = endpoint_cfg;
+    public void setInventory_config(InventoryConfiguration inventory_cfg) {
+        this.inventory_config = inventory_cfg;
     }
     public String getCce_mgmt_node() {
         return this.cce_mgmt_node;
@@ -99,23 +102,23 @@ public class Configuration {
     public void setCce_mgmt_node(String node) {
         this.cce_mgmt_node = node;
     }
-    public boolean getCce_mgmt_prepend_sequence() {
-        return this.cce_mgmt_prepend_sequence;
+    public String getCce_mgmt_group_syntax() {
+        return this.cce_mgmt_group_syntax;
     }
-    public void setCce_mgmt_prepend_sequence(Boolean prepend) {
-        this.cce_mgmt_prepend_sequence = prepend;
+    public void setCce_mgmt_group_syntax(String syntax) {
+        this.cce_mgmt_group_syntax = syntax;
     }
-    public boolean getCce_mgmt_append_layer() {
-        return this.cce_mgmt_append_layer;
+    public String getCce_mgmt_group_delim() {
+        return this.cce_mgmt_group_delim;
     }
-    public void setCce_mgmt_append_layer(Boolean append) {
-        this.cce_mgmt_append_layer = append;
+    public void setCce_mgmt_group_delim(String delim) {
+        this.cce_mgmt_group_delim = delim;
     }
-    public LinkedList<String> getCce_mgmt_create_envs() {
-        return this.cce_mgmt_create_envs;
+    public LinkedList<Organisation> getCce_mgmt_create() {
+        return this.cce_mgmt_create;
     }
-    public void setCce_mgmt_create_envs(LinkedList<String> envs) {
-        this.cce_mgmt_create_envs = envs;
+    public void setCce_mgmt_create(LinkedList<Organisation> create) {
+        this.cce_mgmt_create = create;
     }
     public String getSynch_local_opencm_node() {
         return this.synch_local_opencm_node;
@@ -135,11 +138,11 @@ public class Configuration {
     public void setSynch_ftps_timeout_ms(String ms) {
         this.synch_ftps_timeout_ms = ms;
     }
-    public LinkedList<String> getSynch_envs() {
-        return this.synch_envs;
+    public LinkedList<Organisation> getSynch() {
+        return this.synch;
     }
-    public void setSynch_envs(LinkedList<String> envs) {
-        this.synch_envs = envs;
+    public void setSynch(LinkedList<Organisation> synch) {
+        this.synch = synch;
     }
     public String getDebug_level() {
         return this.debug_level;

@@ -8,16 +8,18 @@ import com.wm.app.b2b.server.Service;
 import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
 import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.HashMap;
 import org.opencm.configuration.Configuration;
 import org.opencm.configuration.PkgConfiguration;
-import org.opencm.audit.configuration.Property;
-import org.opencm.configuration.Nodes;
+import org.opencm.configuration.model.*;
+import org.opencm.inventory.Inventory;
+import org.opencm.inventory.Installation;
 import org.opencm.util.LogUtils;
-import org.opencm.configuration.Node;
-import org.opencm.audit.util.ExcelWriter;
-import org.opencm.repository.util.RepoUtils;
 import org.opencm.audit.env.*;
+import org.opencm.audit.util.ExcelWriter;
+import org.opencm.audit.configuration.Property;
+import org.opencm.repository.util.RepoUtils;
 // --- <<IS-END-IMPORTS>> ---
 
 public final class layeredAudit
@@ -60,14 +62,14 @@ public final class layeredAudit
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== Layered Audit - Starting Process ..... ============ ");
 		
 		// --------------------------------------------------------------------
-		// Read in OpenCM Nodes Properties
+		// Read in Inventory
 		// --------------------------------------------------------------------
-		Nodes opencmNodes = Nodes.instantiate(opencmConfig);
+		Inventory inv = Inventory.instantiate(opencmConfig);
 		
 		// --------------------------------------------------------------------
-		// Read in audit environment config Properties (specific for this audit)
+		// Read in audit config Properties (specific for this audit)
 		// --------------------------------------------------------------------
-		AssertionConfig envAuditConfig = AssertionConfig.instantiate(opencmConfig,properties);
+		AssertionConfig layeredAuditConfig = AssertionConfig.instantiate(opencmConfig,properties);
 		
 		// --------------------------------------------------------------------
 		// Initialize
@@ -77,42 +79,93 @@ public final class layeredAudit
 		// --------------------------------------------------------------------
 		// Process each Property Definition to Assert
 		// --------------------------------------------------------------------
-		for (int p = 0; p < envAuditConfig.getProperties().size(); p++) {
-			Property propConfig = envAuditConfig.getProperties().get(p);
+		for (int p = 0; p < layeredAuditConfig.getProperties().size(); p++) {
+			Property propConfig = layeredAuditConfig.getProperties().get(p);
 			// --------------------------------------------------------------------
 			// Process each assertion group
 			// --------------------------------------------------------------------
-			LinkedList<String> lGroups;
-			if ((envAuditConfig.getAssertionGroups() != null) && (envAuditConfig.getAssertionGroups().size() > 0)) {
+			LinkedList<String> lLayers;
+			if ((layeredAuditConfig.getLayers() != null) && (layeredAuditConfig.getLayers().size() > 0)) {
 				// Only process the defined groups
-				lGroups = envAuditConfig.getAssertionGroups();
+				lLayers = layeredAuditConfig.getLayers();
 			} else {
-				// Process all groups (as defined in the nodes.properties)
-				lGroups = opencmNodes.getAllAssertionGroups();
+				// Process all groups (as defined in the inventory)
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  Layered Audit - No layers defined. Exiting ....");
+				return;
 			}
-			for (int i = 0; i < lGroups.size(); i++) {
-				String assGroup = lGroups.get(i);
-				assGroups.put(assGroup, new AssertionGroup(assGroup));
+			
+			// --------------------------------------------------------------------
+			// For Each Layer, process the list of nodes to assert
+			// --------------------------------------------------------------------
+			for (int i = 0; i < lLayers.size(); i++) {
+				String layer = lLayers.get(i);
+				assGroups.put(layer, new AssertionGroup(layer));
+				// --------------------------------------------------------------------
+				// Get all nodes for this layer
+				// --------------------------------------------------------------------
+				LinkedList<Installation> lNodes = inv.getInstallationsByLayer(layer);
 				
 				// --------------------------------------------------------------------
-				// For Each Group, process the list of nodes to assert
+				// Filter nodes by defined sublayers
 				// --------------------------------------------------------------------
-				LinkedList<Node> lNodes = opencmNodes.getNodesByGroup(assGroup);
-				for (int n = 0; n < lNodes.size(); n++) {
-					Node opencmNode = lNodes.get(n);
-					opencmNode.setRepositoryType(Configuration.OPENCM_RUNTIME_DIR);
-					boolean includeEnv = true;
-					if ((envAuditConfig.getEnvironments() != null) && (envAuditConfig.getEnvironments().size() > 0)) {
-						// Only process nodes that are within the defined environment
-						if (!envAuditConfig.getEnvironments().contains(opencmNode.getEnvironment())) {
-							includeEnv = false;
-						} 
-					}
-					if (includeEnv) {
-						LinkedList<AssertionValue> avs = RepoUtils.getAssertionValues(opencmConfig, opencmNode, propConfig, envAuditConfig.getPropertyFilters());
-						for (int v = 0; v < avs.size(); v++) {
-							assGroups.get(assGroup).addAssertionValue(opencmConfig, opencmNode, avs.get(v), true);
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  Layered Audit - Filtering by sublayers. Before: " + lNodes.size());
+				LinkedList<String> sublayers = layeredAuditConfig.getSublayers();
+				if ((sublayers != null) && (sublayers.size() > 0)) {
+					Iterator<Installation> it = lNodes.iterator();
+					while (it.hasNext()) {
+					    Installation inst = it.next();
+						if ((inst.getSublayer() == null) || (!sublayers.contains(inst.getSublayer()))) {
+							it.remove();
 						}
+					}					
+				}
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  Layered Audit - Filtering by sublayers. After: " + lNodes.size());
+				
+				// --------------------------------------------------------------------
+				// Filter nodes by defined versions
+				// --------------------------------------------------------------------
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  Layered Audit - Filtering by versions. Before: " + lNodes.size());
+				LinkedList<String> versions = layeredAuditConfig.getVersions();
+				if ((versions != null) && (versions.size() > 0)) {
+					Iterator<Installation> it = lNodes.iterator();
+					while (it.hasNext()) {
+					    Installation inst = it.next();
+						if ((inst.getVersion() == null) || (!versions.contains(inst.getVersion()))) {
+							it.remove();
+						}
+					}					
+				}
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  Layered Audit - Filtering by versions. After: " + lNodes.size());
+				
+				// --------------------------------------------------------------------
+				// Filter nodes by defined audit config
+				// --------------------------------------------------------------------
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  Layered Audit - Filtering by audit config. Before: " + lNodes.size());
+				LinkedList<Organisation> configModel = layeredAuditConfig.getAudit();
+				LinkedList<Installation> configInstallations = inv.getInstallationsByConfigModel(configModel);
+				Iterator<Installation> it = lNodes.iterator();
+				while (it.hasNext()) {
+				    Installation inst = it.next();
+					if (!configInstallations.contains(inst)) {
+						it.remove();
+					}
+				}					
+				
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  Layered Audit - Filtering by audit config. After: " + lNodes.size());
+				
+				if (lNodes.size() == 0) {
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  Layered Audit - No nodes to process. Existing ... ");
+					return;
+				}
+				
+				// --------------------------------------------------------------------
+				// Process
+				// --------------------------------------------------------------------
+				for (int n = 0; n < lNodes.size(); n++) {
+					Installation opencmNode = lNodes.get(n);
+					LinkedList<AssertionValue> avs = RepoUtils.getAssertionValues(opencmConfig, opencmNode, Configuration.OPENCM_RUNTIME_DIR, propConfig, layeredAuditConfig.getPropertyFilters());
+					for (int v = 0; v < avs.size(); v++) {
+						assGroups.get(layer).addAssertionValue(opencmConfig, opencmNode, avs.get(v), true);
 					}
 				}
 			}
@@ -123,10 +176,10 @@ public final class layeredAudit
 		 * However, we need to identify assertion values that are missing:
 		 * 	They can either be undefined (no nodes present) or missing data
 		 ***********************************/
-		HashMap<String,AssertionGroup> postProcessedGroups = RepoUtils.postProcessValues(opencmConfig, opencmNodes, assGroups, envAuditConfig);
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Post Processed groups: " + postProcessedGroups.size());
+		HashMap<String,AssertionGroup> postProcessedGroups = RepoUtils.postProcessValues(opencmConfig, inv, assGroups, layeredAuditConfig);
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Layered Audit: Post Processed groups: " + postProcessedGroups.size());
 		ExcelWriter ex = new ExcelWriter(opencmConfig);
-		ex.writeAssertionGroups(opencmNodes, postProcessedGroups, properties, envAuditConfig);
+		ex.writeAssertionGroups(inv, postProcessedGroups, properties, layeredAuditConfig);
 		
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== Layered Audit - Process Completed ..... ============ ");
 			

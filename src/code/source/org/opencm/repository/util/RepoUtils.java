@@ -17,9 +17,7 @@ import org.opencm.audit.env.AssertionValue;
 import org.opencm.audit.env.AssertionValuePair;
 import org.opencm.audit.util.JsonParser;
 import org.opencm.configuration.Configuration;
-import org.opencm.configuration.Node;
-import org.opencm.configuration.Nodes;
-import org.opencm.configuration.RuntimeComponent;
+import org.opencm.inventory.*;
 import org.opencm.extract.spm.SpmOps;
 import org.opencm.util.FileUtils;
 import org.opencm.util.JsonUtils;
@@ -27,9 +25,6 @@ import org.opencm.util.LogUtils;
 
 public class RepoUtils {
 	
-	
-	public final static String INTEGRATION_SERVER_PREFIX	= "integrationServer";
-	public final static String UNIVERSAL_MESSAGING_PREFIX	= "Universal-Messaging";
 	
 	public final static String ASSERTION_UNDEFINED_NODE			= "NO_OPENCM_NODE_DEFINED";
 	public final static String ASSERTION_MISSING_COMPONENT		= "MISSING_COMPONENT";
@@ -39,12 +34,13 @@ public class RepoUtils {
 
 	
 
-	public static LinkedList<String> getFixList(Configuration opencmConfig, Node opencmNode) {
+	public static LinkedList<String> getFixList(Configuration opencmConfig, Installation opencmNode) {
 		LinkedList<String> fixList = new LinkedList<String>();
-		File fixesDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + opencmNode.getNode_name() + File.separator + SpmOps.SPM_COMP_FIXES);
+		File fixesDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + opencmNode.getName() + File.separator + SpmOps.SPM_COMP_FIXES);
 		if (!fixesDirectory.exists()) {
 			return fixList;
 		}
+		
 		try {
 			File[] fixDirs = fixesDirectory.listFiles();
 			for (int i = 0; i < fixDirs.length; i++) {
@@ -66,8 +62,8 @@ public class RepoUtils {
 		return fixList;
 	}
 	
-	public static String getInstallDir(Configuration opencmConfig, Node opencmNode) {
-		File spmDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + opencmNode.getNode_name() + File.separator + SpmOps.SPM_COMP_NAME);
+	public static String getInstallDir(Configuration opencmConfig, Installation opencmNode) {
+		File spmDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + opencmNode.getName() + File.separator + SpmOps.SPM_COMP_NAME);
 		if (!spmDirectory.exists()) {
 			return null;
 		}
@@ -90,7 +86,7 @@ public class RepoUtils {
 	 * Based on a single Node and a single Property configuration, retrieve all values that are associated with it
 	 * 
 	 */
-	public static LinkedList<AssertionValue> getAssertionValues(Configuration opencmConfig, Node opencmNode, Property propConfig, LinkedList<PropertyFilter> filters) {
+	public static LinkedList<AssertionValue> getAssertionValues(Configuration opencmConfig, Installation opencmNode, String repoType, Property propConfig, LinkedList<PropertyFilter> filters) {
 		// --------------------------------------------------------------------
 		// Initialize
 		// --------------------------------------------------------------------
@@ -100,10 +96,10 @@ public class RepoUtils {
 		// Get assertion values (from default reference, baseline or runtime)
 		// ------------------------------------------------------------
 		File nodeDirectory;
-		if (opencmNode.getRepositoryType().equals(Configuration.OPENCM_DEFAULT_DIR)) {
-			nodeDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_DEFAULT_DIR + File.separator + Configuration.OPENCM_REFERENCE_DIR_PREFIX + opencmNode.getNode_name());
+		if (repoType.equals(Configuration.OPENCM_DEFAULT_DIR)) {
+			nodeDirectory = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_DEFAULT_DIR + File.separator + Configuration.OPENCM_REFERENCE_DIR_PREFIX + opencmNode.getName());
 		} else {
-			nodeDirectory = new File(opencmConfig.getCmdata_root()  + File.separator + opencmNode.getRepositoryType() + File.separator + opencmNode.getNode_name());
+			nodeDirectory = new File(opencmConfig.getCmdata_root()  + File.separator + repoType + File.separator + opencmNode.getName());
 		}
 
 		if ((nodeDirectory != null) && (nodeDirectory.exists())) {
@@ -126,7 +122,7 @@ public class RepoUtils {
 	 * Returned as a list of AssertionValues (need to keep track of Component and Instance names)
 	 * 
 	 */
-	private static LinkedList<AssertionValue> getInstancePaths(Configuration opencmConfig, Node opencmNode, Property propConfig, String nodeDir) {
+	private static LinkedList<AssertionValue> getInstancePaths(Configuration opencmConfig, Installation opencmNode, Property propConfig, String nodeDir) {
 		LinkedList<AssertionValue> assList = new LinkedList<AssertionValue>();
 
 		if (propConfig.getComponent().equals(AssertionStore.ANY_ASSERTION_KEYWORD) && propConfig.getInstance().equals(AssertionStore.ANY_ASSERTION_KEYWORD)) {
@@ -152,7 +148,7 @@ public class RepoUtils {
 					String nodeCompInstDir = nodeCompInstDirs.get(j);
 					File propFile = new File(nodeDir + File.separator + nodeCompDir + File.separator + nodeCompInstDir + File.separator + "ci-properties.json");
 					if (propFile.exists()) {
-						assList.add(new AssertionValue(opencmNode.getNode_name(),nodeCompDir,nodeCompInstDir,propFile));
+						assList.add(new AssertionValue(opencmNode.getName(),nodeCompDir,nodeCompInstDir,propFile));
 					}
 				}
 				
@@ -170,7 +166,7 @@ public class RepoUtils {
 						if (instPath.isDirectory() && matches(instPath.getName(), propConfig.getInstance())) {
 							File propFile = new File(nodeDir + File.separator + compPath.getName() + File.separator + instPath.getName() + File.separator + "ci-properties.json");
 							if (propFile.exists()) {
-								assList.add(new AssertionValue(opencmNode.getNode_name(),compPath.getName(),instPath.getName(),propFile));
+								assList.add(new AssertionValue(opencmNode.getName(),compPath.getName(),instPath.getName(),propFile));
 							}
 						}
 					}
@@ -188,7 +184,7 @@ public class RepoUtils {
 						if (instPath.isDirectory()) {
 							File propFile = new File(nodeDir + File.separator + nodeCompDir + File.separator + instPath.getName() + File.separator + "ci-properties.json");
 							if (propFile.exists()) {
-								assList.add(new AssertionValue(opencmNode.getNode_name(),nodeCompDir,instPath.getName(),propFile));
+								assList.add(new AssertionValue(opencmNode.getName(),nodeCompDir,instPath.getName(),propFile));
 							}
 						}
 					}
@@ -283,21 +279,27 @@ public class RepoUtils {
 	 * 
 	 * (Padded with "Undefined" and "Missing")
 	 */
-	public static HashMap<String,AssertionGroup> postProcessValues(Configuration opencmConfig, Nodes opencmNodes, HashMap<String,AssertionGroup> assGroups, AssertionConfig envAuditConfig) {
+	public static HashMap<String,AssertionGroup> postProcessValues(Configuration opencmConfig, Inventory opencmNodes, HashMap<String,AssertionGroup> assGroups, AssertionConfig envAuditConfig) {
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Parser - postProcessValues ........... ");
-        LinkedList<String> definedEnvironments = opencmNodes.getAllEnvironments();
-
-        // Ignore environments if not explicitly defined in the env audit properties
-		if ((envAuditConfig.getEnvironments() != null) && (envAuditConfig.getEnvironments().size() > 0)) {
-			LinkedList<String> someEnvs = new LinkedList<String>();
-			for (int i = 0; i < definedEnvironments.size(); i++) {
-				String env = definedEnvironments.get(i);
-				// Only process nodes that are within the defined environment
-				if (envAuditConfig.getEnvironments().contains(env)) {
-					someEnvs.add(env);
+		
+        // Determine which environments to include
+        LinkedList<String> definedEnvironments = new LinkedList<String>();
+		Iterator<String> groupIt = assGroups.keySet().iterator();
+		while (groupIt.hasNext()) {
+		    String layerKey = groupIt.next();
+		    AssertionGroup layer = assGroups.get(layerKey);
+		    Iterator<String> propIt = layer.getAssertionProperties().keySet().iterator();
+			while (propIt.hasNext()) {
+			    String propKey = propIt.next();
+			    AssertionProperty prop = layer.getAssertionProperties().get(propKey);
+			    Iterator<String> envIt = prop.getAssertionEnvironments().keySet().iterator();
+				while (envIt.hasNext()) {
+				    String envKey = envIt.next();
+				    if (!definedEnvironments.contains(envKey)) {
+				    	definedEnvironments.add(envKey);
+				    }
 				}
 			}
-			definedEnvironments = someEnvs;
 		}
         
         HashMap<String,AssertionGroup> postProcessedAGs = assGroups;
@@ -319,7 +321,7 @@ public class RepoUtils {
 				boolean instanceServerComponent = false;
 				String firstEnv = ap.getAssertionEnvironments().keySet().iterator().next();
 				if (ap.getAssertionEnvironments().get(firstEnv).getValues().get(0).getComponent() != null) {
-					if (ap.getAssertionEnvironments().get(firstEnv).getValues().get(0).getComponent().startsWith(INTEGRATION_SERVER_PREFIX) || ap.getAssertionEnvironments().get(firstEnv).getValues().get(0).getComponent().startsWith(UNIVERSAL_MESSAGING_PREFIX)) {
+					if (ap.getAssertionEnvironments().get(firstEnv).getValues().get(0).getComponent().startsWith(RuntimeComponent.RUNTIME_COMPONENT_NAME_IS_PREFIX) || ap.getAssertionEnvironments().get(firstEnv).getValues().get(0).getComponent().startsWith(RuntimeComponent.RUNTIME_COMPONENT_NAME_UM_PREFIX)) {
 						instanceServerComponent = true;
 					}
 				}
@@ -341,15 +343,15 @@ public class RepoUtils {
 			    
 				// -- Defined Nodes and potentially its instances
         		for (int i = 0; i < definedEnvironments.size(); i++) {
-			    	LinkedList<Node> tmpNodes = opencmNodes.getNodesByGroupAndEnv(ag.getAssertionGroup(), definedEnvironments.get(i));
+			    	LinkedList<Installation> tmpNodes = opencmNodes.getInstallations(null,ag.getAssertionGroup(), definedEnvironments.get(i));
 			    	if (!instanceServerComponent && (tmpNodes.size() > maxValuesSize)) {
 			    		maxValuesSize = tmpNodes.size(); 
 			    	} else {
 			    		int totalInstances = 0;
 			    		for (int t = 0; t < tmpNodes.size(); t++) {
-			    			LinkedList<RuntimeComponent> tmpRuntimeComponents = tmpNodes.get(t).getRuntimeComponents();
+			    			LinkedList<RuntimeComponent> tmpRuntimeComponents = tmpNodes.get(t).getRuntimes();
 			    			for (int t2 = 0; t2 < tmpRuntimeComponents.size(); t2++) {
-			    				if (tmpRuntimeComponents.get(t2).getName().startsWith(INTEGRATION_SERVER_PREFIX) || tmpRuntimeComponents.get(t2).getName().startsWith(UNIVERSAL_MESSAGING_PREFIX)) {
+			    				if (tmpRuntimeComponents.get(t2).getName().startsWith(RuntimeComponent.RUNTIME_COMPONENT_NAME_IS_PREFIX) || tmpRuntimeComponents.get(t2).getName().startsWith(RuntimeComponent.RUNTIME_COMPONENT_NAME_UM_PREFIX)) {
 					    			totalInstances++;
 			    				}
 			    			}
@@ -369,7 +371,7 @@ public class RepoUtils {
 		        	String definedEnv = definedEnvironments.get(envIdx);
 
 	        		// Get all the defined nodes for this environment and assertion group
-	        		LinkedList<Node> definedNodes = opencmNodes.getNodesByGroupAndEnv(ag.getAssertionGroup(),definedEnv);
+	        		LinkedList<Installation> definedNodes = opencmNodes.getInstallations(null,ag.getAssertionGroup(),definedEnv);
 
 		        	if (ap.getAssertionEnvironments().get(definedEnv) == null) {
 						// ------------------------------------------------------------
@@ -390,15 +392,15 @@ public class RepoUtils {
 			        		int currentSize = 0;
 			        		
 			        		for (int i = 0; i < definedNodes.size(); i++) {
-			        			Node opencmNode = definedNodes.get(i);
+			        			Installation opencmNode = definedNodes.get(i);
 				        		if (instanceServerComponent) {
 				        			// For Integration Server properties, we want to also add the instance name (opencm component name)
-					        		for (int n = 0; n < opencmNode.getRuntimeComponents().size(); n++) {
-					        			RuntimeComponent opencmRuntimeComponent = opencmNode.getRuntimeComponents().get(n);
-					        			if (opencmRuntimeComponent.getName().startsWith(INTEGRATION_SERVER_PREFIX) || opencmRuntimeComponent.getName().startsWith(UNIVERSAL_MESSAGING_PREFIX)) {
-					        				if (!ae.componentExists(opencmNode.getNode_name(), opencmRuntimeComponent.getName())) {
+					        		for (int n = 0; n < opencmNode.getRuntimes().size(); n++) {
+					        			RuntimeComponent opencmRuntimeComponent = opencmNode.getRuntimes().get(n);
+					        			if (opencmRuntimeComponent.getName().startsWith(RuntimeComponent.RUNTIME_COMPONENT_NAME_IS_PREFIX) || opencmRuntimeComponent.getName().startsWith(RuntimeComponent.RUNTIME_COMPONENT_NAME_UM_PREFIX)) {
+					        				if (!ae.componentExists(opencmNode.getName(), opencmRuntimeComponent.getName())) {
 							        			AssertionValue av = new AssertionValue(ASSERTION_MISSING_DATA);
-							        			av.setNode(opencmNode.getNode_name());
+							        			av.setNode(opencmNode.getName());
 							        			av.setComponent(opencmRuntimeComponent.getName());
 							        			ae.addAssertionValue(av);
 							        			currentSize++;
@@ -408,7 +410,7 @@ public class RepoUtils {
 				        		} else {
 				        			// E.g. Fix levels
 				        			AssertionValue av = new AssertionValue(ASSERTION_MISSING_DATA);
-				        			av.setNode(opencmNode.getNode_name());
+				        			av.setNode(opencmNode.getName());
 				        			ae.addAssertionValue(av);
 				        			currentSize++;
 				        		}
@@ -436,23 +438,23 @@ public class RepoUtils {
 		        		int currentSize = ae.getValues().size();
 		        		if (currentSize < maxValuesSize) {
 			        		for (int i = 0; i < definedNodes.size(); i++) {
-			        			Node opencmNode = definedNodes.get(i);
+			        			Installation opencmNode = definedNodes.get(i);
 				        		if (instanceServerComponent) {
-					        		for (int n = 0; n < opencmNode.getRuntimeComponents().size(); n++) {
-					        			RuntimeComponent opencmRuntimeComponent = opencmNode.getRuntimeComponents().get(n);
-					        			if (opencmRuntimeComponent.getName().startsWith(INTEGRATION_SERVER_PREFIX) || opencmRuntimeComponent.getName().startsWith(UNIVERSAL_MESSAGING_PREFIX)) {
-					        				if (!ae.componentExists(opencmNode.getNode_name(), opencmRuntimeComponent.getName())) {
+					        		for (int n = 0; n < opencmNode.getRuntimes().size(); n++) {
+					        			RuntimeComponent opencmRuntimeComponent = opencmNode.getRuntimes().get(n);
+					        			if (opencmRuntimeComponent.getName().startsWith(RuntimeComponent.RUNTIME_COMPONENT_NAME_IS_PREFIX) || opencmRuntimeComponent.getName().startsWith(RuntimeComponent.RUNTIME_COMPONENT_NAME_UM_PREFIX)) {
+					        				if (!ae.componentExists(opencmNode.getName(), opencmRuntimeComponent.getName())) {
 							        			AssertionValue av = new AssertionValue(ASSERTION_MISSING_DATA);
-							        			av.setNode(opencmNode.getNode_name());
+							        			av.setNode(opencmNode.getName());
 							        			av.setComponent(opencmRuntimeComponent.getName());
 							        			postProcessedAGs.get(ag.getAssertionGroup()).getAssertionProperties().get(ap.getPropertyName()).addAssertionValue(opencmNode,av);
 							        			currentSize++;
 					        				}
 					        			}
 					        		}
-				        		} else if (!ae.nodeExists(opencmNode.getNode_name())) {
+				        		} else if (!ae.nodeExists(opencmNode.getName())) {
 				        			AssertionValue av = new AssertionValue(ASSERTION_MISSING_DATA);
-				        			av.setNode(opencmNode.getNode_name());
+				        			av.setNode(opencmNode.getName());
 				        			postProcessedAGs.get(ag.getAssertionGroup()).getAssertionProperties().get(ap.getPropertyName()).addAssertionValue(opencmNode,av);
 				        			currentSize++;
 				        		}
@@ -676,26 +678,5 @@ public class RepoUtils {
 		}
 		return null;
 	}
-
-	/** - Removed: using explicitly defined environments instead
-	public static boolean isExtractionLocal(Configuration opencmConfig, String serverPath) {
-		
-		File serverProps = new File(serverPath + File.separator + SpmOps.SPM_PROP_FILENAME);
-		if (!serverProps.exists()) {
-			return false;
-		}
-		try {
-			String extractNode = JsonUtils.getJsonValue(serverProps,"/" + SPM_JSONFIELD_EXTRACT_ALIAS);
-			if ((extractNode != null) && extractNode.equals(opencmConfig.getLocal_opencm_node())) {
-				return true;
-			}
-		} catch (Exception ex) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"SpmOps :: isExtractionLocal :: " + ex.getMessage());
-		}
-
-		return false;
-	}
-	
-	**/
 
 }

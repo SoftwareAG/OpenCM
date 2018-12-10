@@ -16,7 +16,7 @@ import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.usermodel.Font;
 
-import org.opencm.configuration.Nodes;
+import org.opencm.inventory.Inventory;
 import org.opencm.configuration.Configuration;
 import org.opencm.util.LogUtils;
 import org.opencm.audit.configuration.FormatRule;
@@ -38,7 +38,7 @@ public class ExcelWriter {
 		this.opencmConfig = opencmConfig; 
 	}
 	
-	public void writeAssertionGroups(Nodes opencmNodes, HashMap<String,AssertionGroup> assGroups, String envPropsName, AssertionConfig assConfig) { 
+	public void writeAssertionGroups(Inventory opencmNodes, HashMap<String,AssertionGroup> assGroups, String envPropsName, AssertionConfig assConfig) { 
 		String excelFilename = envPropsName + ".xlsx";
 		LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"ExcelWriter - writeAssertionGroups -> Number of groups: " + assGroups.size() + " into " + excelFilename);
 		
@@ -62,6 +62,29 @@ public class ExcelWriter {
 	        
 			LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"  - writeAssertionGroups -> Groups are sorted .... ");
 	        
+	    	// ----------------------------------------------------
+	        // Determine environments
+	    	// ----------------------------------------------------
+	        LinkedList<String> envs = new LinkedList<String>();
+			Iterator<String> groupIt = assGroups.keySet().iterator();
+			while (groupIt.hasNext()) {
+			    String layerKey = groupIt.next();
+			    AssertionGroup layer = assGroups.get(layerKey);
+			    Iterator<String> propIt = layer.getAssertionProperties().keySet().iterator();
+				while (propIt.hasNext()) {
+				    String propKey = propIt.next();
+				    AssertionProperty prop = layer.getAssertionProperties().get(propKey);
+				    Iterator<String> envIt = prop.getAssertionEnvironments().keySet().iterator();
+					while (envIt.hasNext()) {
+					    String envKey = envIt.next();
+					    if (!envs.contains(envKey)) {
+					    	envs.add(envKey);
+					    }
+					}
+				}
+			}
+	        
+			
 	    	// ----------------------------------------------------
 	        // Process all the individual Assertion Groups
 	    	// ----------------------------------------------------
@@ -96,14 +119,7 @@ public class ExcelWriter {
 		        //header with property and environment titles
 		        Row header2Row = sheet.createRow(1);
 		        
-		        LinkedList<String> envs = new LinkedList<String>();
 		        
-				if ((assConfig.getEnvironments() != null) && (assConfig.getEnvironments().size() > 0)) {
-					envs = assConfig.getEnvironments();
-				} else {
-					envs = opencmNodes.getAllEnvironments();
-				}
-
 		        // Create Title 2 Row with Environment names:
 		        for (int t = 0; t < envs.size() + 1; t++) {
 		            //set default column widths, the width is measured in units of 1/256th of a character width

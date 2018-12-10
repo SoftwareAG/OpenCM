@@ -5,7 +5,15 @@
   <value name="node_subtype">unknown</value>
   <value name="node_nsName">OpenCM.priv.synch</value>
   <value name="is_public">false</value>
-  <value name="shared"></value>
+  <value name="shared">cHJpdmF0ZSBzdGF0aWMgTGlua2VkTGlzdDxJbnN0YWxsYXRpb24+IGFkZEluc3RhbGxhdGlvbihM
+aW5rZWRMaXN0PEluc3RhbGxhdGlvbj4gbm9kZUxpc3QsIEluc3RhbGxhdGlvbiBpbnN0KSB7Cglp
+ZiAoKGluc3QgIT0gbnVsbCkgJiYgIW5vZGVMaXN0LmNvbnRhaW5zKGluc3QpKSB7CgkJbm9kZUxp
+c3QuYWRkKGluc3QpOwoJfQoJcmV0dXJuIG5vZGVMaXN0Owp9CnByaXZhdGUgc3RhdGljIExpbmtl
+ZExpc3Q8SW5zdGFsbGF0aW9uPiBhZGRJbnN0YWxsYXRpb25zKExpbmtlZExpc3Q8SW5zdGFsbGF0
+aW9uPiBub2RlTGlzdCwgTGlua2VkTGlzdDxJbnN0YWxsYXRpb24+IHRvQWRkKSB7Cglmb3IgKGlu
+dCBpID0gMDsgaSA8IHRvQWRkLnNpemUoKTsgaSsrKSB7CgkJSW5zdGFsbGF0aW9uIGluc3QgPSB0
+b0FkZC5nZXQoaSk7CgkJaWYgKCFub2RlTGlzdC5jb250YWlucyhpbnN0KSkgewoJCQlub2RlTGlz
+dC5hZGQoaW5zdCk7CgkJfQoJfQoJcmV0dXJuIG5vZGVMaXN0Owp9Cgk=</value>
   <value name="encodeutf8">true</value>
   <value name="extends"></value>
   <array name="implements" type="value" depth="1">
@@ -20,10 +28,11 @@
     <value>org.apache.commons.net.ftp.FTPSClient</value>
     <value>org.apache.commons.net.ftp.FTPReply</value>
     <value>org.opencm.configuration.Configuration</value>
-    <value>org.opencm.configuration.Node</value>
-    <value>org.opencm.configuration.Nodes</value>
-    <value>org.opencm.configuration.RuntimeComponent</value>
-    <value>org.opencm.extract.spm.SpmOps</value>
+    <value>org.opencm.configuration.model.*</value>
+    <value>org.opencm.inventory.Inventory</value>
+    <value>org.opencm.inventory.Server</value>
+    <value>org.opencm.inventory.Installation</value>
+    <value>org.opencm.inventory.RuntimeComponent</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
     <value>org.opencm.util.LogUtils</value>
     <value>org.opencm.util.ZipUtils</value>

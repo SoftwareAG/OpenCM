@@ -7,17 +7,15 @@ import com.wm.util.Values;
 import com.wm.app.b2b.server.Service;
 import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
-import java.io.File;
 import java.util.LinkedList;
-import org.opencm.configuration.Node;
-import org.opencm.configuration.Nodes;
-import org.opencm.configuration.RuntimeComponent;
+import java.io.File;
 import org.opencm.configuration.PkgConfiguration;
 import org.opencm.configuration.Configuration;
 import org.opencm.util.Cache;
-import org.opencm.util.PackageUtils;
 import org.opencm.security.KeyUtils;
 import org.opencm.util.LogUtils;
+import org.opencm.util.PackageUtils;
+import org.opencm.inventory.*;
 // --- <<IS-END-IMPORTS>> ---
 
 public final class util
@@ -56,189 +54,6 @@ public final class util
 
 
 
-	public static final void getAllNodes (IData pipeline)
-        throws ServiceException
-	{
-		// --- <<IS-START(getAllNodes)>> ---
-		// @sigtype java 3.5
-		// [o] recref:1:required Environment OpenCM.doc.nodes:Environment
-		// --------------------------------------------------------------------
-		// Read in Default Package Properties
-		// --------------------------------------------------------------------
-		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
-		
-		// --------------------------------------------------------------------
-		// Read in OpenCM Properties
-		// --------------------------------------------------------------------
-		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
-		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
-		
-		// --------------------------------------------------------------------
-		// Ensure that master password is stored in cache
-		// --------------------------------------------------------------------
-		if (KeyUtils.getMasterPassword() == null) {
-			try {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," GetAllNodes: Master Pwd NULL - running startup service ... ");
-				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
-			} catch (Exception ex) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," GetAllNodes :: " + ex.getMessage());
-			}
-		}
-		
-		// --------------------------------------------------------------------
-		// Read in OpenCM Nodes Properties
-		// --------------------------------------------------------------------
-		Nodes nodes = Nodes.instantiate(opencmConfig);
-		
-		// pipeline
-		IDataCursor pipelineCursor = pipeline.getCursor();
-		
-		// --------------------------------------------------------------------
-		// Environments
-		// --------------------------------------------------------------------
-		LinkedList<String> envs = nodes.getAllEnvironments();
-		IData[]	Environment = new IData[envs.size()];
-		for (int e = 0; e < envs.size(); e++) {
-			// Environment
-			String env = envs.get(e);
-			Environment[e] = IDataFactory.create();
-			IDataCursor EnvironmentCursor = Environment[e].getCursor();
-			IDataUtil.put( EnvironmentCursor, "name", env );
-			
-			// ----------------------------------------------------------------
-			// Layers
-			// ----------------------------------------------------------------
-			LinkedList<String> layers = nodes.getAllAssertionGroupsForEnvironment(env);
-			IData[]	Layer = new IData[layers.size()];
-			for (int l = 0; l < layers.size(); l++) {
-				// Environment.Layer
-				String layer = layers.get(l);
-				Layer[l] = IDataFactory.create();
-				IDataCursor LayerCursor = Layer[l].getCursor();
-				IDataUtil.put( LayerCursor, "name", layer );
-				
-				// ----------------------------------------------------------------
-				// Servers
-				// ----------------------------------------------------------------
-				LinkedList<String> servers = nodes.getAllFQNServerNamesByEnvAndLayer(env, layer);
-				IData[]	Server = new IData[servers.size()];
-				for (int s = 0; s < servers.size(); s++) {
-					// Environment.Layer.Server
-					String server = servers.get(s);
-					Server[s] = IDataFactory.create();
-					IDataCursor ServerCursor = Server[s].getCursor();
-					IDataUtil.put( ServerCursor, "name", server );
-					
-					// ----------------------------------------------------------------
-					// Nodes
-					// ----------------------------------------------------------------
-					LinkedList<Node> serverNodes = nodes.getNodesByEnvLayerAndFQNServer(env, layer, server);
-					IData[]	Node = new IData[serverNodes.size()];
-					for (int n = 0; n < serverNodes.size(); n++) {
-						// Environment.Layer.Server.Node
-						Node node = serverNodes.get(n);
-						Node[n] = IDataFactory.create();
-						IDataCursor NodeCursor = Node[n].getCursor();
-						IDataUtil.put( NodeCursor, "name", node.getNode_name() );
-						
-						// ----------------------------------------------------------------
-						// Runtime Components
-						// ----------------------------------------------------------------
-						LinkedList<RuntimeComponent> rcs = node.getRuntimeComponents();
-						IData[]	RuntimeComponent = new IData[rcs.size()];
-						for (int r = 0; r < rcs.size(); r++) {
-							// Environment.Layer.Server.Node.RuntimeComponent
-							RuntimeComponent rc = rcs.get(r);
-							RuntimeComponent[r] = IDataFactory.create();
-							IDataCursor RuntimeComponentCursor = RuntimeComponent[r].getCursor();
-							IDataUtil.put( RuntimeComponentCursor, "name", rc.getName() );
-							IDataUtil.put( RuntimeComponentCursor, "protocol", rc.getProtocol() );
-							IDataUtil.put( RuntimeComponentCursor, "port", rc.getPort() );
-							IDataUtil.put( RuntimeComponentCursor, "username", rc.getUsername() );
-							RuntimeComponentCursor.destroy();
-							IDataUtil.put( NodeCursor, "RuntimeComponent", RuntimeComponent );
-						}
-						NodeCursor.destroy();
-						IDataUtil.put( ServerCursor, "Node", Node );
-					}
-					ServerCursor.destroy();
-					IDataUtil.put( LayerCursor, "Server", Server );
-				}
-				LayerCursor.destroy();
-				IDataUtil.put( EnvironmentCursor, "Layer", Layer );
-			}
-			EnvironmentCursor.destroy();
-			IDataUtil.put( pipelineCursor, "Environment", Environment );
-			
-		}
-			
-		pipelineCursor.destroy();
-		
-		/**
-		
-		// pipeline
-		IDataCursor pipelineCursor = pipeline.getCursor();
-		
-		// Environment
-		IData[]	Environment = new IData[1];
-		Environment[0] = IDataFactory.create();
-		IDataCursor EnvironmentCursor = Environment[0].getCursor();
-		IDataUtil.put( EnvironmentCursor, "name", "name" );
-		
-		// Environment.Layer
-		IData[]	Layer = new IData[1];
-		Layer[0] = IDataFactory.create();
-		IDataCursor LayerCursor = Layer[0].getCursor();
-		IDataUtil.put( LayerCursor, "name", "name" );
-		
-		// Environment.Layer.Server
-		IData[]	Server = new IData[1];
-		Server[0] = IDataFactory.create();
-		IDataCursor ServerCursor = Server[0].getCursor();
-		IDataUtil.put( ServerCursor, "name", "name" );
-		
-		// Environment.Layer.Server.Node
-		IData[]	Node = new IData[1];
-		Node[0] = IDataFactory.create();
-		IDataCursor NodeCursor = Node[0].getCursor();
-		IDataUtil.put( NodeCursor, "name", "name" );
-		
-		// Environment.Layer.Server.Node.RuntimeComponent
-		IData[]	RuntimeComponent = new IData[1];
-		RuntimeComponent[0] = IDataFactory.create();
-		IDataCursor RuntimeComponentCursor = RuntimeComponent[0].getCursor();
-		IDataUtil.put( RuntimeComponentCursor, "name", "name" );
-		IDataUtil.put( RuntimeComponentCursor, "protocol", "protocol" );
-		IDataUtil.put( RuntimeComponentCursor, "port", "port" );
-		IDataUtil.put( RuntimeComponentCursor, "username", "username" );
-		
-		RuntimeComponentCursor.destroy();
-		IDataUtil.put( NodeCursor, "RuntimeComponent", RuntimeComponent );
-		
-		NodeCursor.destroy();
-		IDataUtil.put( ServerCursor, "Node", Node );
-		
-		ServerCursor.destroy();
-		IDataUtil.put( LayerCursor, "Server", Server );
-		
-		LayerCursor.destroy();
-		IDataUtil.put( EnvironmentCursor, "Layer", Layer );
-		
-		EnvironmentCursor.destroy();
-		IDataUtil.put( pipelineCursor, "Environment", Environment );
-		
-		pipelineCursor.destroy();
-		
-		*/
-		
-			
-		// --- <<IS-END>> ---
-
-                
-	}
-
-
-
 	public static final void getConfig (IData pipeline)
         throws ServiceException
 	{
@@ -246,9 +61,10 @@ public final class util
 		// @sigtype java 3.5
 		// [o] field:0:required cmdata_root
 		// [o] field:0:required output_dir
-		// [o] field:0:required endpoint_config_type
+		// [o] field:0:required inventory_type
 		// [o] field:0:required debug_level
 		// [o] field:0:required package_directory
+		// [o] field:0:required audit_prop_directory
 		// [o] field:0:required two_node_audit_directory
 		// [o] field:0:required layered_audit_directory
 		// [o] field:0:required excel_output_directory
@@ -267,17 +83,170 @@ public final class util
 		IDataCursor pipelineCursor = pipeline.getCursor();
 		IDataUtil.put( pipelineCursor, "cmdata_root", opencmConfig.getCmdata_root() );
 		IDataUtil.put( pipelineCursor, "output_dir", opencmConfig.getOutput_dir() );
-		IDataUtil.put( pipelineCursor, "endpoint_config_type", opencmConfig.getEndpoint_config().getType());
+		IDataUtil.put( pipelineCursor, "inventory_type", opencmConfig.getInventory_config().getType());
 		IDataUtil.put( pipelineCursor, "debug_level", opencmConfig.getDebug_level() );
 		// -----------------
 		String packageConfig = PackageUtils.getPackageConfigPath();
 		File pkgDir = new File(packageConfig + File.separator + "..");
 		IDataUtil.put( pipelineCursor, "package_directory", pkgDir.getPath());
+		IDataUtil.put( pipelineCursor, "audit_prop_directory", opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_CONFIG_DIR_AUDIT);
 		IDataUtil.put( pipelineCursor, "two_node_audit_directory", opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_CONFIG_DIR_TWO_NODE_AUDIT);
 		IDataUtil.put( pipelineCursor, "layered_audit_directory", opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_CONFIG_DIR_LAYERED_AUDIT);
 		IDataUtil.put( pipelineCursor, "excel_output_directory", opencmConfig.getOutput_dir() + File.separator + Configuration.OPENCM_RESULTS_DIR_EXCEL);
 		
+		pipelineCursor.destroy(); 
+			
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void getInventory (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(getInventory)>> ---
+		// @sigtype java 3.5
+		// [o] recref:1:required Organsiation OpenCM.doc.inventory:Organisation
+		// --------------------------------------------------------------------
+		// Read in Default Package Properties
+		// --------------------------------------------------------------------
+		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
+		
+		// --------------------------------------------------------------------
+		// Read in OpenCM Properties
+		// --------------------------------------------------------------------
+		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
+		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
+		
+		// --------------------------------------------------------------------
+		// Ensure that master password is stored in cache
+		// --------------------------------------------------------------------
+		if (KeyUtils.getMasterPassword() == null) {
+			try {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," getInventory: Master Pwd NULL - running startup service ... ");
+				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
+			} catch (Exception ex) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," getInventory :: " + ex.getMessage());
+			}
+		}
+		
+		// --------------------------------------------------------------------
+		// Read in Inventory
+		// --------------------------------------------------------------------
+		Cache.getInstance().set(org.opencm.inventory.Inventory.INVENTORY_CACHE_KEY, null);
+		Inventory inv = Inventory.instantiate(opencmConfig);
+		
+		
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		
+		// --------------------------------------------------------------------
+		// Organisations
+		// --------------------------------------------------------------------
+		LinkedList<Organisation> orgs = inv.getInventory();
+		IData[]	Organisation = new IData[orgs.size()];
+		for (int o = 0; o < orgs.size(); o++) {
+			Organisation org = orgs.get(o);
+			Organisation[o] = IDataFactory.create();
+			IDataCursor OrganisationCursor = Organisation[o].getCursor();
+			IDataUtil.put( OrganisationCursor, "name", org.getName() );
+			// --------------------------------------------------------------------
+			// Departments
+			// --------------------------------------------------------------------
+			LinkedList<Department> deps = org.getDepartments();
+			IData[]	Department = new IData[deps.size()];
+			for (int d = 0; d < deps.size(); d++) {
+				Department dep = deps.get(d);
+				Department[d] = IDataFactory.create();
+				IDataCursor DepartmentCursor = Department[d].getCursor();
+				IDataUtil.put( DepartmentCursor, "name", dep.getName() );
+				// --------------------------------------------------------------------
+				// Environments
+				// --------------------------------------------------------------------
+				LinkedList<String> envs = dep.getEnvironments();
+				IData[]	Environment = new IData[envs.size()];
+				for (int e = 0; e < envs.size(); e++) {
+					String env = envs.get(e);
+					Environment[e] = IDataFactory.create();
+					IDataCursor EnvironmentCursor = Environment[e].getCursor();
+					IDataUtil.put( EnvironmentCursor, "name", env );
+					// --------------------------------------------------------------------
+					// Layers
+					// --------------------------------------------------------------------
+					LinkedList<String> layers = dep.getLayersByEnv(env);
+					IData[]	Layer = new IData[layers.size()];
+					for (int l = 0; l < layers.size(); l++) {
+						String layer = layers.get(l);
+						Layer[l] = IDataFactory.create();
+						IDataCursor LayerCursor = Layer[l].getCursor();
+						IDataUtil.put( LayerCursor, "name", layer );
+						// ----------------------------------------------------------------
+						// Servers
+						// ----------------------------------------------------------------
+						LinkedList<Server> servers = dep.getServers(env, layer);
+						IData[]	Server = new IData[servers.size()];
+						for (int s = 0; s < servers.size(); s++) {
+							Server server = servers.get(s);
+							Server[s] = IDataFactory.create();
+							IDataCursor ServerCursor = Server[s].getCursor();
+							IDataUtil.put( ServerCursor, "name", server.getName() );
+							IDataUtil.put( ServerCursor, "description", server.getDescription() );
+							IDataUtil.put( ServerCursor, "os", server.getOs() );
+							IDataUtil.put( ServerCursor, "type", server.getType() );
+							
+							// ----------------------------------------------------------------
+							// Installations
+							// ----------------------------------------------------------------
+							LinkedList<Installation> installations = server.getInstallations();
+							IData[]	Installation = new IData[installations.size()];
+							for (int i = 0; i < installations.size(); i++) {
+								Installation installation = installations.get(i);
+								Installation[i] = IDataFactory.create();
+								IDataCursor InstallationCursor = Installation[i].getCursor();
+								IDataUtil.put( InstallationCursor, "name", installation.getName() );
+								IDataUtil.put( InstallationCursor, "environment", installation.getEnvironment() );
+								IDataUtil.put( InstallationCursor, "layer", installation.getLayer() );
+								IDataUtil.put( InstallationCursor, "sublayer", installation.getSublayer() );
+								IDataUtil.put( InstallationCursor, "version", installation.getVersion() );
+								
+								// ----------------------------------------------------------------
+								// Runtime Components
+								// ----------------------------------------------------------------
+								LinkedList<RuntimeComponent> rcs = installation.getRuntimes();
+								IData[]	RuntimeComponent = new IData[rcs.size()];
+								for (int r = 0; r < rcs.size(); r++) {
+									RuntimeComponent rc = rcs.get(r);
+									RuntimeComponent[r] = IDataFactory.create();
+									IDataCursor RuntimeComponentCursor = RuntimeComponent[r].getCursor();
+									IDataUtil.put( RuntimeComponentCursor, "name", rc.getName() );
+									IDataUtil.put( RuntimeComponentCursor, "protocol", rc.getProtocol() );
+									IDataUtil.put( RuntimeComponentCursor, "port", rc.getPort() );
+									IDataUtil.put( RuntimeComponentCursor, "username", rc.getUsername() );
+									RuntimeComponentCursor.destroy();
+									IDataUtil.put( InstallationCursor, "RuntimeComponent", RuntimeComponent );
+								}
+								InstallationCursor.destroy();
+								IDataUtil.put( ServerCursor, "Installation", Installation );
+							}
+							ServerCursor.destroy();
+							IDataUtil.put( LayerCursor, "Server", Server );
+						}
+						LayerCursor.destroy();
+						IDataUtil.put( EnvironmentCursor, "Layer", Layer );
+					}
+					EnvironmentCursor.destroy();
+					IDataUtil.put( DepartmentCursor, "Environment", Environment );
+				}
+				DepartmentCursor.destroy();
+				IDataUtil.put( OrganisationCursor, "Department", Department );
+			}
+			OrganisationCursor.destroy();
+			IDataUtil.put( pipelineCursor, "Organisation", Organisation );
+		}
 		pipelineCursor.destroy();
+		
 			
 		// --- <<IS-END>> ---
 

@@ -16,10 +16,11 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.opencm.configuration.Configuration;
-import org.opencm.configuration.Node;
-import org.opencm.configuration.Nodes;
-import org.opencm.configuration.RuntimeComponent;
-import org.opencm.extract.spm.SpmOps;
+import org.opencm.configuration.model.*;
+import org.opencm.inventory.Inventory;
+import org.opencm.inventory.Server;
+import org.opencm.inventory.Installation;
+import org.opencm.inventory.RuntimeComponent;
 import org.opencm.configuration.PkgConfiguration;
 import org.opencm.util.LogUtils;
 import org.opencm.util.ZipUtils;
@@ -151,20 +152,20 @@ public final class synch
 			}
 		}
 		
-		// -------------------------------------------------------------------- 
-		// Read in OpenCM Nodes Properties
 		// --------------------------------------------------------------------
-		Nodes nodes = Nodes.instantiate(opencmConfig); 
+		// Read in Inventory
+		// --------------------------------------------------------------------
+		Inventory inv = Inventory.instantiate(opencmConfig);
 		
 		// --------------------------------------------------------------------
 		// Ensure Encrypted passwords ...
 		// --------------------------------------------------------------------
-		nodes.ensureDecryptedPasswords(opencmConfig);
+		inv.ensureEncryptedPasswords(opencmConfig);
 		
 		// --------------------------------------------------------------------
 		// Locate Synch Runtime Component for target OpenCM
 		// --------------------------------------------------------------------
-		Node synchNode = nodes.getNode(opencmConfig.getSynch_target_opencm_node());
+		Installation synchNode = inv.getInstallation(opencmConfig.getSynch_target_opencm_node());
 		if (synchNode == null) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Synch - Send :: No OpenCM Target Synch Node defined.");
 			return;
@@ -174,6 +175,11 @@ public final class synch
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Synch - Send :: No OpenCM Synch Runtime Component for FTPS defined.");
 			return;
 		}
+		
+		// --------------------------------------------------------------------
+		// Identify Synch Target server
+		// --------------------------------------------------------------------
+		Server serverTarget = inv.getNodeServer(synchNode.getName());
 		
 		FTPSClient ftp = new FTPSClient();
 		
@@ -191,8 +197,8 @@ public final class synch
 			// --------------------------------------------------------------------
 			// Open FTP Connection to target
 			// --------------------------------------------------------------------
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Opening FTPS Connection to : " + synchNode.getHostname() + ":" + synchRuntimeComponent.getPort());
-			ftp.connect(synchNode.getHostname(),new Integer(synchRuntimeComponent.getPort()).intValue());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Opening FTPS Connection to : " + serverTarget.getName() + ":" + synchRuntimeComponent.getPort());
+			ftp.connect(serverTarget.getName(), new Integer(synchRuntimeComponent.getPort()).intValue());
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,ftp.getReplyString());
 		
 			// ---------------------------------
@@ -205,7 +211,7 @@ public final class synch
 				return; 
 			}
 			
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"FTPS Connection to " + synchNode.getHostname() + " successful.");
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"FTPS Connection to " + serverTarget.getName() + " successful.");
 			
 			// ---------------------------------
 			// Login
@@ -237,39 +243,76 @@ public final class synch
 			String runtimeDir =  opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR;
 		
 			// --------------------------------------------------------------------
-			// Based on defined environments to synch, loop through each node
+			// Define which nodes to synch 
 			// --------------------------------------------------------------------
-			LinkedList<String> syncEnvs = opencmConfig.getSynch_envs();
-			for (int i = 0; i < syncEnvs.size(); i++) {
-				String envName = syncEnvs.get(i);
-				LinkedList<Node> opencmNodes = nodes.getNodesByEnvironment(envName);
-				for (int n = 0; n < opencmNodes.size(); n++) {
-					Node currNode = opencmNodes.get(n);
-					File nodeDir = new File(runtimeDir + File.separator + currNode.getNode_name());
-					if (!nodeDir.exists() || !nodeDir.isDirectory()) {
-						continue;
+			LinkedList<Installation> installations = new LinkedList<Installation>();
+		
+			LinkedList<Organisation> synchOrgs = opencmConfig.getSynch();
+			for (int o = 0; o < synchOrgs.size(); o++) {
+				Organisation synchOrg = synchOrgs.get(o);
+				if ((synchOrg.getDepartments() == null) || (synchOrg.getDepartments().size() == 0)) {
+					// Collect all nodes defined under this Org
+					LinkedList<Installation> invNodes = inv.getInstallations(synchOrg.getOrg(),null,null);
+					installations = addInstallations(installations, invNodes);
+				} else {
+					LinkedList<Department> synchDeps = synchOrg.getDepartments();
+					for (int d = 0; d < synchDeps.size(); d++) {
+						Department synchDep = synchDeps.get(d);
+						if ((synchDep.getEnvironments() == null) || (synchDep.getEnvironments().size() == 0)) {
+							// Collect all nodes defined under this Dep
+							LinkedList<Installation> invNodes = inv.getInstallations(synchOrg.getOrg(),synchDep.getDep(),null);
+							installations = addInstallations(installations, invNodes);
+						} else {
+							LinkedList<Environment> synchEnvs = synchDep.getEnvironments();
+							for (int e = 0; e < synchEnvs.size(); e++) {
+								Environment synchEnv = synchEnvs.get(e);
+								if ((synchEnv.getNodes() == null) || (synchEnv.getNodes().size() == 0)) {
+									// Collect all nodes defined under this Env
+									LinkedList<Installation> invNodes = inv.getInstallations(synchOrg.getOrg(),synchDep.getDep(),synchEnv.getEnv());
+									installations = addInstallations(installations, invNodes);
+								} else {
+									// Add individual nodes
+									LinkedList<String> synchNodes = synchEnv.getNodes();
+									for (int n = 0; n < synchNodes.size(); n++) {
+										installations = addInstallation(installations, inv.getInstallation(synchNodes.get(n)));
+									}
+								}
+							}
+						}
 					}
-					
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," --> Zipping and Sending Nodes Extraction :: " + currNode.getNode_name());
-					// ------------------------------------------------------
-					// Zip up Nodes directory
-					// ------------------------------------------------------
-					ByteArrayInputStream bais = new ByteArrayInputStream(ZipUtils.compress(nodeDir).toByteArray());
-					
-					// ------------------------------------------------------
-					// Send node zip file
-					// ------------------------------------------------------
-				    try {
-					    if (!ftp.storeFile(currNode.getNode_name(), bais)) {
-							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING,"Unable to send and store the zip for " + currNode.getNode_name() + ":: "  + ftp.getReplyString());
-					    }
-				    } catch (Exception ex) {
-						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"FTP storeFile Exception :: " + ex.getMessage());
-				    }
-				    
-				    bais.close();
-					
 				}
+			}
+			
+			// --------------------------------------------------------------------
+			// Based on defined nodes to synch, loop through each node
+			// --------------------------------------------------------------------
+			for (int i = 0; i < installations.size(); i++) {
+				Installation installation = installations.get(i);
+		
+				File nodeDir = new File(runtimeDir + File.separator + installation.getName());
+				if (!nodeDir.exists() || !nodeDir.isDirectory()) {
+					continue;
+				}
+				
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," --> Zipping and Sending Nodes Extraction :: " + installation.getName());
+				
+				// ------------------------------------------------------
+				// Zip up Nodes directory
+				// ------------------------------------------------------
+				ByteArrayInputStream bais = new ByteArrayInputStream(ZipUtils.compress(nodeDir).toByteArray());
+				
+				// ------------------------------------------------------
+				// Send node zip file
+				// ------------------------------------------------------
+			    try {
+				    if (!ftp.storeFile(installation.getName(), bais)) {
+						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING,"Unable to send and store the zip for " + installation.getName() + ":: "  + ftp.getReplyString());
+				    }
+			    } catch (Exception ex) {
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"FTP storeFile Exception :: " + ex.getMessage());
+			    }
+			    
+			    bais.close();
 				
 			}
 		
@@ -295,5 +338,24 @@ public final class synch
 
                 
 	}
+
+	// --- <<IS-START-SHARED>> ---
+	private static LinkedList<Installation> addInstallation(LinkedList<Installation> nodeList, Installation inst) {
+		if ((inst != null) && !nodeList.contains(inst)) {
+			nodeList.add(inst);
+		}
+		return nodeList;
+	}
+	private static LinkedList<Installation> addInstallations(LinkedList<Installation> nodeList, LinkedList<Installation> toAdd) {
+		for (int i = 0; i < toAdd.size(); i++) {
+			Installation inst = toAdd.get(i);
+			if (!nodeList.contains(inst)) {
+				nodeList.add(inst);
+			}
+		}
+		return nodeList;
+	}
+		
+	// --- <<IS-END-SHARED>> ---
 }
 

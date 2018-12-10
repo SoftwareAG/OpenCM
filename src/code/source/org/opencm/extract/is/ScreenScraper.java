@@ -9,9 +9,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import com.gargoylesoftware.htmlunit.WebClient;
 import org.opencm.configuration.Configuration;
-import org.opencm.configuration.RuntimeComponent;
+import org.opencm.inventory.Installation;
+import org.opencm.inventory.RuntimeComponent;
 import org.opencm.extract.configuration.ExtractKeyValue;
-import org.opencm.configuration.Node;
 import org.opencm.util.LogUtils;
 import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
 
@@ -23,19 +23,19 @@ public class ScreenScraper {
 	private HtmlUnitDriver driver;
 	private String baseURL;
 
-	public ScreenScraper(Configuration opencmConfig, String serverName, RuntimeComponent isRuntimeComponent) {
+	public ScreenScraper(Configuration opencmConfig, String serverName, RuntimeComponent rc) {
 		this.opencmConfig = opencmConfig;
 		this.driver = new HtmlUnitDriver(true) {
 		    protected WebClient modifyWebClient(WebClient client) {
 				WebClient modifiedClient = super.modifyWebClient(client);
 				modifiedClient.getOptions().setThrowExceptionOnScriptError(false);
 		        DefaultCredentialsProvider creds = new DefaultCredentialsProvider();
-		        creds.addCredentials(isRuntimeComponent.getUsername(), isRuntimeComponent.getDecryptedPassword());
+		        creds.addCredentials(rc.getUsername(), rc.getDecryptedPassword());
 		        modifiedClient.setCredentialsProvider(creds); 
 		        return modifiedClient; 
 		    }
 		};
-		this.baseURL = isRuntimeComponent.getProtocol() + "://" + serverName + ":" + isRuntimeComponent.getPort();
+		this.baseURL = rc.getProtocol() + "://" + serverName + ":" + rc.getPort();
 	}
 	
 	public LinkedList<ISPackage> getPackages() {
@@ -46,8 +46,8 @@ public class ScreenScraper {
 			this.driver.manage().timeouts().implicitlyWait(30, java.util.concurrent.TimeUnit.SECONDS);
 			// Get summary page
 			this.driver.get(this.baseURL + "/invoke/wm.server.packages/packageList");
-
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"getPackages :: " + this.driver.getCurrentUrl());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"getPackages :: " + this.driver.getCurrentUrl());
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"getPackages :: " + this.driver.getPageSource());
 			
 			// Loop through all the packages
 			List<WebElement> lNodes = this.driver.findElements(By.xpath("//b[text()='name']"));
@@ -212,7 +212,7 @@ public class ScreenScraper {
 				jdbcConn.setConnectionType(driver.findElement(By.xpath("//td[text()='Connection Type']/following::td")).getText());
 				jdbcConn.setTransactionType(driver.findElement(By.xpath("//td[text()='Transaction Type']/following::td")).getText());
 				jdbcConn.setDataSourceClass(driver.findElement(By.xpath("//td[text()='DataSource Class']/following::td")).getText());
-				if (version.equals(Node.NODE_VERSION_900) || version.equals(Node.NODE_VERSION_960) || version.equals(Node.NODE_VERSION_980) || version.equals(Node.NODE_VERSION_990)) {
+				if (version.equals(Installation.NODE_VERSION_900) || version.equals(Installation.NODE_VERSION_960) || version.equals(Installation.NODE_VERSION_980) || version.equals(Installation.NODE_VERSION_990)) {
 					jdbcConn.setServerName(driver.findElement(By.xpath("//td[text()='serverName']/following::td")).getText());
 					jdbcConn.setUser(driver.findElement(By.xpath("//td[text()='user']/following::td")).getText());
 					jdbcConn.setDatabaseName(driver.findElement(By.xpath("//td[text()='databaseName']/following::td")).getText());

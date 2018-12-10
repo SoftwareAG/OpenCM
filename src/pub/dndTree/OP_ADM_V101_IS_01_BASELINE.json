@@ -1,0 +1,8 @@
+{
+  "name" : "OP_ADM_V101_IS_01",
+  "level" : "NODE",
+  "layer" : "Governance",
+  "spmURL" : "https://central_opencm_server.opencm.org:10193/spm",
+  "children" : null,
+  "environment" : "Admin"
+}

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.opencm.configuration.Configuration;
-import org.opencm.configuration.Node;
+import org.opencm.inventory.Installation;
 import org.opencm.repository.util.RepoUtils;
 
 public class AssertionGroup {
@@ -37,7 +37,7 @@ public class AssertionGroup {
 		}
     }
 
-    public void addAssertionValue(Configuration opencmConfig, Node opencmNode, AssertionValue av, boolean includeDefault) {
+    public void addAssertionValue(Configuration opencmConfig, Installation opencmNode, AssertionValue av, boolean includeDefault) {
 		if (this.properties.containsKey(av.getPropertyName())) {
 			// Verify that there are no existing properties but with different instance names
 			AssertionProperty ap = properties.get(av.getPropertyName());

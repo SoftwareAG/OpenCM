@@ -34,8 +34,7 @@
     <value>org.opencm.repository.util.RepoUtils</value>
     <value>org.opencm.audit.configuration.AuditNodePair</value>
     <value>org.opencm.audit.configuration.AuditNode</value>
-    <value>org.opencm.configuration.Nodes</value>
-    <value>org.opencm.configuration.Node</value>
+    <value>org.opencm.inventory.*</value>
     <value>org.testng.ITestNGListener</value>
     <value>org.testng.TestNG</value>
     <value>org.testng.xml.XmlSuite</value>

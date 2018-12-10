@@ -6,10 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class RuntimeComponent {
 	
-	public static final String		ENCRYPT_PREFIX					= "ENCRYPTED::";
-	public static final String		RUNTIME_COMPONENT_NAME_CCE		= "OSGI-CCE";
-	public static final String		RUNTIME_COMPONENT_NAME_SPM		= "OSGI-SPM";
-	public static final String		RUNTIME_COMPONENT_NAME_SYNCH	= "OPENCM-SYNCH";
+	public static final String		ENCRYPT_PREFIX						= "ENCRYPTED::";
+	public static final String		RUNTIME_COMPONENT_NAME_CCE			= "OSGI-CCE";
+	public static final String		RUNTIME_COMPONENT_NAME_SPM			= "OSGI-SPM";
+	public static final String		RUNTIME_COMPONENT_NAME_SYNCH		= "OPENCM-SYNCH";
+	public static final String		RUNTIME_COMPONENT_NAME_IS_PREFIX	= "integrationServer-";
 	
     private String name;
     private String protocol;

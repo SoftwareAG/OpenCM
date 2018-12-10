@@ -24,6 +24,23 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Originated from http://bl.ocks.org/Thanaporn-sk/20a86f09c938b8dd0e4520a4c68c6315
 
+### bootstrap.min.js
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Originated from https://getbootstrap.com/
+
+### chosen.jquery.min.js
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Originated from https://harvesthq.github.io/chosen/
+
+### jquery.multi-select.js
+- Licensed under [WTFPL](http://www.wtfpl.net/txt/copying/)
+- Originated from http://loudev.com/
+
+### jquery.smartWizard.min.js
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Originated from http://techlaboratory.net/smartwizard
+
+
 ## CSS Files
 
 ### jquery.json-view.css
@@ -37,6 +54,25 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 ### opencm.css
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Originated from http://bl.ocks.org/Thanaporn-sk/20a86f09c938b8dd0e4520a4c68c6315
+
+### smart_wizard_*.css
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Originated from http://techlaboratory.net/smartwizard
+
+### bootstrap.min.css
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Originated from https://getbootstrap.com/
+
+### chosen.min.css
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Originated from https://harvesthq.github.io/chosen/
+
+### multi-select.css
+- Licensed under [WTFPL](http://www.wtfpl.net/txt/copying/)
+- Originated from http://loudev.com/
+
+
+
 
 ## Icons
 

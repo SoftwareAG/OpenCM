@@ -14,9 +14,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import org.opencm.configuration.Configuration;
 import org.opencm.configuration.PkgConfiguration;
-import org.opencm.configuration.Nodes;
-import org.opencm.configuration.Node;
-import org.opencm.configuration.RuntimeComponent;
+import org.opencm.inventory.*;
 import org.opencm.repository.util.RepoUtils;
 import org.opencm.util.LogUtils;
 import org.opencm.security.KeyUtils;
@@ -82,21 +80,29 @@ public final class cli
 			}
 		}
 		
-		// -------------------------------------------------------------------- 
-		// Read in OpenCM Nodes Properties
 		// --------------------------------------------------------------------
-		Nodes nodes = Nodes.instantiate(opencmConfig); 
-		Node opencmNode = nodes.getNode(stNode);
+		// Read in Inventory
+		// --------------------------------------------------------------------
+		Inventory inv = Inventory.instantiate(opencmConfig);
+		
+		// --------------------------------------------------------------------
+		// Ensure Encrypted passwords ...
+		// --------------------------------------------------------------------
+		inv.ensureEncryptedPasswords(opencmConfig);
+		
+		Installation opencmNode = inv.getInstallation(stNode);
 		if (opencmNode == null) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"cce :: generateFixScript :: Node " + stNode + " is not defined... ");
 			return;
 		}
 		
 		// Set CCE properties
-		Node cceNode = nodes.getNode(opencmConfig.getCce_mgmt_node());
+		Installation cceNode = inv.getInstallation(opencmConfig.getCce_mgmt_node());
 		if (cceNode == null) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"cce :: generateFixScript :: No Command Central Node defined: " + opencmConfig.getCce_mgmt_node());
 		}
+		
+		Server cceServer = inv.getNodeServer(cceNode.getName());
 		
 		RuntimeComponent cceRuntimeComponent = cceNode.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_CCE);
 		if (cceRuntimeComponent == null) {
@@ -108,9 +114,9 @@ public final class cli
 		// ------------------------------------------------------
 		// Retrieve fix list for current node
 		// ------------------------------------------------------
-		LinkedList<String> fixList = RepoUtils.getFixList(opencmConfig,opencmNode);
+		LinkedList<String> fixList = RepoUtils.getFixList(opencmConfig, opencmNode);
 		if ((fixList == null) || fixList.isEmpty()) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"cce :: generateFixScript :: No Fixes found ... existing. ");
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"cce :: generateFixScript :: No Fixes found ... exiting. ");
 			return;
 		}
 		StringBuffer sbFixList = new StringBuffer();
@@ -130,7 +136,7 @@ public final class cli
 		sb.append("rem" + System.lineSeparator()); 
 		sb.append("rem  Auto-generated windows batch script for generating Fix Script ... " + System.lineSeparator());
 		sb.append("rem" + System.lineSeparator());  
-		sb.append("rem  Fix list based on node: " + opencmNode.getNode_name() + System.lineSeparator());  
+		sb.append("rem  Fix list based on node: " + opencmNode.getName() + System.lineSeparator());  
 		sb.append("rem" + System.lineSeparator());  
 		sb.append("rem  Fix List:" + System.lineSeparator());  
 		for (int i = 0; i < fixList.size(); i++) {
@@ -162,7 +168,7 @@ public final class cli
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
 		sb.append("rem      Set Appropriate CCE URL: " + System.lineSeparator());
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
-		String cceURL = cceRuntimeComponent.getProtocol() + "://" + cceNode.getHostname() + ":" + cceRuntimeComponent.getPort();
+		String cceURL = cceRuntimeComponent.getProtocol() + "://" + cceServer.getName() + ":" + cceRuntimeComponent.getPort();
 		sb.append("SET CCE_URL=" + cceURL + System.lineSeparator());
 		sb.append(System.lineSeparator());
 		
@@ -181,7 +187,7 @@ public final class cli
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
 		sb.append("rem      Install Fixes: " + System.lineSeparator());
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
-		sb.append("call .\\sagcc exec provisioning fixes " + opencmNode.getNode_name() + " %FIX_REPO% install artifacts=" + sbFixList.toString() + " -s %CCE_URL% -u %CCE_USERNAME%" + System.lineSeparator());
+		sb.append("call .\\sagcc exec provisioning fixes " + opencmNode.getName() + " %FIX_REPO% install artifacts=" + sbFixList.toString() + " -s %CCE_URL% -u %CCE_USERNAME%" + System.lineSeparator());
 		sb.append(System.lineSeparator());
 		
 		sb.append("rem --------------------------------------------------------------------" + System.lineSeparator());
@@ -200,7 +206,7 @@ public final class cli
 		// Write Fix Script Content to file
 		// ------------------------------------------------------
 		try {
-			BufferedWriter bwr = new BufferedWriter(new FileWriter(opencmConfig.getOutput_dir() + File.separator + Configuration.OPENCM_RESULTS_DIR_CLI + File.separator + "FixScript_" + opencmNode.getNode_name() + ".bat"));
+			BufferedWriter bwr = new BufferedWriter(new FileWriter(opencmConfig.getOutput_dir() + File.separator + Configuration.OPENCM_RESULTS_DIR_CLI + File.separator + "FixScript_" + opencmNode.getName() + ".bat"));
 		    bwr.write(sb.toString());
 		   
 		    //flush the stream

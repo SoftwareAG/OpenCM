@@ -9,11 +9,10 @@ import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
 import java.util.LinkedList;
 import org.opencm.configuration.Configuration;
+import org.opencm.configuration.InventoryConfiguration;
 import org.opencm.configuration.PkgConfiguration;
+import org.opencm.inventory.*;
 import org.opencm.security.KeyUtils;
-import org.opencm.configuration.Nodes;
-import org.opencm.configuration.Node;
-import org.opencm.configuration.RuntimeComponent;
 import org.opencm.util.LogUtils;
 // --- <<IS-END-IMPORTS>> ---
 
@@ -44,7 +43,7 @@ public final class security
 		pipelineCursor.destroy(); 
 		
 		/*
-		 * Encrypt/Decrypt the nodes.properties passwords 
+		 * Encrypt/Decrypt the inventory.properties passwords 
 		 */ 
 		
 		// --------------------------------------------------------------------
@@ -58,56 +57,82 @@ public final class security
 		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
 		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========  " + stAction + "ing the passwords in nodes.properties... ========== ");
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," updatePassword ::  with action " + stAction);
+		
+		if (!opencmConfig.getInventory_config().getType().equals(InventoryConfiguration.INVENTORY_CONFIG_OPENCM)) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," updatePassword ::  Inventory type is not OpenCM property file - exiting ...");
+			return;
+		}
 		
 		// --------------------------------------------------------------------
 		// Ensure that master password is stored in cache
 		// --------------------------------------------------------------------
 		if (KeyUtils.getMasterPassword() == null) {
 			try {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Security: Update Passwords: Master Pwd NULL - running startup service ... ");
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," updatePasswords :: Master Pwd NULL - running startup service ... ");
 				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
 			} catch (Exception ex) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM updatePasswords :: " + ex.getMessage());
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," updatePasswords :: " + ex.getMessage());
 			}
 		}
 		
 		// --------------------------------------------------------------------
-		// Read in OpenCM Nodes Properties
+		// Read in Inventory
 		// --------------------------------------------------------------------
-		Nodes nodes = Nodes.instantiate(opencmConfig);
+		Inventory inv = Inventory.instantiate(opencmConfig);
+		
+		boolean changed = false;
 		
 		// --------------------------------------------------------------------
-		// Loop through nodes
+		// Loop through all runtime component passwords
 		// --------------------------------------------------------------------
-		boolean changed = false;
-		for (int n = 0; n < nodes.getNodes().size(); n++) {
-			Node node = nodes.getNodes().get(n);
-			LinkedList<RuntimeComponent> runtimeComponents = node.getRuntimeComponents();
-			for (int i = 0; i < runtimeComponents.size(); i++) {
-				if (stAction.equals("encrypt")) {
-					if (!runtimeComponents.get(i).passwordEncrypted()) {
-						changed = true;
-						runtimeComponents.get(i).encryptPassword();
+		LinkedList<Organisation> orgs = inv.getInventory();
+		for (int o = 0; o < orgs.size(); o++) {
+			// Organisation
+			Organisation org = orgs.get(o);
+			LinkedList<Department> deps = org.getDepartments();
+			for (int d = 0; d < deps.size(); d++) {
+				// Department
+				Department dep = deps.get(d);
+				LinkedList<Server> servers = dep.getServers();
+				for (int s = 0; s < servers.size(); s++) {
+					// Server
+					Server server = servers.get(s);
+					LinkedList<Installation> installations = server.getInstallations();
+					for (int i = 0; i < installations.size(); i++) {
+						// Installation
+						Installation installation = installations.get(i);
+						LinkedList<RuntimeComponent> rcs = installation.getRuntimes();
+						for (int r = 0; r < rcs.size(); r++) {
+							if (stAction.equals("encrypt")) {
+								if (!rcs.get(r).passwordEncrypted()) {
+									rcs.get(r).encryptPassword();
+									changed = true;
+								}
+							} else {
+								if (rcs.get(r).passwordEncrypted()) {
+									rcs.get(r).decryptPassword();
+									changed = true;
+								}
+							}
+						}
 					}
-				} else {
-					if (runtimeComponents.get(i).passwordEncrypted()) {
-						changed = true;
-						runtimeComponents.get(i).decryptPassword();
-					}
-					
 				}
 			}
 		}
+		
 		
 		// --------------------------------------------------------------------
 		// Store nodes to config file
 		// --------------------------------------------------------------------
 		if (changed) {
-			nodes.writeNodes(opencmConfig);
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," updatePasswords ::  " + stAction + "ing after scanning ... ");
+			inv.updateInventory(opencmConfig);
+		} else {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," updatePasswords ::  no need to " + stAction + " after scanning ... ");
 		}
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========  " + stAction + "ing passwords completed ========== ");
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," updatePasswords ::  " + stAction + "ing passwords completed ... ");
 			
 		// --- <<IS-END>> ---
 

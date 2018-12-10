@@ -3,72 +3,249 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
 <head>
-  <title>OpenCM Configuration Management Respoitory - Menu</title>
+  <title>OpenCM Inventory</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-  <meta name="description" content="About OpenCM." />
+  <meta name="description" content="OpenCM Inventory" />
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="../css/opencm.css" />
   <link rel="stylesheet" type="text/css" href="../css/datatables.min.css"/>
-  <script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/chosen.min.css"/>
+
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
   <script type="text/javascript" src="../js/datatables.min.js"></script>
-  <script>
-  	$(document).ready(function() {
+  <script type="text/javascript" src="../js/chosen.jquery.min.js"></script>
+  
+  <script type="text/javascript">
+  
+	var inventoryTableInitialized = false;
+	
+	/* ------------------------------------------------------
+	*   Organisation and Department functions
+	*  ----------------------------------------------------- */
+	function getOrganisations() {
+		var arrOrgs = Array();
+		$.each(top.window.opencm_inventory, function( index, org ) {
+			arrOrgs.push(org.name);
+		});
+		return arrOrgs;
+	}
+	function getDepartments(organisation) {
+		var arrDeps = Array();
+		$.each(top.window.opencm_inventory, function( index, org ) {
+			if (org.name == organisation) {
+				$.each(org.departments, function( index, dep ) {
+					arrDeps.push(dep.name);
+				});
+			}
+		});
+		return arrDeps;
+	}
+	
+	function selectOrg(organisation) {
+		var orgs = getOrganisations();
+		$.each(orgs, function( index, org ) {
+			var deps = getDepartments(org);
+			if (org == organisation) {
+				$.each(deps, function( index, dep ) {
+					// Show all deps for this
+					$('#div_dep_' + organisation + '_' + dep + '').show();
+				});
+			} else {
+				$('input:radio[name="select_dep_' + org + '"]').each(function(i) {
+					$(this).prop('checked', false);
+				});
+				$.each(deps, function( index, dep ) {
+					// Hide all deps for this
+					$('#div_dep_' + org + '_' + dep + '').hide();
+				});
+			}
+		});
+		$('#div_inv_section').hide();
+	}
+	
+	function selectDep(org, dep) {
+		displayInventoryStats(org, dep);
+		if (inventoryTableInitialized) {
+			window.parent.result.redrawTable(org, dep);
+		} else {
+			window.parent.result.initTable(org, dep);
+			inventoryTableInitialized = true;
+		}
+	}
+
+	/* ------------------------------------------------------
+	*   Display of Inventory Stats
+	*  ----------------------------------------------------- */
+	function displayInventoryStats(organisation, department) {
 		var arrEnvs = Array();
+		var arrEnvServers = Array();
 		var arrLayers = Array();
 		var arrServers = Array();
 		var totalNodes = 0;
-		$.each(top.window.opencm_nodes, function( index, env ) {
-			var envServers = 0;
-			var envNodes = 0;
-			if ($.inArray(env.name, arrEnvs) == -1) {
-				arrEnvs.push(env.name);
-			}
-			$.each(env.layers, function( index, layer ) {
-				var layServers = 0;
-				var layNodes = 0;
-				if ($.inArray(layer.name, arrLayers) == -1) {
-					arrLayers.push(layer.name);
-				}
-				$.each(layer.servers, function( index, server ) {
-					envServers++;
-					layServers++;
-					if ($.inArray(server.name, arrServers) == -1) {
-						arrServers.push(server.name);
+		$.each(top.window.opencm_inventory, function( index, org ) {
+			if (org.name == organisation) {
+				$.each(org.departments, function( index, dep ) {
+					if (dep.name == department) {
+						$.each(dep.environments, function( index, env ) {
+							arrEnvServers = [];
+							$.each(env.layers, function( index, layer ) {
+								if ($.inArray(layer.name, arrLayers) == -1) {
+									arrLayers.push(layer.name);
+								}
+								$.each(layer.servers, function( index, server ) {
+									if ($.inArray(server.name, arrServers) == -1) {
+										arrServers.push(server.name);
+									}
+									if ($.inArray(server.name, arrEnvServers) == -1) {
+										arrEnvServers.push(server.name);
+									}
+									totalNodes += server.nodes.length;
+								});
+							});
+							if ($.inArray(env.name, arrEnvs) == -1) {
+								arrEnvs.push({ name: env.name, env_servers: arrEnvServers.length });
+							}
+						});
 					}
-					$.each(server.nodes, function( index, node ) {
-						envNodes++;
-						layNodes++;
-						totalNodes++;
-					})
-				})
-			})
+				});
+			}
 		});
-
-	
-		var dataSet = [
-						[ "Environments", arrEnvs.length ],
-						[ "Layers", arrLayers.length ],
-						[ "Servers", arrServers.length ],
-						[ "Installations", totalNodes ]
-					  ];
+		
+		var summaryDataSet = Array();
+		summaryDataSet.push({what: "Environments", size: arrEnvs.length });
+		summaryDataSet.push({what: "Layers", size: arrLayers.length });
+		summaryDataSet.push({what: "Servers", size: arrServers.length });
+		summaryDataSet.push({what: "Installations", size: totalNodes });
+		
 		$('#summary').DataTable( {
-			data: dataSet,
+			destroy: true,
+			data: summaryDataSet,
 			ordering: false,
 			info:     false,
 			paging: false,
 			filter: false,
 			columns: [
-				{ title: "Total" },
-				{ title: "#" }
+				{ data: "what" },
+				{ data: "size" }
 			],
 			columnDefs: [
-				{ 
-				targets: '_all',
-				className: 'dt-head-left' }
+				{ targets: 0, className: 'dt-head-left' },
+				{ targets: 1, className: 'dt-center' }
 			]
 		} );
 		
-	}); 
+		$('#env_table').DataTable( {
+			destroy: true,
+			data: arrEnvs,
+			ordering: false,
+			info:     false,
+			paging: false,
+			filter: false,
+			columns: [
+				{ data: "name" ,
+				  render: function(data, type, row, meta){
+					return '<a href="javascript:void(0)" onclick="parent.result.redrawTable(\'' + organisation + '\',\'' + department + '\', \'' + data + '\');"><u>' + data + '</u></a>';
+				  }
+				},
+				{ data: "env_servers" }
+			],
+			columnDefs: [
+				{ targets: 0, className: 'dt-head-left' },
+				{ targets: 1, className: 'dt-center' }
+			]
+		} );
+		
+		$('#div_inv_section').show();
+		
+		
+	}
+	
    </script>
+   <style>   
+	#div_multi_org section {
+	  display: flex;
+	}
+	#div_multi_org section > div {
+	  flex: 1;
+	  padding: 0.5rem;
+	}
+	#div_multi_org div {
+	  padding: 1px;
+	}
+	#div_multi_org h4 {
+		color: hsla(215, 5%, 10%, 1);
+		text-align: center;
+		margin-bottom: 2rem;
+		font-weight: 900;
+	}
+	
+	#div_multi_org p {
+		color: #2E268C;
+		text-align: center;
+		font-size: 1.0em;
+	}
+	#div_multi_org input[type="radio"] {
+	  display: none;
+	  &:not(:disabled) ~ label {
+		cursor: pointer;
+	  }
+	  &:disabled ~ label {
+		color: #f2f2f2;
+		border-color: #d9d9d9;
+		box-shadow: none;
+		cursor: not-allowed;
+	  }
+	}
+	#div_multi_org label {
+	  height: 70%;
+	  display: block;
+	  background: white;
+	  border: 2px solid #dce9f9;
+	  border-radius: 10px;
+	  padding: 0.5rem;
+	  margin-bottom: 0.5rem;
+	  //margin: 1rem;
+	  text-align: center;
+	  box-shadow: 0px 3px 10px -2px #dce9f9;
+	  position: relative;
+	}
+	#div_multi_org input[type="radio"]:checked + label {
+	  background: #b3ffda;
+	  color: #00b35c;
+	  box-shadow: 0px 0px 20px #b3ffda;
+	  &::after {
+		color: #00b35c;
+		font-family: FontAwesome;
+		border: 2px solid #00b35c;
+		content: "\f00c";
+		font-size: 24px;
+		position: absolute;
+		top: -25px;
+		left: 50%;
+		transform: translateX(-50%);
+		height: 50px;
+		width: 50px;
+		line-height: 50px;
+		text-align: center;
+		border-radius: 50%;
+		background: white;
+		box-shadow: 0px 2px 5px -2px hsla(0, 0%, 0%, 0.25);
+		
+	  }
+	}
+	#div_multi_org input[type="radio"]#control_05:checked + label {
+	  background: red;
+	  border-color: red;
+	}
+
+	#div_multi_org @media only screen and (max-width: 700px) {
+	  section {
+		flex-direction: column;
+	  }
+	}
+  </style>   
+   
 </head>
 
 
@@ -76,9 +253,92 @@
 
 <section id="popupArea">
   <h2></h2>
-  </br></br>
-  <h3 align="center">Summary</h3>
-  <table id="summary" class="display" width="100%"></table>	
+  <div id="div_multi_org">
+   <p><span id="#org_dep_text"></span></p>
+   <section id="org-selection"></section>
+   <section id="dep-selection"></section>
+  </div>
+  
+  <div id="div_inv_section" style="display:none;text-align:left">
+	<table id="summary" class="display" style="width:100%">
+	  <thead>
+		<tr>
+			<th>Total</th>
+			<th>#</th>
+		</tr>
+	  </thead>
+	</table>
+	<table id="env_table" class="display" style="width:100%">
+	  <thead>
+		<tr>
+			<th>Environment</th>
+			<th># Servers</th>
+		</tr>
+	  </thead>
+	</table>
+  </div>
 </section>
+ <script>
+	$(document).ready(function(){
+
+		// --------------------------------------------
+		// Initializing Organisations
+		// --------------------------------------------
+		var orgs = getOrganisations();
+		var multi_orgs_deps = false;
+		var single_org;
+		var single_dep;
+		if (orgs.length > 1) {
+			multi_orgs_deps = true;
+		} else {
+			single_org = orgs[0];
+		}
+		$.each(orgs, function(idx, org) {
+			var deps = getDepartments(org);
+			if (deps.length > 1) {
+				multi_orgs_deps = true;
+			} else {
+				single_dep = deps[0];
+			}
+			$('#org-selection').append('<div><input type="radio" id="' + org + '" name="select_org" value="1"><label for="' + org + '"><p>' + org + '</p></label></div>');
+			$('#' + org + '' ).click(function() {
+				selectOrg(org);
+			});
+			// Create divs for underlying op departments
+			$.each(deps, function(idx, dep) {
+				$('#dep-selection').append('<div id="div_dep_' + org + '_' + dep + '" style="display:none;text-align:left"><input type="radio" id="but_dep_' + org + '_' + dep + '" name="select_dep_' + org + '" value="1"><label for="but_dep_' + org + '_' + dep + '"><p>' + dep + '</p></label></div>');
+				$('#but_dep_' + org + '_' + dep + '' ).click(function() {
+					selectDep(org, dep);
+				});
+			});
+		});
+		
+		if (multi_orgs_deps) {
+			if (single_org && !single_dep) {
+				//Pre-select org
+				var org = orgs[0];
+				$('#' + org + '' ).prop('checked', true);
+				var deps = getDepartments(org);
+				$.each(deps, function( index, dep ) {
+					// Show all deps for this
+					$('#div_dep_' + org + '_' + dep + '').show();
+				});
+				$("span[id='#org_dep_text']").text("Select Department:");
+			} else {
+				$("span[id='#org_dep_text']").text("Select Organisation/Department:");
+			}
+		} else {
+			// Pre-load single org and dep
+			var org = orgs[0];
+			var deps = getDepartments(org);
+			var dep = deps[0];
+			$('#' + org + '' ).prop('checked', true);
+			$('#div_dep_' + org + '_' + dep + '').show();
+			$('#but_dep_' + org + '_' + dep + '' ).click();
+			$("span[id='#org_dep_text']").text("");
+
+		}
+	});
+ </script>	
 </body>
 </html>

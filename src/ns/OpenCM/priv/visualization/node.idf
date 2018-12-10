@@ -35,12 +35,10 @@ bmVudENoaWxkKTsKCQl9Cgl9CglyZXR1cm4gY29tcG9uZW50Q2hpbGRyZW47Cgp9</value>
     <value>java.util.Collections</value>
     <value>org.opencm.configuration.Configuration</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
-    <value>org.opencm.configuration.Nodes</value>
-    <value>org.opencm.configuration.Node</value>
-    <value>org.opencm.configuration.RuntimeComponent</value>
+    <value>org.opencm.inventory.*</value>
     <value>org.opencm.d3.Tree</value>
-    <value>org.opencm.extract.spm.SpmOps</value>
     <value>org.opencm.d3.Child</value>
+    <value>org.opencm.util.Cache</value>
     <value>org.opencm.util.FileUtils</value>
     <value>org.opencm.util.JsonUtils</value>
     <value>org.opencm.util.LogUtils</value>

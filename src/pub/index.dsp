@@ -13,40 +13,59 @@
     <link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
     <title>OpenCM</title>
 </head>
-<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="js/d3.v3.min.js"></script>
 <script src="js/jquery.json-view.js"></script>
 <script type="text/javascript" src="js/datatables.min.js"></script>
 <script>
- 	var opencm_nodes = [
-		%invoke OpenCM.pub.dsp.configuration:getNodes%
-			%loop Environment%
+ 	var opencm_inventory = [
+		%invoke OpenCM.pub.dsp.configuration:getInventory%
+			%loop Organisation%
 			 {"name": "%value name%",
-			  "layers": [
-				%loop Layer%
-			     {"name": "%value name%",
-				  "servers": [
-					%loop Server%
+			  "departments": [
+				%loop Department%
+				 {"name": "%value name%",
+				  "environments": [
+					%loop Environment%
 					 {"name": "%value name%",
-					  "nodes": [
-						%loop Node%
+					  "layers": [
+						%loop Layer%
 						 {"name": "%value name%",
-						  "rcs": [
-							%loop RuntimeComponent%
-							  {"name": "%value name%",
-							   "protocol": "%value protocol%",
-							   "port": "%value port%",
-							   "username": "%value username%"
-							  }
-							  %loopsep ','%
-						    %endloop%
+						  "servers": [
+							%loop Server%
+							 {"name": "%value name%",
+							  "description": "%value description%",
+							  "os": "%value os%",
+							  "type": "%value type%",
+							  "nodes": [
+								%loop Installation%
+								 {"name": "%value name%",
+								  "environment": "%value environment%",
+								  "layer": "%value layer%",
+								  "sublayer": "%value sublayer%",
+								  "version": "%value version%",
+								  "rcs": [
+									%loop RuntimeComponent%
+									  {"name": "%value name%",
+									   "protocol": "%value protocol%",
+									   "port": "%value port%",
+									   "username": "%value username%"
+									  }
+									  %loopsep ','%
+									%endloop%
+								 ]}
+								 %loopsep ','%
+								%endloop%
+							 ]}
+							 %loopsep ','%
+						   %endloop%
 						 ]}
 						 %loopsep ','%
-						%endloop%
-				     ]}
+					   %endloop%
+					  ]}
 					 %loopsep ','%
 				   %endloop%
-				 ]}
+				  ]}
 				 %loopsep ','%
 			   %endloop%
 			  ]}
@@ -74,7 +93,7 @@
     </div>
 	<section id="canvasArea">
 		<div id="canvasLogo">
-			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repository</a><br/><span>v1.8.9</span></h2>
+			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repository</a><br/><span>v1.9.0</span></h2>
 		</div>
 		<div id="canvasTree"></div>
 	</section>
@@ -95,7 +114,7 @@
 			<!-- Inventory Menu -->
 	        <li id="inventoryMenu"><a class="inventoryMenuLink" data-bpopup='{"content":"iframe","contentContainer":".inventoryFrame","loadUrl":"/OpenCM/inventory"}' href="#">Inventory</a></li>
 			<!-- Assert Menu -->
-			<!-- <li id="assertMenu"><a class="assertMenuLink" data-bpopup='{"content":"iframe","contentContainer":".assertFrame","loadUrl":"/OpenCM/assert"}' href="#">Assertions</a></li> -->
+			<li id="assertMenu"><a class="assertMenuLink" data-bpopup='{"content":"iframe","contentContainer":".assertFrame","loadUrl":"/OpenCM/assert/index.dsp"}' href="#">Auditing</a></li>
 			<!-- Audit Menu -->
 			<li id="auditTwoNodeMenu"><a href="#">2-Node Assertions</a>
                   <ul class="subMenu auditTwoNodeMenu">
@@ -114,7 +133,7 @@
 				        %endloop%
 				      %endif%
 			       %endinvoke%
-					<li id="auditTwoNode_ViewReport"><a class="auditTwoNodeMenuLink" data-bpopup='{"content":"iframe","contentContainer":".auditReportFrame","loadUrl":"/OpenCM/output/html/index.html"}' href="#">Open 2-Node Audit Report</a></li>
+					<li id="auditTwoNode_ViewReport"><a class="auditTwoNodeMenuLink" data-bpopup='{"content":"iframe","contentContainer":".auditReportFrame","loadUrl":"/OpenCM/opencm/output/html/index.html"}' href="#">Open 2-Node Audit Report</a></li>
                   </ul>
 			</li>
 			<!-- Env Audit Menu -->
@@ -130,7 +149,7 @@
   			       %invoke OpenCM.pub.dsp.audit:getLayeredAuditResults%
   	                  %ifvar resultFiles%
                         %loop resultFiles%
-                        <li id="auditLayered_ViewReport"><a href="output/excel/%value resultFile encode(html)%.xlsx" download="%value resultFile encode(html)%.xlsx"><img src="img/xlsx.ico" height="20" width="18"> %value resultFile encode(html)%</a></li>
+                        <li id="auditLayered_ViewReport"><a href="opencm/output/excel/%value resultFile encode(html)%.xlsx" download="%value resultFile encode(html)%.xlsx"><img src="img/xlsx.ico" height="20" width="18"> %value resultFile encode(html)%</a></li>
 				        %endloop%
 				      %endif%
 			       %endinvoke%
@@ -141,7 +160,7 @@
                   <ul class="subMenu confMenu">
                     <li id="conf_UpdateTree"><a href="javascript:;" onclick="performTreeUpdate();">Refresh Tree</a></li>
   			        %invoke OpenCM.pub.dsp.configuration:getConfig%
- 					 %ifvar endpoint_config_type equals('opencm')%
+ 					 %ifvar inventory_type equals('opencm')%
 						<li id="conf_Encrypt"><a href="javascript:;" onclick="performEncrypt();">Encrypt Endpoints</a></li>
 						<li id="conf_Decrypt"><a href="javascript:;" onclick="performDecrypt();">Decrypt Endpoints</a></li>
 					 %endif%
@@ -165,8 +184,8 @@
         <section id="generalDetails">
             <h2 id="opencm_page"></h2>
             <div class="accordion-container" id="opencm-node-details">
-                <p class="propDetails" align="left">Assertion Group: <span id="ass_group"></span></p>
                 <p class="propDetails" align="left">Environment: <span id="env"></span></p>
+                <p class="propDetails" align="left">Logical Layer: <span id="layer"></span></p>
                 <p class="propDetails" align="left">SPM URL: <span id="spm_url"></span></p>
             </div>
 			<h3 class="accordion-trigger" id="selection-server-trigger">Server: <span id="cm_server_hostname"></span></h3>
@@ -214,16 +233,6 @@
     </aside>
 	
   <script src="js/opencm.js"></script>
-  %invoke OpenCM.pub.dsp.util:hasCmdataLink%
-  	%ifvar exists equals('false')%
-  	  <script>notifyMissingLink("cmdata");</script>
-    %endif%
-  %endinvoke%
-  %invoke OpenCM.pub.dsp.util:hasOutputLink%
-  	%ifvar exists equals('false')%
-  	  <script>notifyMissingLink("output");</script>
-    %endif%
-  %endinvoke%
 
 </body>
 </html>

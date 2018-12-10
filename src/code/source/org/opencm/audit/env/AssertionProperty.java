@@ -3,7 +3,7 @@ package org.opencm.audit.env;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Iterator;
-import org.opencm.configuration.Node;
+import org.opencm.inventory.Installation;
 import org.opencm.repository.util.RepoUtils;
 
 
@@ -49,7 +49,7 @@ public class AssertionProperty {
 		}
     }
     
-    public void addAssertionValue(Node opencmNode, AssertionValue av) {
+    public void addAssertionValue(Installation opencmNode, AssertionValue av) {
 		if (!this.envs.containsKey(opencmNode.getEnvironment())) {
 			AssertionEnvironment ae = new AssertionEnvironment(opencmNode.getEnvironment());
 			ae.addAssertionValue(av);

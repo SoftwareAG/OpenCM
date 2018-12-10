@@ -1358,7 +1358,7 @@ marker path {
 	padding:25px
 }
 #aboutPopup iframe{
-	background:url('loader.gif') center center no-repeat;
+	/* background:url('loader.gif') center center no-repeat; */
 	min-height:800px;
 	min-width:1600px
 }
@@ -1372,7 +1372,7 @@ marker path {
 	padding:25px
 }
 #assertPopup iframe{
-	background:url('loader.gif') center center no-repeat;
+	/* background:url('loader.gif') center center no-repeat; */
 	min-height:800px;
 	min-width:1600px
 }
@@ -1386,7 +1386,7 @@ marker path {
 	padding:25px
 }
 #inventoryPopup iframe{
-	background:url('loader.gif') center center no-repeat;
+	/* background:url('loader.gif') center center no-repeat; */
 	min-height:800px;
 	min-width:1600px
 }
@@ -1398,3 +1398,6 @@ td.details-control {
 tr.shown td.details-control {
     background: url('../img/details_close.png') no-repeat center center;
 }
+
+
+

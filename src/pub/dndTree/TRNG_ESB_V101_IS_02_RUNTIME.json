@@ -1,0 +1,8 @@
+{
+  "name" : "TRNG_ESB_V101_IS_02",
+  "level" : "NODE",
+  "layer" : "ESB",
+  "spmURL" : "https://other.server02.opencm.org:10193/spm",
+  "children" : null,
+  "environment" : "Training"
+}

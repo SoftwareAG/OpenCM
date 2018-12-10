@@ -1,8 +1,0 @@
-{
-  "name" : "PREP_ESB_IS_V101_02",
-  "level" : "NODE",
-  "assertionGroup" : "ESB_IS_V101",
-  "spmURL" : "https://server_06.opencm.org:10193/spm",
-  "children" : null,
-  "environment" : "Pre-Production"
-}

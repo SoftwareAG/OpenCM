@@ -3,7 +3,7 @@ package org.opencm.audit.env;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.opencm.configuration.Node;
+import org.opencm.inventory.Installation;
 
 public class AssertionComponent {
 
@@ -35,7 +35,7 @@ public class AssertionComponent {
 		}
     }
 
-    public void addAssertionValue(Node opencmNode, AssertionValue av) {
+    public void addAssertionValue(Installation opencmNode, AssertionValue av) {
 		if (this.properties.containsKey(av.getPropertyName())) {
 			// Verify that there are no existing properties but with different instance names
 			AssertionProperty ap = properties.get(av.getPropertyName());

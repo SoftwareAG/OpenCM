@@ -1,0 +1,8 @@
+{
+  "name" : "DEV_ESB_V101_IS_01",
+  "level" : "NODE",
+  "layer" : "ESB",
+  "spmURL" : "https://server_01.opencm.org:10193/spm",
+  "children" : null,
+  "environment" : "Development"
+}

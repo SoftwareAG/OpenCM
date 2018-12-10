@@ -1,0 +1,8 @@
+{
+  "name" : "ADM_V100_CCE_01",
+  "level" : "NODE",
+  "layer" : "Management",
+  "spmURL" : "https://cce_admin_server.opencm.org:8093/spm",
+  "children" : null,
+  "environment" : "Admin"
+}

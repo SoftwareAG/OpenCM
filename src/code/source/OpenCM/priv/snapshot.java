@@ -11,8 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import org.opencm.configuration.Configuration;
 import org.opencm.configuration.PkgConfiguration;
-import org.opencm.configuration.Nodes;
-import org.opencm.configuration.Node;
+import org.opencm.inventory.*;
 import org.opencm.util.LogUtils;
 import org.opencm.util.FileUtils;
 // --- <<IS-END-IMPORTS>> ---
@@ -63,11 +62,12 @@ public final class snapshot
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Promoting " + node + " to Baseline... ========== ");
 		
 		// --------------------------------------------------------------------
-		// Read in OpenCM Nodes Properties
+		// Read in Inventory
 		// --------------------------------------------------------------------
-		Nodes opencmNodes = Nodes.instantiate(opencmConfig);
+		Inventory inv = Inventory.instantiate(opencmConfig);
 		
-		Node opencmNode = opencmNodes.getNode(node);
+		Installation opencmNode = inv.getInstallation(node);
+		
 		if (opencmNode == null) {
 			throw new ServiceException("Node is not defined in nodes.properties: " + node);
 		}
@@ -77,16 +77,8 @@ public final class snapshot
 		if (!fBaselineDir.exists()) {
 			throw new ServiceException("Directory Does not Exist: " + fBaselineDir.getPath());
 		}
-		
-		/**
-		String baselineServerDir = baselineDir + File.separator + opencmNode.getUnqualifiedHostname();
-		File fBaselineServerDir = new File(baselineServerDir);
-		if (!fBaselineServerDir.exists()) {
-			FileUtils.createDirectory(baselineServerDir);
-		}
-		*/
-		
-		String baselineNodeDir = baselineDir + File.separator + opencmNode.getNode_name();
+				
+		String baselineNodeDir = baselineDir + File.separator + opencmNode.getName();
 		File fBaselineNodeDir = new File(baselineNodeDir);
 		
 		String runtimeDir = opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR;
@@ -94,16 +86,8 @@ public final class snapshot
 		if (!fRuntimeDir.exists()) {
 			throw new ServiceException("Directory Does not Exist: " + fRuntimeDir.getPath());
 		}
-		
-		/**
-		String runtimeServerDir = runtimeDir + File.separator + opencmNode.getUnqualifiedHostname();
-		File fRuntimeServerDir = new File(runtimeServerDir);
-		if (!fRuntimeServerDir.exists()) {
-			throw new ServiceException("Directory Does not Exist: " + fRuntimeServerDir.getPath());
-		}
-		*/
-		
-		String runtimeNodeDir = runtimeDir + File.separator + opencmNode.getNode_name();
+				
+		String runtimeNodeDir = runtimeDir + File.separator + opencmNode.getName();
 		File fRuntimeNodeDir = new File(runtimeNodeDir);
 		if (!fRuntimeNodeDir.exists()) {
 			throw new ServiceException("Directory Does not Exist: " + fRuntimeNodeDir.getPath());

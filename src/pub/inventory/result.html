@@ -3,16 +3,31 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
 <head>
-  <title>OpenCM Configuration Management Respoitory - Main</title>
+  <title>OpenCM Inventory</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-  <meta name="description" content="Assertion Result" />
+  <meta name="description" content="OpenCM Inventory" />
   <link rel="stylesheet" type="text/css" href="../css/opencm.css" />
   <link rel="stylesheet" type="text/css" href="../css/datatables.min.css"/>
-  <script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
   <script type="text/javascript" src="../js/datatables.min.js"></script>
    <script>
-	function format ( d ) {
+   // --------------------------------------------
+   // Additional row information (clickable)
+   // --------------------------------------------
+   function format ( d ) {
 		var rcData = '';
+		if ((d.os != null) && (d.os != "")) {
+			rcData += '<tr><td>Operating System:</td><td>' + d.os + '</td></tr>';
+		}
+		if ((d.type != null) && (d.type != "")) {
+			rcData += '<tr><td>Server Type:</td><td>' + d.type + '</td></tr>';
+		}
+		if ((d.sublayer != null) && (d.sublayer != "")) {
+			rcData += '<tr><td>Logical Sublayer:</td><td>' + d.sublayer + '</td></tr>';
+		}
+		if ((d.version != null) && (d.version != "")) {
+			rcData += '<tr><td>Installation Version:</td><td>' + d.version + '</td></tr>';
+		}
 		for (var i = 0; i < d.rcs.length; i++) {
 			if (d.rcs[i].name == "OSGI-SPM") {
 				var spmURL = d.rcs[i].protocol + "://" + d.server + ":" + d.rcs[i].port + "/spm";
@@ -23,10 +38,31 @@
 			}
 		}
 		return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' + rcData + '</table>';
-	}   
-	$(document).ready(function() {
-		var table = $('#inventory_nodes').DataTable( {
-			data: top.window.getInventoryData("inventory"),
+	}
+	
+	function redrawTable(org, dep, env) {
+		var tableData = top.window.getInventoryForOrgAndDepAndEnv(org,dep,env);
+		var table = $('#inventory_table').DataTable();
+		$('#inventory_table tbody').off('click');
+		table.clear();
+		table.rows.add(tableData).draw();
+		$('#inventory_table tbody').on('click', 'td.details-control', function () {
+			var tr = $(this).closest('tr');
+			var row = table.row( tr );
+			if ( row.child.isShown() ) {
+				row.child.hide();
+				tr.removeClass('shown');
+			} else {
+				row.child( format(row.data()) ).show();
+				tr.addClass('shown');
+			}
+		});
+	}
+	
+	function initTable(org, dep, env) {
+		var tableData = top.window.getInventoryForOrgAndDepAndEnv(org,dep,env);
+		var table = $('#inventory_table').DataTable( {
+			data: tableData,
 			ordering: true,
 			pageLength: 10,
 			columns: [
@@ -39,6 +75,7 @@
 				{ data: "env" },
 				{ data: "layer" },
 				{ data: "server" },
+				{ data: "desc" },
 				{ data: "node" ,
 				  render: function(data, type, row, meta){
 					return '<a target="_top" href="/OpenCM/?node='+data+'">' + data + '</a>';
@@ -51,10 +88,9 @@
 				className: 'dt-head-left' }
 			]
 		});
-		$('#inventory_nodes tbody').on('click', 'td.details-control', function () {
+		$('#inventory_table tbody').on('click', 'td.details-control', function () {
 			var tr = $(this).closest('tr');
 			var row = table.row( tr );
-	 
 			if ( row.child.isShown() ) {
 				row.child.hide();
 				tr.removeClass('shown');
@@ -64,8 +100,10 @@
 				tr.addClass('shown');
 			}
 		});
+		
+		$('#inventory_table').show();
+	}
 	
-	}); 
    </script>
   </head>
 <body>
@@ -73,13 +111,14 @@
 <section id="popupArea">
   <h2>Infrastructure Inventory</h2>
   <div>
-	<table id="inventory_nodes" class="display" style="width:90%">
+	<table id="inventory_table" class="display" style="display:none;width:90%">
         <thead>
             <tr>
                 <th></th>
                 <th>Environment</th>
                 <th>Layer</th>
                 <th>Hostname</th>
+                <th>Description</th>
                 <th>Installation Node</th>
             </tr>
         </thead>

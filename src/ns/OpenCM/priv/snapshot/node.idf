@@ -15,8 +15,7 @@
     <value>java.io.IOException</value>
     <value>org.opencm.configuration.Configuration</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
-    <value>org.opencm.configuration.Nodes</value>
-    <value>org.opencm.configuration.Node</value>
+    <value>org.opencm.inventory.*</value>
     <value>org.opencm.util.LogUtils</value>
     <value>org.opencm.util.FileUtils</value>
   </array>

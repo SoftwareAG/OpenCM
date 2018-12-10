@@ -11,16 +11,14 @@
   <array name="implements" type="value" depth="1">
   </array>
   <array name="imports" type="value" depth="1">
-    <value>java.io.File</value>
     <value>java.util.LinkedList</value>
-    <value>org.opencm.configuration.Node</value>
-    <value>org.opencm.configuration.Nodes</value>
-    <value>org.opencm.configuration.RuntimeComponent</value>
+    <value>java.io.File</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
     <value>org.opencm.configuration.Configuration</value>
     <value>org.opencm.util.Cache</value>
-    <value>org.opencm.util.PackageUtils</value>
     <value>org.opencm.security.KeyUtils</value>
     <value>org.opencm.util.LogUtils</value>
+    <value>org.opencm.util.PackageUtils</value>
+    <value>org.opencm.inventory.*</value>
   </array>
 </Values>

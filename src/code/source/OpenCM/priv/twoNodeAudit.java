@@ -30,8 +30,7 @@ import org.opencm.audit.env.AssertionValuePair;
 import org.opencm.repository.util.RepoUtils;
 import org.opencm.audit.configuration.AuditNodePair;
 import org.opencm.audit.configuration.AuditNode;
-import org.opencm.configuration.Nodes;
-import org.opencm.configuration.Node;
+import org.opencm.inventory.*;
 import org.testng.ITestNGListener;
 import org.testng.TestNG;
 import org.testng.xml.XmlSuite;
@@ -63,7 +62,7 @@ public final class twoNodeAudit
 		// [i] field:0:required node
 		// pipeline
 		IDataCursor pipelineCursor = pipeline.getCursor();
-		String	node = IDataUtil.getString( pipelineCursor, "node" );
+		String node = IDataUtil.getString( pipelineCursor, "node" );
 		pipelineCursor.destroy();
 		
 		if (node == null) { 
@@ -80,55 +79,60 @@ public final class twoNodeAudit
 		// --------------------------------------------------------------------
 		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
 		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== 2-Node Baseline vs Runtime Audit - Starting Process ..... ============ ");
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== 2-Node Baseline vs Runtime Audit - Starting Process for " + node + "..... ============ ");
 		
 		// --------------------------------------------------------------------
-		// Read in OpenCM Nodes Properties
+		// Read in Inventory
 		// --------------------------------------------------------------------
-		Nodes nodes = Nodes.instantiate(opencmConfig);
+		Inventory inv = Inventory.instantiate(opencmConfig);
 		
 		// --------------------------------------------------------------------
 		// Either a full 2-node audit or a single node audit
 		// --------------------------------------------------------------------
-		LinkedList<Node> validNodes = new LinkedList<Node>();
+		LinkedList<Installation> validNodes = new LinkedList<Installation>();
 		if (node.equals("ALL")) {
-			LinkedList<Node> openCMNodes = nodes.getNodes();
-			for (int i = 0; i < openCMNodes.size(); i++) { 
-				Node openCMNode = openCMNodes.get(i);
+			LinkedList<Installation> opencmNodes = inv.getAllInstallations();
+			for (int i = 0; i < opencmNodes.size(); i++) { 
+				Installation opencmNode = opencmNodes.get(i);
 				// Ensure we have both baseline and runtime available...
-				File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + openCMNode.getNode_name());
-				File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + openCMNode.getNode_name());
+				File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + opencmNode.getName());
+				File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + opencmNode.getName());
 				if (baselineNodeDir.exists() && runtimeNodeDir.exists()) {
-					validNodes.add(openCMNode);
+					validNodes.add(opencmNode);
 				}
 			}
 		} else {
 			// Single node 
-			Node openCMNode = nodes.getNode(node);
+			Installation opencmNode = inv.getInstallation(node);
 			// Ensure we have both baseline and runtime available...
-			File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + openCMNode.getNode_name());
-			File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + openCMNode.getNode_name());
+			File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + opencmNode.getName());
+			File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + opencmNode.getName());
 			if (baselineNodeDir.exists() && runtimeNodeDir.exists()) {
-				validNodes.add(openCMNode);
+				validNodes.add(opencmNode);
 			}
 		}
 		
+		if (validNodes.size() == 0) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No baseline repositories available. Exiting...");
+			return;
+		}
+		
+		
 		LinkedList<AuditNodePair> llPairs = new LinkedList<AuditNodePair>();
 		for (int i = 0; i < validNodes.size(); i++) { 
-			Node openCMNode = validNodes.get(i);
+			Installation opencmNode = validNodes.get(i);
+		
 			// --------------------------------------------------------------------
 			// Set 2-Node Assertion Pairs
 			// --------------------------------------------------------------------
 			AuditNode node01 = new AuditNode();
-			node01.setEnvironment(openCMNode.getEnvironment());
-			node01.setHostname(openCMNode.getHostname());
-			node01.setNodeAlias(openCMNode.getNode_name());
+			node01.setEnvironment(opencmNode.getEnvironment());
+			node01.setNodeAlias(opencmNode.getName());
 			node01.setRepoType(Configuration.OPENCM_BASELINE_DIR);
 			
 			AuditNode node02 = new AuditNode();
-			node02.setEnvironment(openCMNode.getEnvironment());
-			node02.setHostname(openCMNode.getHostname());
-			node02.setNodeAlias(openCMNode.getNode_name());
+			node02.setEnvironment(opencmNode.getEnvironment());
+			node02.setNodeAlias(opencmNode.getName());
 			node02.setRepoType(Configuration.OPENCM_RUNTIME_DIR);
 			
 			AuditNodePair nodepair = new AuditNodePair();
@@ -145,11 +149,8 @@ public final class twoNodeAudit
 		// --------------------------------------------------------------------
 		// Read in Audit Properties
 		// --------------------------------------------------------------------
-		// AuditConfiguration auditProps = AuditConfiguration.instantiate(opencmConfig, Configuration.OPENCM_AUDIT_BASELINE_RUNTIME_NODE_PROPS);
 		AuditConfiguration auditProps = new AuditConfiguration();
-		
 		auditProps.setTestName("OpenCM 2-Node Audit - Baseline vs Runtime");
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Performing Audit Assertions based on " + Configuration.OPENCM_AUDIT_BASELINE_RUNTIME_NODE_PROPS);
 		
 		// --------------------------------------------------------------------
 		// Initiate Test Objects
@@ -187,39 +188,34 @@ public final class twoNodeAudit
 			// ----------------------------------------------
 			// Get OpenCM definitions for these nodes
 			// ----------------------------------------------
-			Node opencmBaselineNode = nodes.getNode(nodePair.getNode_01().getNodeAlias());
+			Installation opencmBaselineNode = inv.getInstallation(nodePair.getNode_01().getNodeAlias());
 			if (opencmBaselineNode == null) {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING,"Assertion skipped: node is not defined: " + nodePair.getNode_01().getNodeAlias());
 				continue;
 			}
-			Node opencmRuntimeNode = opencmBaselineNode.getCopy();
+			Installation opencmRuntimeNode = opencmBaselineNode.getCopy();
 		
-			// ----------------------------------------------
-			// Set Repository types
-			// ----------------------------------------------
-			opencmRuntimeNode.setRepositoryType(nodePair.getNode_02().getRepoType());
-			opencmBaselineNode.setRepositoryType(nodePair.getNode_01().getRepoType());
-			
 			// ------------------------------------------------------
 			// For each nodePair - Main Processing...
 			// ------------------------------------------------------
-			File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + opencmBaselineNode.getNode_name());
+			File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + opencmBaselineNode.getName());
 			File [] fBaselineCompDirectories = baselineNodeDir.listFiles();
 			for (File baselineCompPath:fBaselineCompDirectories) {
 				if (baselineCompPath.isDirectory()) {
 					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG, "  -- Processing Component " + baselineCompPath.getName());
 					XmlSuite componentSuite = new XmlSuite(); 
-					componentSuite.setName(opencmBaselineNode.getNode_name() + " -> " + baselineCompPath.getName());
+					componentSuite.setName(opencmBaselineNode.getName() + " -> " + baselineCompPath.getName());
 					File [] fBaselineInstDirectories = baselineCompPath.listFiles();
 					for (File baselineInstPath:fBaselineInstDirectories) {
 						if (baselineInstPath.isDirectory()) {
 							refProps.setInstance(baselineInstPath.getName());
 							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG, "    -- Processing Instance " + baselineInstPath.getName());
+							
 							// --------------------------------------------------------------------
 						    // Get Assertion Values for Baseline
 							// --------------------------------------------------------------------
 							refProps.setComponent(baselineCompPath.getName()); // Always the actual component name (not normalized)
-						    LinkedList<AssertionValue> avsBaseline = RepoUtils.getAssertionValues(opencmConfig, opencmBaselineNode, refProps, auditProps.getPropertyFilters());
+						    LinkedList<AssertionValue> avsBaseline = RepoUtils.getAssertionValues(opencmConfig, opencmBaselineNode, nodePair.getNode_01().getRepoType(), refProps, auditProps.getPropertyFilters());
 							if (avsBaseline.size() == 0) {
 								continue;
 							}
@@ -227,7 +223,7 @@ public final class twoNodeAudit
 							// --------------------------------------------------------------------
 						    // Get Assertion Values for Runtime
 							// --------------------------------------------------------------------
-						    LinkedList<AssertionValue> avsRuntime = RepoUtils.getAssertionValues(opencmConfig, opencmRuntimeNode, refProps, auditProps.getPropertyFilters());
+						    LinkedList<AssertionValue> avsRuntime = RepoUtils.getAssertionValues(opencmConfig, opencmRuntimeNode, nodePair.getNode_02().getRepoType(), refProps, auditProps.getPropertyFilters());
 							if (avsRuntime.size() == 0) {
 								continue;
 							}
@@ -242,7 +238,7 @@ public final class twoNodeAudit
 							}
 							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG, "      -- AVS Pairs Size: " + avsPairs.size());
 							
-							String twHashMapKey = refProps.getComponent() + "_" + refProps.getInstance();
+							String twHashMapKey = opencmBaselineNode + "_" + refProps.getComponent() + "_" + refProps.getInstance();
 							TestWrapper tw = new TestWrapper(twHashMapKey,avsPairs);
 							store.setTestWrapper(tw);
 							 
@@ -303,7 +299,7 @@ public final class twoNodeAudit
 		// pipeline
 		IDataCursor pipelineCursor = pipeline.getCursor();
 		String	properties = IDataUtil.getString( pipelineCursor, "properties" );
-		pipelineCursor.destroy();  
+		pipelineCursor.destroy();
 		
 		// --------------------------------------------------------------------
 		// Read in Default Package Properties
@@ -318,12 +314,9 @@ public final class twoNodeAudit
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== 2-Node Custom Audit - Starting Process ..... ============ ");
 		
 		// --------------------------------------------------------------------
-		// Read in OpenCM Nodes Properties
+		// Read in Inventory
 		// --------------------------------------------------------------------
-		Nodes nodes = Nodes.instantiate(opencmConfig);
-		if (nodes == null) {
-			return;
-		}
+		Inventory inv = Inventory.instantiate(opencmConfig);
 		
 		// --------------------------------------------------------------------
 		// Read in 2-Node Assertion Pairs from config Properties
@@ -371,8 +364,8 @@ public final class twoNodeAudit
 			// ----------------------------------------------
 			// Get OpenCM definitions for these nodes
 			// ----------------------------------------------
-			Node opencmNode01 = nodes.getNode(nodePair.getNode_01().getNodeAlias());
-			Node opencmNode02 = nodes.getNode(nodePair.getNode_02().getNodeAlias());
+			Installation opencmNode01 = inv.getInstallation(nodePair.getNode_01().getNodeAlias());
+			Installation opencmNode02 = inv.getInstallation(nodePair.getNode_02().getNodeAlias());
 		
 			if (opencmNode01 == null) {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING,"Assertion skipped: node is not defined: " + nodePair.getNode_01().getNodeAlias());
@@ -382,11 +375,6 @@ public final class twoNodeAudit
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING,"Assertion skipped: node is not defined: " + nodePair.getNode_02().getNodeAlias());
 				continue;
 			}
-			// ----------------------------------------------
-			// Set Repository types
-			// ----------------------------------------------
-			opencmNode01.setRepositoryType(nodePair.getNode_01().getRepoType());
-			opencmNode02.setRepositoryType(nodePair.getNode_02().getRepoType());
 			
 			// --------------------------------------------------------------------
 		    // Loop through the Defined properties to audit
@@ -398,9 +386,9 @@ public final class twoNodeAudit
 				// --------------------------------------------------------------------
 			    // Get Assertion Values for Node 01
 				// --------------------------------------------------------------------
-			    LinkedList<AssertionValue> avsNode01 = RepoUtils.getAssertionValues(opencmConfig, opencmNode01, refProps, auditProps.getPropertyFilters());
+			    LinkedList<AssertionValue> avsNode01 = RepoUtils.getAssertionValues(opencmConfig, opencmNode01, nodePair.getNode_01().getRepoType(), refProps, auditProps.getPropertyFilters());
 				if (avsNode01.size() == 0) {
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING," - Assertion skipped: no data found for " + opencmNode01.getNode_name() + " in repo " + opencmNode01.getRepositoryType());
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING," - Assertion skipped: no data found for " + opencmNode01.getName() + " in repo " + nodePair.getNode_01().getRepoType());
 					continue;
 				}
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG, " -- AvsNode01 List Size: " + avsNode01.size());
@@ -408,9 +396,9 @@ public final class twoNodeAudit
 				// --------------------------------------------------------------------
 			    // Get Assertion Values for Node 02
 				// --------------------------------------------------------------------
-			    LinkedList<AssertionValue> avsNode02 = RepoUtils.getAssertionValues(opencmConfig, opencmNode02, refProps, auditProps.getPropertyFilters());
+			    LinkedList<AssertionValue> avsNode02 = RepoUtils.getAssertionValues(opencmConfig, opencmNode02, nodePair.getNode_02().getRepoType(), refProps, auditProps.getPropertyFilters());
 				if (avsNode02.size() == 0) {
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING," - Assertion skipped: no data found for " + opencmNode02.getNode_name() + " in repo " + opencmNode02.getRepositoryType());
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_WARNING," - Assertion skipped: no data found for " + opencmNode02.getName() + " in repo " + nodePair.getNode_02().getRepoType());
 					continue;
 				}
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG, " -- AvsNode02 List Size: " + avsNode02.size());
@@ -434,7 +422,7 @@ public final class twoNodeAudit
 					testIdent = "[" + (i+1) + " / " + (testNumber++) + "] ";
 				}
 		
-				String twHashMapKey = testIdent + opencmNode01.getNode_name() + " <=> " + opencmNode02.getNode_name();
+				String twHashMapKey = testIdent + opencmNode01.getName() + " <=> " + opencmNode02.getName();
 				TestWrapper tw = new TestWrapper(twHashMapKey,avsPairs);
 				store.setTestWrapper(tw);
 		
@@ -510,22 +498,20 @@ public final class twoNodeAudit
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== 2-Node Default Audit - Starting Process using " + repo + " data ..... ============ ");
 		
 		// --------------------------------------------------------------------
-		// Read in OpenCM Nodes Properties
+		// Read in Inventory
 		// --------------------------------------------------------------------
-		Nodes nodes = Nodes.instantiate(opencmConfig);
+		Inventory inv = Inventory.instantiate(opencmConfig);
 		
 		// --------------------------------------------------------------------
 		// Get runtime node
 		// --------------------------------------------------------------------
-		Node repoNode = nodes.getNode(node);
+		Installation repoNode = inv.getInstallation(node);
 		if (repoNode == null) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL, "auditDefault :: Unable to identify repo node: " + node);
 			return;
 		}
-		if ((repo != null) && (repo.equals(Configuration.OPENCM_BASELINE_DIR))) {
-			repoNode.setRepositoryType(Configuration.OPENCM_BASELINE_DIR);
-		} else {
-			repoNode.setRepositoryType(Configuration.OPENCM_RUNTIME_DIR);
+		if (repo == null) {
+			repo = Configuration.OPENCM_RUNTIME_DIR;
 		}
 		
 		// --------------------------------------------------------------------
@@ -540,9 +526,9 @@ public final class twoNodeAudit
 		// --------------------------------------------------------------------
 		// Set Default Node
 		// --------------------------------------------------------------------
-		Node defaultRefNode = new Node();
-		defaultRefNode.setNode_name(stVersion);
-		defaultRefNode.setRepositoryType(Configuration.OPENCM_DEFAULT_DIR);
+		Installation defaultRefNode = new Installation();
+		defaultRefNode.setName(stVersion);
+		//  TODO defaultRefNode.setRepositoryType(Configuration.OPENCM_DEFAULT_DIR);
 		
 		// --------------------------------------------------------------------
 		// Read in Audit Properties
@@ -605,7 +591,7 @@ public final class twoNodeAudit
 					    // Get Assertion Values for Default
 						// --------------------------------------------------------------------
 						refProps.setComponent(refCompPath.getName()); // Always the actual component name (not normalized)
-					    LinkedList<AssertionValue> avsDefault = RepoUtils.getAssertionValues(opencmConfig, defaultRefNode, refProps, auditProps.getPropertyFilters());
+					    LinkedList<AssertionValue> avsDefault = RepoUtils.getAssertionValues(opencmConfig, defaultRefNode, repo, refProps, auditProps.getPropertyFilters());
 						if (avsDefault.size() == 0) {
 							continue;
 						}
@@ -615,7 +601,7 @@ public final class twoNodeAudit
 						// --------------------------------------------------------------------
 						// For runtime, it is possible/likely that the component name is different from default:
 						refProps.setComponent(RepoUtils.normalizeComponentName(refCompPath.getName()));
-					    LinkedList<AssertionValue> avsRuntime = RepoUtils.getAssertionValues(opencmConfig, repoNode, refProps, auditProps.getPropertyFilters());
+					    LinkedList<AssertionValue> avsRuntime = RepoUtils.getAssertionValues(opencmConfig, repoNode, repo, refProps, auditProps.getPropertyFilters());
 						if (avsRuntime.size() == 0) {
 							continue;
 						}

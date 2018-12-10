@@ -5,9 +5,7 @@
 	import java.util.LinkedList;
 
 	import org.opencm.configuration.Configuration;
-	import org.opencm.configuration.Node;
-	import org.opencm.configuration.Nodes;
-	import org.opencm.configuration.RuntimeComponent;
+	import org.opencm.inventory.*;
 
 	public class CceUtils {
 		
@@ -30,14 +28,15 @@
 		private Configuration opencmConfig;
 		private HttpClient client;
 		private String baseURL;
-		private Node cceNode;
+		private Installation cceNode;
 		private RuntimeComponent cceRuntimeComponent;
 
-		public CceUtils(Configuration opencmConfig, Nodes opencmNodes) {
+		public CceUtils(Configuration opencmConfig, Inventory inv) {
 			this.opencmConfig = opencmConfig;
-			this.cceNode = opencmNodes.getNode(opencmConfig.getCce_mgmt_node());
+			this.cceNode = inv.getInstallation(opencmConfig.getCce_mgmt_node());
+			Server cceServer = inv.getNodeServer(this.cceNode.getName());
 			this.cceRuntimeComponent = cceNode.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_CCE);
-			this.baseURL = cceRuntimeComponent.getProtocol() + "://" + cceNode.getHostname() + ":" + cceRuntimeComponent.getPort();
+			this.baseURL = cceRuntimeComponent.getProtocol() + "://" + cceServer.getName() + ":" + cceRuntimeComponent.getPort();
 			this.client = new HttpClient();
 			this.client.setCredentials(cceRuntimeComponent.getUsername(), cceRuntimeComponent.getDecryptedPassword());
 		}
@@ -61,6 +60,12 @@
 
 		public void assignNodeToEnv(String envAlias, String nodeAlias) {
 			LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"CceUtils :: assignNodeToEnv :: " + envAlias);
+			if ((envAlias == null) || (envAlias.equals(""))) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"CceUtils :: assignNodeToEnv :: no envAlias - skipping.... ");
+				return;
+			}
+			
+			
 			String url = this.baseURL + CCE_URI_ENVIRONMENTS + "/" + envAlias + CCE_URI_ASSIGN_NODE;
 			this.client.setURL(url);
 			this.client.addParameter(CCE_PARAM_NODE_ALIAS, nodeAlias);

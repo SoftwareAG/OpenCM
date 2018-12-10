@@ -12,12 +12,10 @@ import java.util.LinkedList;
 import java.util.Collections;
 import org.opencm.configuration.Configuration;
 import org.opencm.configuration.PkgConfiguration;
-import org.opencm.configuration.Nodes;
-import org.opencm.configuration.Node;
-import org.opencm.configuration.RuntimeComponent;
+import org.opencm.inventory.*;
 import org.opencm.d3.Tree;
-import org.opencm.extract.spm.SpmOps;
 import org.opencm.d3.Child;
+import org.opencm.util.Cache;
 import org.opencm.util.FileUtils;
 import org.opencm.util.JsonUtils;
 import org.opencm.util.LogUtils;
@@ -57,8 +55,6 @@ public final class visualization
 		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
 		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Generating D3 visualizations... ========== ");
-		 
 		// --------------------------------------------------------------------
 		// Ensure that master password is stored in cache
 		// --------------------------------------------------------------------
@@ -72,10 +68,11 @@ public final class visualization
 		}
 		
 		// --------------------------------------------------------------------
-		// Read in Nodes Properties
+		// Read in Inventory
 		// --------------------------------------------------------------------
-		Nodes nodes = Nodes.instantiate(opencmConfig);
-		
+		Cache.getInstance().set(org.opencm.inventory.Inventory.INVENTORY_CACHE_KEY, null);
+		Inventory inv = Inventory.instantiate(opencmConfig);
+		 
 		// --------------------------------------------------------------------
 		// Where to store the dnd tree output
 		// --------------------------------------------------------------------
@@ -91,112 +88,131 @@ public final class visualization
 		Tree overviewTree = new Tree();
 		overviewTree.setName("DBP");
 		overviewTree.setLevel("DBP");
-		LinkedList<String> opencmEnvs = nodes.getAllEnvironments();
-		LinkedList<Child> envChildren = new LinkedList<Child>();
-		for (int e = 0; e < opencmEnvs.size(); e++) {
-			String env = opencmEnvs.get(e);
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing env : " + env);
-			Child envChild = new Child();
-			envChild.setName(env);
-			envChild.setLevel("ENVIRONMENT");
-			
-			LinkedList<String> assGroups = nodes.getAllAssertionGroupsForEnvironment(env);
-			// Sort the assertion groups alphabetically ascending
-			Collections.sort(assGroups);
-			LinkedList<Child> groupChildren = new LinkedList<Child>();
-			for (int a = 0; a < assGroups.size(); a++) {
-				String assGroup = assGroups.get(a);
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing ass group : " + assGroup);
-				Child groupChild = new Child();
-				groupChild.setName(assGroup);
-				groupChild.setLevel("ASS_GROUP");
-			
-				LinkedList<String> servers = nodes.getAllServerNamesUnqualifiedByEnvAndGroup(env,assGroup);
-				LinkedList<Child> serverChildren = new LinkedList<Child>();
-				for (int s = 0; s < servers.size(); s++) {
-					String server = servers.get(s);
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing server : " + server);
-					Child serverChild = new Child();
-					serverChild.setName(server);
-					serverChild.setLevel("SERVER");
-					LinkedList<Node> opencmNodes = nodes.getNodesByEnvGroupAndServer(env,assGroup,server);
-					LinkedList<Child> nodeChildren = new LinkedList<Child>();
-					for (int n = 0; n < opencmNodes.size(); n++) {
-						Node opencmNode = opencmNodes.get(n);
-						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing node : " + opencmNode.getNode_name());
-						// Ignore nodes without defined environments
-						if (opencmNode.getEnvironment().equals("UNDEFINED")) {
-							continue;
+		
+		LinkedList<Organisation> orgs = inv.getInventory();
+		LinkedList<Child> orgChildren = new LinkedList<Child>();
+		for (int o = 0; o < orgs.size(); o++) {
+			// Organisation
+			Organisation org = orgs.get(o);
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing org : " + org.getName());
+			Child orgChild = new Child();
+			orgChild.setName(org.getName());
+			orgChild.setLevel("ORG");
+			LinkedList<Department> deps = org.getDepartments();
+			LinkedList<Child> depChildren = new LinkedList<Child>();
+			for (int d = 0; d < deps.size(); d++) {
+				// Department
+				Department dep = deps.get(d);
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing department : " + dep.getName());
+				Child depChild = new Child();
+				depChild.setName(dep.getName());
+				depChild.setLevel("DEP");
+				
+				LinkedList<String> envs = dep.getEnvironments();
+				LinkedList<Child> envChildren = new LinkedList<Child>();
+				for (int e = 0; e < envs.size(); e++) {
+					// Environment
+					String env = envs.get(e);
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing environment : " + env);
+					Child envChild = new Child();
+					envChild.setName(env);
+					envChild.setLevel("ENV");
+					LinkedList<String> layers = dep.getLayersByEnv(env);
+					LinkedList<Child> layerChildren = new LinkedList<Child>();
+					for (int l = 0; l < layers.size(); l++) {
+						// Layer
+						String layer = layers.get(l);
+						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing layer : " + layer);
+						Child layerChild = new Child();
+						layerChild.setName(layer);
+						layerChild.setLevel("LAYER");
+						LinkedList<Server> servers = dep.getServers(env, layer);
+						LinkedList<Child> serverChildren = new LinkedList<Child>();
+						for (int s = 0; s < servers.size(); s++) {
+							// Server
+							Server server = servers.get(s);
+							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing server : " + server.getName());
+							Child serverChild = new Child();
+							serverChild.setName(server.getUnqualifiedHostname());
+							serverChild.setLevel("SERVER");
+							LinkedList<Installation> installations = server.getInstallations();
+							LinkedList<Child> nodeChildren = new LinkedList<Child>();
+							for (int i = 0; i < installations.size(); i++) {
+								// Installation
+								Installation installation = installations.get(i);
+								LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing Installation: " + installation.getName());
+								Child nodeChild = new Child();
+								nodeChild.setName(installation.getName());
+								nodeChild.setLevel("NODE");
+								nodeChild.setUrl("node=" + installation.getName());
+								nodeChild.setHasBaseline(false); 
+								nodeChild.setHasRuntime(false); 
+								
+								RuntimeComponent spmRC = installation.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM);
+					
+								// -------------------------------------
+								// ------------ BASELINE ---------------
+								// -------------------------------------
+								File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + nodeChild.getName());
+								LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Inspecting Baseline: " + baselineNodeDir.getPath());
+								Tree nodeTree = new Tree();
+								nodeTree.setName(installation.getName());
+								nodeTree.setLevel("NODE");
+								nodeTree.setLayer(installation.getLayer());
+								nodeTree.setEnvironment(installation.getEnvironment());
+								nodeTree.setSpmURL(spmRC.getProtocol() + "://" + server.getName() + ":" + spmRC.getPort() + "/spm");
+								if (baselineNodeDir.exists()) {
+									nodeTree.setChildren(getComponents(baselineNodeDir));
+									nodeChild.setHasBaseline(true);
+								}
+								// Convert Overview Tree to Json
+								String json = JsonUtils.convertJavaObjectToJson(nodeTree);
+								
+								// Write to File (node directory)
+								FileUtils.writeToFile(outputDirectory + File.separator + installation.getName() + "_BASELINE.json", json);
+								
+								// -------------------------------------
+								// ------------  RUNTIME ---------------
+								// -------------------------------------
+								File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + nodeChild.getName());
+								LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Inspecting Runtime: " + runtimeNodeDir.getPath());
+								nodeTree = new Tree();
+								nodeTree.setName(installation.getName());
+								nodeTree.setLevel("NODE");
+								nodeTree.setLayer(installation.getLayer());
+								nodeTree.setEnvironment(installation.getEnvironment());
+								nodeTree.setSpmURL(spmRC.getProtocol() + "://" + server.getName() + ":" + spmRC.getPort() + "/spm");
+								if (runtimeNodeDir.exists()) {
+									nodeTree.setChildren(getComponents(runtimeNodeDir));
+									nodeChild.setHasRuntime(true);
+								} else {
+									LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," No Runtime for: " + runtimeNodeDir.getPath());
+								}
+								
+								// Convert Overview Tree to Json
+								json = JsonUtils.convertJavaObjectToJson(nodeTree);
+								
+								// Write to File (node directory)
+								FileUtils.writeToFile(outputDirectory + File.separator + installation.getName() + "_RUNTIME.json", json);
+								
+								nodeChildren.add(nodeChild);
+							}
+							serverChild.setChildren(nodeChildren);
+							serverChildren.add(serverChild);
 						}
-						String nodeName = opencmNode.getNode_name();
-						Child nodeChild = new Child();
-						nodeChild.setName(nodeName);
-						nodeChild.setLevel("NODE");
-						nodeChild.setUrl("node=" + nodeName);
-						nodeChild.setHasBaseline(false); 
-						nodeChild.setHasRuntime(false); 
-						
-						RuntimeComponent spmRuntimeComponent = opencmNode.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM);
-			
-						// -------------------------------------
-						// ------------ BASELINE ---------------
-						// -------------------------------------
-						File baselineNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_BASELINE_DIR + File.separator + nodeChild.getName());
-						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Inspecting Baseline: " + baselineNodeDir.getPath());
-						Tree nodeTree = new Tree();
-						nodeTree.setName(nodeName);
-						nodeTree.setLevel("NODE");
-						nodeTree.setAssertionGroup(opencmNode.getAssertion_group());
-						nodeTree.setEnvironment(opencmNode.getEnvironment());
-						nodeTree.setSpmURL(spmRuntimeComponent.getProtocol() + "://" + opencmNode.getHostname() + ":" + spmRuntimeComponent.getPort() + "/spm");
-						if (baselineNodeDir.exists()) {
-							nodeTree.setChildren(getComponents(baselineNodeDir));
-							nodeChild.setHasBaseline(true);
-						}
-						// Convert Overview Tree to Json
-						String json = JsonUtils.convertJavaObjectToJson(nodeTree);
-						
-						// Write to File (node directory)
-						FileUtils.writeToFile(outputDirectory + File.separator + nodeName + "_BASELINE.json", json);
-						
-						// -------------------------------------
-						// ------------  RUNTIME ---------------
-						// -------------------------------------
-						File runtimeNodeDir = new File(opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR + File.separator + nodeChild.getName());
-						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Inspecting Runtime: " + runtimeNodeDir.getPath());
-						nodeTree = new Tree();
-						nodeTree.setName(nodeName);
-						nodeTree.setLevel("NODE");
-						nodeTree.setAssertionGroup(opencmNode.getAssertion_group());
-						nodeTree.setEnvironment(opencmNode.getEnvironment());
-						nodeTree.setSpmURL(spmRuntimeComponent.getProtocol() + "://" + opencmNode.getHostname() + ":" + spmRuntimeComponent.getPort() + "/spm");
-						if (runtimeNodeDir.exists()) {
-							nodeTree.setChildren(getComponents(runtimeNodeDir));
-							nodeChild.setHasRuntime(true);
-						} else {
-							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," No Runtime for: " + runtimeNodeDir.getPath());
-						}
-						
-						// Convert Overview Tree to Json
-						json = JsonUtils.convertJavaObjectToJson(nodeTree);
-						
-						// Write to File (node directory)
-						FileUtils.writeToFile(outputDirectory + File.separator + nodeName + "_RUNTIME.json", json);
-						
-						nodeChildren.add(nodeChild);
+						layerChild.setChildren(serverChildren);
+						layerChildren.add(layerChild);
 					}
-					serverChild.setChildren(nodeChildren);
-					serverChildren.add(serverChild);
+					envChild.setChildren(layerChildren);
+					envChildren.add(envChild);
 				}
-				
-				groupChild.setChildren(serverChildren);
-				groupChildren.add(groupChild);
-				
-			}
-			envChild.setChildren(groupChildren);
-			envChildren.add(envChild);
+				depChild.setChildren(envChildren);
+				depChildren.add(depChild);
+			}				
+			orgChild.setChildren(depChildren);
+			orgChildren.add(orgChild);
 		}
-		overviewTree.setChildren(envChildren);
+		overviewTree.setChildren(orgChildren);
 		
 		// Convert Overview Tree to Json
 		String json = JsonUtils.convertJavaObjectToJson(overviewTree);
@@ -205,6 +221,7 @@ public final class visualization
 		FileUtils.writeToFile(outputDirectory + File.separator + "overview.json", json);
 		
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   D3 visualizations Completed ... ========== ");
+			
 			
 		// --- <<IS-END>> ---
 

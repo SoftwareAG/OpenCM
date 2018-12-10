@@ -1,0 +1,8 @@
+{
+  "name" : "ORGX_PROD_ESB_V101_IS_02",
+  "level" : "NODE",
+  "layer" : "ESB",
+  "spmURL" : "https://server_08.opencm.org:10093/spm",
+  "children" : null,
+  "environment" : "Production"
+}

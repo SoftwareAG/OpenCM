@@ -12,15 +12,17 @@
   </array>
   <array name="imports" type="value" depth="1">
     <value>java.util.LinkedList</value>
+    <value>java.util.Iterator</value>
     <value>java.util.HashMap</value>
     <value>org.opencm.configuration.Configuration</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
-    <value>org.opencm.audit.configuration.Property</value>
-    <value>org.opencm.configuration.Nodes</value>
+    <value>org.opencm.configuration.model.*</value>
+    <value>org.opencm.inventory.Inventory</value>
+    <value>org.opencm.inventory.Installation</value>
     <value>org.opencm.util.LogUtils</value>
-    <value>org.opencm.configuration.Node</value>
-    <value>org.opencm.audit.util.ExcelWriter</value>
-    <value>org.opencm.repository.util.RepoUtils</value>
     <value>org.opencm.audit.env.*</value>
+    <value>org.opencm.audit.util.ExcelWriter</value>
+    <value>org.opencm.audit.configuration.Property</value>
+    <value>org.opencm.repository.util.RepoUtils</value>
   </array>
 </Values>
