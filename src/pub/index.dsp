@@ -114,7 +114,7 @@
 			<!-- Inventory Menu -->
 	        <li id="inventoryMenu"><a class="inventoryMenuLink" data-bpopup='{"content":"iframe","contentContainer":".inventoryFrame","loadUrl":"/OpenCM/inventory"}' href="#">Inventory</a></li>
 			<!-- Assert Menu -->
-			<li id="assertMenu"><a class="assertMenuLink" data-bpopup='{"content":"iframe","contentContainer":".assertFrame","loadUrl":"/OpenCM/assert/index.dsp"}' href="#">Auditing</a></li>
+			<!-- <li id="assertMenu"><a class="assertMenuLink" data-bpopup='{"content":"iframe","contentContainer":".assertFrame","loadUrl":"/OpenCM/assert/index.dsp"}' href="#">Auditing</a></li> -->
 			<!-- Audit Menu -->
 			<li id="auditTwoNodeMenu"><a href="#">2-Node Assertions</a>
                   <ul class="subMenu auditTwoNodeMenu">
