@@ -56,6 +56,24 @@ public class Server {
     }
     
     @JsonIgnore
+    public LinkedList<Installation> getInstallations(String env, String layer, String sublayer) {
+    	LinkedList<Installation> insts = new LinkedList<Installation>();
+ 		for (int n = 0; n < getInstallations().size(); n++) {
+ 			Installation inst = getInstallations().get(n);
+			if ((env == null) || ((inst.getEnvironment() != null) && inst.getEnvironment().equals(env))) {
+				if ((layer == null) || ((inst.getLayer() != null) && inst.getLayer().equals(layer))) {
+					if ((sublayer == null) || ((inst.getSublayer() != null) && inst.getSublayer().equals(sublayer))) {
+						if (!insts.contains(inst)) {
+							insts.add(inst);
+						}
+					}
+				}
+			}
+ 		}
+        return insts;
+    }
+    
+    @JsonIgnore
     public String getUnqualifiedHostname() {
 		if (getName().indexOf(".") > 0) {
 			return getName().substring(0,getName().indexOf("."));

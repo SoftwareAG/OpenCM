@@ -5,7 +5,7 @@
     "name" : "OrganisationX",
     "level" : "ORG",
     "children" : [ {
-      "name" : "DepartmentY",
+      "name" : "DepartmentA",
       "level" : "DEP",
       "children" : [ {
         "name" : "Admin",
@@ -96,7 +96,7 @@
           } ]
         } ]
       }, {
-        "name" : "PreProduction",
+        "name" : "Pre-Production",
         "level" : "ENV",
         "children" : [ {
           "name" : "ESB",
@@ -187,11 +187,11 @@
             "name" : "server02",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGY_TST_ESB_V101_IS_02",
+              "name" : "ORGY_TST_ESB_V101_IS_01",
               "level" : "NODE",
-              "url" : "node=ORGY_TST_ESB_V101_IS_02",
+              "url" : "node=ORGY_TST_ESB_V101_IS_01",
               "hasBaseline" : false,
-              "hasRuntime" : false
+              "hasRuntime" : true
             } ]
           } ]
         } ]

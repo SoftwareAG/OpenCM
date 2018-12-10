@@ -135,7 +135,7 @@ public final class visualization
 							Child serverChild = new Child();
 							serverChild.setName(server.getUnqualifiedHostname());
 							serverChild.setLevel("SERVER");
-							LinkedList<Installation> installations = server.getInstallations();
+							LinkedList<Installation> installations = server.getInstallations(env, layer, null);
 							LinkedList<Child> nodeChildren = new LinkedList<Child>();
 							for (int i = 0; i < installations.size(); i++) {
 								// Installation

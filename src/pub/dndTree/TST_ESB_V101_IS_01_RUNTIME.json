@@ -1,8 +1,0 @@
-{
-  "name" : "TST_ESB_V101_IS_01",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "https://other.server02.other.org:10193/spm",
-  "children" : null,
-  "environment" : "Test"
-}

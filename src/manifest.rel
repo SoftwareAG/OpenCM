@@ -10,7 +10,7 @@
   <value name="jvm_version">1.8.0_181</value>
   <value name="source_server_version">10.3.0.0</value>
   <value name="target_server_version">10.3.0.0</value>
-  <value name="time">2018-12-10 10:02:34 CET</value>
+  <value name="time">2018-12-10 15:15:53 CET</value>
   <value name="type">full</value>
   <null name="retainPatchHistory"/>
   <value name="target_pkg_name">OpenCM</value>

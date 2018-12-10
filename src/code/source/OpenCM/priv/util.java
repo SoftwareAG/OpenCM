@@ -199,7 +199,7 @@ public final class util
 							// ----------------------------------------------------------------
 							// Installations
 							// ----------------------------------------------------------------
-							LinkedList<Installation> installations = server.getInstallations();
+							LinkedList<Installation> installations = server.getInstallations(env,layer,null);
 							IData[]	Installation = new IData[installations.size()];
 							for (int i = 0; i < installations.size(); i++) {
 								Installation installation = installations.get(i);
