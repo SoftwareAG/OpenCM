@@ -34,6 +34,12 @@
 		public CceUtils(Configuration opencmConfig, Inventory inv) {
 			this.opencmConfig = opencmConfig;
 			this.cceNode = inv.getInstallation(opencmConfig.getCce_mgmt_node());
+			
+			if (this.cceNode == null) {
+				LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"CceUtils :: No management node with alias :: " + opencmConfig.getCce_mgmt_node());
+				return;
+			}
+			
 			Server cceServer = inv.getNodeServer(this.cceNode.getName());
 			this.cceRuntimeComponent = cceNode.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_CCE);
 			this.baseURL = cceRuntimeComponent.getProtocol() + "://" + cceServer.getName() + ":" + cceRuntimeComponent.getPort();

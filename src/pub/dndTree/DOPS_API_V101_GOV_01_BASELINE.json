@@ -1,0 +1,8 @@
+{
+  "name" : "DOPS_API_V101_GOV_01",
+  "level" : "NODE",
+  "layer" : "API",
+  "spmURL" : "https://tl-as347.tasp.tclidl.net:17093/spm",
+  "children" : null,
+  "environment" : "DOPS"
+}

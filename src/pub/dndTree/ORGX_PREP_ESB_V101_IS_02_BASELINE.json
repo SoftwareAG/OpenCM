@@ -4,5 +4,5 @@
   "layer" : "ESB",
   "spmURL" : "https://server_06.opencm.org:10093/spm",
   "children" : null,
-  "environment" : "Pre-Production"
+  "environment" : "PreProduction"
 }

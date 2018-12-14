@@ -144,27 +144,32 @@ public final class cce
 			// Determine what to create based on configuration
 			// --------------------------------------------------------------------
 			LinkedList<Installation> installations = new LinkedList<Installation>();
-		
 			LinkedList<Organisation> configOrgs = opencmConfig.getCce_mgmt_create();
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Processing Organisations " + configOrgs.size());
 			for (int o = 0; o < configOrgs.size(); o++) {
 				Organisation configOrg = configOrgs.get(o);
 				if ((configOrg.getDepartments() == null) || (configOrg.getDepartments().size() == 0)) {
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No departments for org " + configOrg.getOrg());
 					// Collect all nodes defined under this Org
 					LinkedList<Installation> invNodes = inv.getInstallations(configOrg.getOrg(),null,null);
 					installations = addInstallations(installations, invNodes);
 				} else {
 					LinkedList<Department> configDeps = configOrg.getDepartments();
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Processing Departments " + configDeps.size());
 					for (int d = 0; d < configDeps.size(); d++) {
 						Department configDep = configDeps.get(d);
 						if ((configDep.getEnvironments() == null) || (configDep.getEnvironments().size() == 0)) {
+							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No environments for dep " + configDep.getDep());
 							// Collect all nodes defined under this Dep
 							LinkedList<Installation> invNodes = inv.getInstallations(configOrg.getOrg(),configDep.getDep(),null);
 							installations = addInstallations(installations, invNodes);
 						} else {
 							LinkedList<Environment> configEnvs = configDep.getEnvironments();
+							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Processing Environments " + configEnvs.size());
 							for (int e = 0; e < configEnvs.size(); e++) {
 								Environment configEnv = configEnvs.get(e);
 								if ((configEnv.getNodes() == null) || (configEnv.getNodes().size() == 0)) {
+									LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No nodes for env " + configEnv.getEnv());
 									// Collect all nodes defined under this Env
 									LinkedList<Installation> invNodes = inv.getInstallations(configOrg.getOrg(),configDep.getDep(),configEnv.getEnv());
 									installations = addInstallations(installations, invNodes);
@@ -189,6 +194,14 @@ public final class cce
 			
 			for (int i = 0; i < installations.size(); i++) {
 				Installation installation = installations.get(i);
+				// -------------------------------------------------------------------- 
+				// Ensure SPM runtime
+				// --------------------------------------------------------------------
+				RuntimeComponent spmRuntime = installation.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM);
+				if (spmRuntime == null) {
+					continue;
+				}
+				
 				String groupAlias = "";
 				String groupName = "";
 				// Determine group name 
@@ -281,35 +294,36 @@ public final class cce
 			Server server = inv.getNodeServer(installation.getName());
 			
 			String groupAlias = "";
-			String groupName = "";
+			// String groupName = "";
+			
 			// Determine group name 
 			if(gOrg) {
 				groupAlias += inv.getNodeOrganisation(installation.getName()).getName();
-				groupName += inv.getNodeOrganisation(installation.getName()).getName();
+				// groupName += inv.getNodeOrganisation(installation.getName()).getName();
 				if (gDep || gEnv || gLay) {
 					groupAlias += "-";
-					groupName += opencmConfig.getCce_mgmt_group_delim();
+					// groupName += opencmConfig.getCce_mgmt_group_delim();
 				}
 			}
 			if(gDep) {
 				groupAlias += inv.getNodeDepartment(installation.getName()).getName();
-				groupName += inv.getNodeDepartment(installation.getName()).getName();
+				// groupName += inv.getNodeDepartment(installation.getName()).getName();
 				if (gEnv || gLay) {
 					groupAlias += "-";
-					groupName += opencmConfig.getCce_mgmt_group_delim();
+					// groupName += opencmConfig.getCce_mgmt_group_delim();
 				}
 			}
 			if(gEnv) {
 				groupAlias += installation.getEnvironment();
-				groupName += installation.getEnvironment();
+				// groupName += installation.getEnvironment();
 				if (gLay) {
 					groupAlias += "-";
-					groupName += opencmConfig.getCce_mgmt_group_delim();
+					// groupName += opencmConfig.getCce_mgmt_group_delim();
 				}
 			}
 			if(gLay) {
 				groupAlias += installation.getLayer();
-				groupName += installation.getLayer();
+				// groupName += installation.getLayer();
 			}
 			
 			// --------------------------------------------------------------------

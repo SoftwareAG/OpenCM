@@ -1,0 +1,8 @@
+{
+  "name" : "EREL_BPM_V990_MWS_SEDI_01",
+  "level" : "NODE",
+  "layer" : "BPM",
+  "spmURL" : "https://tl-as211.tasp.tclidl.net:18093/spm",
+  "children" : null,
+  "environment" : "EREL"
+}

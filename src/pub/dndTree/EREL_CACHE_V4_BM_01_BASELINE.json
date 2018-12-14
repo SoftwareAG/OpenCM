@@ -1,0 +1,8 @@
+{
+  "name" : "EREL_CACHE_V4_BM_01",
+  "level" : "NODE",
+  "layer" : "CACHE",
+  "spmURL" : "https://tl-as345.tasp.tclidl.net:8093/spm",
+  "children" : null,
+  "environment" : "EREL"
+}

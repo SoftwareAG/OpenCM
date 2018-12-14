@@ -1,0 +1,8 @@
+{
+  "name" : "QS_CACHE_V4_BM_02",
+  "level" : "NODE",
+  "layer" : "CACHE",
+  "spmURL" : "https://l-as1017.asp.lidl.net:8093/spm",
+  "children" : null,
+  "environment" : "QS"
+}

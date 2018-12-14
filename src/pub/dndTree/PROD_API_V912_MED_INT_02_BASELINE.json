@@ -1,0 +1,8 @@
+{
+  "name" : "PROD_API_V912_MED_INT_02",
+  "level" : "NODE",
+  "layer" : "API",
+  "spmURL" : "https://l-as643.asp.lidl.net:8203/spm",
+  "children" : null,
+  "environment" : "PROD"
+}

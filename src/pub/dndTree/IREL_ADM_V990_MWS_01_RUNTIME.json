@@ -1,0 +1,8 @@
+{
+  "name" : "IREL_ADM_V990_MWS_01",
+  "level" : "NODE",
+  "layer" : "ADM",
+  "spmURL" : "https://tl-as506.tasp.tclidl.net:12093/spm",
+  "children" : null,
+  "environment" : "IREL"
+}

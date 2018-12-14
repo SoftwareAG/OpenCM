@@ -1,0 +1,8 @@
+{
+  "name" : "IREL_MSG_V990_UM_02",
+  "level" : "NODE",
+  "layer" : "MSG",
+  "spmURL" : "https://se1-esb-t002.tasp.tclidl.net:8093/spm",
+  "children" : null,
+  "environment" : "IREL"
+}

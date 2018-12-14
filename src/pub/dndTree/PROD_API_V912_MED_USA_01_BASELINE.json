@@ -1,0 +1,8 @@
+{
+  "name" : "PROD_API_V912_MED_USA_01",
+  "level" : "NODE",
+  "layer" : "API",
+  "spmURL" : "https://ln1-esb-p003.ads.schwarz:8203/spm",
+  "children" : null,
+  "environment" : "PROD"
+}

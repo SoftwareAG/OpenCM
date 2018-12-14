@@ -1,0 +1,8 @@
+{
+  "name" : "PROD_MSG_V900_BR_TRF_CL08_01",
+  "level" : "NODE",
+  "layer" : "MSG",
+  "spmURL" : "https://sdeb-esbc-p001.asp.lidl.net:8293/spm",
+  "children" : null,
+  "environment" : "PROD"
+}

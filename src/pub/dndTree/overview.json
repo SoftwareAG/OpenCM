@@ -5,7 +5,7 @@
     "name" : "OrganisationX",
     "level" : "ORG",
     "children" : [ {
-      "name" : "DepartmentA",
+      "name" : "DepartmentY",
       "level" : "DEP",
       "children" : [ {
         "name" : "Admin",
@@ -40,34 +40,6 @@
           } ]
         } ]
       }, {
-        "name" : "Development",
-        "level" : "ENV",
-        "children" : [ {
-          "name" : "ESB",
-          "level" : "LAYER",
-          "children" : [ {
-            "name" : "server_01",
-            "level" : "SERVER",
-            "children" : [ {
-              "name" : "ORGX_DEV_ESB_V101_IS_01",
-              "level" : "NODE",
-              "url" : "node=ORGX_DEV_ESB_V101_IS_01",
-              "hasBaseline" : true,
-              "hasRuntime" : true
-            } ]
-          }, {
-            "name" : "server_02",
-            "level" : "SERVER",
-            "children" : [ {
-              "name" : "ORGX_DEV_ESB_V101_IS_02",
-              "level" : "NODE",
-              "url" : "node=ORGX_DEV_ESB_V101_IS_02",
-              "hasBaseline" : true,
-              "hasRuntime" : true
-            } ]
-          } ]
-        } ]
-      }, {
         "name" : "Test",
         "level" : "ENV",
         "children" : [ {
@@ -96,7 +68,7 @@
           } ]
         } ]
       }, {
-        "name" : "Pre-Production",
+        "name" : "PreProduction",
         "level" : "ENV",
         "children" : [ {
           "name" : "ESB",
@@ -124,6 +96,24 @@
           } ]
         } ]
       }, {
+        "name" : "N/A",
+        "level" : "ENV",
+        "children" : [ {
+          "name" : "N/A",
+          "level" : "LAYER",
+          "children" : [ {
+            "name" : "new",
+            "level" : "SERVER",
+            "children" : [ {
+              "name" : "Available",
+              "level" : "NODE",
+              "url" : "node=Available",
+              "hasBaseline" : false,
+              "hasRuntime" : false
+            } ]
+          } ]
+        } ]
+      }, {
         "name" : "Production",
         "level" : "ENV",
         "children" : [ {
@@ -147,6 +137,34 @@
               "level" : "NODE",
               "url" : "node=ORGX_PROD_ESB_V101_IS_02",
               "hasBaseline" : false,
+              "hasRuntime" : true
+            } ]
+          } ]
+        } ]
+      }, {
+        "name" : "Development",
+        "level" : "ENV",
+        "children" : [ {
+          "name" : "ESB",
+          "level" : "LAYER",
+          "children" : [ {
+            "name" : "server_01",
+            "level" : "SERVER",
+            "children" : [ {
+              "name" : "ORGX_DEV_ESB_V101_IS_01",
+              "level" : "NODE",
+              "url" : "node=ORGX_DEV_ESB_V101_IS_01",
+              "hasBaseline" : true,
+              "hasRuntime" : true
+            } ]
+          }, {
+            "name" : "server_02",
+            "level" : "SERVER",
+            "children" : [ {
+              "name" : "ORGX_DEV_ESB_V101_IS_02",
+              "level" : "NODE",
+              "url" : "node=ORGX_DEV_ESB_V101_IS_02",
+              "hasBaseline" : true,
               "hasRuntime" : true
             } ]
           } ]
@@ -187,11 +205,11 @@
             "name" : "server02",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGY_TST_ESB_V101_IS_01",
+              "name" : "ORGY_TST_ESB_V101_IS_02",
               "level" : "NODE",
-              "url" : "node=ORGY_TST_ESB_V101_IS_01",
+              "url" : "node=ORGY_TST_ESB_V101_IS_02",
               "hasBaseline" : false,
-              "hasRuntime" : true
+              "hasRuntime" : false
             } ]
           } ]
         } ]

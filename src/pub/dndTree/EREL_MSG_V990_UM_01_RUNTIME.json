@@ -1,0 +1,8 @@
+{
+  "name" : "EREL_MSG_V990_UM_01",
+  "level" : "NODE",
+  "layer" : "MSG",
+  "spmURL" : "https://tl-as433.tasp.tclidl.net:8093/spm",
+  "children" : null,
+  "environment" : "EREL"
+}

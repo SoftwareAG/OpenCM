@@ -93,11 +93,20 @@ public class Inventory {
         				for (int s = 0; s < serverGroups.size(); s++) {
         					Group serverGroup = serverGroups.get(s);
                     		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Inventory Keepass: Processing Server : " + serverGroup.getName());
+                    		
+    						Entry serverMetadata = serverGroup.getEntryByTitle(Server.SERVER_METADATA_NAME);
+    						if (serverMetadata == null) {
+    							// Support arbitrary subgroup for servers (to better structure them). Collect list of subgroups and add to existing list
+                        		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"  No server metatdata - assuming subgroup... ");
+    							List<Group> serverSubGroups = serverGroup.getGroups();
+    							serverGroups.addAll(serverSubGroups);
+    							continue;
+    						}
+                    		
 							Server server = new Server();
 							// --- Server Name
 							server.setName(serverGroup.getName());
 							// --- Set optional Server labels
-							Entry serverMetadata = serverGroup.getEntryByTitle(Server.SERVER_METADATA_NAME);
 							if (serverMetadata != null) {
 								server.setDescription(serverMetadata.getPropertyByName(Server.KEEPASS_PROPERTY_DESCRIPTION).getValue());
 								server.setOs(serverMetadata.getPropertyByName(Server.KEEPASS_PROPERTY_OS).getValue());
@@ -117,6 +126,7 @@ public class Inventory {
     							// --- Set optional Installation labels - logical tags
     							Entry instMetadata = instGroup.getEntryByTitle(Installation.INSTALLATION_METADATA_NAME);
     							if (instMetadata != null) {
+           	                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"       Keepass: Processing Metadata .... " + instGroup.getName());
         							inst.setEnvironment(instMetadata.getPropertyByName(Installation.KEEPASS_PROPERTY_ENVIRONMENT).getValue());
         							inst.setLayer(instMetadata.getPropertyByName(Installation.KEEPASS_PROPERTY_LAYER).getValue());
         							inst.setSublayer(instMetadata.getPropertyByName(Installation.KEEPASS_PROPERTY_SUBLAYER).getValue());
@@ -142,6 +152,9 @@ public class Inventory {
         							runtimeComponent.setUsername(rc.getUsername());
         							runtimeComponent.setPassword(rc.getPassword());
         							runtimeComponents.add(runtimeComponent);
+        						}
+        						if (runtimeComponents.size() == 0) {
+           	                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"       Keepass: No Runtime components... ");
         						}
         						inst.setRuntimes(runtimeComponents);
         						installations.add(inst);

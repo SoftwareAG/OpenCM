@@ -1,0 +1,8 @@
+{
+  "name" : "TC_ADM_V990_MSG_UM_01",
+  "level" : "NODE",
+  "layer" : "ADM",
+  "spmURL" : "https://tl-as344.tasp.tclidl.net:18393/spm",
+  "children" : null,
+  "environment" : "TC"
+}

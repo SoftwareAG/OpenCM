@@ -160,7 +160,9 @@ public final class visualization
 								nodeTree.setLevel("NODE");
 								nodeTree.setLayer(installation.getLayer());
 								nodeTree.setEnvironment(installation.getEnvironment());
-								nodeTree.setSpmURL(spmRC.getProtocol() + "://" + server.getName() + ":" + spmRC.getPort() + "/spm");
+								if (spmRC != null) {
+									nodeTree.setSpmURL(spmRC.getProtocol() + "://" + server.getName() + ":" + spmRC.getPort() + "/spm");
+								}
 								if (baselineNodeDir.exists()) {
 									nodeTree.setChildren(getComponents(baselineNodeDir));
 									nodeChild.setHasBaseline(true);
@@ -181,7 +183,9 @@ public final class visualization
 								nodeTree.setLevel("NODE");
 								nodeTree.setLayer(installation.getLayer());
 								nodeTree.setEnvironment(installation.getEnvironment());
-								nodeTree.setSpmURL(spmRC.getProtocol() + "://" + server.getName() + ":" + spmRC.getPort() + "/spm");
+								if (spmRC != null) {
+									nodeTree.setSpmURL(spmRC.getProtocol() + "://" + server.getName() + ":" + spmRC.getPort() + "/spm");
+								}
 								if (runtimeNodeDir.exists()) {
 									nodeTree.setChildren(getComponents(runtimeNodeDir));
 									nodeChild.setHasRuntime(true);

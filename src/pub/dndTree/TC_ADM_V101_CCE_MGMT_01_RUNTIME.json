@@ -1,0 +1,8 @@
+{
+  "name" : "TC_ADM_V101_CCE_MGMT_01",
+  "level" : "NODE",
+  "layer" : "ADM",
+  "spmURL" : "http://tl-as390.tasp.tclidl.net:8092/spm",
+  "children" : null,
+  "environment" : "TC"
+}

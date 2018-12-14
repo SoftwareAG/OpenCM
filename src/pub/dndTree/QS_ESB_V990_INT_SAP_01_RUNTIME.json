@@ -1,0 +1,8 @@
+{
+  "name" : "QS_ESB_V990_INT_SAP_01",
+  "level" : "NODE",
+  "layer" : "ESB",
+  "spmURL" : "https://l-as1006.asp.lidl.net:8093/spm",
+  "children" : null,
+  "environment" : "QS"
+}

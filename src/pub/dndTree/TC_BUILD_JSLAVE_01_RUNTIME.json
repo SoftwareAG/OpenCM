@@ -1,0 +1,7 @@
+{
+  "name" : "TC_BUILD_JSLAVE_01",
+  "level" : "NODE",
+  "layer" : "BUILD",
+  "children" : null,
+  "environment" : "TC"
+}

@@ -1,0 +1,8 @@
+{
+  "name" : "PROD_ESB_V990_INT_SAP_02",
+  "level" : "NODE",
+  "layer" : "ESB",
+  "spmURL" : "https://l-as1019.asp.lidl.net:8093/spm",
+  "children" : null,
+  "environment" : "PROD"
+}

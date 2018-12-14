@@ -1,0 +1,8 @@
+{
+  "name" : "DOPS_CACHE_V4_BM_SA_01",
+  "level" : "NODE",
+  "layer" : "CACHE",
+  "spmURL" : "https://tl-as346.tasp.tclidl.net:15093/spm",
+  "children" : null,
+  "environment" : "DOPS"
+}

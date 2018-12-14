@@ -1,0 +1,8 @@
+{
+  "name" : "SIT_API_V101_CS_01",
+  "level" : "NODE",
+  "layer" : "API",
+  "spmURL" : "https://l-as644.asp.lidl.net:8203/spm",
+  "children" : null,
+  "environment" : "SIT"
+}

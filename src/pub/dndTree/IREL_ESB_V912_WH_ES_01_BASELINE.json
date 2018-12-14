@@ -1,0 +1,8 @@
+{
+  "name" : "IREL_ESB_V912_WH_ES_01",
+  "level" : "NODE",
+  "layer" : "ESB",
+  "spmURL" : "https://se1-toms-t003.txx.tclidl.net:8093/spm",
+  "children" : null,
+  "environment" : "IREL"
+}

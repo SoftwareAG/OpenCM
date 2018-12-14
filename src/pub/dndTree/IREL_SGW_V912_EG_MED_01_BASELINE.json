@@ -1,0 +1,8 @@
+{
+  "name" : "IREL_SGW_V912_EG_MED_01",
+  "level" : "NODE",
+  "layer" : "SGW",
+  "spmURL" : "https://se1-esb-q007.out.dom:8203/spm",
+  "children" : null,
+  "environment" : "IREL"
+}
