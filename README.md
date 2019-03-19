@@ -26,7 +26,7 @@ This example shows that there are differences in fix levels between the installa
 
 The project was developed and tested on the following installation:
 
-1. Integration Server 9.9, 9.12, 10.0, 10.1 (Windows)
+1. Integration Server 9.9, 9.12, 10.0, 10.1, 10.3 (Windows)
 2. Google Chrome Version 64.0
   
 ## Set-up
@@ -63,17 +63,15 @@ e.g. D:\SoftwareAG\opencm
 	<opencm_root>/output
 ```
 
-* Create soft links from the package directory (<opencm_package_dir>):
+* Create a soft link from the package directory (<opencm_package_dir>):
 ```
 Windows: 
  Open up a CMD window and cd to <opencm_package_dir>/pub:
- 	>> mklink /D cmdata "<opencm_root>\cmdata"	(e.g. >> mklink /D cmdata "\OpenCM\cmdata")
- 	>> mklink /D output "<opencm_root>\output"
+ 	>> mklink /D opencm "<opencm_root>\opencm"	(e.g. >> mklink /D opencm "\SoftwareAG\opencm")
 
 Linux: 
  Open up a shell window and cd to <opencm_package_dir>/pub:
- 	>> ln -s <opencm_root>/cmdata .
- 	>> ln -s <opencm_root>/output .
+ 	>> ln -s <opencm_root>/opencm .
 ```
 
 * Update configuration files to match your installation setup:
@@ -90,12 +88,8 @@ Linux:
 	* Select/click on an individual installation
 	* Expand tree by clicking on individual tree nodes, drag canvas, zoom by scrolling 
 	* Select a configuration instance leaf to view individual configuration properties
-	* To compare (1): select menu 2-node Audit, and then "Custom Audit - IS Extended Settings"
-	* To view result: select menu 2-node Audit and select the "Open 2-Node Audit Report" menu item (a popup will appear with the result)
-	* To view result: in the popup, click on the red highlighted items to view differences
-	* To compare (2): select menu Layered Audits, then "Audit IS-ExtSettings"
-	* To view result: select menu Layered Audits, then select the "IS-ExtSettings" excel item (and open)
-	* To view result: All green rows are equal, scroll down to see red rows that indicate differences.
+	* To view Inventory: select menu Inventory, and then select the desired department from the tree
+	* To run Audit: select menu Auditing, and then follow the wizard steps
 
 Please refer to the OpenCM User Guide for more detailed information
 	
