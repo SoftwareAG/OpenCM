@@ -57,7 +57,7 @@ public final class synch
 		pipelineCursor.destroy();
 		 
 		// --------------------------------------------------------------------
-		// Read in Default Package Properties
+		// Read in Default Package Properties 
 		// --------------------------------------------------------------------
 		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
 		
@@ -73,7 +73,7 @@ public final class synch
 		} 
 		if (ftpis == null) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"synch:receive --> No ftpis stream passed ");
-			return;
+			return; 
 		} 
 		
 		// --------------------------------------------------------------------

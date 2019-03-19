@@ -1,5 +1,6 @@
 package org.opencm.audit.util;
 
+/*
 import java.util.LinkedList;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,8 +18,8 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.usermodel.Font;
 
 import org.opencm.inventory.Inventory;
-import org.opencm.configuration.Configuration;
 import org.opencm.util.LogUtils;
+
 import org.opencm.audit.configuration.FormatRule;
 import org.opencm.audit.env.AssertionConfig;
 import org.opencm.audit.env.AssertionGroup;
@@ -26,11 +27,12 @@ import org.opencm.audit.env.AssertionProperty;
 import org.opencm.audit.env.AssertionEnvironment;
 import org.opencm.audit.env.AssertionValue;
 import org.opencm.repository.util.RepoUtils;
-
+*/
+import org.opencm.configuration.Configuration;
 
 public class ExcelWriter {
 
-	private final int VALUE_CELL_MAX_LENGTH				= 40;
+	// private final int VALUE_CELL_MAX_LENGTH				= 40;
 	
 	Configuration opencmConfig; 
 	
@@ -38,6 +40,7 @@ public class ExcelWriter {
 		this.opencmConfig = opencmConfig; 
 	}
 	
+	/*
 	public void writeAssertionGroups(Inventory opencmNodes, HashMap<String,AssertionGroup> assGroups, String envPropsName, AssertionConfig assConfig) { 
 		String excelFilename = envPropsName + ".xlsx";
 		LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"ExcelWriter - writeAssertionGroups -> Number of groups: " + assGroups.size() + " into " + excelFilename);
@@ -592,5 +595,5 @@ public class ExcelWriter {
 
         return styles;
     }
-	
+	*/
 }

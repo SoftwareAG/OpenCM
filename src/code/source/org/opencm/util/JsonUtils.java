@@ -117,6 +117,17 @@ public class JsonUtils {
     	return null;
     }
     
+    public static String createJsonField(String jsonField, String stValue) {
+    	try {
+			ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+			JsonNode jn = mapper.createObjectNode();
+			return ((ObjectNode) jn).put(jsonField,stValue).toString();
+    	} catch (Exception e) {
+    		System.out.println("OpenCM [WARNING] : JsonUtils - createJsonField: " + e.toString());
+    	}
+    	return null;
+    }
+    
     public static String addField(String jsonString, String jsonField, String stValue) {
     	try {
 			ObjectMapper mapper = new ObjectMapper(new JsonFactory());

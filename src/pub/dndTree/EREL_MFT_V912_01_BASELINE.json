@@ -1,0 +1,8 @@
+{
+  "name" : "EREL_MFT_V912_01",
+  "level" : "NODE",
+  "layer" : "MFT",
+  "spmURL" : "https://tl-as462.tasp.tclidl.net:14093/spm",
+  "children" : null,
+  "environment" : "EREL"
+}

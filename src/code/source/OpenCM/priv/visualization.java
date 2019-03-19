@@ -45,7 +45,7 @@ public final class visualization
 		// --- <<IS-START(generate)>> ---
 		// @sigtype java 3.5
 		// --------------------------------------------------------------------
-		// Read in Default Package Properties
+		// Read in Default Package Properties 
 		// --------------------------------------------------------------------
 		PkgConfiguration pkgConfig = PkgConfiguration.instantiate(); 
 		

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Values version="2.0">
-  <value name="name">OpenCM</value>
-  <value name="version">1.9.0</value>
+  <value name="name">OpenCM_200</value>
+  <value name="version">2.0.0</value>
   <value name="build"></value>
   <value name="patch_nums"></value>
   <value name="description"></value>
-  <value name="target_pkg_version">1.9.0</value>
+  <value name="target_pkg_version">2.0.0</value>
   <value name="jvm_version">1.8.0_181</value>
   <value name="source_server_version">10.3.0.0</value>
   <value name="target_server_version">10.3.0.0</value>
-  <value name="time">2018-12-14 13:58:59 CET</value>
+  <value name="time">2019-03-19 12:38:44 CET</value>
   <value name="type">full</value>
   <null name="retainPatchHistory"/>
   <value name="target_pkg_name">OpenCM</value>

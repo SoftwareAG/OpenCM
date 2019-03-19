@@ -1,8 +1,8 @@
 {
   "name" : "SIT_ADM_V990_IS_01",
   "level" : "NODE",
-  "layer" : "ADM",
+  "layer" : "MGMT",
   "spmURL" : "https://l-as644.asp.lidl.net:8093/spm",
   "children" : null,
-  "environment" : "SIT"
+  "environment" : "ADMIN"
 }

@@ -46,7 +46,7 @@ public final class extract
 		pipelineCursor.destroy();
 		
 		// --------------------------------------------------------------------
-		// Read in Default Package Properties
+		// Read in Default Package Properties 
 		// --------------------------------------------------------------------
 		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
 		
@@ -141,9 +141,11 @@ public final class extract
 		for (int i = 0; i < installations.size(); i++) {
 			Installation installation = installations.get(i);
 			SpmOps spm = new SpmOps(opencmConfig, inv, installation);
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Extracting Node .. " + installation.getName());
-			spm.extractAll();
-			spm.persist(); 
+			if (spm.getNode() != null) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Extracting Node .. " + installation.getName());
+				spm.extractAll();
+				spm.persist(); 
+			}
 		}
 			
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Extraction Process Completed... ========== ");

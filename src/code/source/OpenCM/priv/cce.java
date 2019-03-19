@@ -47,7 +47,7 @@ public final class cce
 		// [i] field:0:required action
 		// [i] field:0:required node
 				
-		// Actions:
+		// Actions: 
 		//			- refreshAll (removes all and generates env groups and nodes within)
 		//			- generateNode (generate a single node, within a group)
 		//				- also then takes node as argument
@@ -104,7 +104,7 @@ public final class cce
 		// --------------------------------------------------------------------
 		inv.ensureEncryptedPasswords(opencmConfig);
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"CCE nodes management - Starting Process ...... ");
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"------------ CCE nodes management - Starting Process ...... ");
 		
 		// -------------------------------------------------------------------- 
 		// Determine group syntax
@@ -149,7 +149,7 @@ public final class cce
 			for (int o = 0; o < configOrgs.size(); o++) {
 				Organisation configOrg = configOrgs.get(o);
 				if ((configOrg.getDepartments() == null) || (configOrg.getDepartments().size() == 0)) {
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No departments for org " + configOrg.getOrg());
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No departments specified for org " + configOrg.getOrg() + " .. retrieving all nodes under this org.");
 					// Collect all nodes defined under this Org
 					LinkedList<Installation> invNodes = inv.getInstallations(configOrg.getOrg(),null,null);
 					installations = addInstallations(installations, invNodes);
@@ -159,7 +159,7 @@ public final class cce
 					for (int d = 0; d < configDeps.size(); d++) {
 						Department configDep = configDeps.get(d);
 						if ((configDep.getEnvironments() == null) || (configDep.getEnvironments().size() == 0)) {
-							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No environments for dep " + configDep.getDep());
+							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No environments specified for dep " + configDep.getDep() + " .. retrieving all nodes under this dep.");
 							// Collect all nodes defined under this Dep
 							LinkedList<Installation> invNodes = inv.getInstallations(configOrg.getOrg(),configDep.getDep(),null);
 							installations = addInstallations(installations, invNodes);
@@ -169,7 +169,7 @@ public final class cce
 							for (int e = 0; e < configEnvs.size(); e++) {
 								Environment configEnv = configEnvs.get(e);
 								if ((configEnv.getNodes() == null) || (configEnv.getNodes().size() == 0)) {
-									LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No nodes for env " + configEnv.getEnv());
+									LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No nodes specified for env " + configEnv.getEnv() + " .. retrieving all nodes under this env.");
 									// Collect all nodes defined under this Env
 									LinkedList<Installation> invNodes = inv.getInstallations(configOrg.getOrg(),configDep.getDep(),configEnv.getEnv());
 									installations = addInstallations(installations, invNodes);
@@ -194,6 +194,7 @@ public final class cce
 			
 			for (int i = 0; i < installations.size(); i++) {
 				Installation installation = installations.get(i);
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Processing " + installation.getName() + " ...");
 				// -------------------------------------------------------------------- 
 				// Ensure SPM runtime
 				// --------------------------------------------------------------------
@@ -343,7 +344,7 @@ public final class cce
 			cceUtils.assignNodeToEnv(groupAlias, installation.getName());
 		}
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"CCE nodes management - Process Completed ...... ");
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"------------ CCE nodes management - Process Completed ...... ");
 			
 		// --- <<IS-END>> ---
 

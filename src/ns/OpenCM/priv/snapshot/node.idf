@@ -17,6 +17,6 @@
     <value>org.opencm.configuration.PkgConfiguration</value>
     <value>org.opencm.inventory.*</value>
     <value>org.opencm.util.LogUtils</value>
-    <value>org.opencm.util.FileUtils</value>
+    <value>org.apache.commons.io.FileUtils</value>
   </array>
 </Values>

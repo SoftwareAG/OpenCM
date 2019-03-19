@@ -1,0 +1,8 @@
+{
+  "name" : "ORGY_DEV_ESB_V103_IS_01",
+  "level" : "NODE",
+  "layer" : "ESB",
+  "spmURL" : "https://server01.other.org:10093/spm",
+  "children" : null,
+  "environment" : "Development"
+}

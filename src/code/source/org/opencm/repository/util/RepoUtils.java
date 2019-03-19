@@ -1,11 +1,12 @@
 package org.opencm.repository.util;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Iterator;
+// import java.util.HashMap;
+// import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.StringTokenizer;
+// import java.util.StringTokenizer;
 
+/*
 import org.opencm.audit.assertion.AssertionStore;
 import org.opencm.audit.configuration.Property;
 import org.opencm.audit.configuration.PropertyFilter;
@@ -15,11 +16,13 @@ import org.opencm.audit.env.AssertionGroup;
 import org.opencm.audit.env.AssertionProperty;
 import org.opencm.audit.env.AssertionValue;
 import org.opencm.audit.env.AssertionValuePair;
-import org.opencm.audit.util.JsonParser;
+*/
+
+// import org.opencm.audit.util.JsonParser;
 import org.opencm.configuration.Configuration;
 import org.opencm.inventory.*;
 import org.opencm.extract.spm.SpmOps;
-import org.opencm.util.FileUtils;
+// import org.opencm.util.FileUtils;
 import org.opencm.util.JsonUtils;
 import org.opencm.util.LogUtils;
 
@@ -86,6 +89,7 @@ public class RepoUtils {
 	 * Based on a single Node and a single Property configuration, retrieve all values that are associated with it
 	 * 
 	 */
+	/*
 	public static LinkedList<AssertionValue> getAssertionValues(Configuration opencmConfig, Installation opencmNode, String repoType, Property propConfig, LinkedList<PropertyFilter> filters) {
 		// --------------------------------------------------------------------
 		// Initialize
@@ -115,6 +119,7 @@ public class RepoUtils {
 		}
 		return values; 
 	}
+	*/
 
 
 	/**
@@ -122,6 +127,8 @@ public class RepoUtils {
 	 * Returned as a list of AssertionValues (need to keep track of Component and Instance names)
 	 * 
 	 */
+	
+	/*
 	private static LinkedList<AssertionValue> getInstancePaths(Configuration opencmConfig, Installation opencmNode, Property propConfig, String nodeDir) {
 		LinkedList<AssertionValue> assList = new LinkedList<AssertionValue>();
 
@@ -196,12 +203,16 @@ public class RepoUtils {
 
 	}
 
+	*/
+	
 	/**
 	 * Method to retrieve the AssertionValues from the property file.
 	 * A single property file may include multiple properties (e.g. COMMON-SYSPROPS)
 	 * or a single property (e.g. a Fix version). The passed AssertionValue holds the component name, instance name and
 	 * path to the actual json property file but the this method may result in passing back multiple AssertionValues.
 	 */
+	
+	/*
 	private static LinkedList<AssertionValue> getValues(Configuration opencmConfig, AssertionValue av, Property propConfig, LinkedList<PropertyFilter> filters) {
 		LinkedList<AssertionValue> assValues = new LinkedList<AssertionValue>();
 		
@@ -267,6 +278,8 @@ public class RepoUtils {
 		
 	}
 
+	*/
+	
 	/**
 	 * Based on a Hashmap of assertion groups, identify missing (ABSENT) values 
 	 * This is based on layered audits where the total amount of property values for all installations are padded 
@@ -279,6 +292,7 @@ public class RepoUtils {
 	 * 
 	 * (Padded with "Undefined" and "Missing")
 	 */
+	/*
 	public static HashMap<String,AssertionGroup> postProcessValues(Configuration opencmConfig, Inventory opencmNodes, HashMap<String,AssertionGroup> assGroups, AssertionConfig envAuditConfig) {
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Parser - postProcessValues ........... ");
 		
@@ -479,7 +493,8 @@ public class RepoUtils {
 			
 		return postProcessedAGs;
 	}
-
+	*/
+	
 
 	 /*
 	  * Helper to support lists and wild cards in component and instance names in the property files (property definitions and filters).
@@ -487,6 +502,8 @@ public class RepoUtils {
 	  * Wild cards are then converted to regexp and matched against the name passed.
 	  *  
 	  */
+	
+	/*
 	 
 	public static boolean matches(String name, String key) {
 		if (key.equals(AssertionStore.ANY_ASSERTION_KEYWORD)) {
@@ -513,10 +530,13 @@ public class RepoUtils {
 		}
 		return false;
 	}
+	
+	*/
 	 
 	/*
 	 * Based on assertion values from two nodes, match and create pairs that should be asserted
 	 */
+	/*
 	public static LinkedList<AssertionValuePair> createAssertionValuePairs(LinkedList<AssertionValue> avs01, LinkedList<AssertionValue> avs02, boolean ignoreAbsentValuesFor01, boolean ignoreAbsentValuesFor02) {
 		LinkedList<AssertionValuePair> avsPairs = new LinkedList<AssertionValuePair>();
 		
@@ -550,12 +570,14 @@ public class RepoUtils {
 		return avsPairs;
 		
 	}
-
+	*/
+	
 	/*
 	 * Removes the instance names (IS instance, MWS instance, UM realm name, etc.)
 	 * Replaces the instance name with search pattern, used for getting subdirectories 
 	 * using the matches expression
 	 */
+	/*
 	public static String normalizeComponentName(String name) {
 		if (name.startsWith("integrationServer-")) {
 			return name.substring(0,name.indexOf("-")) + ".*";
@@ -589,10 +611,12 @@ public class RepoUtils {
 		
 		return name;
 	}
-    
+    */
+	
 	/*
 	 * Converts a component name to a default name (used to locate default values
 	 */
+	/*
 	public static String convertComponentNameToDefault(String name) {
 		if (name.startsWith("integrationServer-")) {
 			return name.substring(0,name.indexOf("-")+1) + "default";
@@ -626,11 +650,13 @@ public class RepoUtils {
 		
 		return name;
 	}
+	*/
 	
 	/*
 	 * Gets a default value, based on an AssertionValue Object
 	 * If nothing found, return null
 	 */
+	/*
 	public static String getDefaultValue(Configuration opencmConfig, AssertionValue av) {
 		// --------------------------------------------------------------------
 		// Identify wM version from runtime node
@@ -661,7 +687,9 @@ public class RepoUtils {
 		}
 		return null;
 	}
-
+	*/
+	
+	/*
 	private static String parseKey(String inKey) {
 		// Verify that we don't have dynamic keys to deal with... e.g. /[key01,key02],/[key01,key02]
 		int dynamicKeysStartIdx = inKey.indexOf("[");
@@ -678,5 +706,6 @@ public class RepoUtils {
 		}
 		return null;
 	}
+	*/
 
 }

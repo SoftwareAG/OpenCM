@@ -4,6 +4,18 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 
 ## Java Scripts
 
+### bootstrap.min.js, bootstrap-waitingfor.min.js 
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Originated from https://getbootstrap.com/
+
+### datatables.min.js, buttons.html5.min.js, dataTables.buttons.min.js, jszip.min.js
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Source: https://datatables.net
+
+### chosen.jquery.min.js
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Source: https://harvesthq.github.io/chosen/
+
 ### d3.v3.min.js 
 - Licensed under [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 - Source: https://github.com/d3/d3
@@ -12,44 +24,48 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Source: https://github.com/yesmeck/jquery-jsonview
 
-### jquery-1.10.2.min.js
+### jquery.min.js
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Source: https://jquery.com/download/
 
-### datatables.min.js
+### jquery.showLoading.min.js
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
-- Source: https://datatables.net
-
-### opencm.js
-- Licensed under [MIT](https://opensource.org/licenses/MIT)
-- Originated from http://bl.ocks.org/Thanaporn-sk/20a86f09c938b8dd0e4520a4c68c6315
-
-### bootstrap.min.js
-- Licensed under [MIT](https://opensource.org/licenses/MIT)
-- Originated from https://getbootstrap.com/
-
-### chosen.jquery.min.js
-- Licensed under [MIT](https://opensource.org/licenses/MIT)
-- Originated from https://harvesthq.github.io/chosen/
-
-### jquery.multi-select.js
-- Licensed under [WTFPL](http://www.wtfpl.net/txt/copying/)
-- Originated from http://loudev.com/
+- Originated from https://www.jqueryscript.net/loading/Loading-Indicator-Plugin-jQuery-showLoading.html
 
 ### jquery.smartWizard.min.js
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Originated from http://techlaboratory.net/smartwizard
 
+### jstree.min.js
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Originated from https://www.jstree.com
+
+### opencm.js
+- Licensed under [Apache 2.0](http://www.apache.org/licenses)
+- Originated from http://bl.ocks.org/Thanaporn-sk/20a86f09c938b8dd0e4520a4c68c6315
+
 
 ## CSS Files
+
+### bootstrap.min.css
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Originated from https://getbootstrap.com/
+
+### buttons.dataTables.min.css, datatables.min.css
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Source: https://datatables.net
+
+### chosen.min.css
+- Licensed under [MIT](https://opensource.org/licenses/MIT)
+- Originated from https://harvesthq.github.io/chosen/
 
 ### jquery.json-view.css
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Source: https://github.com/yesmeck/jquery-jsonview
 
-### datatables.min.css
+### jstree.min.css
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
-- Source: https://datatables.net
+- Originated from https://www.jstree.com/
 
 ### opencm.css
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
@@ -59,32 +75,12 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 - Licensed under [MIT](https://opensource.org/licenses/MIT)
 - Originated from http://techlaboratory.net/smartwizard
 
-### bootstrap.min.css
-- Licensed under [MIT](https://opensource.org/licenses/MIT)
-- Originated from https://getbootstrap.com/
-
-### chosen.min.css
-- Licensed under [MIT](https://opensource.org/licenses/MIT)
-- Originated from https://harvesthq.github.io/chosen/
-
-### multi-select.css
-- Licensed under [WTFPL](http://www.wtfpl.net/txt/copying/)
-- Originated from http://loudev.com/
-
-
-
-
 ## Icons
 
 ### tab.png (Tab icon)
 - Licensed under [Creative Commons](https://creativecommons.org)
 - Source: https://icons8.com/icon/718/database-view
 - Source: https://creativecommons.org/licenses/by-nd/3.0/legalcode (license)
-
-### xlsx.ico (Excel icon)
-- Free for non-commercial use
-- Source: http://www.iconhot.com/icon/file-icons-vs-2/xlsx-3.html
-- Author: Jordan Michael
 
 ## Java Libraries
 
@@ -96,29 +92,9 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
 - Source: https://www.seleniumhq.org/download/
 
-### commons-collections4-4.2.jar
+### commons-net-3.6.jar 
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.apache.commons/commons-collections4/4.2
-
-### commons-io-2.6.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/commons-io/commons-io/2.6
-
-### commons-lang3-3.8.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.apache.commons/commons-lang3/3.8
-
-### commons-net-3.6.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/commons-net/commons-net/3.6
-
-### guava-26.0-jre.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.google.guava/guava/26.0-jre
-
-### guice-4.2.0.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.google.inject/guice/4.2.0
+- Source: https://commons.apache.org/proper/commons-net/download_net.cgi
 
 ### htmlunit-2.32.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
@@ -144,26 +120,6 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
 - Source: https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime/4.5.6
 
-### jackson-annotations-2.9.6.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations/2.9.6
-
-### jackson-core-2.9.6.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core/2.9.6
-
-### jackson-databind-2.9.6.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind/2.9.6
-
-### jackson-dataformat-yaml-2.9.6.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.9.6
-
-### jcommander-1.72.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/com.beust/jcommander/1.72
-
 ### json-20180813.jar
 - Licensed under [Json](http://json.org/license.html)
 - Source: https://mvnrepository.com/artifact/org.json/json/20180813
@@ -184,25 +140,9 @@ Source: https://mvnrepository.com/artifact/net.minidev/json-smart/2.3
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
 - Source: https://mvnrepository.com/artifact/de.slackspace/openkeepass/0.8.2
 
-### poi-3.17.jar
+### simple-xml-2.7.1.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
-Source: https://www.apache.org/dyn/closer.lua/poi/release/bin/poi-bin-3.17-20170915.zip
-
-### poi-ooxml-3.17.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://www.apache.org/dyn/closer.lua/poi/release/bin/poi-bin-3.17-20170915.zip
-
-### poi-ooxml-schemas-3.17.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://www.apache.org/dyn/closer.lua/poi/release/bin/poi-bin-3.17-20170915.zip
-
-### reportng-1.1.4.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: https://mvnrepository.com/artifact/org.uncommons/reportng/1.1.4
-
-### testng-6.14.3.jar
-- Licensed under [Apache 2.0](http://www.apache.org/licenses)
-- Source: http://mvnrepository.com/artifact/org.testng/testng
+- Source: https://mvnrepository.com/artifact/org.simpleframework/simple-xml/2.7.1
 
 ______________________
 These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.	

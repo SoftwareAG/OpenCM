@@ -38,18 +38,22 @@ public class Inventory {
     }
     
     public static Inventory instantiate(Configuration opencmConfig) {
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Inventory Instantiation starting .... ");
     	Inventory inv = (Inventory) Cache.getInstance().get(INVENTORY_CACHE_KEY);
     	if (inv != null) {
+    		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Inventory already in cache: Returning .... ");
     		return inv;
     	}
 
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Inventory not in cache - generating .... ");
+		
     	if (opencmConfig.getInventory_config().getType().equals(InventoryConfiguration.INVENTORY_CONFIG_KEEPASS)) {
     		// Using Keepass as a db for endpoints
     		String keepassDb = opencmConfig.getInventory_config().getDb();
     		String opencmGroup = opencmConfig.getInventory_config().getTop_group();
         	String masterPwd = KeyUtils.getMasterPassword();
-    		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," KeepassDB: " + keepassDb);
-    		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Top Group: " + opencmGroup);
+    		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," KeepassDB: " + keepassDb);
+    		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Top Group: " + opencmGroup);
     		if (masterPwd == null) {
         		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," Inventory: Master Password NULL ");
         		return null;
@@ -71,33 +75,33 @@ public class Inventory {
 					Organisation organisation = new Organisation();
 					// --- Department Name
 					organisation.setName(orgGroup.getName());
-            		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Inventory Keepass: Processing Organisation : " + orgGroup.getName());
+            		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Inventory Keepass: Processing Organisation : " + orgGroup.getName());
         			// --------------------------------
         			// Operations Departments
         			// --------------------------------
     				List<Group> opGroups = orgGroup.getGroups();
-            		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"   :: Departments : " + opGroups.size());
+            		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"   :: Departments : " + opGroups.size());
 					LinkedList<Department> opDepartments = new LinkedList<Department>();
     				for (int d = 0; d < opGroups.size(); d++) {
     					Group opGroup = opGroups.get(d);
 						Department opDepartment = new Department();
 						// --- Department Name
 						opDepartment.setName(opGroup.getName());
-                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Inventory Keepass: Processing OpDepartment : " + opGroup.getName());
+                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Inventory Keepass: Processing OpDepartment : " + opGroup.getName());
             			// --------------------------------
             			// Servers
             			// --------------------------------
         				List<Group> serverGroups = opGroup.getGroups();
-                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"   :: Servers : " + serverGroups.size());
+                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"   :: Servers : " + serverGroups.size());
 						LinkedList<Server> servers = new LinkedList<Server>();
         				for (int s = 0; s < serverGroups.size(); s++) {
         					Group serverGroup = serverGroups.get(s);
-                    		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Inventory Keepass: Processing Server : " + serverGroup.getName());
+                    		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Inventory Keepass: Processing Server : " + serverGroup.getName());
                     		
     						Entry serverMetadata = serverGroup.getEntryByTitle(Server.SERVER_METADATA_NAME);
     						if (serverMetadata == null) {
     							// Support arbitrary subgroup for servers (to better structure them). Collect list of subgroups and add to existing list
-                        		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"  No server metatdata - assuming subgroup... ");
+                        		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"  No server metatdata - assuming subgroup... ");
     							List<Group> serverSubGroups = serverGroup.getGroups();
     							serverGroups.addAll(serverSubGroups);
     							continue;
@@ -119,14 +123,14 @@ public class Inventory {
     						LinkedList<Installation> installations = new LinkedList<Installation>();
             				for (int i = 0; i < instGroups.size(); i++) {
             					Group instGroup = instGroups.get(i);
-                        		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Inventory Keepass: Processing Installation : " + instGroup.getName());
+                        		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," Inventory Keepass: Processing Installation : " + instGroup.getName());
     							Installation inst = new Installation();
     							// --- Node name
     							inst.setName(instGroup.getName());
     							// --- Set optional Installation labels - logical tags
     							Entry instMetadata = instGroup.getEntryByTitle(Installation.INSTALLATION_METADATA_NAME);
     							if (instMetadata != null) {
-           	                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"       Keepass: Processing Metadata .... " + instGroup.getName());
+           	                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"       Keepass: Processing Metadata .... " + instGroup.getName());
         							inst.setEnvironment(instMetadata.getPropertyByName(Installation.KEEPASS_PROPERTY_ENVIRONMENT).getValue());
         							inst.setLayer(instMetadata.getPropertyByName(Installation.KEEPASS_PROPERTY_LAYER).getValue());
         							inst.setSublayer(instMetadata.getPropertyByName(Installation.KEEPASS_PROPERTY_SUBLAYER).getValue());
@@ -137,12 +141,12 @@ public class Inventory {
         						LinkedList<RuntimeComponent> runtimeComponents = new LinkedList<RuntimeComponent>();
         						for (int r = 0; r < rcs.size(); r++) {
         							Entry rc = rcs.get(r);
-           	                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"       Keepass: Processing Runtime : " + rc.getTitle());
+           	                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"       Keepass: Processing Runtime : " + rc.getTitle());
            	                		if (!rc.getTitle().equals(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM) &&  
        	                				!rc.getTitle().equals(RuntimeComponent.RUNTIME_COMPONENT_NAME_CCE) &&
        	                				!rc.getTitle().equals(RuntimeComponent.RUNTIME_COMPONENT_NAME_SYNCH) &&
     	                				!rc.getTitle().startsWith(RuntimeComponent.RUNTIME_COMPONENT_NAME_IS_PREFIX)) {
-           	                			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"       Keepass: Ignoring Runtime : " + rc.getTitle());
+           	                			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"       Keepass: Ignoring Runtime : " + rc.getTitle());
            	                			continue;
         	                		}
         	                		RuntimeComponent runtimeComponent = new RuntimeComponent();
@@ -154,7 +158,7 @@ public class Inventory {
         							runtimeComponents.add(runtimeComponent);
         						}
         						if (runtimeComponents.size() == 0) {
-           	                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"       Keepass: No Runtime components... ");
+           	                		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"       Keepass: No Runtime components... ");
         						}
         						inst.setRuntimes(runtimeComponents);
         						installations.add(inst);
@@ -193,6 +197,7 @@ public class Inventory {
     	}
     	
     	Cache.getInstance().set(INVENTORY_CACHE_KEY, inv);
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Inventory Instantiation finishing .... ");
     	return inv;
     }
     

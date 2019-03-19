@@ -241,17 +241,12 @@ ul#optionsMenu>li:hover .repoMenu {
     left: 160;
 	top: 40px;
 }
-ul#optionsMenu>li:hover .assertMenu {
+ul#optionsMenu>li:hover .auditMenu {
     display: block;
     left: 160;
 	top: 40px;
 }
-ul#optionsMenu>li:hover .auditTwoNodeMenu {
-    display: block;
-    left: 160;
-	top: 40px;
-}
-ul#optionsMenu>li:hover .auditLayeredMenu {
+ul#optionsMenu>li:hover .inventoryMenu {
     display: block;
     left: 160;
 	top: 40px;
@@ -356,26 +351,6 @@ ul#optionsMenu>li:hover .aboutMenu {
 }
 
 
-/* Audit Configuration */
-#auditConfArea {
-    color: #3498db;
-    background: #FFFFFF;
-    height: 100%;
-}
-
-#auditConfArea h2 {
-    box-sizing: border-box;
-    background: #dce9f9;
-    text-align: center;
-	color: #3498db;
-    display: block;
-    height: 40px;
-    margin: 0;
-    padding: 10px;
-    width: 100%;
-    vertical-align: middle;
-    font-size: 1.3em
-}
 .sol-caret-container {
     position: absolute;
     display: inline-block;
@@ -584,7 +559,7 @@ ul.subMenu li a:only-child {
 .repoMenu {
     min-width: 200px
 }
-.assertMenu {
+.auditMenu {
     min-width: 150px;
 }
 .auditTwoNodeMenu {
@@ -751,7 +726,7 @@ a#RightButton.highlighted:hover {
 #removeSnapshotMenu>a:before {
     content: "\220E"
 }
-#assertMenu>a:before {
+#auditMenu>a:before {
     content: "\2714"
 }
 #auditTwoNodeMenu>a:before {
@@ -768,6 +743,9 @@ a#RightButton.highlighted:hover {
 }
 #inventoryMenu>a:before {
     content: "\22A1"
+}
+#conf_RefreshInventory>a:before {
+    content: "\21BB"
 }
 #audit_PerformBaselineSingleAudit>a:before {
     content: "\21BB"
@@ -1334,20 +1312,6 @@ marker path {
 	right:-7px;
 	top:-7px
 }
-#auditReport,.bMulti{
-	background-color:#fff;
-	border-radius:10px 10px 10px 10px;
-	box-shadow:0 0 25px 5px #999;
-	color:#111;
-	display:none;
-	min-width:450px;
-	padding:25px
-}
-#auditReport iframe{
-	background:url('loader.gif') center center no-repeat;
-	min-height:800px;
-	min-width:1600px
-}
 #aboutPopup,.bMulti{
 	background-color:#fff;
 	border-radius:10px 10px 10px 10px;
@@ -1362,7 +1326,7 @@ marker path {
 	min-height:800px;
 	min-width:1600px
 }
-#assertPopup,.bMulti{
+#auditPopup,.bMulti{
 	background-color:#fff;
 	border-radius:10px 10px 10px 10px;
 	box-shadow:0 0 25px 5px #999;
@@ -1371,7 +1335,7 @@ marker path {
 	min-width:450px;
 	padding:25px
 }
-#assertPopup iframe{
+#auditPopup iframe{
 	/* background:url('loader.gif') center center no-repeat; */
 	min-height:800px;
 	min-width:1600px

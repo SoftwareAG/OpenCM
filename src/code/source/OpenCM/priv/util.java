@@ -41,7 +41,7 @@ public final class util
 		// @sigtype java 3.5
 		// [i] field:0:required key
 		// [i] field:0:required value
-		IDataCursor pipelineCursor = pipeline.getCursor();
+		IDataCursor pipelineCursor = pipeline.getCursor(); 
 		String	stKey = IDataUtil.getString( pipelineCursor, "key" );
 		String	stValue = IDataUtil.getString( pipelineCursor, "value" );
 		pipelineCursor.destroy();
@@ -120,6 +120,8 @@ public final class util
 		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
 		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
 		
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," getInventory: Start Service");
+		
 		// --------------------------------------------------------------------
 		// Ensure that master password is stored in cache
 		// --------------------------------------------------------------------
@@ -135,9 +137,7 @@ public final class util
 		// --------------------------------------------------------------------
 		// Read in Inventory
 		// --------------------------------------------------------------------
-		Cache.getInstance().set(org.opencm.inventory.Inventory.INVENTORY_CACHE_KEY, null);
 		Inventory inv = Inventory.instantiate(opencmConfig);
-		
 		
 		// pipeline
 		IDataCursor pipelineCursor = pipeline.getCursor();
@@ -247,6 +247,7 @@ public final class util
 		}
 		pipelineCursor.destroy();
 		
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," getInventory: End Service");
 			
 		// --- <<IS-END>> ---
 
@@ -412,6 +413,79 @@ public final class util
 		String stMessage = IDataUtil.getString(pipelineCursor, "message");
 		System.out.println(new java.sql.Timestamp(System.currentTimeMillis()).toString() + " - " + stMessage);
 		pipelineCursor.destroy();
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void refreshInventory (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(refreshInventory)>> ---
+		// @sigtype java 3.5
+		// --------------------------------------------------------------------
+		// Read in Default Package Properties
+		// --------------------------------------------------------------------
+		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
+		
+		// --------------------------------------------------------------------
+		// Read in OpenCM Properties
+		// --------------------------------------------------------------------
+		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
+		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
+		
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," refreshInventory: Start Service");
+		
+		// --------------------------------------------------------------------
+		// Ensure that master password is stored in cache
+		// --------------------------------------------------------------------
+		if (KeyUtils.getMasterPassword() == null) {
+			try {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," refreshInventory: Master Pwd NULL - running startup service ... ");
+				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
+			} catch (Exception ex) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," refreshInventory :: " + ex.getMessage());
+			}
+		}
+		
+		// --------------------------------------------------------------------
+		// Refresh Inventory
+		// --------------------------------------------------------------------
+		Cache.getInstance().set(org.opencm.inventory.Inventory.INVENTORY_CACHE_KEY, null);
+		Inventory.instantiate(opencmConfig);
+		
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," refreshInventory: End Service");
+			
+			
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void sleep (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(sleep)>> ---
+		// @sigtype java 3.5
+		// [i] field:0:required secs
+		
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String	secs = IDataUtil.getString( pipelineCursor, "secs" );
+		pipelineCursor.destroy();
+		Integer iSecs = 0;
+		if (secs != null) {
+			iSecs = new Integer(secs);
+		}
+		try {
+			Thread.sleep(iSecs.intValue() * 1000); 
+		} catch (InterruptedException ex) {
+			//
+		}
 		// --- <<IS-END>> ---
 
                 

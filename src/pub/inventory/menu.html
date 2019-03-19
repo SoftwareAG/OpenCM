@@ -9,59 +9,31 @@
   <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="../css/opencm.css" />
   <link rel="stylesheet" type="text/css" href="../css/datatables.min.css"/>
-  <link rel="stylesheet" type="text/css" href="../css/chosen.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/jstree.min.css"/>
 
   <script type="text/javascript" src="../js/jquery.min.js"></script>
   <script type="text/javascript" src="../js/bootstrap.min.js"></script>
   <script type="text/javascript" src="../js/datatables.min.js"></script>
-  <script type="text/javascript" src="../js/chosen.jquery.min.js"></script>
-  
+  <script type="text/javascript" src="../js/jstree.min.js"></script>
+ 
   <script type="text/javascript">
   
 	var inventoryTableInitialized = false;
-	
-	/* ------------------------------------------------------
-	*   Organisation and Department functions
-	*  ----------------------------------------------------- */
-	function getOrganisations() {
-		var arrOrgs = Array();
+
+	// --------------------------------------------
+	// Initializing Org-Dep Tree
+	// --------------------------------------------
+	function getOrgDepTreeData() {
+		var invData = Array();
 		$.each(top.window.opencm_inventory, function( index, org ) {
-			arrOrgs.push(org.name);
+			var invDeps = Array();	// Departments
+			$.each(org.departments, function( index, dep ) {
+				var depId = org.name + "_" + dep.name;
+				invDeps.push( { id: depId, text: dep.name, li_attr: {org: org.name, dep: dep.name} });
+			});
+			invData.push({ text: org.name, icon: false, state : { opened : true }, children : invDeps });
 		});
-		return arrOrgs;
-	}
-	function getDepartments(organisation) {
-		var arrDeps = Array();
-		$.each(top.window.opencm_inventory, function( index, org ) {
-			if (org.name == organisation) {
-				$.each(org.departments, function( index, dep ) {
-					arrDeps.push(dep.name);
-				});
-			}
-		});
-		return arrDeps;
-	}
-	
-	function selectOrg(organisation) {
-		var orgs = getOrganisations();
-		$.each(orgs, function( index, org ) {
-			var deps = getDepartments(org);
-			if (org == organisation) {
-				$.each(deps, function( index, dep ) {
-					// Show all deps for this
-					$('#div_dep_' + organisation + '_' + dep + '').show();
-				});
-			} else {
-				$('input:radio[name="select_dep_' + org + '"]').each(function(i) {
-					$(this).prop('checked', false);
-				});
-				$.each(deps, function( index, dep ) {
-					// Hide all deps for this
-					$('#div_dep_' + org + '_' + dep + '').hide();
-				});
-			}
-		});
-		$('#div_inv_section').hide();
+		return invData;
 	}
 	
 	function selectDep(org, dep) {
@@ -156,110 +128,77 @@
 			]
 		} );
 		
-		$('#div_inv_section').show();
-		
+		$('#div_total').show();
 		
 	}
 	
    </script>
-   <style>   
-	#div_multi_org section {
-	  display: flex;
+   <style> 
+	#invMenu {
+		color: #3498db;
+		background: #FFFFFF;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		overflow-y: auto;
+		overflow-x: hidden
 	}
-	#div_multi_org section > div {
-	  flex: 1;
-	  padding: 0.5rem;
+	#invMenu div {
+		top: 0;
+		padding: 5px
 	}
-	#div_multi_org div {
-	  padding: 1px;
-	}
-	#div_multi_org h4 {
-		color: hsla(215, 5%, 10%, 1);
+	/* Popup Headings */
+	#invMenu h2 {
+		box-sizing: border-box;
+		background: #dce9f9;
 		text-align: center;
-		margin-bottom: 2rem;
-		font-weight: 900;
+		color: #3498db;
+		display: block;
+		height: 40px;
+		margin: 0;
+		padding: 10px;
+		width: 100%;
+		vertical-align: middle;
+		font-size: 1.3em
 	}
-	
-	#div_multi_org p {
-		color: #2E268C;
-		text-align: center;
-		font-size: 1.0em;
+	#invMenu h4 {
+		color: #3498db;
+		display: block;
+		font-size: 1.1em;
+		font-weight: bold;
+		margin: 10;
+		padding: 0 10px;
+		text-align: left
 	}
-	#div_multi_org input[type="radio"] {
-	  display: none;
-	  &:not(:disabled) ~ label {
-		cursor: pointer;
-	  }
-	  &:disabled ~ label {
-		color: #f2f2f2;
-		border-color: #d9d9d9;
-		box-shadow: none;
-		cursor: not-allowed;
-	  }
+   
+	#invMenu #div_jstree_deps {
+	  position: relative; 
+	  top: 0px;
 	}
-	#div_multi_org label {
-	  height: 70%;
-	  display: block;
-	  background: white;
-	  border: 2px solid #dce9f9;
-	  border-radius: 10px;
-	  padding: 0.5rem;
-	  margin-bottom: 0.5rem;
-	  //margin: 1rem;
-	  text-align: center;
-	  box-shadow: 0px 3px 10px -2px #dce9f9;
+	.jstree-node, .jstree-children, .jstree-container-ul {
 	  position: relative;
 	}
-	#div_multi_org input[type="radio"]:checked + label {
-	  background: #b3ffda;
-	  color: #00b35c;
-	  box-shadow: 0px 0px 20px #b3ffda;
-	  &::after {
-		color: #00b35c;
-		font-family: FontAwesome;
-		border: 2px solid #00b35c;
-		content: "\f00c";
-		font-size: 24px;
-		position: absolute;
-		top: -25px;
-		left: 50%;
-		transform: translateX(-50%);
-		height: 50px;
-		width: 50px;
-		line-height: 50px;
-		text-align: center;
-		border-radius: 50%;
-		background: white;
-		box-shadow: 0px 2px 5px -2px hsla(0, 0%, 0%, 0.25);
-		
-	  }
+	#invMenu #div_total {
+	  position: relative;
+	  bottom: 0px; 
 	}
-	#div_multi_org input[type="radio"]#control_05:checked + label {
-	  background: red;
-	  border-color: red;
-	}
-
-	#div_multi_org @media only screen and (max-width: 700px) {
-	  section {
-		flex-direction: column;
-	  }
-	}
+	
+	
+	
   </style>   
    
 </head>
 
 
 <body style="margin-top: 0;">
-
-<section id="popupArea">
+<section id="invMenu">
   <h2></h2>
-  <div id="div_multi_org">
-   <p><span id="#org_dep_text"></span></p>
-   <section id="org-selection"></section>
-   <section id="dep-selection"></section>
-  </div>
-  
-  <div id="div_inv_section" style="display:none;text-align:left">
+  <h4>Select Department:</h4>
+  <div id="div_jstree_deps"></div>
+
+  <div id="div_total" style="display:none;text-align:left">
 	<table id="summary" class="display" style="width:100%">
 	  <thead>
 		<tr>
@@ -278,9 +217,27 @@
 	</table>
   </div>
 </section>
- <script>
-	$(document).ready(function(){
-
+  <script>
+	$(document).ready(function() {
+		$('#div_jstree_deps').jstree(
+			{ 'plugins':["wholerow"],
+			  'core' : {
+				'data' : getOrgDepTreeData()
+			  }
+			}
+		);
+		
+		$('#div_jstree_deps').on('changed.jstree', function (e, data) {
+			var org = data.node.li_attr.org;
+			var dep = data.node.li_attr.dep;
+			if ((org != null) && (dep != null)) {
+				selectDep(org,dep);
+			}
+		});
+	
+	});
+		
+	/**)
 		// --------------------------------------------
 		// Initializing Organisations
 		// --------------------------------------------
@@ -339,6 +296,9 @@
 
 		}
 	});
+	
+	*/
+	
  </script>	
 </body>
 </html>

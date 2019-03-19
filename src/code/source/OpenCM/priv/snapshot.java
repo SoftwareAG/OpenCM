@@ -13,7 +13,7 @@ import org.opencm.configuration.Configuration;
 import org.opencm.configuration.PkgConfiguration;
 import org.opencm.inventory.*;
 import org.opencm.util.LogUtils;
-import org.opencm.util.FileUtils;
+import org.apache.commons.io.FileUtils;
 // --- <<IS-END-IMPORTS>> ---
 
 public final class snapshot
@@ -49,7 +49,7 @@ public final class snapshot
 		} 
 		
 		// --------------------------------------------------------------------
-		// Read in Default Package Properties
+		// Read in Default Package Properties 
 		// --------------------------------------------------------------------
 		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
 		
@@ -96,8 +96,8 @@ public final class snapshot
 		try {
 			// Remove the existing baseline node directory if it exists
 			if (fBaselineNodeDir.exists()) {
-				org.apache.commons.io.FileUtils.deleteDirectory(fBaselineNodeDir);
-			}
+				FileUtils.deleteDirectory(fBaselineNodeDir);
+			} 
 			
 			// Copy directory from runtime to baseline
 			org.apache.commons.io.FileUtils.copyDirectoryToDirectory(fRuntimeNodeDir, fBaselineDir);

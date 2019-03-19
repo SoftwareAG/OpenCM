@@ -48,7 +48,7 @@ public final class cli
 		pipelineCursor.destroy();
 		
 		// --------------------------------------------------------------------
-		// Read in Default Package Properties
+		// Read in Default Package Properties 
 		// --------------------------------------------------------------------
 		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
 		 

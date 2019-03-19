@@ -104,56 +104,14 @@ function promoteNode() {
 	}
 }
 
-function performBaselineSingleAudit() {
-	if (cmdataBaselineExists) {
-		$.get( "/invoke/OpenCM.pub.dsp.audit/initiateBaselineAudit", { node: opencm_node } );
-		$('#notification').html("<p>Baseline vs. Runtime Node " + opencm_node + " Audit Process Started....</p>");
-		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
-	} else {
-		$('#notification').html("<p>No Baseline data exists - no auditing possible ....</p>");
-		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
-	}
-}
-
-function performBaselineFullAudit() {
-	$.get( "/invoke/OpenCM.pub.dsp.audit/initiateBaselineAudit", { node: "ALL" } );
-	$('#notification').html("<p>Full Baseline Audit Process Started....</p>");
-	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
-}
-
-function performDefaultRuntimeAudit() {
-	$.get( "/invoke/OpenCM.pub.dsp.audit/initiateDefaultAudit", { node: opencm_node, repo: "runtime"} );
-	$('#notification').html("<p>Default vs. Runtime Node " + opencm_node + " Audit Process Started....</p>");
-	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
-}
-
-function performDefaultBaselineAudit() {
-	if (cmdataBaselineExists) {
-		$.get( "/invoke/OpenCM.pub.dsp.audit/initiateDefaultAudit", { node: opencm_node, repo: "baseline"} );
-		$('#notification').html("<p>Default vs. Baseline Node " + opencm_node + " Audit Process Started....</p>");
-		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
-	} else {
-		$('#notification').html("<p>No Baseline data exists - no auditing possible ....</p>");
-		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
-	}
-}
-
-function performTwoNodeAudit(auditPropertyDir) {
-	$.get( "/invoke/OpenCM.pub.dsp.audit/initiateTwoNodeAudit", { auditProp: auditPropertyDir } );
-	$('#notification').html("<p>2-Node Audit Process Started for " + auditPropertyDir + " ....</p>");
-	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
-}
-
-function performLayeredAudit(auditLayeredProperty) {
-	$.get( "/invoke/OpenCM.pub.dsp.audit/initiateLayeredAudit", { auditLayeredProp: auditLayeredProperty } );
-	$('#notification').html("<p>Layered Audit Process Started for " + auditLayeredProperty + " using Assertion groups....</p>");
-	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
-}
-
 function performTreeUpdate() {
-	$.get( "/invoke/OpenCM.pub.dsp.configuration/updateTree");
-	$('#notification').html("<p>Refreshing Treestructure ....</p>");
-	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+	callJsonService( "/invoke/OpenCM.pub.dsp.configuration/updateTree", "{}");
+	location.reload();
+}
+
+function refreshInventory() {
+	callJsonService( "/invoke/OpenCM.pub.dsp.configuration/refreshInventory", "{}");
+	location.reload();
 }
 
 function performEncrypt() {
@@ -202,20 +160,20 @@ function performSynchSend() {
 	}
 }
 
-function callJsonService(jsonURL, jsonData){
-	jsonResponse = Array();
+function callJsonService(uri, jsonData){
+	var jsonResponse;
 	$.ajax({
 		type: "POST",
-		url: jsonURL,
+		url: opencm_url + uri,
 		async: false,
 		data: jsonData,
 		contentType: "application/json; charset=utf-8",
 		dataType: 'json',
 		success: function (data) {
-			jsonData = data;
+			jsonResponse = data;
 		},
 		error: function(xhr, textStatus, errorThrown) {
-			alert("callJsonService exception:: " + textStatus + ": " + errorThrown);
+			jsonResponse = "callJsonService exception:: " + textStatus + ": " + errorThrown;
 		}
 	});
 	return jsonResponse;
@@ -1003,17 +961,11 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 		if (node_page) {
 			$('#extractNodeMenu').show();
 			$('#promoteRuntimeMenu').show();
-			$('#audit_PerformBaselineSingleAudit').show();
-			$('#audit_PerformDefaultRuntimeAudit').show();
-			$('#audit_PerformDefaultBaselineAudit').show();
 			$('#conf_CceAddNode').show();
 			$('#conf_CceFixScript').show();
 		} else {
 			$('#extractNodeMenu').hide();
 			$('#promoteRuntimeMenu').hide();
-			$('#audit_PerformBaselineSingleAudit').hide();
-			$('#audit_PerformDefaultRuntimeAudit').hide();
-			$('#audit_PerformDefaultBaselineAudit').hide();
 			$('#conf_CceAddNode').hide();
 			$('#conf_CceFixScript').hide();
 		}
@@ -1054,20 +1006,10 @@ treeJSON = d3.json(json_tree, function(error, treeData) {
 	});
 })(jQuery);
 (function (a) {
-	var n = a("#auditReport");
+	var n = a("#auditPopup");
 	a(function () {
-		a("body").on("click", ".auditTwoNodeMenuLink", function () {
-			var h = a(".auditReportFrame"),
-			j = a(this);
-			n.bPopup(j.data("bpopup") || {})
-		})
-	});
-})(jQuery);
-(function (a) {
-	var n = a("#assertPopup");
-	a(function () {
-		a("body").on("click", ".assertMenuLink", function () {
-			var h = a(".assertFrame"),
+		a("body").on("click", ".auditMenuLink", function () {
+			var h = a(".auditFrame"),
 			j = a(this);
 			n.bPopup(j.data("bpopup") || {})
 		})
@@ -1374,133 +1316,153 @@ function getInventoryForOrgAndDepAndEnv(organisation,department,environment) {
 
 	return invData;
 }
-
-
-function getInventoryData(action, filter) {
-	var opencmData = Array();
-	if (action == "environments") {
-		$.each(opencm_inventory, function( index, env ) {
-			opencmData.push(env.name);
-		});
-	} else if (action == "layers") {
-		$.each(opencm_inventory, function( index, env ) {
-			$.each(env.layers, function( index, layer ) {
-				if ($.inArray(layer.name, opencmData) == -1) {
-					opencmData.push(layer.name);
-				}
-			});
-		});
-	} else if (action == "nodes") {
-		$.each(opencm_inventory, function( index, env ) {
-			$.each(env.layers, function( index, layer ) {
-				$.each(layer.servers, function( index, server ) {
-					$.each(server.nodes, function( index, node ) {
-						opencmData.push( node.name );
-					});
-				});
-			});
-		});
-	} else if (action == "quicksearch") {
-		$.each(opencm_inventory, function( index, env ) {
-			$.each(env.layers, function( index, layer ) {
-				$.each(layer.servers, function( index, server ) {
-					$.each(server.nodes, function( index, node ) {
-						opencmData.push([ server.name, node.name ]);
-					});
-				});
-			});
-		});
-	} else if (action == "inventory") {
-		$.each(opencm_inventory, function( index, env ) {
-			$.each(env.layers, function( index, layer ) {
-				$.each(layer.servers, function( index, server ) {
-					$.each(server.nodes, function( index, node ) {
-						var rcs = Array();	// Runtime Components
-						$.each(node.rcs, function( index, rc ) {
-							rcs.push( {name: rc.name, protocol: rc.protocol, port: rc.port, username: rc.username } );
-						});
-						opencmData.push( { env: env.name, 
-										   layer: layer.name, 
-										   server: server.name, 
-										   node: node.name,
-										   rcs: rcs
-										   });
-					});
-				});
-			});
-		});
-	} else if (action == "getLayersByEnvironment") {
-		$.each(opencm_inventory, function( index, env ) {
-			if (env.name == filter) {
-				$.each(env.layers, function( index, layer ) {
-					opencmData.push(layer.name);
-				});
+// String list functions
+function getAllOrganisations() {
+	var invData = Array();
+	$.each(opencm_inventory, function( index, org ) {
+		invData.push(org.name);
+	});
+	return invData;
+}
+function getAllDepartments() {
+	var invData = Array();
+	$.each(opencm_inventory, function( index, org ) {
+		$.each(org.departments, function( index, dep ) {
+			if ($.inArray(dep.name, invData) == -1) {
+				invData.push(dep.name);
 			}
 		});
-	} else if (action == "getNodesByLayer") {
-		$.each(opencm_inventory, function( index, env ) {
-			$.each(env.layers, function( index, layer ) {
-				if (layer.name == filter) {
-					$.each(layer.servers, function( index, server ) {
-						$.each(server.nodes, function( index, node ) {
-							opencmData.push(node.name);
-						});
-					});
+	});
+	return invData;
+}
+function getAllEnvironments() {
+	var invData = Array();
+	$.each(opencm_inventory, function( index, org ) {
+		$.each(org.departments, function( index, dep ) {
+			$.each(dep.environments, function( index, env ) {
+				if ($.inArray(env.name, invData) == -1) {
+					invData.push(env.name);
 				}
 			});
 		});
-	}
-	return opencmData;
+	});
+	return invData;
 }
-
-function getInventoryDataForEnvironment(selEnv) {
-	var opencmData = Array();
-	$.each(opencm_inventory, function( index, env ) {
-		if (env.name == selEnv) {
-			$.each(env.layers, function( index, layer ) {
-				$.each(layer.servers, function( index, server ) {
-					$.each(server.nodes, function( index, node ) {
-						var rcs = Array();	// Runtime Components
-						$.each(node.rcs, function( index, rc ) {
-							rcs.push( {name: rc.name, protocol: rc.protocol, port: rc.port, username: rc.username } );
+function getAllLayers() {
+	var invData = Array();
+	$.each(opencm_inventory, function( index, org ) {
+		$.each(org.departments, function( index, dep ) {
+			$.each(dep.environments, function( index, env ) {
+				$.each(env.layers, function( index, layer ) {
+					if ($.inArray(layer.name, invData) == -1) {
+						invData.push(layer.name);
+					}
+				});
+			});
+		});
+	});
+	return invData;
+}
+function getAllNodes() {
+	var invData = Array();
+	$.each(opencm_inventory, function( index, org ) {
+		$.each(org.departments, function( index, dep ) {
+			$.each(dep.environments, function( index, env ) {
+				$.each(env.layers, function( index, layer ) {
+					$.each(layer.servers, function( index, server ) {
+						$.each(server.nodes, function( index, node ) {
+							if ($.inArray(node.name, invData) == -1) {
+								invData.push(node.name);
+							}
 						});
-						opencmData.push( { env: env.name, 
-										   layer: layer.name, 
-										   server: server.name, 
-										   node: node.name,
-										   rcs: rcs
-										   });
 					});
 				});
 			});
+		});
+	});
+	return invData;
+}
+function getDepartmentsByOrganisation(organisation) {
+	var invData = Array();
+	$.each(opencm_inventory, function( index, org ) {
+		if (org.name == organisation) {
+			$.each(org.departments, function( index, dep ) {
+				invData.push(dep.name);
+			});
 		}
 	});
-	return opencmData;
+	return invData;
 }
-
-function getNodesForEnvironmentsAndLayers(envArray,layerArray) {
-	var opencmData = Array();
-	$.each(opencm_inventory, function( index, env ) {
-		if ($.inArray(env.name, envArray) !== -1) {
-			$.each(env.layers, function( index, layer ) {
-				if ($.inArray(layer.name, layerArray) !== -1) {
-					$.each(layer.servers, function( index, server ) {
-						$.each(server.nodes, function( index, node ) {
-							opencmData.push(node.name);
-						});
+function getEnvironmentsByOrgAndDep(organisation,department) {
+	var invData = Array();
+	$.each(opencm_inventory, function( index, org ) {
+		if (org.name == organisation) {
+			$.each(org.departments, function( index, dep ) {
+				if (dep.name == department) {
+					$.each(dep.environments, function( index, env ) {
+						if ($.inArray(env.name, invData) == -1) {
+							invData.push(env.name);
+						}
 					});
 				}
 			});
 		}
 	});
-	return opencmData;
+	return invData;
+}
+function getLayersByOrgAndDepAndEnv(organisation,department,environment) {
+	var invData = Array();
+	$.each(opencm_inventory, function( index, org ) {
+		if (org.name == organisation) {
+			$.each(org.departments, function( index, dep ) {
+				if (dep.name == department) {
+					$.each(dep.environments, function( index, env ) {
+						if (env.name == environment) {
+							$.each(env.layers, function( index, layer ) {
+								if ($.inArray(layer.name, invData) == -1) {
+									invData.push(layer.name);
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+	return invData;
+}
+function getNodesByOrgAndDepAndEnvAndLayer(organisation,department,environment,layer) {
+	var invData = Array();
+	$.each(opencm_inventory, function( index, org ) {
+		if (org.name == organisation) {
+			$.each(org.departments, function( index, dep ) {
+				if (dep.name == department) {
+					$.each(dep.environments, function( index, env ) {
+						if (env.name == environment) {
+							$.each(env.layers, function( index, lar ) {
+								if (lar.name == layer) {
+									$.each(lar.servers, function( index, server ) {
+										$.each(server.nodes, function( index, node ) {
+											if ($.inArray(node.name, invData) == -1) {
+												invData.push(node.name);
+											}
+										});
+									});
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+	return invData;
 }
 
 if (node_page) {
 	$('#nodesTableDiv').hide();
 } else {
 	$(document).ready(function() {
-		var data = getInventoryQuickSearch();
 		$('#all_nodes').DataTable( {
 			data: getInventoryQuickSearch(),
 			ordering: false,
@@ -1513,7 +1475,7 @@ if (node_page) {
 				{ title: "Hostname" },
 				{ title: "Node Name",
 				  render: function(data, type, row, meta){
-					return '<a target="_top" href="/OpenCM/?node='+data+'">' + data + '</a>';
+					return '<a target="_top" href="/OpenCM/?node=' + data + '">' + data + '</a>';
 				  }
 				}
 			],

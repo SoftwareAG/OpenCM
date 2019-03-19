@@ -6,15 +6,15 @@ import java.util.HashMap;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
-
-import org.opencm.configuration.Configuration;
-import org.opencm.util.LogUtils;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import com.wm.app.b2b.server.ServiceException;
+import org.opencm.configuration.Configuration;
+import org.opencm.util.LogUtils;
+import org.opencm.util.StringUtils;
 
+import com.wm.app.b2b.server.ServiceException;
 
 public class JsonParser {
 
@@ -231,7 +231,7 @@ public class JsonParser {
 	  */
 	 
 	private static boolean matches(String name, String key) {
-		String stElement = Configuration.convertPropertyKey(key);
+		String stElement = StringUtils.getRegexString(key);
 		if (name.matches(stElement.toString())) {
 			return true;
 		}

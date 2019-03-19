@@ -4,5 +4,5 @@
   "layer" : "API",
   "spmURL" : "https://l-as644.asp.lidl.net:8203/spm",
   "children" : null,
-  "environment" : "SIT"
+  "environment" : "ADMIN"
 }

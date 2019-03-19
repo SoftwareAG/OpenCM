@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import org.opencm.audit.assertion.AssertionStore;
 import org.opencm.configuration.model.Organisation;
 import org.opencm.util.LogUtils;
 
@@ -23,7 +22,7 @@ public class Configuration {
     public static String OPENCM_AUDIT_TWO_NODE_PROPS 				= "audit_nodes.properties";
     public static String OPENCM_AUDIT_BASELINE_RUNTIME_NODE_PROPS 	= "baseline_runtime_node.properties";
     
-    public static String OPENCM_CONFIG_DIR_AUDIT 				= "audit";
+    public static String OPENCM_CONFIG_DIR_AUDIT 				= "audit"; 
     public static String OPENCM_CONFIG_DIR_TWO_NODE_AUDIT 		= "audit_two_node";
     public static String OPENCM_CONFIG_DIR_LAYERED_AUDIT 		= "audit_layered";
     
@@ -159,27 +158,5 @@ public class Configuration {
     public void setConfigDirectory(String cnf_dir) {
     	this.config_directory = cnf_dir;
     }
-    
-	 /*
-	  * Helper to avoid having regexp in property files
-	  *  
-	  */
-	 
-	public static String convertPropertyKey(String key) {
-		if (key.equals(AssertionStore.ANY_ASSERTION_KEYWORD)) {
-			return key;
-		}
-		if (key.startsWith("*")) {
-			return ".*" + key.substring(1);
-		} else if (key.endsWith("*")) {
-			return key.substring(0, key.indexOf("*")) + ".*";
-		} else if (key.contains("*")) {
-			// Assuming wildcard in the middle
-			return key.substring(0, key.indexOf("*")) + ".*." + key.substring(key.indexOf("*") + 1);
-		}
-			
-		return key;
-	}
-	
     
 }

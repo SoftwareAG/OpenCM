@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
-import org.opencm.configuration.Configuration;
 
 public class FileUtils {
 
@@ -88,7 +87,7 @@ public class FileUtils {
 			}
 
 			for (int i = 0; i < filterElements.size(); i++) {
-				String stElement = Configuration.convertPropertyKey(filterElements.get(i));
+				String stElement = StringUtils.getRegexString(filterElements.get(i));
 				String eFilter = stElement;
 				FilenameFilter prefixFilter = new FilenameFilter() {
 					public boolean accept(File dir, String name) {

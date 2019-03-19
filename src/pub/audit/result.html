@@ -1,0 +1,1303 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head>
+  <title>OpenCM Configuration Management - Auditing</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="OpenCM Auditing" />
+  <link rel="stylesheet" type="text/css" href="../css/opencm.css" />
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/smart_wizard_theme_circles.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/smart_wizard_theme_arrows.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/smart_wizard_theme_dots.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/chosen.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/datatables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/buttons.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../css/jstree.min.css"/>
+  
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../js/jquery.smartWizard.min.js"></script>
+  <script type="text/javascript" src="../js/chosen.jquery.min.js"></script>
+  <script type="text/javascript" src="../js/jquery.showLoading.min.js"></script>
+  <script type="text/javascript" src="../js/datatables.min.js"></script>
+  <script type="text/javascript" src="../js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" src="../js/jszip.min.js"></script>
+  <script type="text/javascript" src="../js/buttons.html5.min.js"></script>
+  <script type="text/javascript" src="../js/jstree.min.js"></script>
+ 
+  <style>
+	#smartwizard > div {
+		padding: 1px;
+	}
+	
+	#smartwizard h3 {
+		color: #3498db;
+		font-size: 1.0em;
+		box-sizing: border-box;
+		background: #dce9f9;
+		text-align: left;
+		margin: 0;
+		padding: 10px;
+		width: 100%;
+		height: 30px;
+		margin-bottom: 2rem;
+		font-weight: 500;
+		display: block;
+		vertical-align: middle;
+	}
+	.sw-theme-dots > ul.step-anchor:before {
+		top: 60px;
+	}
+	.sw-theme-dots > ul.step-anchor > li > a:before {
+		bottom: 4px;
+		left: 39%;
+		margin-top: 10px;
+	}
+	.ms-container {
+		width: 50%;
+		padding: 0;
+		margin: 0
+	} 
+	.ms-selections {
+		width: 50%; 
+	}
+	#prop-filters div {
+	  padding: 1px;
+	}
+	#prop-filters table {
+	  border-collapse:collapse;
+	  table-layout:fixed; 
+	}
+	#prop-filters table td {
+	  word-wrap:break-word;
+	}
+	
+	.prop-filter-table-editable {
+	  position: relative;
+	  .glyphicon {
+		font-size: 20px;
+	  }
+	}
+
+	.prop-filter-table-remove-row {
+	  cursor: pointer;
+	  right: 0;
+	  &:hover {
+		color: #f00;
+	  }
+	}
+
+	.prop-filter-table-add-row {
+	  cursor: pointer;
+	  position: relative;
+	  right: 0;
+	  
+	  &:hover {
+		color: #0b0;
+	  }
+	}	
+	
+	#repo-type {
+	  display: flex;
+	}
+	#repo-type section > div {
+	  flex: 1;
+	  padding: 0.5rem;
+	}
+	#repo-type div {
+	  padding: 1px;
+	}
+	#repo-type h4 {
+		color: hsla(215, 5%, 10%, 1);
+		text-align: center;
+		margin-bottom: 2rem;
+		font-weight: 900;
+	}
+	
+	#repo-type p {
+		color: #2E268C;
+		text-align: center;
+		font-size: 1.0em;
+	}
+	#repo-type input[type="radio"] {
+	  display: none;
+	  &:not(:disabled) ~ label {
+		cursor: pointer;
+	  }
+	  &:disabled ~ label {
+		color: #f2f2f2;
+		border-color: #d9d9d9;
+		box-shadow: none;
+		cursor: not-allowed;
+	  }
+	}
+	#repo-type label {
+	  height: 100%;
+	  display: block;
+	  background: white;
+	  border: 2px solid #dce9f9;
+	  border-radius: 20px;
+	  padding: 1rem;
+	  margin-bottom: 1rem;
+	  //margin: 1rem;
+	  text-align: center;
+	  box-shadow: 0px 3px 10px -2px #dce9f9;
+	  position: relative;
+	}
+	#repo-type input[type="radio"]:checked + label {
+	  background: #b3ffda;
+	  color: #00b35c;
+	  box-shadow: 0px 0px 20px #b3ffda;
+	  &::after {
+		color: #00b35c;
+		font-family: FontAwesome;
+		border: 2px solid #00b35c;
+		content: "\f00c";
+		font-size: 24px;
+		position: absolute;
+		top: -25px;
+		left: 50%;
+		transform: translateX(-50%);
+		height: 50px;
+		width: 50px;
+		line-height: 50px;
+		text-align: center;
+		border-radius: 50%;
+		background: white;
+		box-shadow: 0px 2px 5px -2px hsla(0, 0%, 0%, 0.25);
+		
+	  }
+	}
+	#repo-type input[type="radio"]#control_05:checked + label {
+	  background: red;
+	  border-color: red;
+	}
+
+	#repo-type @media only screen and (max-width: 700px) {
+	  section {
+		flex-direction: column;
+	  }
+	}
+	
+
+	.loading-indicator-bars {
+		background-image: url('images/loading-bars.gif');
+		width: 150px;
+	}
+
+	.loading-indicator {
+	  height: 80px;
+	  width: 80px;
+	  background: url( '../img/loading.gif' );
+	  background-repeat: no-repeat;
+	  background-position: center center;
+	}
+
+	.loading-indicator-overlay {
+	  background-color: #FFFFFF;
+	  opacity: 0.6;
+	  filter: alpha(opacity = 60);
+	}
+	
+	#step-4 h3 {
+		margin-bottom: 1rem;
+	}
+	
+	#step-4 div {
+		padding: 1px;
+	}
+
+	#div_audit_result div {
+	  padding: 1px;
+	}
+	
+	/* Adds the search clear cross in filter (overrides the bootstrap) */
+	input[type="search"]::-webkit-search-cancel-button {
+		-webkit-appearance: searchfield-cancel-button;
+	}
+	#popupArea #div_jstree_inventory {
+	  /* position: absolute; */
+	  top: 0px;
+	}
+	#popupArea .jstree-wholerow {
+	  display: none;
+	}
+	
+	
+	</style>
+  <script type="text/javascript">
+    var audit_prop_templates = parent.window.audit_prop_templates;
+    var audit_template_data = Array();
+	var resultTableInitialized = false;
+	
+	// ------------------------------------------------------
+	// Generic date function
+	// ------------------------------------------------------
+    function getFormattedDateTime() {
+		var d = new Date();
+		d = d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2) + ('0' + d.getHours()).slice(-2) + ('0' + d.getMinutes()).slice(-2);
+		return d;
+	}
+	
+	// ------------------------------------------------------
+	// Initialize
+	// ------------------------------------------------------
+	$("#div_type_layered").hide();
+	$('#div_type_baseline').hide();
+	$('#div_type_reference').hide();
+
+	/* ------------------------------------------------------
+	*   Functions for retrieving current selections
+	*  ----------------------------------------------------- */
+	function getAuditDescription() {
+		var auditItem = $("textarea[id='#audit-description']").val();
+		if ((auditItem == null) || (auditItem == "")) {
+			return null;
+		}
+		return auditItem;
+	}
+	function getTemplateName() {
+		var auditItem = $("#template_name").val();
+		if ((auditItem == null) || (auditItem == "")) {
+			return null;
+		}
+		return auditItem;
+	}
+	function getExportName() {
+		var exportName = getTemplateName();
+		if (exportName == null) {
+			return "Audit-" + getFormattedDateTime();
+		}
+		return exportName + "-" + getFormattedDateTime();
+	}
+	function getPropertyComponent() {
+		var auditItem = $("textarea[id='#prop-component']").val();
+		if ((auditItem == null) || (auditItem == "")) {
+			return null;
+		}
+		return auditItem;
+	}
+	function getPropertyInstance() {
+		var auditItem = $("textarea[id='#prop-instance']").val();
+		if ((auditItem == null) || (auditItem == "")) {
+			return null;
+		}
+		return auditItem;
+	}
+	function getPropertyKey() {
+		var auditItem = $("textarea[id='#prop-key']").val();
+		if ((auditItem == null) || (auditItem == "")) {
+			return null;
+		}
+		return auditItem;
+	}
+	function getPropertyFilters() {
+		filters = Array();
+		$('#prop-filters table tbody tr.f-data').each(function() {
+			var fcom = $(this).children('#f-com').text(); 
+			var fins = $(this).children('#f-ins').text(); 
+			var fkey = $(this).children('#f-key').text(); 
+			filters.push({	component: fcom,
+							instance: fins,
+							key: fkey
+						});
+		});
+		return filters;
+	}
+	function getAuditType() {
+		if ($("#audit_type_layered").is(':checked')) {
+			return "layered";
+		}
+		if ($("#audit_type_baseline").is(':checked')) {
+			return "baseline";
+		}
+		if ($("#audit_type_reference").is(':checked')) {
+			return "reference";
+		}
+		return null;
+	}
+	function getRepoName() {
+		if (getAuditType() == null) {
+			return null;
+		}
+		if (getAuditType() == "layered") {
+			if ($("#type_layered_id_baseline").is(':checked')) {
+				return "baseline";
+			}
+			if ($("#type_layered_id_runtime").is(':checked')) {
+				return "runtime";
+			}
+			return null;
+		}
+		if (getAuditType() == "baseline") {
+			if ($("#type_baseline_id_runtime").is(':checked')) {
+				return "runtime";
+			}
+			if ($("#type_baseline_id_default").is(':checked')) {
+				return "default";
+			}
+			return null;
+		}
+		if (getAuditType() == "reference") {
+			return $("#sel-ref-node option:selected").val();
+		}
+		return null;
+	}
+	
+	function getTreeNodeId(node) {
+		return node.organisation + "_" + node.department + "_" + node.environment + "_" + node.layer + "_" + node.installation;
+	}
+	function getSelectedTreeNodes() {
+		var treeNodes = new Array();
+		var selectedLeafNodes = $('#div_jstree_inventory').jstree(true).get_bottom_selected(true);
+		$.each(selectedLeafNodes, function( index, node ) {
+			var path = $('#div_jstree_inventory').jstree(true).get_path(node,'/').split('/');
+			treeNodes.push({ organisation: path[0], 
+							 department: path[1], 
+							 environment: path[2], 
+							 layer: path[3], 
+							 installation: path[4]
+						  });
+		});
+
+		return treeNodes;
+	}
+	
+	function isCompleted() {
+		if (getPropertyComponent() == null) {
+			return false;
+		}
+		if (getPropertyInstance() == null) {
+			return false;
+		}
+		if (getPropertyKey() == null) {
+			return false;
+		}
+		if (getAuditType() == null) {
+			return false;
+		}
+		if (getRepoName() == null) {
+			return false;
+		}
+		if (getSelectedTreeNodes().length == 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	function getAuditConfiguration() {
+		var auditConf = {
+			auditConfiguration: {
+				templateName: getTemplateName(),
+				submitData: {
+					audit_description: getAuditDescription(),
+					audit_type: getAuditType(),
+					repo_name: getRepoName(),
+					prop_component: getPropertyComponent(),
+					prop_instance: getPropertyInstance(),
+					prop_key: getPropertyKey(),
+					prop_filters: getPropertyFilters(),
+					tree_nodes: getSelectedTreeNodes()
+				}
+			}
+		};
+		return auditConf;
+	}
+
+	/* ------------------------------------------------------
+	*   Functions to update/refresh the left side menu
+	*  ----------------------------------------------------- */
+	function updateTemplateMenu() {
+		// Update the left menu for template name
+		if (getTemplateName() != null) {
+			var htmlString = "<table class=\"table table-bordered table-condensed\">";
+			htmlString += "<tr><th class=\"active\">Auditing based on Template</th></tr><tbody>";
+			htmlString += "<tr><td>" + getTemplateName() + "</td></tr>";
+			htmlString += "</tbody></table>";
+			$("#conf-template",window.parent.frames[0].document).html(htmlString);
+		} else {
+			$("#conf-template",window.parent.frames[0].document).html("");
+		}
+	}
+	
+	function updatePropsMenu() {
+		// Update the left menu for properties based on the current definitions
+		var comp = getPropertyComponent();
+		var inst = getPropertyInstance();
+		var key = getPropertyKey();
+		var filters = getPropertyFilters();
+		
+		var propHtml = "";
+		if ((comp != null) && (comp != "")) {
+			propHtml += "-&nbsp;&nbsp;" + comp + "<br/>";
+		}
+		if ((inst != null) && (inst != "")) {
+			propHtml += "-&nbsp;&nbsp;" + inst + "<br/>";
+		}
+		if ((key != null) && (key != "")) {
+			propHtml += "-&nbsp;&nbsp;" + key;
+		}
+		if (propHtml != "") {
+			var htmlString = "<table class=\"table table-bordered table-condensed\">";
+			htmlString += "<tr><th class=\"active\">Properties</th></tr><tbody>";
+			htmlString += "<tr><td>" + propHtml + "</td></tr>";
+			htmlString += "<tr><td>Property Filters: " + filters.length + "</td></tr>";
+			htmlString += "</tbody></table>";
+			$("#conf-props",window.parent.frames[0].document).html(htmlString);
+		} else {
+			$("#conf-props",window.parent.frames[0].document).html("");
+		}
+	}
+	function updateTypeMenu() {
+		// Update the left menu for properties based on the current definitions
+		var auditType = getAuditType();
+		if (auditType == null) {
+			$("#conf-type",window.parent.frames[0].document).html("");
+			return;
+		}
+		
+		var auditTypeText = "";
+		if (auditType == "layered") {
+			auditTypeText = "Layered";
+		} else if (auditType == "baseline") {
+			auditTypeText = "Baseline";
+		} else if (auditType == "reference") {
+			auditTypeText = "Reference";
+		}
+		
+		var htmlString = "<table class=\"table table-bordered table-condensed\">";
+		htmlString += "<tr><th class=\"active\">Auditing Type: " + auditTypeText + "</th></tr><tbody>";
+		
+		var repoName = getRepoName();
+		if ((repoName != null) && (repoName != "")) {
+			if (repoName == "baseline") {
+				htmlString += "<tr><td>Repository type: Baseline</td></tr>";
+			} else if (repoName == "runtime") {
+				htmlString += "<tr><td>Repository type: Runtime</td></tr>";
+			} else if (repoName == "default") {
+				htmlString += "<tr><td>Repository type: Default</td></tr>";
+			} else {
+				htmlString += "<tr><td>Reference Node: " + repoName + "</td></tr>";
+			}
+		}
+		htmlString += "</tbody></table>";
+		$("#conf-type",window.parent.frames[0].document).html(htmlString);
+	}
+	
+	function updateNodesMenu() {
+	
+		// Update the left menu for nodes based on the current selection
+		var selNodes = getSelectedTreeNodes();
+		
+		if (selNodes.length == 0) {
+			$("#conf-nodes",window.parent.frames[0].document).html("");
+			return;
+		}
+		var htmlString = "<table class=\"table table-bordered table-condensed\">";
+		htmlString += "<tr><th class=\"active\">Number of Selected Nodes</th></tr><tbody>";
+		htmlString += "<tr><td>" + selNodes.length + "</td></tr>";
+		htmlString += "</tbody></table>";
+		$("#conf-nodes",window.parent.frames[0].document).html(htmlString);
+		
+	}
+	
+	/*  --------------------------------------------------------------------------
+	*    Audit Type functions
+	*    ------------------------------------------------------------------------ */
+	// Deselect types and repo/ref node when one type has been selected or reset pressed
+	function deselectTypes(selectedType) {
+		if (selectedType == null) {
+			$("input:radio[name='select_audit_type']").each(function(i) {
+				$(this).prop('checked', false);
+			});
+			$(".inputtype_layered").prop('checked', false);
+			$(".inputtype_baseline").prop('checked', false);
+			$('#sel-ref-node option:selected').prop("selected", false);
+			$('#sel-ref-node').trigger('chosen:updated');
+			$('#div_type_layered').hide();
+			$('#div_type_baseline').hide();
+			$('#div_type_reference').hide();
+		} else if (selectedType == "layered") {
+			$(".inputtype_baseline").prop('checked', false);
+			$('#sel-ref-node option:selected').prop("selected", false);
+			$('#sel-ref-node').trigger('chosen:updated');
+		} else if (selectedType == "baseline") {
+			$(".inputtype_layered").prop('checked', false);
+			$('#sel-ref-node option:selected').prop("selected", false);
+			$('#sel-ref-node').trigger('chosen:updated');
+		} else if (selectedType == "reference") {
+			$(".inputtype_layered").prop('checked', false);
+			$(".inputtype_baseline").prop('checked', false);
+		}
+	}
+	
+	/* -------------------------------------------------------------------------
+	*	Template functions
+	*  ------------------------------------------------------------------------*/
+	// Retrieve template data
+	function getTemplateInfo(propName) {
+		var propFile = "opencm/config/audit/" + propName + ".properties";
+		return top.window.readJsonFile(propFile);
+	}
+	// Template Description (First and Final Step)
+	function setTemplateInfo() {
+		$("span[id='#audit-description']").text(audit_template_data.audit_description);
+		$('#div_audit_description').show();
+		$("textarea[id='#audit-description']").val(audit_template_data.audit_description);
+	}
+	// Template Name (Final Step)
+	function setTemplateFileName(prop) {
+		$("#template_name").val(prop);
+	}
+	// Template Properties
+	function setTemplateProperties() {
+		$("textarea[id='#prop-component']").val(audit_template_data.prop_component);
+		$("textarea[id='#prop-instance']").val(audit_template_data.prop_instance);
+		$("textarea[id='#prop-key']").val(audit_template_data.prop_key);
+		
+		// Filters Array......
+		if ((audit_template_data.prop_filters != null) && (audit_template_data.prop_filters.length > 0)) {
+			$.each(audit_template_data.prop_filters, function( idx, filter ) {
+				var $clone = $('#prop-filters').find('tr.hide').clone(true).removeClass('hide table-line').addClass('f-data');
+				$($clone).children('#f-com').text(filter.component); 
+				$($clone).children('#f-ins').text(filter.instance); 
+				$($clone).children('#f-key').text(filter.key); 
+				$('#prop-filters').find('table').append($clone);
+			});
+		}
+		
+		updatePropsMenu();
+	}
+	// Template Auditing Type
+	function setTemplateType() {
+		if (audit_template_data.audit_type == "layered") {
+			$("#audit_type_layered").prop('checked', true);
+			$('#div_type_layered').show();
+			if (audit_template_data.repo_name == "baseline") {
+				$("#type_layered_id_baseline").prop('checked', true);
+			} else {
+				$("#type_layered_id_runtime").prop('checked', true);
+			}
+		} else if (audit_template_data.audit_type == "baseline") {
+			$("#audit_type_baseline").prop('checked', true);
+			$('#div_type_baseline').show();
+			if (audit_template_data.repo_name == "runtime") {
+				$("#type_baseline_id_runtime").prop('checked', true);
+			} else {
+				$("#type_baseline_id_default").prop('checked', true);
+			}
+		} else if (audit_template_data.audit_type == "reference") {
+			$("#audit_type_reference").prop('checked', true);
+			$('#div_type_reference').show();
+			$('#sel-ref-node option[value=' + audit_template_data.repo_name + ']').prop("selected", true);
+			$('#sel-ref-node').trigger('chosen:updated');
+		}
+		updateTypeMenu();
+	}
+	
+	// Template TreeNodes
+	function setTemplateTreeNodes() {
+		if ((audit_template_data.tree_nodes != null) && (audit_template_data.tree_nodes.length > 0)) {
+			$.each(audit_template_data.tree_nodes, function( idx, node ) {
+				// Select tree node
+				$('#div_jstree_inventory').jstree(true).select_node(getTreeNodeId(node));
+			});
+		}
+	}
+	
+	/*
+	* Update values based on selected template
+	*
+	*/
+	function updateFromTemplate(prop) {
+		if (audit_template_data == null) {
+			return;
+		}
+		setTemplateInfo();
+		setTemplateProperties();
+		setTemplateType();
+		setTemplateTreeNodes();
+		setTemplateFileName(prop);
+		
+	}
+	
+	/*
+	* Reset All values when cancelling/starting over
+	*
+	*/
+	function reset() {
+		// Submit page items
+		$('#div_audit_result').hide();
+		$('#span_audit_result_message').text("").hide();
+		$('#btn-finish').removeClass("disabled");
+		// Save template page items
+		$('#span_save_template').text("").hide();
+		$('#div_save_template').hide();
+		$("#template_name").val('');
+		$('#btn-save').addClass("disabled");
+		$("textarea[id='#audit-description']").val('');
+		$('#div_audit_description').hide();
+		// Tree Nodes
+		$('#div_jstree_inventory').jstree().deselect_all();
+		// Audit Type
+		deselectTypes();
+		updateTypeMenu();
+		// Properties
+		$("textarea[id='#prop-component']").val('');
+		$("textarea[id='#prop-instance']").val('');
+		$("textarea[id='#prop-key']").val('');
+		$("textarea[id='#prop-filter-component']").val('');
+		$("textarea[id='#prop-filter-instance']").val('');
+		$("textarea[id='#prop-filter-key']").val('');
+		$('#prop-filters table tbody tr.f-data').each(function() {
+			$(this).detach();
+		});
+		updatePropsMenu();
+		// Template + description
+		$("span[id='#audit-description']").text("");
+		$('#prop-templates option:selected').prop("selected", false);
+		$('#prop-templates').trigger('chosen:updated');
+		updateTemplateMenu();
+	}
+
+	/*
+	* Save current definitions as new template or update existing
+	*
+	*/
+	function saveAsTemplate() {
+		var templateName = getTemplateName();
+		var auditConf = getAuditConfiguration();
+		var resp = top.window.callJsonService("/invoke/OpenCM.pub.dsp.audit/saveTemplate", JSON.stringify(auditConf));
+		if (resp.rc == 0) {
+			$('#span_save_template').text("Template successfully saved ...").show();
+			// Add to template list if not already there
+			var templates = Array();
+			$('#prop-templates option').each(function() {
+				var tname = $(this).text();
+				if (tname != "") {
+					templates.push(tname);
+				}
+			});
+
+			if ($.inArray(templateName, templates) == -1) {
+				$('#prop-templates').append($("<option></option>").attr("value",templateName).text(templateName)); 
+			}
+		} else {
+			$('#span_save_template').text("Template not saved: " +  resp.msg).show();
+		}
+	}
+
+	/*
+	* Process Audit Result
+	*
+	*/
+	function processResult(responseData) {
+		$('#div_audit_result_progress').empty();
+		if (responseData.msg != null) {
+			$('#span_audit_result_message').text(responseData.msg).show();
+			return;
+		}
+
+		var resultTable = Array();
+		if (getAuditType() == "layered") {
+			// Property centric display:
+			$.each(responseData.propertyItems, function( index, propItem ) {
+				var locationStr = "";
+				var valueStr = "";
+				$.each(propItem.propertyLocations, function( idx, propLoc ) {
+					locationStr += propLoc.location.environment + " - " + propLoc.location.installation + " - " + propLoc.location.component;
+					valueStr += propLoc.value;
+					if ((idx + 1) < propItem.propertyLocations.length) {
+						locationStr += "<br>";
+						valueStr += "<br>";
+					}
+				});
+				resultTable.push({ Property: propItem.propertyName,
+								   Location: locationStr,
+								   Value: valueStr
+				});
+			});
+		} else if (getAuditType() == "baseline") {
+			// Location centric display:
+			$.each(responseData.locationItems, function( index, locItem ) {
+				$.each(locItem.locationProperties, function( idx, locProp ) {
+					resultTable.push({ Location: locItem.location.installation + " - " + locItem.location.component + " - " + locItem.location.instance,
+									   Property:  locProp.propertyName,
+									   Value: locProp.repo1 + ": " + locProp.value1 + "<br>" + locProp.repo2 + ": " + locProp.value2
+					});
+				});
+			});
+		} else if (getAuditType() == "reference") {
+			// Property centric display:
+			$.each(responseData.propertyItems, function( index, propItem ) {
+				var locationStr = "<b>";
+				var valueStr = "<b>";
+				$.each(propItem.propertyLocations, function( idx, propLoc ) {
+					locationStr += propLoc.location.installation + " - " + propLoc.location.component + " - " + propLoc.location.instance;
+					valueStr += propLoc.value;
+					if (idx == 0) {
+						locationStr += "</b>";
+						valueStr += "</b>";
+					}
+
+					if ((idx + 1) < propItem.propertyLocations.length) {
+						locationStr += "<br>";
+						valueStr += "<br>";
+					}
+				});
+				resultTable.push({ Property: propItem.propertyName,
+								   Location: locationStr,
+								   Value: valueStr
+				});
+			});
+		}
+
+		if (resultTableInitialized) {
+			redrawTable(resultTable);
+		} else {
+			initTable(resultTable);
+			resultTableInitialized = true;
+		}
+
+		$('#div_audit_result').show();
+	}
+
+	function redrawTable(tableData) {
+		var table = $('#audit_table').DataTable();
+		table.clear();
+		table.rows.add(tableData).draw();
+	}
+	
+	function initTable(tableData) {
+		$('#audit_table').html("<thead><tr><th>Property</th><th>Location</th><th>Value</th></tr></thead>");
+		var table = $('#audit_table').DataTable( {
+			data: tableData,
+			dom: '<"html5buttons"B>ft<"row"<"col-md-6"i><"col-md-6"p>>',
+			ordering: true,
+			pageLength: 3,
+			buttons: [
+			   {extend: 'excel', 
+				text: 'Export to Excel', 
+				title: getExportName(),
+				exportOptions: {
+					format: {
+						body: function ( data, row, column, node ) {
+							return column === 1 | 2 ?
+								data.replace( /<br\s*\/?>/ig, "\n" ) :
+								data;
+						}
+					}
+				}
+			}
+			],
+			columns: [
+				{ data: "Property" },
+				{ data: "Location" },
+				{ data: "Value" }
+			],
+			columnDefs: [
+				{ orderable: true, targets: [0, 1], className: 'dt-head-left' },
+				{ orderable: false, targets: 2, className: 'dt-head-left' }
+			]
+			
+		});
+	}
+	
+	/* ---------------------------------------------------------------------------------
+	*	Initialization of wizard, multiselect and tables
+	*    -> Only performed on page load
+	* --------------------------------------------------------------------------------- */
+	$(document).ready(function(){
+	
+		// --------------------------------------------
+		// Smart Wizard Button Controls
+		// --------------------------------------------
+		// This event should initialize before initializing smartWizard
+		// Otherwise this event wont load on first page load
+		$("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
+			if (stepPosition === 'first') {				// first, middle, final
+				$("#btn-prev").hide();
+			} else {
+				$("#btn-prev").show();
+			}
+			if (stepNumber == 4) {
+				if (isCompleted()) {
+					$("#submit-text-incomplete").hide();
+					$("#submit-text-complete").show();
+					$('#div_save_template').show();
+					$('#btn-save').removeClass("disabled");
+				} else {
+					$("#submit-text-complete").hide();
+					$("#submit-text-incomplete").show();
+				}
+			}
+
+			if (stepPosition === 'final') {		
+				$("#btn-next").hide();
+				$("#btn-finish").show();
+			} else {
+				$("#btn-next").show();
+				$("#btn-finish").hide(); 			
+			}
+		});		
+		
+		// --------------------------------------------
+		// Initializing Smart Wizard
+		// --------------------------------------------
+		$('#smartwizard').smartWizard({
+				selected: 0,  // Initial selected step, 0 = first step 
+				keyNavigation: false, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+				autoAdjustHeight: true, // Automatically adjust content height
+				cycleSteps: false, // Allows to cycle the navigation of steps
+				backButtonSupport: true, // Enable the back button support
+				useURLhash: true, // Enable selection of the step based on url hash
+				toolbarSettings: {
+					showNextButton: false, // show/hide a Next button
+					showPreviousButton: false, // show/hide a Previous button
+				},
+				anchorSettings: {
+					anchorClickable: true, // Enable/Disable anchor navigation
+					enableAllAnchors: false, // Activates all anchors clickable all times
+					markDoneStep: true, // add done css
+					enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+				},            
+				contentURL: null, // content url, Enables Ajax content loading. can set as data data-content-url on anchor
+				disabledSteps: [],    // Array Steps disabled
+				errorSteps: [],    // Highlight step with errors
+				theme: 'dots',
+				transitionEffect: 'fade', // Effect on navigation, none/slide/fade
+				transitionSpeed: '400'
+		});
+		
+		// Remove the default navigation controls
+		$('#smartwizard > div.btn-toolbar.sw-toolbar.sw-toolbar-bottom.justify-content-end').remove();
+		
+		// External Button Events
+		$("#btn-prev").on("click", function() {
+			$('#smartwizard').smartWizard("prev");
+			return true;
+		});
+		$("#btn-next").on("click", function() {
+			$('#smartwizard').smartWizard("next");
+			return true;
+		});
+		$("#btn-reset").on("click", function() {
+			$('#smartwizard').smartWizard("reset");
+			reset();
+			return true;
+		});
+
+		// --------------------------------------------
+		// Initializing Templates
+		// --------------------------------------------
+		$.each(audit_prop_templates, function(idx, value) {   
+			$('#prop-templates').append($("<option></option>").attr("value",value).text(value)); 
+		});
+		$("#prop-templates").chosen({
+			disable_search_threshold: 5,
+			no_results_text: "Nothing found ...",
+			width: "90%"
+		});
+	
+		// --------------------------------------------
+		// Initializing Audit Type, Reference nodes list
+		// --------------------------------------------
+		$.each(top.window.getAllNodes(), function(idx, value) {   
+			$('#sel-ref-node').append($("<option></option>").attr("value",value).text(value)); 
+		});
+		$("#sel-ref-node").chosen({
+			disable_search_threshold: 5,
+			no_results_text: "Nothing found ...",
+			width: "90%"
+		});
+	
+		// --------------------------------------------
+		// Initializing Nodes Filter
+		// --------------------------------------------
+		var invData = Array();
+		$.each(top.window.opencm_inventory, function( index, org ) {
+			var invDeps = Array();	// Departments
+			$.each(org.departments, function( index, dep ) {
+				var invEnvs = Array();	// Environments
+				$.each(dep.environments, function( index, env ) {
+					var invLayers = Array();	// Layers
+					$.each(env.layers, function( index, layer ) {
+						var invNodes = Array();	// Nodes
+						$.each(layer.servers, function( index, server ) {
+							$.each(server.nodes, function( index, node ) {
+								var nodeId = org.name + "_" + dep.name + "_" + env.name + "_" + layer.name + "_" + node.name;
+								invNodes.push( { id: nodeId, text: node.name });
+							});
+						});
+						invLayers.push({ text: layer.name, icon: false, children : invNodes });
+					});
+					invEnvs.push({ text: env.name, icon: false, children : invLayers });
+				});
+				invDeps.push({ text: dep.name, icon: false, state : { opened : true }, children : invEnvs });
+			});
+			invData.push({ text: org.name, icon: false, state : { opened : true }, children : invDeps });
+		});
+		$('#div_jstree_inventory').jstree(
+			{'plugins':["wholerow","checkbox"], 'core' : {
+				'data' : invData
+			}}
+		); 
+		$('#div_jstree_inventory').on("changed.jstree", function (e, data) {
+			updateNodesMenu();
+		});
+
+		// --------------------------------------------
+		// Disable saving template ...
+		// --------------------------------------------
+		$('#btn-save').addClass("disabled");
+
+	});
+
+  </script>
+  </head>
+<body>
+
+<section id="popupArea">
+  <h2>OpenCM Properties Auditing</h2>
+
+        <!-- SmartWizard html -->
+        <div id="smartwizard">
+            <ul>
+                <li><a href="#step-1">1<br /><small>Select Template</small></a></li>
+                <li><a href="#step-2">2<br /><small>Define Properties</small></a></li>
+                <li><a href="#step-3">3<br /><small>Auditing Type</small></a></li>
+                <li><a href="#step-4">4<br /><small>Filter Nodes</small></a></li>
+                <li><a href="#step-5">5<br /><small>Save Template</small></a></li>
+                <li><a href="#step-6">6<br /><small>Submit for Audit</small></a></li>
+            </ul>
+			<table class="table">
+				<tr>
+				 <td width="10%" style="text-align: right">
+				  <button class="btn btn-secondary" id="btn-prev" type="button">Previous</button>
+				 </td>
+				 <td width="10%" style="text-align: left">
+				  <button class="btn btn-primary" id="btn-next" type="button">Next Step</button>
+				 </td>
+				 <td width="40%"></td>
+				 <td width="20%" style="text-align: right">
+				  <button class="btn btn-secondary" id="btn-reset" type="button">Start Over</button>
+				 </td>
+				 <td width="20%" style="text-align: left">
+				  <button class="btn btn-success" id="btn-finish" type="button">Submit for Auditing</button>
+				 </td>
+				</tr>
+			</table>
+			
+            <div>
+                <div id="step-1" class="">
+				  <h3>Select a pre-defined template (optional)</h3>
+				  <table class="table">
+					<tr>
+					 <td width="30%">
+					   <div style="height:100px;padding:1px">
+						<select id="prop-templates" data-placeholder="Choose template..." class="chosen-select" tabindex="2">
+							<option></option>
+						</select>
+					   </div>
+					 </td>
+					 <td width="70%">
+						<div id="div_audit_description" style="display:none;margin:0;padding:20px;width:100%">
+							<table>
+								<th>Audit Description:</th>
+								<tbody>
+									<tr><td><i><span id="#audit-description"></span></i></td></tr>
+								</tbody>
+							</table>
+						</div>
+					 </td>
+					 </tr>
+				  </table>
+				</div>
+                <div id="step-2" class="">
+				  <h3>Define what properties to audit</h3>
+				  <table class="table">
+					<tr>
+					 <td width="30%">
+						<h4>Include</h4>
+					 </td>
+					 <td width="70%">
+						<h4>Exclude (Optional Filters)</h4>
+					 </td>
+					</tr>
+					<tr>
+					 <td bgcolor="#dce9f9">
+						<br>
+						<p><b>Configuration Item Component(s)</b></p>
+						<textarea id="#prop-component" rows="1" cols="50"></textarea>
+						<br><br>
+						<p><b>Configuration Item Instance(s)</b></p>
+						<textarea id="#prop-instance" rows="1" cols="50"></textarea>
+						<br><br>
+						<p><b>Configuration Item Property Key(s)</b></p>
+						<textarea id="#prop-key" rows="1" cols="50"></textarea>
+					 </td>
+					 <td>
+						<div id="prop-filters" class="prop-filter-table-editable">
+							<table class="table">
+							  <tr>
+								<th width="25%">Component</th>
+								<th width="25%">Instance</th>
+								<th width="45%">Key</th>
+								<th width="5%"><span class="prop-filter-table-add-row btn btn-default btn-xs">Add</span></th>
+							  </tr>
+							  <!-- This is our clonable table line -->
+							  <tr class="hide">
+								<td id="f-com" contenteditable="true">E.g. integrationServer-*</td>
+								<td id="f-ins" contenteditable="true">E.g. COMMON-SYSPROPS</td>
+								<td id="f-key" contenteditable="true">E.g. /</td>
+								<td>
+								  <span class="prop-filter-table-remove-row btn btn-danger btn-xs">Del</span>
+								</td>
+							  </tr>
+							</table>
+						
+						</div>
+					 </td>
+					</tr>
+				  </table>
+				</div>
+				<div id="step-3" class="">
+				  <h3>Choose Auditing Type</h3>
+				  <section id="repo-type">
+  				   <table>
+					<tr>
+					  <td width="30%">
+						<div>
+						  <input type="radio" id="audit_type_layered" name="select_audit_type" value="1">
+						  <label for="audit_type_layered">
+							<h4>Layered Audit</h4>
+							<p>Identify differences across environments, per property for all selected nodes and based on a single logical layer</p>
+						  </label>
+						</div>
+					  </td>
+					  <td width="30%">
+						<div>
+						  <input type="radio" id="audit_type_baseline" name="select_audit_type" value="2">
+						  <label for="audit_type_baseline">
+							<h4>Baseline Audit</h4>
+							<p>Identify differences between baseline repo and runtime/default repository, compared on a node by node basis</p>
+						  </label>
+						</div>
+					  </td>
+					  <td width="30%">
+						<div>
+						  <input type="radio" id="audit_type_reference" name="select_audit_type" value="3">
+						  <label for="audit_type_reference">
+							<h4>Reference Audit</h4>
+							<p>Identify differences between the baseline properties of a single "reference" node and for each selected runtime node</p>
+						  </label>
+						</div>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+					   <div id="div_type_layered" style="display:none;text-align:center">
+					    <p>Select Repository Type for Layered Audit</p>
+						<input type="radio" id="type_layered_id_baseline" class="inputtype_layered" name="inputtype_layered" value="baseline" ><label for="type_layered_id_baseline" style="width:45%;display:inline-block"><p style="padding:0;margin:0">Baseline</p></label>
+						<input type="radio" id="type_layered_id_runtime" class="inputtype_layered" name="inputtype_layered" value="runtime" ><label for="type_layered_id_runtime" style="width:45%;display:inline-block"><p style="padding:0;margin:0">Runtime</p></label>
+					   </div>
+					  </td>
+					  <td>
+					   <div id="div_type_baseline" style="display:none;text-align:center">
+					    <p>Select Repository Type for Baseline Audit</p>
+						<input type="radio" id="type_baseline_id_runtime" class="inputtype_baseline" name="inputtype_baseline" value="runtime" ><label for="type_baseline_id_runtime" style="width:45%;display:inline-block"><p style="padding:0;margin:0">Runtime</p></label>
+						<input type="radio" id="type_baseline_id_default" class="inputtype_baseline" name="inputtype_baseline" value="default" ><label for="type_baseline_id_default" style="width:45%;display:inline-block"><p style="padding:0;margin:0">Default</p></label>
+					   </div>
+					  </td>
+					  <td>
+					   <div id="div_type_reference" style="display:none;text-align:center;height:100px;">
+						<select id="sel-ref-node" data-placeholder="Select Reference Node..." class="selecttype_reference" tabindex="2">
+							<option></option>
+						</select>
+					   </div>
+					  </td>
+					</tr>
+					
+  				   </table>
+				  </section>					
+                </div>
+                <div id="step-4" class="">
+				  <h3>Select the desired installations to include in the audit</h3>
+				  <div id="div_jstree_inventory"></div>
+                </div>
+                <div id="step-5" class="">
+                   <div id="submit-text-incomplete" style="display:none">
+						<h3>Incomplete audit definitions. Review selections in previous steps.</h3>
+				   </div>
+                   <div id="submit-text-complete" style="display:none">
+						<h3>Save Template (Optional)</h3>
+   						<table class="table table-condensed">
+							<tr><th class="active">Description</th></tr>
+							<tbody>
+								<tr><td><textarea id="#audit-description" rows="5" cols="100"></textarea></td></tr>
+								<tr><td>
+								   <div id="div_save_template" class="input-group" style="display:none;margin:0;padding:0px;width:40%">
+									  <input type="text" class="form-control" id="template_name" style="width:95%" />
+									  <span class="input-group-btn">
+										<button class="btn btn-info" id="btn-save" type="button">Save as Template</button>
+									  </span>
+								   </div>
+							       <span id="span_save_template" style="display:none;margin:0;padding:5px"></span>
+								</td></tr>
+							</tbody>
+						</table>
+					</div>
+                </div>
+                <div id="step-6" class="" >
+					<div id="div_audit_result" style="display:none">
+						<table id="audit_table" class="display" style="width:100%"></table>	
+					</div>
+					<div id="div_audit_result_progress"></div>
+					<span id="span_audit_result_message" style="display:none;margin:0;padding:5px"></span>
+                </div>
+            </div>
+        </div>
+  </section>
+  
+  <script type="text/javascript">
+	// --------------------------------------------
+	// On change listeners (selections made)
+	// --------------------------------------------
+	// Template Selected
+	// -----------------------
+	$('#prop-templates.chosen-select').on('change', function(evt, params) {
+		var prop = $("#prop-templates option:selected").val();
+		audit_template_data = getTemplateInfo(prop);
+		updateFromTemplate(prop);
+		updateTemplateMenu();
+	});
+	// -----------------------
+	// Properties 
+	// -----------------------
+	var oldComp = "";
+	$("textarea[id='#prop-component']").on("change keyup paste", function() {
+		var currentVal = $(this).val();
+		if(currentVal == oldComp) {
+			return; //check to prevent multiple simultaneous triggers
+		}
+		oldComp = currentVal;
+		updatePropsMenu();
+	});
+	var oldInst = "";
+	$("textarea[id='#prop-instance']").on("change keyup paste", function() {
+		var currentVal = $(this).val();
+		if(currentVal == oldInst) {
+			return; 
+		}
+		oldInst = currentVal;
+		updatePropsMenu();
+	});
+	var oldKey = "";
+	$("textarea[id='#prop-key']").on("change keyup paste", function() {
+		var currentVal = $(this).val();
+		if(currentVal == oldKey) {
+			return; 
+		}
+		oldKey = currentVal;
+		updatePropsMenu();
+	});
+	
+	$('.prop-filter-table-add-row').click(function () {
+		var $clone = $('#prop-filters').find('tr.hide').clone(true).removeClass('hide table-line').addClass('f-data');
+		$('#prop-filters').find('table').append($clone);
+		updatePropsMenu();
+	});
+
+	$('.prop-filter-table-remove-row').click(function () {
+		$(this).closest('tr').detach();
+		updatePropsMenu();
+	});
+
+	// -----------------------
+	// Audit type + Repo/Ref Node
+	// -----------------------
+	$( "#audit_type_layered" ).click(function() {
+		$('#div_type_layered').show();
+		$('#div_type_baseline').hide();
+		$('#div_type_reference').hide();
+		deselectTypes("layered");
+		updateTypeMenu();
+	});
+	$( "#type_layered_id_baseline" ).click(function() {
+		updateTypeMenu();
+	});
+	$( "#type_layered_id_runtime" ).click(function() {
+		updateTypeMenu();
+	});
+	$( "#audit_type_baseline" ).click(function() {
+		$('#div_type_layered').hide();
+		$('#div_type_baseline').show();
+		$('#div_type_reference').hide();
+		deselectTypes("baseline");
+		updateTypeMenu();
+	});
+	$( "#type_baseline_id_runtime" ).click(function() {
+		updateTypeMenu();
+	});
+	$( "#type_baseline_id_default" ).click(function() {
+		updateTypeMenu();
+	});
+	$( "#audit_type_reference" ).click(function() {
+		$('#div_type_layered').hide();
+		$('#div_type_baseline').hide();
+		$('#div_type_reference').show();
+		deselectTypes("reference");
+		updateTypeMenu();
+	});
+	$('#sel-ref-node').on('change', function(evt, params) {
+		updateTypeMenu();
+	});
+	
+	// -----------------------
+	// Filter on TreeNodes
+	// -----------------------
+		
+	// -----------------------
+	// Audit Description
+	// -----------------------
+	var oldDesc = "";
+	$("textarea[id='#audit-description']").on("change keyup paste", function() {
+		var currentVal = $(this).val();
+		if(currentVal == oldDesc) {
+			return; //check to prevent multiple simultaneous triggers
+		}
+		$("span[id='#audit-description']").text(currentVal);
+		$('#div_audit_description').show();
+	});
+	
+
+	// Save as template
+	$("#btn-save").on("click", function() {
+		saveAsTemplate();
+		return true;
+	});
+
+	// Submit for auditing
+	$("#btn-finish").on("click", function() {
+		var auditConf = getAuditConfiguration();
+		var submit_url = top.window.opencm_url + "/invoke/OpenCM.pub.dsp.audit/submitForAuditing";
+		var jsonResponse;
+		$('#div_audit_result_progress').showLoading();
+		$('#div_audit_result_progress').load(
+		  submit_url,
+		  "submitData=" + JSON.stringify(auditConf),
+		  function(responseText, textStatus, jqXHR ) {
+				jsonResponse = responseText;
+				$('#div_audit_result_progress').hideLoading();
+				processResult(JSON.parse(jsonResponse));
+		  }
+		);
+		$('#btn-finish').addClass("disabled");
+		return true;
+	});
+  </script>
+  
+</body>
+</html>

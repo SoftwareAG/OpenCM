@@ -15,13 +15,8 @@
 
   <!-- nodes -->
 
-<INVOKE TIMEOUT="" SERVICE="OpenCM.priv.util:getAllNodes" VALIDATE-IN="$none" VALIDATE-OUT="$none">
+<INVOKE TIMEOUT="" SERVICE="OpenCM.priv.util:getInventory" VALIDATE-IN="$none" VALIDATE-OUT="$none">
   <COMMENT></COMMENT>
-
-  <!-- nodes -->
-
-<MAP MODE="OUTPUT">
-</MAP>
 </INVOKE>
 </SEQUENCE>
 
@@ -126,7 +121,7 @@
           <value name="field_password">false</value>
         </record>
         <value name="is_public">false</value>
-        <value name="field_name">Environment</value>
+        <value name="field_name">Organsiation</value>
         <value name="field_type">recref</value>
         <value name="field_dim">1</value>
         <value name="wrapper_type">IData</value>
@@ -136,7 +131,7 @@
         <value name="is_soap_array_encoding_used">false</value>
         <value name="rec_closed">true</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc.nodes:Environment</value>
+        <value name="rec_ref">OpenCM.doc.inventory:Organisation</value>
       </record>
       <record javaclass="com.wm.util.Values">
         <value name="node_type">record</value>

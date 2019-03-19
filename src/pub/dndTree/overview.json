@@ -17,9 +17,9 @@
             "name" : "cce_admin_server",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGX_ADM_V100_CCE_01",
+              "name" : "ORGX_ADM_V103_CCE_01",
               "level" : "NODE",
-              "url" : "node=ORGX_ADM_V100_CCE_01",
+              "url" : "node=ORGX_ADM_V103_CCE_01",
               "hasBaseline" : false,
               "hasRuntime" : true
             } ]
@@ -31,9 +31,9 @@
             "name" : "central_opencm_server",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGX_ADM_V101_IS_01",
+              "name" : "ORGX_ADM_V103_IS_01",
               "level" : "NODE",
-              "url" : "node=ORGX_ADM_V101_IS_01",
+              "url" : "node=ORGX_ADM_V103_IS_01",
               "hasBaseline" : false,
               "hasRuntime" : true
             } ]
@@ -49,20 +49,20 @@
             "name" : "server_03",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGX_TEST_ESB_V101_IS_01",
+              "name" : "ORGX_TEST_ESB_V103_IS_01",
               "level" : "NODE",
-              "url" : "node=ORGX_TEST_ESB_V101_IS_01",
-              "hasBaseline" : false,
+              "url" : "node=ORGX_TEST_ESB_V103_IS_01",
+              "hasBaseline" : true,
               "hasRuntime" : true
             } ]
           }, {
             "name" : "server_04",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGX_TEST_ESB_V101_IS_02",
+              "name" : "ORGX_TEST_ESB_V103_IS_02",
               "level" : "NODE",
-              "url" : "node=ORGX_TEST_ESB_V101_IS_02",
-              "hasBaseline" : false,
+              "url" : "node=ORGX_TEST_ESB_V103_IS_02",
+              "hasBaseline" : true,
               "hasRuntime" : true
             } ]
           } ]
@@ -77,9 +77,9 @@
             "name" : "server_05",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGX_PREP_ESB_V101_IS_01",
+              "name" : "ORGX_PREP_ESB_V103_IS_01",
               "level" : "NODE",
-              "url" : "node=ORGX_PREP_ESB_V101_IS_01",
+              "url" : "node=ORGX_PREP_ESB_V103_IS_01",
               "hasBaseline" : false,
               "hasRuntime" : true
             } ]
@@ -87,9 +87,9 @@
             "name" : "server_06",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGX_PREP_ESB_V101_IS_02",
+              "name" : "ORGX_PREP_ESB_V103_IS_02",
               "level" : "NODE",
-              "url" : "node=ORGX_PREP_ESB_V101_IS_02",
+              "url" : "node=ORGX_PREP_ESB_V103_IS_02",
               "hasBaseline" : false,
               "hasRuntime" : true
             } ]
@@ -123,19 +123,19 @@
             "name" : "server_07",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGX_PROD_ESB_V101_IS_01",
+              "name" : "ORGX_PROD_ESB_V103_IS_01",
               "level" : "NODE",
-              "url" : "node=ORGX_PROD_ESB_V101_IS_01",
-              "hasBaseline" : false,
+              "url" : "node=ORGX_PROD_ESB_V103_IS_01",
+              "hasBaseline" : true,
               "hasRuntime" : true
             } ]
           }, {
             "name" : "server_08",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGX_PROD_ESB_V101_IS_02",
+              "name" : "ORGX_PROD_ESB_V103_IS_02",
               "level" : "NODE",
-              "url" : "node=ORGX_PROD_ESB_V101_IS_02",
+              "url" : "node=ORGX_PROD_ESB_V103_IS_02",
               "hasBaseline" : false,
               "hasRuntime" : true
             } ]
@@ -151,9 +151,9 @@
             "name" : "server_01",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGX_DEV_ESB_V101_IS_01",
+              "name" : "ORGX_DEV_ESB_V103_IS_01",
               "level" : "NODE",
-              "url" : "node=ORGX_DEV_ESB_V101_IS_01",
+              "url" : "node=ORGX_DEV_ESB_V103_IS_01",
               "hasBaseline" : true,
               "hasRuntime" : true
             } ]
@@ -161,9 +161,9 @@
             "name" : "server_02",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGX_DEV_ESB_V101_IS_02",
+              "name" : "ORGX_DEV_ESB_V103_IS_02",
               "level" : "NODE",
-              "url" : "node=ORGX_DEV_ESB_V101_IS_02",
+              "url" : "node=ORGX_DEV_ESB_V103_IS_02",
               "hasBaseline" : true,
               "hasRuntime" : true
             } ]
@@ -187,9 +187,9 @@
             "name" : "server01",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGY_DEV_ESB_V101_IS_01",
+              "name" : "ORGY_DEV_ESB_V103_IS_01",
               "level" : "NODE",
-              "url" : "node=ORGY_DEV_ESB_V101_IS_01",
+              "url" : "node=ORGY_DEV_ESB_V103_IS_01",
               "hasBaseline" : false,
               "hasRuntime" : true
             } ]
@@ -205,11 +205,11 @@
             "name" : "server02",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGY_TST_ESB_V101_IS_02",
+              "name" : "ORGY_TST_ESB_V103_IS_02",
               "level" : "NODE",
-              "url" : "node=ORGY_TST_ESB_V101_IS_02",
+              "url" : "node=ORGY_TST_ESB_V103_IS_02",
               "hasBaseline" : false,
-              "hasRuntime" : false
+              "hasRuntime" : true
             } ]
           } ]
         } ]
@@ -227,9 +227,9 @@
             "name" : "server03",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGY_PPR_ESB_V101_IS_01",
+              "name" : "ORGY_PPR_ESB_V103_IS_01",
               "level" : "NODE",
-              "url" : "node=ORGY_PPR_ESB_V101_IS_01",
+              "url" : "node=ORGY_PPR_ESB_V103_IS_01",
               "hasBaseline" : false,
               "hasRuntime" : true
             } ]
@@ -245,9 +245,9 @@
             "name" : "server04",
             "level" : "SERVER",
             "children" : [ {
-              "name" : "ORGY_PRD_ESB_V101_IS_01",
+              "name" : "ORGY_PRD_ESB_V103_IS_01",
               "level" : "NODE",
-              "url" : "node=ORGY_PRD_ESB_V101_IS_01",
+              "url" : "node=ORGY_PRD_ESB_V103_IS_01",
               "hasBaseline" : false,
               "hasRuntime" : true
             } ]

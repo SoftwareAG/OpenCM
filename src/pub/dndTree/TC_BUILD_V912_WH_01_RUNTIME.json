@@ -4,5 +4,5 @@
   "layer" : "BUILD",
   "spmURL" : "https://se1-esbt-t001.tasp.tclidl.net:8093/spm",
   "children" : null,
-  "environment" : "TC"
+  "environment" : "ADMIN"
 }

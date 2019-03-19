@@ -1,0 +1,8 @@
+{
+  "name" : "ORGX_ADM_V103_IS_01",
+  "level" : "NODE",
+  "layer" : "Governance",
+  "spmURL" : "https://central_opencm_server.opencm.org:10093/spm",
+  "children" : null,
+  "environment" : "Admin"
+}
