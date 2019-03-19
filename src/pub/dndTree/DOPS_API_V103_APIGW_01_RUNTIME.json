@@ -1,8 +1,0 @@
-{
-  "name" : "DOPS_API_V103_APIGW_01",
-  "level" : "NODE",
-  "layer" : "API",
-  "spmURL" : "https://tl-as308.tasp.tclidl.net:8093/spm",
-  "children" : null,
-  "environment" : "DOPS"
-}

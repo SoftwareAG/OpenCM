@@ -1,8 +1,0 @@
-{
-  "name" : "DOPS_MSG_V990_UM_01",
-  "level" : "NODE",
-  "layer" : "MSG",
-  "spmURL" : "http://tl-as346.tasp.tclidl.net:16092/spm",
-  "children" : null,
-  "environment" : "DOPS"
-}

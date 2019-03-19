@@ -1,7 +1,0 @@
-{
-  "name" : "TC_BUILD_JMASTER_01",
-  "level" : "NODE",
-  "layer" : "BUILD",
-  "children" : null,
-  "environment" : "ADMIN"
-}

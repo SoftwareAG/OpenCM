@@ -1,8 +1,0 @@
-{
-  "name" : "TC_ADM_V101_CCE_SPM_01",
-  "level" : "NODE",
-  "layer" : "ADM",
-  "spmURL" : "https://out-db02.out.dom:8093/spm",
-  "children" : null,
-  "environment" : "TC"
-}

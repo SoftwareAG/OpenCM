@@ -1,7 +1,0 @@
-{
-  "name" : "EREL_DB_V12C_ORA_01",
-  "level" : "NODE",
-  "layer" : "DB",
-  "children" : null,
-  "environment" : "EREL"
-}

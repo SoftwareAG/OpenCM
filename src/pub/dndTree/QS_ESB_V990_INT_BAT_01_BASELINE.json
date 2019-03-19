@@ -1,8 +1,0 @@
-{
-  "name" : "QS_ESB_V990_INT_BAT_01",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "https://l-as875.asp.lidl.net:8093/spm",
-  "children" : null,
-  "environment" : "QS"
-}

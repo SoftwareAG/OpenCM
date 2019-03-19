@@ -1,8 +1,0 @@
-{
-  "name" : "EREL_ESB_V900_01",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "https://tl-as141.tasp.tclidl.net:8093/spm",
-  "children" : null,
-  "environment" : "EREL"
-}

@@ -1,8 +1,0 @@
-{
-  "name" : "PROD_SGW_V912_EG_MED_01",
-  "level" : "NODE",
-  "layer" : "SGW",
-  "spmURL" : "https://out-as31.out.dom:8203/spm",
-  "children" : null,
-  "environment" : "PROD"
-}

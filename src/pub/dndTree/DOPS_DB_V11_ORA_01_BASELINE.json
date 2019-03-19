@@ -1,7 +1,0 @@
-{
-  "name" : "DOPS_DB_V11_ORA_01",
-  "level" : "NODE",
-  "layer" : "DB",
-  "children" : null,
-  "environment" : "DOPS"
-}

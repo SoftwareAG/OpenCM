@@ -1,8 +1,0 @@
-{
-  "name" : "DOPS_MFT_V912_01",
-  "level" : "NODE",
-  "layer" : "MFT",
-  "spmURL" : "http://tl-as142.tasp.tclidl.net:13192/spm",
-  "children" : null,
-  "environment" : "DOPS"
-}

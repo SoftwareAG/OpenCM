@@ -1,8 +1,0 @@
-{
-  "name" : "PROD_ESB_V990_INT_PDM_01",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "https://l-as1020.asp.lidl.net:8093/spm",
-  "children" : null,
-  "environment" : "PROD"
-}

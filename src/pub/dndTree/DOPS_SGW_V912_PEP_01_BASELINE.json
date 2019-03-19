@@ -1,8 +1,0 @@
-{
-  "name" : "DOPS_SGW_V912_PEP_01",
-  "level" : "NODE",
-  "layer" : "SGW",
-  "spmURL" : "http://tl-as142.tasp.tclidl.net:12292/spm",
-  "children" : null,
-  "environment" : "DOPS"
-}

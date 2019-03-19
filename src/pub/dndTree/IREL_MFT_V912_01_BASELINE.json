@@ -1,8 +1,0 @@
-{
-  "name" : "IREL_MFT_V912_01",
-  "level" : "NODE",
-  "layer" : "MFT",
-  "spmURL" : "https://tl-as480.tasp.tclidl.net:8096/spm",
-  "children" : null,
-  "environment" : "IREL"
-}

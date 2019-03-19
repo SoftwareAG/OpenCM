@@ -1,8 +1,0 @@
-{
-  "name" : "TC_ADM_V990_MGMT_MWS_01",
-  "level" : "NODE",
-  "layer" : "MGMT",
-  "spmURL" : "https://tl-as344.tasp.tclidl.net:18493/spm",
-  "children" : null,
-  "environment" : "ADMIN"
-}

@@ -1,8 +1,0 @@
-{
-  "name" : "EREL_SGW_V912_EG_MFT_01",
-  "level" : "NODE",
-  "layer" : "SGW",
-  "spmURL" : "https://tl-as462.tasp.tclidl.net:11093/spm",
-  "children" : null,
-  "environment" : "EREL"
-}

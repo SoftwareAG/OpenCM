@@ -1,8 +1,0 @@
-{
-  "name" : "DOPS_REF_V101_01",
-  "level" : "NODE",
-  "layer" : "REF",
-  "spmURL" : "http://tl-as142.tasp.tclidl.net:18592/spm",
-  "children" : null,
-  "environment" : "DOPS"
-}

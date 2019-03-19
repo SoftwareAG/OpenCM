@@ -1,8 +1,0 @@
-{
-  "name" : "DOPS_ADM_V101_MGMT_CCEGW_01",
-  "level" : "NODE",
-  "layer" : "ADM",
-  "spmURL" : "http://tl-as142.tasp.tclidl.net:8292/spm",
-  "children" : null,
-  "environment" : "DOPS"
-}

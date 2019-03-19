@@ -1,8 +1,0 @@
-{
-  "name" : "LDEV_V912_01",
-  "level" : "NODE",
-  "layer" : "ANY",
-  "spmURL" : "https://tl-as450.tasp.tclidl.net:10093/spm",
-  "children" : null,
-  "environment" : "LDEV"
-}

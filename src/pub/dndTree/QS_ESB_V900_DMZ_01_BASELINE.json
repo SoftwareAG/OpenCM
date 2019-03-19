@@ -1,8 +1,0 @@
-{
-  "name" : "QS_ESB_V900_DMZ_01",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "http://out-as538.out.dom:8092/spm",
-  "children" : null,
-  "environment" : "QS"
-}

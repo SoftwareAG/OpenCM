@@ -1,8 +1,0 @@
-{
-  "name" : "QS_ESB_V990_USA_CEN_02",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "https://ln1-esb-q004.ads.schwarz:8093/spm",
-  "children" : null,
-  "environment" : "QS"
-}

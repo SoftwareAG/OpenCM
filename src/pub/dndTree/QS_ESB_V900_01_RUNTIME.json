@@ -1,8 +1,0 @@
-{
-  "name" : "QS_ESB_V900_01",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "http://l-as386.asp.lidl.net:8092/spm",
-  "children" : null,
-  "environment" : "QS"
-}

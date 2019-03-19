@@ -1,8 +1,0 @@
-{
-  "name" : "ESUP_ESB_V900_01",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "https://tl-as391.tasp.tclidl.net:8093/spm",
-  "children" : null,
-  "environment" : "ESUP"
-}

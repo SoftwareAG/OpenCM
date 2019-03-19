@@ -1,8 +1,0 @@
-{
-  "name" : "PROD_MSG_V990_UM_USA_CEN_01",
-  "level" : "NODE",
-  "layer" : "MSG",
-  "spmURL" : "https://l-asXXXX.asp.lidl.net:8093/spm",
-  "children" : null,
-  "environment" : "PROD"
-}

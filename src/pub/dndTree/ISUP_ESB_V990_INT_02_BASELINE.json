@@ -1,8 +1,0 @@
-{
-  "name" : "ISUP_ESB_V990_INT_02",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "https://tl-as444.tasp.tclidl.net:8093/spm",
-  "children" : null,
-  "environment" : "ISUP"
-}

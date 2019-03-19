@@ -1,8 +1,0 @@
-{
-  "name" : "QS_MSG_V990_UM_INT_CEN_03",
-  "level" : "NODE",
-  "layer" : "MSG",
-  "spmURL" : "https://l-asXXXX.asp.lidl.net:8093/spm",
-  "children" : null,
-  "environment" : "QS"
-}

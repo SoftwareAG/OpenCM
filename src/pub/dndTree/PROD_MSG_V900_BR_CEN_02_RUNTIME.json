@@ -1,8 +1,0 @@
-{
-  "name" : "PROD_MSG_V900_BR_CEN_02",
-  "level" : "NODE",
-  "layer" : "MSG",
-  "spmURL" : "https://l-as431n2.asp.lidl.net:8093/spm",
-  "children" : null,
-  "environment" : "PROD"
-}

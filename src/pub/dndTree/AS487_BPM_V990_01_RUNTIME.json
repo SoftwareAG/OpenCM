@@ -1,8 +1,0 @@
-{
-  "name" : "AS487_BPM_V990_01",
-  "level" : "NODE",
-  "layer" : "BPM",
-  "spmURL" : "https://tl-as487.tasp.tclidl.net:8093/spm",
-  "children" : null,
-  "environment" : "????"
-}

@@ -1,8 +1,0 @@
-{
-  "name" : "ORGX_PREP_ESB_V101_IS_01",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "https://server_05.opencm.org:10093/spm",
-  "children" : null,
-  "environment" : "PreProduction"
-}

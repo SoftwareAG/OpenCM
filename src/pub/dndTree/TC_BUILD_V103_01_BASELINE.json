@@ -1,8 +1,0 @@
-{
-  "name" : "TC_BUILD_V103_01",
-  "level" : "NODE",
-  "layer" : "BUILD",
-  "spmURL" : "https://se1-wmsis-t001.tasp.tclidl.net:8093/spm",
-  "children" : null,
-  "environment" : "ADMIN"
-}

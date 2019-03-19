@@ -1,8 +1,0 @@
-{
-  "name" : "DOPS_API_V912_PEP_MED_01",
-  "level" : "NODE",
-  "layer" : "API",
-  "spmURL" : "http://tl-as142.tasp.tclidl.net:12192/spm",
-  "children" : null,
-  "environment" : "DOPS"
-}

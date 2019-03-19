@@ -1,8 +1,0 @@
-{
-  "name" : "QS_API_V101_APIGW_01",
-  "level" : "NODE",
-  "layer" : "API",
-  "spmURL" : "https://l-asXXXX.asp.lidl.net:8093/spm",
-  "children" : null,
-  "environment" : "QS"
-}
