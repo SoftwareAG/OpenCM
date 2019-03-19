@@ -4,18 +4,24 @@ OpenCM is a Configuration Management Repository for webMethods components and is
 ## Description
 OpenCM is an Integration Server package that is centrally installed on a separate administration IS. Main external dependency to OpenCM is SoftwareAG Platform Manager for all remote webMethods installations, which are used to perform property extractions (retrievals) and subsequent storing of the information into a local, file-based, repository. OpenCM comes with a user interface for easy navigation and visualization of property information.
 
-![Alt text](/github_images/UI-InstallationNode.jpg?raw=true "OpenCM User Interface")
+![Alt text](/github_images/dnd-overview.png?raw=true "OpenCM User Interface")
 
-The above example shows the core fix level for an Integration Server on a particular installation. On top of the collected property information, automatic/continuous auditing of property information can then be performed to detect inconsistencies between different installations. 
+The OpenMC user interface can visualize the integration platform servers and installations via a treestructure (see above), and by selecting an individual installation node, the configuration items are available for manual inspection as below.
 
-There are two types of comparisons, each one providing a separate type of difference report:
+![Alt text](/github_images/dnd-node.png?raw=true "OpenCM User Interface")
 
-1. 2-Node Audits - Report directly in OpenCM UI - example shows fix level difference between 2 installations
-![Alt text](/github_images/UI-Report-01.jpg?raw=true "OpenCM HTML Report")
+The above example shows the fix level version for a particular fix of an Integration Server. On top of the collected property information, automatic/continuous auditing of property information can then be performed to detect inconsistencies between different installations. 
 
-2. Layered Audits - Excel Report - example shows the same as above, but now including differences across all environments/installations
-![Alt text](/github_images/UI-Report-02.jpg?raw=true "OpenCM Excel Report")
-	
+Another view of all the webMethods installations can be viewed through the "Inventory" page, similar to the main tree structure, but this time in a searchable, tabular form:
+
+![Alt text](/github_images/inventory.png?raw=true "OpenCM Inventory")
+
+Comparing differences is referred to as "Auditing" and is performed through a wizard on the user interface. Once all the information is provided, a report table is generated:
+
+![Alt text](/github_images/auditing.png?raw=true "OpenCM Auditing")
+
+This example shows that there are differences in fix levels between the installations within the different environments. The report can also be saved off as an Excel sheet for offline viewing.
+
 ## Requirements
 
 The project was developed and tested on the following installation:
