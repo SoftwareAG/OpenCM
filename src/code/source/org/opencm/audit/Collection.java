@@ -58,10 +58,10 @@ public class Collection {
     	
     	// For Reference audit, start with the reference node itself
 		if (ac.getAudit_type().equals(AuditConfiguration.AUDIT_TYPE_REFERENCE)) {
-    		AuditObject aor = new AuditObject(Configuration.OPENCM_BASELINE_DIR,new AuditInstallation(inv, ac.getRepo_name()));
-    		aor = CollectNode.getPropertyValues(opencmConfig, ac, aor);
-    		if (aor != null) {
-    			aos.add(aor);
+    		AuditObject aoReference = new AuditObject(Configuration.OPENCM_BASELINE_DIR,new AuditInstallation(inv, ac.getRepo_name()));
+    		aoReference = CollectNode.getPropertyValues(opencmConfig, ac, aoReference);
+    		if (aoReference != null) {
+    			aos.add(aoReference);
     		} else {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Collection :: collect :: Reference node cannot be collected: " + ac.getRepo_name());
 				return null;
@@ -70,46 +70,46 @@ public class Collection {
 		// Scan the nodes
     	for (int i = 0; i < ac.getTree_nodes().size(); i++) {
         	if (ac.getAudit_type().equals(AuditConfiguration.AUDIT_TYPE_LAYERED)) {
-        		AuditObject ao = new AuditObject(ac.getRepo_name(),new AuditInstallation(inv, ac.getTree_nodes().get(i).getInstallation()));
-        		ao = CollectNode.getPropertyValues(opencmConfig, ac, ao);
-        		if (ao != null) {
-            		aos.add(ao);
+        		AuditObject aoLayered = new AuditObject(ac.getRepo_name(),new AuditInstallation(inv, ac.getTree_nodes().get(i).getInstallation()));
+        		aoLayered = CollectNode.getPropertyValues(opencmConfig, ac, aoLayered);
+        		if (aoLayered != null) {
+            		aos.add(aoLayered);
         		}
         	}
     		if (ac.getAudit_type().equals(AuditConfiguration.AUDIT_TYPE_BASELINE)) {
-        		AuditObject ao = new AuditObject(Configuration.OPENCM_BASELINE_DIR,new AuditInstallation(inv, ac.getTree_nodes().get(i).getInstallation()));
-        		ao = CollectNode.getPropertyValues(opencmConfig, ac, ao);
-        		if (ao != null) {
-            		aos.add(ao);
+        		AuditObject aoBaseline = new AuditObject(Configuration.OPENCM_BASELINE_DIR,new AuditInstallation(inv, ac.getTree_nodes().get(i).getInstallation()));
+        		aoBaseline = CollectNode.getPropertyValues(opencmConfig, ac, aoBaseline);
+        		if (aoBaseline != null) {
+            		aos.add(aoBaseline);
         		}
 
         		if (ac.getRepo_name().equals(Configuration.OPENCM_DEFAULT_DIR)) {
         			// Only need to collect data from one default "installation" per version
-        			Installation inst = ao.getAuditInstallation().getInstallation().getCopy();
+        			Installation inst = aoBaseline.getAuditInstallation().getInstallation().getCopy();
         			String version = inst.getVersion();
         			if (!defaultVersionsCollected.contains(version)) {
                 		inst.setName(DEFAULT_INSTALLATION_DIR_PREFIX + version);
-            			ao = new AuditObject(Configuration.OPENCM_DEFAULT_DIR, new AuditInstallation(inv, inst));
-                		ao = CollectNode.getPropertyValues(opencmConfig, ac, ao);
-                		if (ao != null) {
-                			aos.add(ao);
+                		AuditObject aoDefault = new AuditObject(Configuration.OPENCM_DEFAULT_DIR, new AuditInstallation(inv, inst));
+                		aoDefault = CollectNode.getPropertyValues(opencmConfig, ac, aoDefault);
+                		if (aoDefault != null) {
+                			aos.add(aoDefault);
                     		defaultVersionsCollected.add(version);
                 		}
         			}
         		} else {
         			// Collect from Runtime repo
-            		ao = new AuditObject(ac.getRepo_name(),new AuditInstallation(inv, ac.getTree_nodes().get(i).getInstallation()));
-            		ao = CollectNode.getPropertyValues(opencmConfig, ac, ao);
-            		if (ao != null) {
-            			aos.add(ao);
+        			AuditObject aoRuntime = new AuditObject(ac.getRepo_name(),new AuditInstallation(inv, ac.getTree_nodes().get(i).getInstallation()));
+        			aoRuntime = CollectNode.getPropertyValues(opencmConfig, ac, aoRuntime);
+            		if (aoRuntime != null) {
+            			aos.add(aoRuntime);
             		}
         		}
     		}    		
         	if (ac.getAudit_type().equals(AuditConfiguration.AUDIT_TYPE_REFERENCE)) {
-        		AuditObject ao = new AuditObject(Configuration.OPENCM_RUNTIME_DIR,new AuditInstallation(inv, ac.getTree_nodes().get(i).getInstallation()));
-        		ao = CollectNode.getPropertyValues(opencmConfig, ac, ao);
-        		if (ao != null) {
-            		aos.add(ao);
+        		AuditObject aoReference = new AuditObject(Configuration.OPENCM_RUNTIME_DIR,new AuditInstallation(inv, ac.getTree_nodes().get(i).getInstallation()));
+        		aoReference = CollectNode.getPropertyValues(opencmConfig, ac, aoReference);
+        		if (aoReference != null) {
+            		aos.add(aoReference);
         		}
         	}
     		
@@ -124,40 +124,34 @@ public class Collection {
 	    	// Property centric: Layered Audits
 	    	// -------------------------------------------------------------------------------
 	    	// 	=> Create a list of distinct properties
-			LinkedList<String> aosProperties = new LinkedList<String>();
+	    	//	=> For each property, retrieve location and values and store into PropertyLocation
 			for (int a = 0; a < aos.size(); a++) {
 				AuditObject ao = aos.get(a);
 				for (int v = 0; v < ao.getAuditValues().size(); v++) {
 					AuditValue av = ao.getAuditValues().get(v);
-					if (!aosProperties.contains(av.getProperty())) {
-						aosProperties.add(av.getProperty());
+					if (ar.containsPropertyItem(av)) {
+						Location l = new Location(ao.getAuditInstallation(),av.getComponent(),av.getInstance());
+						PropertyLocation pl = new PropertyLocation(l,av.getValue());
+						ar.addPropertyItem(av,pl);
+					} else {
+						PropertyItem pi = new PropertyItem(av.getProperty());
+						Location l = new Location(ao.getAuditInstallation(),av.getComponent(),av.getInstance());
+						PropertyLocation pl = new PropertyLocation(l,av.getValue());
+						pi.addPropertyLocation(pl);
+						ar.addPropertyItem(pi);
 					}
 				}
-			}
-			
-	    	//	=> For each property, retrieve location and values and store into PropertyLocation
-			for (int i = 0; i < aosProperties.size(); i++) {
-				PropertyItem pi = new PropertyItem(aosProperties.get(i));
-				for (int a = 0; a < aos.size(); a++) {
-					AuditObject ao = aos.get(a);
-					for (int v = 0; v < ao.getAuditValues().size(); v++) {
-						AuditValue av = ao.getAuditValues().get(v);
-						if (av.getProperty().equals(aosProperties.get(i))) {
-							Location l = new Location(ao.getAuditInstallation(),av.getComponent(),av.getInstance());
-							PropertyLocation pl = new PropertyLocation(l,av.getValue());
-							pi.addPropertyLocation(pl);
-						}
-					}
-				}
-				ar.addPropertyItem(pi);
 			}
 			
 	    	//	=> For each property, prune if they are equal
 			Iterator<PropertyItem> it = ar.getPropertyItems().iterator();
 			while (it.hasNext()) {
+				ar.addNumPropertiesAudited();
 				PropertyItem pi = it.next();
 				if (pi.isEqual()) {
 					it.remove();
+				} else {
+					ar.addNumPropertiesDifferent();
 				}
 			}
 			
@@ -196,14 +190,17 @@ public class Collection {
 					// Iterate over the baseline audit values and create LocationProperties
 					Iterator<AuditValue> itBaseline = aoBaseline.getAuditValues().iterator();
 					while (itBaseline.hasNext()) {
+						ar.addNumPropertiesAudited();
 						AuditValue avBaseline = itBaseline.next();
 						LocationItem locItem = new LocationItem(new Location(aoBaseline.getAuditInstallation(),avBaseline.getComponent(),avBaseline.getInstance()));
 						AuditValue avRepo = aoRepo.getAuditValue(avBaseline.getComponent(), avBaseline.getInstance(), avBaseline.getProperty());
 						// If the other property does not exist, include in result
 						if (avRepo == null) {
-							locItem.addLocationProperty(new LocationProperty(avBaseline.getProperty(), aoRepo.getRepository(), avBaseline.getValue(), aoRepo.getRepository(), AuditResult.AUDIT_VALUE_MISSING));
+							ar.addNumPropertiesDifferent();
+							locItem.addLocationProperty(new LocationProperty(avBaseline.getProperty(), aoBaseline.getRepository(), avBaseline.getValue(), aoRepo.getRepository(), AuditResult.AUDIT_VALUE_MISSING));
 						} else if (!avBaseline.getValue().equals(avRepo.getValue())) { 
 							// If the other property exists and they are different, include in result
+							ar.addNumPropertiesDifferent();
 							locItem.addLocationProperty(new LocationProperty(avBaseline.getProperty(), aoBaseline.getRepository(), avBaseline.getValue(), aoRepo.getRepository(), avRepo.getValue()));
 						}
 						ar.addLocation(locItem);
@@ -216,6 +213,8 @@ public class Collection {
 						AuditValue avBaseline = aoBaseline.getAuditValue(avRepo.getComponent(), avRepo.getInstance(), avRepo.getProperty());
 						// If the other property does not exist, include in result - only for baseline-runtime values (not baseline-default values)
 						if ((avBaseline == null) && (aoRepo.getRepository().equals(Configuration.OPENCM_RUNTIME_DIR))) {
+							ar.addNumPropertiesAudited();
+							ar.addNumPropertiesDifferent();
 							LocationItem locItem = new LocationItem(new Location(aoBaseline.getAuditInstallation(),avRepo.getComponent(),avRepo.getInstance()));
 							locItem.addLocationProperty(new LocationProperty(avRepo.getProperty(), aoBaseline.getRepository(), AuditResult.AUDIT_VALUE_MISSING, aoRepo.getRepository(), avRepo.getValue()));
 							ar.addLocation(locItem);
@@ -245,6 +244,7 @@ public class Collection {
 			
 			// Loop through each property of the reference installation
 			for (int r = 0; r < aoRef.getAuditValues().size(); r++) {
+				ar.addNumPropertiesAudited();
 				AuditValue avRef = aoRef.getAuditValues().get(r);
 				PropertyItem pi = new PropertyItem(avRef.getProperty());
 				Location lRef = new Location(aoRef.getAuditInstallation(),avRef.getComponent(),avRef.getInstance());
@@ -261,9 +261,11 @@ public class Collection {
 					Location l = new Location(ao.getAuditInstallation(),avRef.getComponent(),avRef.getInstance());
 					AuditValue avNode = ao.getAuditValue(avRef.getComponent(), avRef.getInstance(), avRef.getProperty());
 					if (avNode == null) {
+						ar.addNumPropertiesDifferent();
 						pi.addPropertyLocation(new PropertyLocation(l,AuditResult.AUDIT_VALUE_MISSING));
 						includeProp = true;
 					} else if (!avRef.getValue().equals(avNode.getValue())) {
+						ar.addNumPropertiesDifferent();
 						pi.addPropertyLocation(new PropertyLocation(l,avNode.getValue()));
 						includeProp = true;
 					}

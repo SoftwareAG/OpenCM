@@ -631,6 +631,7 @@
 		// Submit page items
 		$('#div_audit_result').hide();
 		$('#span_audit_result_message').text("").hide();
+		$('#span_audit_result_summary').text("").hide();
 		$('#btn-finish').removeClass("disabled");
 		// Save template page items
 		$('#span_save_template').text("").hide();
@@ -700,6 +701,7 @@
 			return;
 		}
 
+		$('#span_audit_result_summary').text("Total number of properties audited: " + responseData.numPropertiesAudited + " - Total Differences: " + responseData.numPropertiesDifferent).show();
 		var resultTable = Array();
 		if (getAuditType() == "layered") {
 			// Property centric display:
@@ -707,7 +709,7 @@
 				var locationStr = "";
 				var valueStr = "";
 				$.each(propItem.propertyLocations, function( idx, propLoc ) {
-					locationStr += propLoc.location.environment + " - " + propLoc.location.installation + " - " + propLoc.location.component;
+					locationStr += propLoc.location.environment + " - " + propLoc.location.installation + " - " + propLoc.location.component + " - " + propLoc.location.instance;
 					valueStr += propLoc.value;
 					if ((idx + 1) < propItem.propertyLocations.length) {
 						locationStr += "<br>";
@@ -723,8 +725,8 @@
 			// Location centric display:
 			$.each(responseData.locationItems, function( index, locItem ) {
 				$.each(locItem.locationProperties, function( idx, locProp ) {
-					resultTable.push({ Location: locItem.location.installation + " - " + locItem.location.component + " - " + locItem.location.instance,
-									   Property:  locProp.propertyName,
+					resultTable.push({ Property: locProp.propertyName,
+									   Location: locItem.location.installation + " - " + locItem.location.component + " - " + locItem.location.instance,
 									   Value: locProp.repo1 + ": " + locProp.value1 + "<br>" + locProp.repo2 + ": " + locProp.value2
 					});
 				});
@@ -1151,6 +1153,7 @@
 					</div>
                 </div>
                 <div id="step-6" class="" >
+					<span id="span_audit_result_summary" style="display:none;margin:0;padding:5px"></span>
 					<div id="div_audit_result" style="display:none">
 						<table id="audit_table" class="display" style="width:100%"></table>	
 					</div>

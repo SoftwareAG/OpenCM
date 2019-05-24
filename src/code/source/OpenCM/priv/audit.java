@@ -36,6 +36,93 @@ public final class audit
 
 
 
+	public static final void getAuditConfigProperties (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(getAuditConfigProperties)>> ---
+		// @sigtype java 3.5
+		// [i] field:0:required auditName
+		// [o] recref:0:required auditConfiguration OpenCM.doc:auditConfiguration
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String	auditConfigName = IDataUtil.getString( pipelineCursor, "auditName" );
+		pipelineCursor.destroy(); 
+		
+		// --------------------------------------------------------------------
+		// Read in Default Package Properties 
+		// --------------------------------------------------------------------
+		PkgConfiguration pkgConfig = PkgConfiguration.instantiate(); 
+		
+		// --------------------------------------------------------------------
+		// Read in OpenCM Properties
+		// --------------------------------------------------------------------
+		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
+		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," .. Getting Audit Configuration Properties based on " + auditConfigName);
+		
+		AuditConfiguration auditConf = AuditConfiguration.instantiate(opencmConfig, auditConfigName); 
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"AuditConfiguration: " + auditConf.getAudit_description());
+			
+		// pipeline
+		IDataCursor pipelineCursor_1 = pipeline.getCursor();
+		
+		// auditConfiguration
+		IData	auditConfiguration = IDataFactory.create();
+		IDataCursor auditConfigurationCursor = auditConfiguration.getCursor();
+		IDataUtil.put( auditConfigurationCursor, "templateName", auditConfigName );
+		
+		// auditConfiguration.submitData
+		IData	submitData = IDataFactory.create();
+		IDataCursor submitDataCursor = submitData.getCursor();
+		IDataUtil.put( submitDataCursor, "audit_description", auditConf.getAudit_description() );
+		IDataUtil.put( submitDataCursor, "audit_type", auditConf.getAudit_type() );
+		IDataUtil.put( submitDataCursor, "repo_name", auditConf.getRepo_name() );
+		IDataUtil.put( submitDataCursor, "prop_component", auditConf.getProp_component() );
+		IDataUtil.put( submitDataCursor, "prop_instance", auditConf.getProp_instance() );
+		IDataUtil.put( submitDataCursor, "prop_key", auditConf.getProp_key() );
+		
+		// auditConfiguration.submitData.prop_filters
+		if (auditConf.getProp_filters() != null) {
+			IData[]	prop_filters = new IData[auditConf.getProp_filters().size()];
+			for (int i = 0; i < auditConf.getProp_filters().size(); i ++) {
+				PropertyFilter pf = auditConf.getProp_filters().get(i);
+				prop_filters[i] = IDataFactory.create();
+				IDataCursor prop_filtersCursor = prop_filters[i].getCursor();
+				IDataUtil.put( prop_filtersCursor, "component", pf.getComponent() );
+				IDataUtil.put( prop_filtersCursor, "instance", pf.getInstance() );
+				IDataUtil.put( prop_filtersCursor, "key", pf.getKey() );
+				prop_filtersCursor.destroy();
+			}
+			IDataUtil.put( submitDataCursor, "prop_filters", prop_filters );
+		}
+		
+		// auditConfiguration.submitData.tree_nodes
+		IData[]	tree_nodes = new IData[auditConf.getTree_nodes().size()];
+		for (int i = 0; i < auditConf.getTree_nodes().size(); i ++) {
+			TreeNode tn = auditConf.getTree_nodes().get(i);
+			tree_nodes[i] = IDataFactory.create();
+			IDataCursor tree_nodesCursor = tree_nodes[i].getCursor();
+			IDataUtil.put( tree_nodesCursor, "organisation", tn.getOrganisation() );
+			IDataUtil.put( tree_nodesCursor, "department", tn.getDepartment() );
+			IDataUtil.put( tree_nodesCursor, "environment", tn.getEnvironment() );
+			IDataUtil.put( tree_nodesCursor, "layer", tn.getLayer() );
+			IDataUtil.put( tree_nodesCursor, "installation", tn.getInstallation() );
+			tree_nodesCursor.destroy();
+		}
+		IDataUtil.put( submitDataCursor, "tree_nodes", tree_nodes );
+		submitDataCursor.destroy();
+		IDataUtil.put( auditConfigurationCursor, "submitData", submitData );
+		auditConfigurationCursor.destroy();
+		IDataUtil.put( pipelineCursor_1, "auditConfiguration", auditConfiguration );
+		pipelineCursor_1.destroy();
+			
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
 	public static final void runAudit (IData pipeline)
         throws ServiceException
 	{
@@ -43,6 +130,7 @@ public final class audit
 		// @sigtype java 3.5
 		// [i] recref:0:required auditConfiguration OpenCM.doc:auditConfiguration
 		// [o] field:0:required json_response
+		// [o] object:0:required auditResult
 		// --------------------------------------------------------------------
 		// Read in Default Package Properties 
 		// --------------------------------------------------------------------
@@ -56,7 +144,6 @@ public final class audit
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== Run Audit - Starting Process ..... ============ ");
 		
 		AuditConfiguration auditConf = new AuditConfiguration(); 
-		String templateName = null;
 		
 		// pipeline
 		IDataCursor pipelineCursor = pipeline.getCursor();
@@ -65,7 +152,6 @@ public final class audit
 		IData	auditConfiguration = IDataUtil.getIData( pipelineCursor, "auditConfiguration" );
 		if ( auditConfiguration != null) {
 			IDataCursor auditConfigurationCursor = auditConfiguration.getCursor();
-			templateName = IDataUtil.getString( auditConfigurationCursor, "templateName" );
 		
 			// i.submitData
 			IData	submitData = IDataUtil.getIData( auditConfigurationCursor, "submitData" );
@@ -147,18 +233,33 @@ public final class audit
 		}
 		
 		String jsonResponse = "";
+		AuditResult ar = null;
 		// --------------------------------------------------------------------
 		// Read in Inventory
 		// --------------------------------------------------------------------
 		Inventory inv = Inventory.instantiate(opencmConfig);
-		if (inv == null){
+		if (inv == null) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"runAudit - Inventory is NULL ..... ");
+			// --------------------------------------------------------------------
+			// Run startup services...
+			// --------------------------------------------------------------------
+			try {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," runAudit - running startup services ... ");
+				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
+			} catch (Exception ex) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM runAudit :: " + ex.getMessage());
+			}
+		}
+		inv = Inventory.instantiate(opencmConfig);
+		if (inv == null) {
+			// Something not correct in environment...
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"runAudit - Inventory is NULL ..... ");
-			jsonResponse = JsonUtils.createJsonField("msg","runAudit - Inventory is NULL ..... refresh UI.");
+			jsonResponse = JsonUtils.createJsonField("msg","runAudit - Inventory is still NULL after initialization..... .");
 		} else {
 			// -----------------------------------------------------
 			// Call Audit Collection  
 			// -----------------------------------------------------
-			AuditResult ar = Collection.collect(opencmConfig, inv, auditConf);
+			ar = Collection.collect(opencmConfig, inv, auditConf);
 			if (ar != null) {
 				jsonResponse = JsonUtils.convertJavaObjectToJson(ar);
 			} else {
@@ -171,8 +272,9 @@ public final class audit
 		// -----------------------------------------------------
 		// pipeline
 		IDataCursor pipelineCursor2 = pipeline.getCursor();
-		// LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO, jsonResponse);
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE, jsonResponse);
 		IDataUtil.put( pipelineCursor2, "json_response", jsonResponse);
+		IDataUtil.put( pipelineCursor2, "auditResult", ar);
 		pipelineCursor.destroy(); 
 		
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== Audit - Process Completed ..... ============ ");

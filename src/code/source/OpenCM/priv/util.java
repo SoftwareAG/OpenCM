@@ -7,6 +7,7 @@ import com.wm.util.Values;
 import com.wm.app.b2b.server.Service;
 import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.io.File;
 import org.opencm.configuration.PkgConfiguration;
@@ -16,6 +17,12 @@ import org.opencm.security.KeyUtils;
 import org.opencm.util.LogUtils;
 import org.opencm.util.PackageUtils;
 import org.opencm.inventory.*;
+import org.opencm.util.MailUtils;
+import org.opencm.audit.result.AuditResult;
+import java.util.Map;
+import java.util.HashMap;
+import org.opencm.freemarker.FMConfiguration;
+import freemarker.template.Template;
 // --- <<IS-END-IMPORTS>> ---
 
 public final class util
@@ -65,9 +72,6 @@ public final class util
 		// [o] field:0:required debug_level
 		// [o] field:0:required package_directory
 		// [o] field:0:required audit_prop_directory
-		// [o] field:0:required two_node_audit_directory
-		// [o] field:0:required layered_audit_directory
-		// [o] field:0:required excel_output_directory
 		// --------------------------------------------------------------------
 		// Read in Default Package Properties
 		// --------------------------------------------------------------------
@@ -90,9 +94,6 @@ public final class util
 		File pkgDir = new File(packageConfig + File.separator + "..");
 		IDataUtil.put( pipelineCursor, "package_directory", pkgDir.getPath());
 		IDataUtil.put( pipelineCursor, "audit_prop_directory", opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_CONFIG_DIR_AUDIT);
-		IDataUtil.put( pipelineCursor, "two_node_audit_directory", opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_CONFIG_DIR_TWO_NODE_AUDIT);
-		IDataUtil.put( pipelineCursor, "layered_audit_directory", opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_CONFIG_DIR_LAYERED_AUDIT);
-		IDataUtil.put( pipelineCursor, "excel_output_directory", opencmConfig.getOutput_dir() + File.separator + Configuration.OPENCM_RESULTS_DIR_EXCEL);
 		
 		pipelineCursor.destroy(); 
 			
@@ -458,6 +459,97 @@ public final class util
 		
 		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," refreshInventory: End Service");
 			
+			
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void sendAuditResult (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(sendAuditResult)>> ---
+		// @sigtype java 3.5
+		// [i] field:0:required smtpPassword
+		// [i] field:0:required auditName
+		// [i] object:0:required auditResult
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String pwd = IDataUtil.getString( pipelineCursor, "smtpPassword" );
+		String auditName = IDataUtil.getString( pipelineCursor, "auditName" );
+		AuditResult	auditResult = (AuditResult) IDataUtil.get( pipelineCursor, "auditResult" );
+		pipelineCursor.destroy();
+		
+		// --------------------------------------------------------------------
+		// Read in Default Package Properties 
+		// --------------------------------------------------------------------
+		PkgConfiguration pkgConfig = PkgConfiguration.instantiate(); 
+		
+		// --------------------------------------------------------------------
+		// Read in OpenCM Properties
+		// --------------------------------------------------------------------
+		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
+		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," - Send Audit Result ...");
+		
+		if (pwd == null) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Send Audit Result :: SMTP Server password not passed, cannot send - Exiting.");
+			return;
+		}
+		if (auditResult == null) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Send Audit Result :: No audit Result - Exiting.");
+			return;
+		}
+		
+		// --------------------------------------------------------------------
+		// DEBUG
+		// --------------------------------------------------------------------
+		if (opencmConfig.getDebug_level().equals(Configuration.OPENCM_LOG_DEBUG)) {
+			if (auditResult.getLocationItems() != null) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"LocationItems: " + auditResult.getLocationItems().size());
+				for (int i = 0; i < auditResult.getLocationItems().size(); i++) {
+					org.opencm.audit.result.LocationItem li = auditResult.getLocationItems().get(i);
+					org.opencm.audit.result.Location l = li.getLocation();
+					LinkedList<org.opencm.audit.result.LocationProperty> lp = li.getLocationProperties();
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," - Location: " + l.getComponent() + l.getInstance() + " - LocProperties: " + lp.size());
+					for (int p = 0; p < lp.size(); p++) {
+						LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"   -- Location Property: " + lp.get(p).getPropertyName());
+					}
+				}
+			}
+		}
+		// --------------------------------------------------------------------
+		// Read in Freemarker Configuration
+		// --------------------------------------------------------------------
+		FMConfiguration fmc = FMConfiguration.instantiate(opencmConfig);
+		if (fmc == null) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"sendAuditResult - Freemarker Configuration is NULL ..... ");
+			return;
+		}
+			
+		// --------------------------------------------------------------------
+		// Generate the HTML email body
+		// --------------------------------------------------------------------
+		try {
+			Template auditTemplate = null;
+			/* Create a data-model */
+		    Map<String, Object> root = new HashMap<String, Object>();
+		    root.put("audit_name", auditName);
+		    root.put("result", auditResult);
+		    auditTemplate = fmc.getConfiguration().getTemplate("audit.ftlh");
+		    
+		    /* Merge data-model with template */
+		    java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
+		    java.io.Writer out = new java.io.OutputStreamWriter(bos);
+			auditTemplate.process(root, out);
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"Audit Result: " + bos.toString());
+			MailUtils.sendMessage(opencmConfig, pwd, bos.toString());
+		    bos.close();
+		} catch (Exception ex) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM sendAuditResult :: " + ex);
+		}
+		
 			
 		// --- <<IS-END>> ---
 

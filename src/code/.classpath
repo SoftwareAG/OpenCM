@@ -26,5 +26,7 @@
 	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.3/common/lib/ext/jackson-dataformat-yaml.jar"/>
 	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.3/common/lib/ext/commons-lang3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.3/common/lib/ext/commons-io.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.3/IntegrationServer/instances/default/packages/OpenCM/code/jars/jakarta.mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.3/IntegrationServer/instances/default/packages/OpenCM/code/jars/freemarker.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

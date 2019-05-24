@@ -96,6 +96,10 @@ OpenCM makes use of a collection of other open source libraries, utilities, icon
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
 - Source: https://commons.apache.org/proper/commons-net/download_net.cgi
 
+### freemarker.jar 
+- Licensed under [Apache 2.0](http://www.apache.org/licenses)
+- Source: https://freemarker.apache.org
+
 ### htmlunit-2.32.jar
 - Licensed under [Apache 2.0](http://www.apache.org/licenses)
 - Source: https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit/2.32

@@ -276,6 +276,7 @@ public final class cce
 					}
 				} else {
 					cceUtils.createNode(newNode.getName(), spmUrl);
+					cceUtils.setNodePassword(newNode.getName(), spmRuntime.getDecryptedPassword());
 					if (gAlias != null) {
 						cceUtils.assignNodeToEnv(gAlias, newNode.getName());
 					}
@@ -341,6 +342,7 @@ public final class cce
 			RuntimeComponent rc = installation.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM);
 			String spmUrl = rc.getProtocol() + "://" + server.getName() + ":" + rc.getPort();
 			cceUtils.createNode(installation.getName(), spmUrl);
+			cceUtils.setNodePassword(installation.getName(), rc.getDecryptedPassword());
 			cceUtils.assignNodeToEnv(groupAlias, installation.getName());
 		}
 		

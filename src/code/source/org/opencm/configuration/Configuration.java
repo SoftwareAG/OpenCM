@@ -12,37 +12,28 @@ import org.opencm.util.LogUtils;
 
 public class Configuration {
 	
-    public static String OPENCM_MAIN_CONFIG 						= "opencm.properties";
+    public static String OPENCM_MAIN_CONFIG 			= "opencm.properties";
     
-    public static String OPENCM_NODES_PROPS 						= "nodes.properties";
-    public static String OPENCM_INVENTORY 							= "inventory.properties";
-    public static String OPENCM_EXCTRACT_PROPS 						= "extract.properties";
-    public static String OPENCM_SYNCH_PROPS 						= "synch.properties";
-    public static String OPENCM_AUDIT_DEFAULT_PROPS 				= "default_auditing.properties";
-    public static String OPENCM_AUDIT_TWO_NODE_PROPS 				= "audit_nodes.properties";
-    public static String OPENCM_AUDIT_BASELINE_RUNTIME_NODE_PROPS 	= "baseline_runtime_node.properties";
+    public static String OPENCM_INVENTORY 				= "inventory.properties";
+    public static String OPENCM_EXCTRACT_PROPS 			= "extract.properties";
     
-    public static String OPENCM_CONFIG_DIR_AUDIT 				= "audit"; 
-    public static String OPENCM_CONFIG_DIR_TWO_NODE_AUDIT 		= "audit_two_node";
-    public static String OPENCM_CONFIG_DIR_LAYERED_AUDIT 		= "audit_layered";
+    public static String OPENCM_CONFIG_DIR_AUDIT 		= "audit"; 
+    public static String OPENCM_REFERENCE_DIR_PREFIX 	= "REF_";
     
-    public static String OPENCM_REFERENCE_DIR_PREFIX 			= "REF_";
-    
-    public static String OPENCM_RESULTS_DIR_HTML 		= "html";
-    public static String OPENCM_RESULTS_DIR_EXCEL 		= "excel";
     public static String OPENCM_RESULTS_DIR_CLI 		= "cli";
     public static String OPENCM_RESULTS_DIR_DNDTREE 	= "dndTree";
+    public static String OPENCM_FREEMARKER_DIR_TMPL 	= "freemarker";
 
-    public static String OPENCM_BASELINE_DIR 		= "baseline";
-    public static String OPENCM_RUNTIME_DIR 		= "runtime";
-    public static String OPENCM_DEFAULT_DIR 		= "default";
+    public static String OPENCM_BASELINE_DIR 			= "baseline";
+    public static String OPENCM_RUNTIME_DIR 			= "runtime";
+    public static String OPENCM_DEFAULT_DIR 			= "default";
     
-    public static String OPENCM_LOG_CRITICAL 		= "CRITICAL";
-    public static String OPENCM_LOG_ERROR 			= "ERROR";
-    public static String OPENCM_LOG_WARNING 		= "WARNING";
-    public static String OPENCM_LOG_INFO 			= "INFO";
-    public static String OPENCM_LOG_DEBUG 			= "DEBUG";
-    public static String OPENCM_LOG_TRACE 			= "TRACE";
+    public static String OPENCM_LOG_CRITICAL 			= "CRITICAL";
+    public static String OPENCM_LOG_ERROR 				= "ERROR";
+    public static String OPENCM_LOG_WARNING 			= "WARNING";
+    public static String OPENCM_LOG_INFO 				= "INFO";
+    public static String OPENCM_LOG_DEBUG 				= "DEBUG";
+    public static String OPENCM_LOG_TRACE 				= "TRACE";
 
     private String config_directory;
     private String cmdata_root;
@@ -56,6 +47,7 @@ public class Configuration {
     private String synch_target_opencm_node;
     private String synch_ftps_timeout_ms;
     private LinkedList<Organisation> synch;
+    private Smtp smtp;
     private String debug_level;
     
     public Configuration() {
@@ -142,6 +134,12 @@ public class Configuration {
     }
     public void setSynch(LinkedList<Organisation> synch) {
         this.synch = synch;
+    }
+    public Smtp getSmtp() {
+        return this.smtp;
+    }
+    public void setSmtp(Smtp smtp) {
+        this.smtp = smtp;
     }
     public String getDebug_level() {
         return this.debug_level;

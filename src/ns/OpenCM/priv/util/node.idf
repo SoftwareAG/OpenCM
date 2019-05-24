@@ -11,6 +11,7 @@
   <array name="implements" type="value" depth="1">
   </array>
   <array name="imports" type="value" depth="1">
+    <value>java.util.Iterator</value>
     <value>java.util.LinkedList</value>
     <value>java.io.File</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
@@ -20,5 +21,11 @@
     <value>org.opencm.util.LogUtils</value>
     <value>org.opencm.util.PackageUtils</value>
     <value>org.opencm.inventory.*</value>
+    <value>org.opencm.util.MailUtils</value>
+    <value>org.opencm.audit.result.AuditResult</value>
+    <value>java.util.Map</value>
+    <value>java.util.HashMap</value>
+    <value>org.opencm.freemarker.FMConfiguration</value>
+    <value>freemarker.template.Template</value>
   </array>
 </Values>

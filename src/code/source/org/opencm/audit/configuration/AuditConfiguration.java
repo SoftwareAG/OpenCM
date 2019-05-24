@@ -26,8 +26,8 @@ public class AuditConfiguration {
 	private LinkedList<PropertyFilter> prop_filters; 
 	private LinkedList<TreeNode> tree_nodes;
 	
-    public static Configuration instantiate(Configuration opencmConfig, String templateName) {
-    	Configuration auditConf = null;
+    public static AuditConfiguration instantiate(Configuration opencmConfig, String templateName) {
+    	AuditConfiguration auditConf = null;
     	File auditConfigFile = new File(opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_CONFIG_DIR_AUDIT + File.separator + templateName + ".properties");
     	
     	if (!auditConfigFile.exists()) {
@@ -38,7 +38,7 @@ public class AuditConfiguration {
     	ObjectMapper mapper = new ObjectMapper();
 
     	try {
-    		auditConf = mapper.readValue(auditConfigFile, Configuration.class);
+    		auditConf = mapper.readValue(auditConfigFile, AuditConfiguration.class);
     	} catch (Exception e) {
     		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," AuditConfiguration - Exception: " + e.toString());
     	}

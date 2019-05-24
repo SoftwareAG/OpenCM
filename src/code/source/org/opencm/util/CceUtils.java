@@ -12,10 +12,20 @@
 		private static String CCE_URI_NODES 			= "/cce/landscape/nodes";
 		private static String CCE_URI_ENVIRONMENTS 		= "/cce/landscape/environments";
 		private static String CCE_URI_ASSIGN_NODE 		= "/nodes";
+		private static String CCE_URI_SEC_CREDS			= "/cce/security/credentials";
+		
 		private static String CCE_PARAM_URL 			= "url";
 		private static String CCE_PARAM_ALIAS 			= "alias";
 		private static String CCE_PARAM_NAME			= "name";
 		private static String CCE_PARAM_NODE_ALIAS 		= "nodeAlias";
+		private static String CCE_PARAM_USERNAME 		= "username";
+		private static String CCE_PARAM_PASSWORD 		= "password";
+		private static String CCE_PARAM_AUTH_TYPE 		= "authenticationType";
+		private static String CCE_PARAM_RT_COMP_ID 		= "runtimeComponentId";
+
+		private static String CCE_SPM_USERNAME 			= "Administrator";
+		private static String CCE_SPM_BASIC_AUTH_TYPE 	= "BASIC";
+		private static String CCE_SPM_RT 				= "SPM-CONNECTION";
 
 		private static String CCE_JSONPATH_ENVIRONMENT 	= "/environment"; 
 		private static String CCE_JSONFIELD_ENVIRONMENT	= "@alias"; 
@@ -64,6 +74,26 @@
 			this.client.flushParameters();
 		}
 
+		public void setNodePassword(String nodeAlias, String password) {
+			LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"CceUtils :: setNodePassword :: " + nodeAlias);
+			this.client.setURL(this.baseURL + CCE_URI_SEC_CREDS);
+			this.client.addParameter(CCE_PARAM_ALIAS, nodeAlias);
+			this.client.addParameter(CCE_PARAM_AUTH_TYPE, CCE_SPM_BASIC_AUTH_TYPE);
+			this.client.addParameter(CCE_PARAM_RT_COMP_ID, CCE_SPM_RT);
+			this.client.addParameter(CCE_PARAM_USERNAME, CCE_SPM_USERNAME);
+			this.client.addParameter(CCE_PARAM_PASSWORD, password);
+			try {
+				client.post();
+				if (client.getStatusCode() != 200) {
+					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,"CceUtils :: setNodePassword :: " + client.getURL() + " - " + client.getStatusLine());
+				}
+				LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"CceUtils :: setNodePassword :: Response: " + client.getResponse());
+			} catch (Exception ex) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"CceUtils :: setNodePassword :: " + ex.toString());
+			}
+			this.client.flushParameters();
+		}
+		
 		public void assignNodeToEnv(String envAlias, String nodeAlias) {
 			LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"CceUtils :: assignNodeToEnv :: " + envAlias);
 			if ((envAlias == null) || (envAlias.equals(""))) {

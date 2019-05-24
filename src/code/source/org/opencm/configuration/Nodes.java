@@ -119,7 +119,7 @@ public class Nodes {
     		
     	} else {
     		// Using OpenCM nodes.properties as an inventory store
-        	File opencmNodesFile = new File(opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_NODES_PROPS);
+        	File opencmNodesFile = new File(opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_INVENTORY);
         	if (!opencmNodesFile.exists()) {
         		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Nodes - File not found: " + opencmNodesFile.getPath());
         		return null;
@@ -430,7 +430,7 @@ public class Nodes {
 		}
 
 		if (needsUpdate) {
-			writeNodes(opencmConfig);
+			writeInventory(opencmConfig);
 		}
     }
     
@@ -447,13 +447,13 @@ public class Nodes {
     }
     
     @JsonIgnore
-    public void writeNodes(Configuration opencmConfig) {
+    public void writeInventory(Configuration opencmConfig) {
 		try {
-	    	File opencmNodesFile = new File(opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_NODES_PROPS);
+	    	File opencmInvFile = new File(opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_INVENTORY);
 			
 			// Pick up the Comments
 			HashMap<Integer,String> hmComments = new HashMap<Integer,String>();
-			try(BufferedReader br = new BufferedReader(new FileReader(opencmNodesFile))) {
+			try(BufferedReader br = new BufferedReader(new FileReader(opencmInvFile))) {
 				int idx = 0;
 			    for(String line; (line = br.readLine()) != null; ) {
 			        if (line.trim().startsWith("#") || line.trim().equals("")) {	// comment or blank lines
@@ -466,7 +466,7 @@ public class Nodes {
 			// Write updated nodes to the property file
 	    	ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 			ObjectWriter writer = mapper.writer();
-			SequenceWriter sw = writer.writeValues(opencmNodesFile);
+			SequenceWriter sw = writer.writeValues(opencmInvFile);
 			sw.write(this);
 			
 			sw.close();
@@ -474,7 +474,7 @@ public class Nodes {
 			// Re-write the Comments
 			LinkedList<String> nodesList = new LinkedList<String>();
 			// Read in the newly updated file
-			try(BufferedReader br = new BufferedReader(new FileReader(opencmNodesFile))) {
+			try(BufferedReader br = new BufferedReader(new FileReader(opencmInvFile))) {
 			    for(String line; (line = br.readLine()) != null; ) {
 			    	if (!line.equals("---")) {
 				    	nodesList.add(line);
@@ -493,7 +493,7 @@ public class Nodes {
 		    	}
 			}
 			
-			BufferedWriter bwr = new BufferedWriter(new FileWriter(opencmNodesFile));
+			BufferedWriter bwr = new BufferedWriter(new FileWriter(opencmInvFile));
             bwr.write(sb.toString());
            
             //flush the stream
