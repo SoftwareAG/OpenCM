@@ -98,7 +98,7 @@
     </div>
 	<section id="canvasArea">
 		<div id="canvasLogo">
-			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repository</a><br/><span>v2.0.1</span></h2>
+			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repository</a><br/><span>v2.0.2</span></h2>
 		</div>
 		<div id="canvasTree"></div>
 	</section>
@@ -106,7 +106,7 @@
 	<nav id="optionsArea">
 	   <ul id="optionsMenu">
 			<!-- Inventory Menu -->
-	        <li id="inventoryMenu"><a class="inventoryMenuLink" data-bpopup='{"content":"iframe","contentContainer":".inventoryFrame","loadUrl":"/OpenCM/inventory"}' href="#">Inventory</a>
+	        <li id="inventoryMenu"><a class="inventoryMenuLink" data-bpopup='{"content":"iframe","contentContainer":".inventoryFrame","loadUrl":"/OpenCM/inventory"}' href="#">Full Inventory</a>
                <ul class="subMenu inventoryMenu">
 				<li id="conf_RefreshInventory"><a href="javascript:;" onclick="refreshInventory();">Refresh Inventory</a></li>
                </ul>

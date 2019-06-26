@@ -8,6 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import org.opencm.configuration.model.Organisation;
+import org.opencm.configuration.model.Department;
+import org.opencm.configuration.model.Environment;
+
 import org.opencm.util.LogUtils;
 
 public class Configuration {
@@ -39,6 +42,7 @@ public class Configuration {
     private String cmdata_root;
     private String output_dir;
     private InventoryConfiguration inventory_config;
+    private LinkedList<Organisation> inventory_tree;
     private String cce_mgmt_node;
     private String cce_mgmt_group_syntax;
     private String cce_mgmt_group_delim;
@@ -82,10 +86,16 @@ public class Configuration {
         this.output_dir = path;
     }
     public InventoryConfiguration getInventory_config() {
-        return this.inventory_config;
+        return this.inventory_config; 
     }
     public void setInventory_config(InventoryConfiguration inventory_cfg) {
         this.inventory_config = inventory_cfg;
+    }
+    public LinkedList<Organisation> getInventory_tree() {
+        return this.inventory_tree;
+    }
+    public void setInventory_tree(LinkedList<Organisation> invTree) {
+        this.inventory_tree = invTree;
     }
     public String getCce_mgmt_node() {
         return this.cce_mgmt_node;
@@ -157,4 +167,37 @@ public class Configuration {
     	this.config_directory = cnf_dir;
     }
     
+    @JsonIgnore
+    public boolean treeInclude(String org, String dep, String env) {
+    	if ((getInventory_tree() == null) || (getInventory_tree().size() == 0)) {
+			return true;
+    	}
+
+    	for (int o = 0; o < getInventory_tree().size(); o++) {
+    		Organisation filteredOrg = getInventory_tree().get(o);
+    		if (filteredOrg.getOrg().equals(org)) {
+    			if ((filteredOrg.getDepartments() == null) || (filteredOrg.getDepartments().size() == 0) || (dep == null)) {
+	    			return true;
+    			}
+    			LinkedList<Department> filteredDeps = filteredOrg.getDepartments();
+    	    	for (int d = 0; d < filteredDeps.size(); d++) {
+    	    		Department filteredDep = filteredDeps.get(d);
+    	    		if (filteredDep.getDep().equals(dep)) {
+    	    			if ((filteredDep.getEnvironments() == null) || (filteredDep.getEnvironments().size() == 0) || (env == null)) {
+    		    			return true;
+    	    			}
+    	    			LinkedList<Environment> filteredEnvs = filteredDep.getEnvironments();
+    	    	    	for (int e = 0; e < filteredEnvs.size(); e++) {
+    	    	    		Environment filteredEnv = filteredEnvs.get(e);
+    	    	    		if (filteredEnv.getEnv().equals(env)) {
+    	    	    			return true;
+    	    	    		}
+    	    	    	}
+    	    		}
+   	    		}
+    		}
+    	}
+
+    	return false;
+    }
 }

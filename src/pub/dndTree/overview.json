@@ -1,6 +1,6 @@
 {
-  "name" : "DBP",
-  "level" : "DBP",
+  "name" : "Integration Platform",
+  "level" : "ROOT",
   "children" : [ {
     "name" : "OrganisationX",
     "level" : "ORG",
@@ -96,24 +96,6 @@
           } ]
         } ]
       }, {
-        "name" : "N/A",
-        "level" : "ENV",
-        "children" : [ {
-          "name" : "N/A",
-          "level" : "LAYER",
-          "children" : [ {
-            "name" : "new",
-            "level" : "SERVER",
-            "children" : [ {
-              "name" : "Available",
-              "level" : "NODE",
-              "url" : "node=Available",
-              "hasBaseline" : false,
-              "hasRuntime" : false
-            } ]
-          } ]
-        } ]
-      }, {
         "name" : "Production",
         "level" : "ENV",
         "children" : [ {
@@ -165,90 +147,6 @@
               "level" : "NODE",
               "url" : "node=ORGX_DEV_ESB_V103_IS_02",
               "hasBaseline" : true,
-              "hasRuntime" : true
-            } ]
-          } ]
-        } ]
-      } ]
-    } ]
-  }, {
-    "name" : "OrganisationY",
-    "level" : "ORG",
-    "children" : [ {
-      "name" : "DepartmentA",
-      "level" : "DEP",
-      "children" : [ {
-        "name" : "Development",
-        "level" : "ENV",
-        "children" : [ {
-          "name" : "ESB",
-          "level" : "LAYER",
-          "children" : [ {
-            "name" : "server01",
-            "level" : "SERVER",
-            "children" : [ {
-              "name" : "ORGY_DEV_ESB_V103_IS_01",
-              "level" : "NODE",
-              "url" : "node=ORGY_DEV_ESB_V103_IS_01",
-              "hasBaseline" : false,
-              "hasRuntime" : true
-            } ]
-          } ]
-        } ]
-      }, {
-        "name" : "Test",
-        "level" : "ENV",
-        "children" : [ {
-          "name" : "ESB",
-          "level" : "LAYER",
-          "children" : [ {
-            "name" : "server02",
-            "level" : "SERVER",
-            "children" : [ {
-              "name" : "ORGY_TST_ESB_V103_IS_02",
-              "level" : "NODE",
-              "url" : "node=ORGY_TST_ESB_V103_IS_02",
-              "hasBaseline" : false,
-              "hasRuntime" : true
-            } ]
-          } ]
-        } ]
-      } ]
-    }, {
-      "name" : "DepartmentB",
-      "level" : "DEP",
-      "children" : [ {
-        "name" : "PreProd",
-        "level" : "ENV",
-        "children" : [ {
-          "name" : "ESB",
-          "level" : "LAYER",
-          "children" : [ {
-            "name" : "server03",
-            "level" : "SERVER",
-            "children" : [ {
-              "name" : "ORGY_PPR_ESB_V103_IS_01",
-              "level" : "NODE",
-              "url" : "node=ORGY_PPR_ESB_V103_IS_01",
-              "hasBaseline" : false,
-              "hasRuntime" : true
-            } ]
-          } ]
-        } ]
-      }, {
-        "name" : "Prod",
-        "level" : "ENV",
-        "children" : [ {
-          "name" : "ESB",
-          "level" : "LAYER",
-          "children" : [ {
-            "name" : "server04",
-            "level" : "SERVER",
-            "children" : [ {
-              "name" : "ORGY_PRD_ESB_V103_IS_01",
-              "level" : "NODE",
-              "url" : "node=ORGY_PRD_ESB_V103_IS_01",
-              "hasBaseline" : false,
               "hasRuntime" : true
             } ]
           } ]

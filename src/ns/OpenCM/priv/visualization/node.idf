@@ -32,7 +32,6 @@ bmVudENoaWxkKTsKCQl9Cgl9CglyZXR1cm4gY29tcG9uZW50Q2hpbGRyZW47Cgp9</value>
   <array name="imports" type="value" depth="1">
     <value>java.io.File</value>
     <value>java.util.LinkedList</value>
-    <value>java.util.Collections</value>
     <value>org.opencm.configuration.Configuration</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
     <value>org.opencm.inventory.*</value>

@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="code/source"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/common/lib/ext/commons-httpclient.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/common/lib/ext/httpcore.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/common/lib/wm-isclient.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/lib/wm-isserver.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/testng-6.14.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/jackson-core-2.9.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/jackson-databind-2.9.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/jackson-dataformat-yaml-2.9.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/poi-3.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/poi-ooxml-3.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/guava-26.0-jre.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/poi-ooxml-schemas-3.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/json-path-2.4.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/jackson-annotations-2.9.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/commons-lang3-3.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/client-combined-3.14.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/htmlunit-driver-2.32.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/htmlunit-2.32.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/httpclient-4.5.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/commons-net-3.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/commons-io-2.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/json-20180813.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/reportng-1.1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/10.1/IntegrationServer/instances/default/packages/OpenCM/code/jars/openkeepass-0.8.2-wd.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/jackson-annotations.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/jackson-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/jackson-databind.jar"/>
+	<classpathentry kind="var" path="IS_CLIENT"/>
+	<classpathentry kind="lib" path="code/jars/asm-1.0.2.jar"/>
+	<classpathentry kind="lib" path="code/jars/client-combined-3.14.0.jar"/>
+	<classpathentry kind="lib" path="code/jars/commons-net-3.6.jar"/>
+	<classpathentry kind="lib" path="code/jars/freemarker.jar"/>
+	<classpathentry kind="lib" path="code/jars/htmlunit-2.32.jar"/>
+	<classpathentry kind="lib" path="code/jars/htmlunit-core-js-2.32.jar"/>
+	<classpathentry kind="lib" path="code/jars/htmlunit-cssparser-1.0.0.jar"/>
+	<classpathentry kind="lib" path="code/jars/htmlunit-driver-2.32.1.jar"/>
+	<classpathentry kind="lib" path="code/jars/httpclient-4.5.6.jar"/>
+	<classpathentry kind="lib" path="code/jars/httpmime-4.5.6.jar"/>
+	<classpathentry kind="lib" path="code/jars/jakarta.mail.jar"/>
+	<classpathentry kind="lib" path="code/jars/json-20180813.jar"/>
+	<classpathentry kind="lib" path="code/jars/json-path-2.4.0.jar"/>
+	<classpathentry kind="lib" path="code/jars/json-smart-2.3.jar"/>
+	<classpathentry kind="lib" path="code/jars/neko-htmlunit-2.32.jar"/>
+	<classpathentry kind="lib" path="code/jars/openkeepass-0.8.2-wd.jar"/>
+	<classpathentry kind="lib" path="code/jars/simple-xml-2.7.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/commons-httpclient.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/httpcore.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/commons-io.jar"/>
+	<classpathentry kind="var" path="IS_SERVER"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/jackson-dataformat-yaml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/commons-lang3.jar"/>
 	<classpathentry kind="output" path="code/classes"/>
 </classpath>
