@@ -98,7 +98,7 @@
     </div>
 	<section id="canvasArea">
 		<div id="canvasLogo">
-			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repository</a><br/><span>v2.0.2</span></h2>
+			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repository</a><br/><span>v2.0.3</span></h2>
 		</div>
 		<div id="canvasTree"></div>
 	</section>

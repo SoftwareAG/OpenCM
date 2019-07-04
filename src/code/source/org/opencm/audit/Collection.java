@@ -148,12 +148,15 @@ public class Collection {
 			while (it.hasNext()) {
 				ar.addNumPropertiesAudited();
 				PropertyItem pi = it.next();
-				if (pi.isEqual()) {
+				if (pi.isEqual() && (pi.getPropertyLocations().size() == ar.getNumDistinctLocations(pi.getPropertyLocations().getFirst().getLocation().getComponent()))) {
 					it.remove();
 				} else {
 					ar.addNumPropertiesDifferent();
 				}
 			}
+			
+			// => Now populate all properties with a full set of locations
+			ar.backfillLocations();
 			
 		}
 		if (ac.getAudit_type().equals(AuditConfiguration.AUDIT_TYPE_BASELINE)) {
