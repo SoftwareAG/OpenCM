@@ -365,6 +365,14 @@
 		return treeNodes;
 	}
 	
+	function getReportDiffsFlag() {
+		if ($("#reportDiffsCheckbox").is(':checked')) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 	function isCompleted() {
 		if (getPropertyComponent() == null) {
 			return false;
@@ -399,7 +407,8 @@
 					prop_instance: getPropertyInstance(),
 					prop_key: getPropertyKey(),
 					prop_filters: getPropertyFilters(),
-					tree_nodes: getSelectedTreeNodes()
+					tree_nodes: getSelectedTreeNodes(),
+					report_diffs: getReportDiffsFlag()
 				}
 			}
 		};
@@ -420,6 +429,19 @@
 		} else {
 			$("#conf-template",window.parent.frames[0].document).html("");
 		}
+	}
+	
+	function updateReportDiffsMenu() {
+		// Update the left menu for difference reporting
+		var htmlString = "<table class=\"table table-bordered table-condensed\">";
+		htmlString += "<tr><th class=\"active\">Include in Result</th></tr><tbody>";
+		if (getReportDiffsFlag()) {
+			htmlString += "<tr><td>Only Differences</td></tr>";
+		} else {
+			htmlString += "<tr><td>ALL Values</td></tr>";
+		}
+		htmlString += "</tbody></table>";
+		$("#conf-diffs",window.parent.frames[0].document).html(htmlString);
 	}
 	
 	function updatePropsMenu() {
@@ -533,6 +555,7 @@
 		}
 	}
 	
+	
 	/* -------------------------------------------------------------------------
 	*	Template functions
 	*  ------------------------------------------------------------------------*/
@@ -607,6 +630,16 @@
 		}
 	}
 	
+	// Template Report Diffs 
+	function setTemplateReportDiffs() {
+		if ((audit_template_data.report_diffs != null) && (audit_template_data.report_diffs == "false")) {
+			$('#reportDiffsCheckbox').prop("checked", false);
+		} else {
+			$('#reportDiffsCheckbox').prop("checked", true);
+		}
+		updateReportDiffsMenu();
+	}
+	
 	/*
 	* Update values based on selected template
 	*
@@ -620,7 +653,7 @@
 		setTemplateType();
 		setTemplateTreeNodes();
 		setTemplateFileName(prop);
-		
+		setTemplateReportDiffs();
 	}
 	
 	/*
@@ -661,6 +694,9 @@
 		$('#prop-templates option:selected').prop("selected", false);
 		$('#prop-templates').trigger('chosen:updated');
 		updateTemplateMenu();
+		
+		$('#reportDiffsCheckbox').prop("checked", true);
+		updateReportDiffsMenu();
 	}
 
 	/*
@@ -824,6 +860,12 @@
 			} else {
 				$("#btn-prev").show();
 			}
+			if ((jQuery.inArray( stepNumber, [4,5] ) >= 0) && (getAuditType() == "layered")) {
+				$("#reportDiffs").show();
+			} else {
+				$("#reportDiffs").hide();
+			}
+			
 			if (stepNumber == 4) {
 				if (isCompleted()) {
 					$("#submit-text-incomplete").hide();
@@ -841,7 +883,7 @@
 				$("#btn-finish").show();
 			} else {
 				$("#btn-next").show();
-				$("#btn-finish").hide(); 			
+				$("#btn-finish").hide();
 			}
 		});		
 		
@@ -890,6 +932,11 @@
 			reset();
 			return true;
 		});
+
+		// --------------------------------------------
+		// Always show the difference reporting ...
+		// --------------------------------------------
+		updateReportDiffsMenu();
 
 		// --------------------------------------------
 		// Initializing Templates
@@ -954,7 +1001,7 @@
 		// Disable saving template ...
 		// --------------------------------------------
 		$('#btn-save').addClass("disabled");
-
+		
 	});
 
   </script>
@@ -982,7 +1029,12 @@
 				 <td width="10%" style="text-align: left">
 				  <button class="btn btn-primary" id="btn-next" type="button">Next Step</button>
 				 </td>
-				 <td width="40%"></td>
+				 <td width="40%" style="text-align: center">
+					<div id="reportDiffs" class="form-check form-check-inline">
+					  <input class="form-check-input" type="checkbox" id="reportDiffsCheckbox" value="reportAll" checked>
+					  <label class="form-check-label" for="reportDiffsCheckbox">Report Differences Only</label>
+					</div>
+				 </td>
 				 <td width="20%" style="text-align: right">
 				  <button class="btn btn-secondary" id="btn-reset" type="button">Start Over</button>
 				 </td>
@@ -1259,9 +1311,12 @@
 	});
 	
 	// -----------------------
-	// Filter on TreeNodes
+	// Report Differences
 	// -----------------------
-		
+	$( "#reportDiffsCheckbox" ).change(function() {
+		updateReportDiffsMenu();
+	});
+	
 	// -----------------------
 	// Audit Description
 	// -----------------------

@@ -148,8 +148,11 @@ public class Collection {
 			while (it.hasNext()) {
 				ar.addNumPropertiesAudited();
 				PropertyItem pi = it.next();
-				if (pi.isEqual() && (pi.getPropertyLocations().size() == ar.getNumDistinctLocations(pi.getPropertyLocations().getFirst().getLocation().getComponent()))) {
-					it.remove();
+				if (pi.isEqual() && (pi.getPropertyLocations().size() == ar.getNumDistinctLocations())) {
+					// Ability to include all result in audit, equal or different..
+					if ((ac.getReport_diffs() == null) || ac.getReport_diffs().equals("true")) {
+						it.remove();
+					}
 				} else {
 					ar.addNumPropertiesDifferent();
 				}

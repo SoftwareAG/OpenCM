@@ -295,9 +295,6 @@
     }, {
       "name" : "wMFix.SPM",
       "level" : "INSTANCE"
-    }, {
-      "name" : "wMFix.SUMApi",
-      "level" : "INSTANCE"
     } ]
   }, {
     "name" : "NODE-PRODUCTS",

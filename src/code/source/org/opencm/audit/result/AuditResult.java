@@ -1,6 +1,5 @@
 package org.opencm.audit.result;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -16,7 +15,7 @@ public class AuditResult {
 	private int numPropertiesDifferent = 0;
 	private LinkedList<LocationItem> locationItems;
     private LinkedList<PropertyItem> propertyItems;
-    private HashMap<String,LinkedList<Location>> hmDistinctLocations;  
+    private LinkedList<Location> distinctLocations;  
 
     public AuditResult(String auditType) {
     	if (auditType.equals(AuditConfiguration.AUDIT_TYPE_BASELINE)) {
@@ -24,7 +23,7 @@ public class AuditResult {
     	} else {
         	this.propertyItems = new LinkedList<PropertyItem>();
     	}
-    	this.hmDistinctLocations = new HashMap<String,LinkedList<Location>>();
+    	this.distinctLocations = new LinkedList<Location>();
     }
 	
     public int getNumPropertiesAudited() {
@@ -103,8 +102,26 @@ public class AuditResult {
     	}
     }
     
-    public int getNumDistinctLocations(String component) {
-        return getDistinctLocations(component).size();
+    private LinkedList<Location> getDistinctLocations() {
+        return this.distinctLocations;
+    }
+    private void addDistinctLocations(PropertyItem pi) {
+    	for (int i = 0; i < pi.getPropertyLocations().size(); i++) {
+    		addDistinctLocation(pi.getPropertyLocations().get(i).getLocation());
+    	}
+    }
+    private void addDistinctLocation(Location loc) {
+    	for (int i = 0; i < getDistinctLocations().size(); i++) {
+    		Location l = getDistinctLocations().get(i);
+    		if (sameLocation(loc,l)) {
+    			return;
+    		}
+    	}
+        this.distinctLocations.add(loc);
+    }
+    
+    public int getNumDistinctLocations() {
+        return getDistinctLocations().size();
     }
     
     /**
@@ -118,7 +135,7 @@ public class AuditResult {
 		while (it.hasNext()) {
 			PropertyItem pi = it.next();
 	    	LinkedList<PropertyLocation> pls = pi.getPropertyLocations();
-	    	LinkedList<Location> distinctLocsList = getDistinctLocations(pls.getFirst().getLocation().getComponent());
+	    	LinkedList<Location> distinctLocsList = getDistinctLocations();
 	    	
         	for (int i = 0; i < distinctLocsList.size(); i++) {
 	    		Location distLocation = distinctLocsList.get(i);
@@ -131,8 +148,8 @@ public class AuditResult {
 	        		}
 	        	}
 		    	if (!distLocationIncluded) {
-		    		distLocation.setInstance(pls.getFirst().getLocation().getInstance());
-	            	pi.addPropertyLocation(new PropertyLocation(distLocation, AUDIT_VALUE_MISSING));
+		    		Location missingLoc = new Location(distLocation.getOrganisation(),distLocation.getDepartment(),distLocation.getEnvironment(),distLocation.getInstallation(),pls.getFirst().getLocation().getComponent(),pls.getFirst().getLocation().getInstance());
+	            	pi.addPropertyLocation(new PropertyLocation(missingLoc, AUDIT_VALUE_MISSING));
 		    	}
 	    	}
 	    	
@@ -140,35 +157,6 @@ public class AuditResult {
     	
     }
 
-    private LinkedList<Location> getDistinctLocations(String component) {
-        return this.hmDistinctLocations.get(component);
-    }
-    
-    private void addDistinctLocations(PropertyItem pi) {
-    	for (int i = 0; i < pi.getPropertyLocations().size(); i++) {
-    		addDistinctLocation(pi.getPropertyLocations().get(i).getLocation());
-    	}
-    }
-    
-    private void addDistinctLocation(Location loc) {
-    	LinkedList<Location> locs = getDistinctLocations(loc.getComponent());
-    	
-    	if (locs == null) {
-    		locs = new LinkedList<Location>();
-    		locs.add(loc);
-    		this.hmDistinctLocations.put(loc.getComponent(), locs);
-    		return;
-    	}
-    	for (int i = 0; i < locs.size(); i++) {
-    		Location l = locs.get(i);
-    		if (sameLocation(loc,l)) {
-    			return;
-    		}
-    	}
-    	locs.add(loc);
-    }
-    
-    
     private boolean sameLocation(Location loc1, Location loc2) {
     	if (!loc1.getOrganisation().equals(loc2.getOrganisation())) {
     		return false;

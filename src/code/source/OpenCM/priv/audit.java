@@ -198,6 +198,8 @@ public final class audit
 					auditConf.setTree_nodes(treeNodes);
 				}
 				
+				auditConf.setReport_diffs(IDataUtil.getString( submitDataCursor, "report_diffs" ));
+				
 				submitDataCursor.destroy();
 			}
 			auditConfigurationCursor.destroy();
@@ -361,6 +363,8 @@ public final class audit
 					}
 					auditConf.setTree_nodes(treeNodes);
 				}
+				
+				auditConf.setReport_diffs(IDataUtil.getString( submitDataCursor, "report_diffs" ));
 				
 				submitDataCursor.destroy();
 			}

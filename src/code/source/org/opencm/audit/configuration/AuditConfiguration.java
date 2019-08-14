@@ -25,6 +25,7 @@ public class AuditConfiguration {
 	private String prop_key;
 	private LinkedList<PropertyFilter> prop_filters; 
 	private LinkedList<TreeNode> tree_nodes;
+	private String report_diffs;
 	
     public static AuditConfiguration instantiate(Configuration opencmConfig, String templateName) {
     	AuditConfiguration auditConf = null;
@@ -101,6 +102,13 @@ public class AuditConfiguration {
         this.tree_nodes = treeNodes;
     }
     
+    public String getReport_diffs() {
+        return this.report_diffs;
+    }
+    public void setReport_diffs(String flag) {
+        this.report_diffs = flag;
+    }
+
 
     @JsonIgnore
     public void write(Configuration opencmConfig, String templateName) {

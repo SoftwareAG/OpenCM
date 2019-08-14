@@ -38,6 +38,16 @@ public class Location {
     	setInstance(instance);
     }
 	
+	// For distinct locations in layered audits
+    public Location(String org, String dep, String env, String installation, String component, String instance) {
+    	setOrganisation(org);
+    	setDepartment(dep);
+    	setEnvironment(env);
+    	setInstallation(installation);
+    	setComponent(component);
+    	setInstance(instance);
+    }
+	
     public String getOrganisation() {
         return this.organisation;
     }
