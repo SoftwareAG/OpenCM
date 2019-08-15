@@ -90,9 +90,14 @@ public class JsonParser {
 			if (stKey.equals("/") || stKey.equals("*")) {
 				readNode(rootNode, "/");
 			} else {
-				JsonNode innerNode = rootNode.at(stKey);
-				LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"setJsonPaths InnerNode: " + innerNode.toString());
-				readNode(innerNode, stKey);
+				if (stKey.endsWith("*")) {
+					// Allow for wildcard char in key name
+					readNode(rootNode, stKey);
+				} else {
+					JsonNode innerNode = rootNode.at(stKey);
+					LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"setJsonPaths InnerNode: " + innerNode.toString());
+					readNode(innerNode, stKey);
+				}
 			}
     	} catch (Exception e) {
 			LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM JsonParser: " + e.toString());
@@ -144,6 +149,17 @@ public class JsonParser {
 		    			String storeKey = key + "/" + jsonFieldName;
 		    			if (key.equals("/")) {
 		    				storeKey = key + jsonFieldName;
+		    			}
+		    			// Might have a wild-card in key
+		    			if (key.endsWith("*")) {
+		    				if (matches(jsonFieldName, key.substring(1))) {
+		    					LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," => Wilcard match for " + key + " :: " + jsonFieldName);
+				    			storeKey = "/" + jsonFieldName;
+		    				} else {
+		    					// Ignore this property
+		    					LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE," => Ignoring wilcard match for " + key + " :: " + jsonFieldName);
+		    					continue;
+		    				}
 		    			}
 		    			if (jsonNode.findValue(jsonFieldName).isTextual()) {
 							LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE,"Setting TextValue: " + jsonFieldName +  " = " + jsonNode.findValue(jsonFieldName).textValue());
