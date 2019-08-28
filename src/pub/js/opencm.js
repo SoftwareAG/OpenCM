@@ -113,6 +113,11 @@ function refreshInventory() {
 	callJsonService( "/invoke/OpenCM.pub.dsp.configuration/refreshInventory", "{}");
 	location.reload();
 }
+function performInventoryReport() {
+	$.get( "/invoke/OpenCM.pub.dsp.configuration/generateInventoryReport");
+	$('#notification').html("<p>Generating Inventory Report (into output folder) ...</p>");
+	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+}
 
 function performEncrypt() {
 	$.get( "/invoke/OpenCM.pub.dsp.configuration/encrypt");

@@ -747,6 +747,9 @@ a#RightButton.highlighted:hover {
 #conf_RefreshInventory>a:before {
     content: "\21BB"
 }
+#conf_InventoryReport>a:before {
+    content: "\2611"
+}
 #audit_PerformBaselineSingleAudit>a:before {
     content: "\21BB"
 }
