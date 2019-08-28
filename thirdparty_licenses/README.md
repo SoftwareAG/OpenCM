@@ -1,5 +1,5 @@
 # Third Party Licenses
-OpenCM makes use of a collection of other open source libraries, utilities, icons and scripts   
+OpenCM makes use of a collection of other open source libraries, utilities, icons and scripts.
  
 
 ## Java Scripts
