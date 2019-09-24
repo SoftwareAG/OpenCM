@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 import org.opencm.configuration.Configuration;
 import org.opencm.configuration.PkgConfiguration;
-import org.opencm.configuration.model.*;
 import org.opencm.inventory.Inventory;
 import org.opencm.inventory.Server;
 import org.opencm.inventory.Installation;
@@ -140,51 +139,12 @@ public final class cce
 		CceUtils cceUtils = new CceUtils(opencmConfig, inv);
 		
 		if (action.equals("refreshAll")) {
-			// -------------------------------------------------------------------- 
-			// Determine what to create based on configuration
 			// --------------------------------------------------------------------
-			LinkedList<Installation> installations = new LinkedList<Installation>();
-			LinkedList<Organisation> configOrgs = opencmConfig.getCce_mgmt_create();
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Processing Organisations " + configOrgs.size());
-			for (int o = 0; o < configOrgs.size(); o++) {
-				Organisation configOrg = configOrgs.get(o);
-				if ((configOrg.getDepartments() == null) || (configOrg.getDepartments().size() == 0)) {
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No departments specified for org " + configOrg.getOrg() + " .. retrieving all nodes under this org.");
-					// Collect all nodes defined under this Org
-					LinkedList<Installation> invNodes = inv.getInstallations(configOrg.getOrg(),null,null);
-					installations = addInstallations(installations, invNodes);
-				} else {
-					LinkedList<Department> configDeps = configOrg.getDepartments();
-					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Processing Departments " + configDeps.size());
-					for (int d = 0; d < configDeps.size(); d++) {
-						Department configDep = configDeps.get(d);
-						if ((configDep.getEnvironments() == null) || (configDep.getEnvironments().size() == 0)) {
-							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No environments specified for dep " + configDep.getDep() + " .. retrieving all nodes under this dep.");
-							// Collect all nodes defined under this Dep
-							LinkedList<Installation> invNodes = inv.getInstallations(configOrg.getOrg(),configDep.getDep(),null);
-							installations = addInstallations(installations, invNodes);
-						} else {
-							LinkedList<Environment> configEnvs = configDep.getEnvironments();
-							LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Processing Environments " + configEnvs.size());
-							for (int e = 0; e < configEnvs.size(); e++) {
-								Environment configEnv = configEnvs.get(e);
-								if ((configEnv.getNodes() == null) || (configEnv.getNodes().size() == 0)) {
-									LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," No nodes specified for env " + configEnv.getEnv() + " .. retrieving all nodes under this env.");
-									// Collect all nodes defined under this Env
-									LinkedList<Installation> invNodes = inv.getInstallations(configOrg.getOrg(),configDep.getDep(),configEnv.getEnv());
-									installations = addInstallations(installations, invNodes);
-								} else {
-									// Add individual nodes
-									LinkedList<String> configNodes = configEnv.getNodes();
-									for (int n = 0; n < configNodes.size(); n++) {
-										installations = addInstallation(installations, inv.getInstallation(configNodes.get(n)));
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+			// Define which installations to create
+			// --------------------------------------------------------------------
+			LinkedList<Installation> installations = inv.createInventory(opencmConfig, opencmConfig.getCce_mgmt_create()).getAllInstallations();
+			
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," CCE Nodes: Installations to be added: " + installations.size());
 			
 			// -------------------------------------------------------------------- 
 			// Based on each installation, create group names and populate hashmap
@@ -354,22 +314,7 @@ public final class cce
 	}
 
 	// --- <<IS-START-SHARED>> ---
-	private static LinkedList<Installation> addInstallation(LinkedList<Installation> nodeList, Installation inst) {
-		if ((inst != null) && !nodeList.contains(inst)) {
-			nodeList.add(inst);
-		}
-		return nodeList;
-	}
-	private static LinkedList<Installation> addInstallations(LinkedList<Installation> nodeList, LinkedList<Installation> toAdd) {
-		for (int i = 0; i < toAdd.size(); i++) {
-			Installation inst = toAdd.get(i);
-			if (!nodeList.contains(inst)) {
-				nodeList.add(inst);
-			}
-		}
-		return nodeList;
-	}
-		
+	
 	// --- <<IS-END-SHARED>> ---
 }
 

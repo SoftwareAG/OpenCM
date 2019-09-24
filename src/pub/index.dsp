@@ -98,7 +98,7 @@
     </div>
 	<section id="canvasArea">
 		<div id="canvasLogo">
-			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repository</a><br/><span>v2.0.6</span></h2>
+			<h2><a title="DBP Overview" href="/OpenCM">OpenCM Configuration Management Repository</a><br/><span>v2.0.7</span></h2>
 		</div>
 		<div id="canvasTree"></div>
 	</section>
@@ -115,6 +115,8 @@
 			<!-- Repository Menu -->
 			<li id="repoMenu"><a href="/OpenCM">Repository</a>
                <ul class="subMenu repoMenu">
+				   <!-- Create Connectivity Report -->
+				   <li id="createConnectivityReportMenu"><a href="javascript:;" onclick="createConnectivityReport();">Create Connectivity Report</a></li>
 				   <!-- Initiate Full Snapshot generation -->
 				   <li id="extractFromPropsMenu"><a href="javascript:;" onclick="extractWithProps();">Extract using Properties</a></li>
 				   <!-- Initiate Snapshot for a single node -->

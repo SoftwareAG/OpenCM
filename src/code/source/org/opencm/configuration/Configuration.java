@@ -43,6 +43,7 @@ public class Configuration {
     private String output_dir;
     private InventoryConfiguration inventory_config;
     private LinkedList<Organisation> inventory_tree;
+    private LinkedList<Organisation> extracts;
     private String cce_mgmt_node;
     private String cce_mgmt_group_syntax;
     private String cce_mgmt_group_delim;
@@ -96,6 +97,12 @@ public class Configuration {
     }
     public void setInventory_tree(LinkedList<Organisation> invTree) {
         this.inventory_tree = invTree;
+    }
+    public LinkedList<Organisation> getExtract() {
+        return this.extracts;
+    }
+    public void setExtract(LinkedList<Organisation> orgs) {
+        this.extracts = orgs;
     }
     public String getCce_mgmt_node() {
         return this.cce_mgmt_node;
@@ -200,4 +207,5 @@ public class Configuration {
 
     	return false;
     }
+
 }

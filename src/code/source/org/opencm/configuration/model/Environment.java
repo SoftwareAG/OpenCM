@@ -6,6 +6,9 @@ public class Environment {
 
     private String environment;
     private LinkedList<String> nodes;
+    private LinkedList<String> layers;
+    private LinkedList<String> sublayers;
+    private LinkedList<String> versions;
 
     public String getEnv() {
         return this.environment;
@@ -18,4 +21,15 @@ public class Environment {
         return this.nodes;
     }
     
+    public LinkedList<String> getLayers() {
+        return this.layers;
+    }
+    
+    public LinkedList<String> getSublayers() {
+        return this.sublayers;
+    }
+    
+    public LinkedList<String> getVersions() {
+        return this.versions;
+    }
 }

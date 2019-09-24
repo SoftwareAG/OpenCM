@@ -1,15 +1,14 @@
 package org.opencm.inventory;
 
 import java.util.LinkedList;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Organisation {
 
     private String name;
     private LinkedList<Department> departments;
 
-    @JsonPropertyOrder({ "name", "departments" })
-    
     public String getName() {
         return this.name;
     }
@@ -23,5 +22,14 @@ public class Organisation {
     public void setDepartments(LinkedList<Department> deps) {
         this.departments = deps;
     }
+    
+    @JsonIgnore
+    public Organisation getCopy() {
+    	Organisation org = new Organisation();
+		org.setName(getName());
+		return org;
+    }
+
+
     
 }

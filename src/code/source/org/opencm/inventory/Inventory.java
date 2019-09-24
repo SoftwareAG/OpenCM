@@ -220,6 +220,23 @@ public class Inventory {
     }
 
     @JsonIgnore
+    public Department getDepartment(String organisation, String department) {
+ 		for (int o = 0; o < this.inventory.size(); o++) {
+ 			Organisation org = this.inventory.get(o);
+ 			if (org.getName().equals(organisation)) {
+ 				LinkedList<Department> deps = org.getDepartments();
+ 		 		for (int d = 0; d < deps.size(); d++) {
+ 		 			Department dep = deps.get(d);
+ 		 			if (dep.getName().equals(department)) {
+ 		 				return dep;
+ 		 			}
+ 		 		}
+ 			}
+		}
+        return null;
+    }
+
+    @JsonIgnore
     public Organisation getNodeOrganisation(String nodeName) {
  		for (int o = 0; o < this.inventory.size(); o++) {
  			Organisation org = this.inventory.get(o);
@@ -356,6 +373,31 @@ public class Inventory {
     }
     
     @JsonIgnore
+    private boolean serverExistsForEnvironment(String server, String env) {
+ 		for (int o = 0; o < this.inventory.size(); o++) {
+ 			Organisation org = this.inventory.get(o);
+ 			LinkedList<Department> opDeps = org.getDepartments();
+ 	 		for (int d = 0; d < opDeps.size(); d++) {
+ 	 			Department opDep = opDeps.get(d);
+ 	 			LinkedList<Server> srvs = opDep.getServers();
+ 	 	 		for (int s = 0; s < srvs.size(); s++) {
+ 	 	 			Server srv = srvs.get(s);
+ 	 	 			if (srv.getName().equals(server)) {
+ 	 	 	 			LinkedList<Installation> installations = srv.getInstallations();
+ 	 	 	 	 		for (int i = 0; i < installations.size(); i++) {
+ 	 	 	 	 			Installation inst = installations.get(i);
+ 		 	 	 			if (inst.getEnvironment().equals(env)) {
+ 		 	 	 				return true;
+ 		 	 	 			}
+ 	 	 	 	 		}
+ 	 	 			}
+ 	 	 		}
+ 	 		}
+		}
+        return false;
+    }
+    
+    @JsonIgnore
     public LinkedList<Installation> getAllInstallations() {
     	LinkedList<Installation> insts = new LinkedList<Installation>();
  		for (int o = 0; o < this.inventory.size(); o++) {
@@ -402,37 +444,6 @@ public class Inventory {
 		}
         return insts;
     }
-    
-    @JsonIgnore
-    public LinkedList<Installation> getInstallationsByConfigModel(LinkedList<org.opencm.configuration.model.Organisation> model) {
-    	LinkedList<Installation> insts = new LinkedList<Installation>();
- 		for (int o = 0; o < model.size(); o++) {
- 			String modelOrg = model.get(o).getOrg();
- 			if ((model.get(o).getDepartments() == null) || (model.get(o).getDepartments().size() == 0)) {
- 				insts.addAll(getInstallations(modelOrg, null, null));
- 			} else {
- 		 		for (int d = 0; d < model.get(o).getDepartments().size(); d++) {
- 		 			String modelDep = model.get(o).getDepartments().get(d).getDep();
- 		 			if ((model.get(o).getDepartments().get(d).getEnvironments() == null) || (model.get(o).getDepartments().get(d).getEnvironments().size() == 0)) {
- 		 				insts.addAll(getInstallations(modelOrg, modelDep, null));
- 		 			} else {
- 		 		 		for (int e = 0; e < model.get(o).getDepartments().get(d).getEnvironments().size(); e++) {
- 		 		 			String modelEnv = model.get(o).getDepartments().get(d).getEnvironments().get(e).getEnv();
- 		 		 			if ((model.get(o).getDepartments().get(d).getEnvironments().get(e).getNodes() == null) || (model.get(o).getDepartments().get(d).getEnvironments().get(e).getNodes().size() == 0)) {
- 		 		 				insts.addAll(getInstallations(modelOrg, modelDep, modelEnv));
- 		 		 			} else {
- 		 		 		 		for (int n = 0; n < model.get(o).getDepartments().get(d).getEnvironments().get(e).getNodes().size(); n++) {
- 		 		 		 			insts.add(getInstallation(model.get(o).getDepartments().get(d).getEnvironments().get(e).getNodes().get(n)));
- 		 		 		 		}
- 		 		 			}
- 		 		 		}
- 		 			}
- 		 		}
- 			}
- 		}
-        return insts;
-    }
-
     
     @JsonIgnore
     public LinkedList<String> getAllEnvironments() {
@@ -592,4 +603,224 @@ public class Inventory {
     	return false;
     }
     
+    @JsonIgnore
+    /*
+     * Create a subset of the inventory based on a configured filter
+     * 
+     */
+    public Inventory createInventory(Configuration opencmConfig, LinkedList<org.opencm.configuration.model.Organisation> configModel) {
+    	Inventory configInv = new Inventory();
+
+		// ---------------------------------------------
+		// Nothing specified... return full inventory
+		// ---------------------------------------------
+    	if ((configModel == null) || (configModel.size() == 0)) {
+    		return this;
+    	}
+    	
+		// --------------------------------
+		// Organisations
+		// --------------------------------
+		LinkedList<Organisation> newOrganisations = new LinkedList<Organisation>();
+		LinkedList<Organisation> invOrganisations = getInventory();
+		for (int o = 0; o < invOrganisations.size(); o++) {
+			Organisation invOrganisation = invOrganisations.get(o);
+			if (!filtered(invOrganisation, null, null, null, configModel)) {
+				// This organisation is not part of the configured list
+				continue;
+			}
+			Organisation newOrganisation = invOrganisation.getCopy();
+			// --------------------------------
+			// Departments
+			// --------------------------------
+			LinkedList<Department> newDepartments = new LinkedList<Department>();
+			LinkedList<Department> invDepartments = invOrganisation.getDepartments();
+			for (int d = 0; d < invDepartments.size(); d++) {
+				Department invDepartment = invDepartments.get(d);
+				if (!filtered(invOrganisation, invDepartment, null, null, configModel)) {
+					// This department is not part of the configured list
+					continue;
+				}
+				Department newDepartment = invDepartment.getCopy();
+				// --------------------------------
+				// Servers
+				// --------------------------------
+				LinkedList<Server> newServers = new LinkedList<Server>();
+				LinkedList<Server> invServers = invDepartment.getServers();
+				for (int s = 0; s < invServers.size(); s++) {
+					Server invServer = invServers.get(s);
+					if (!filtered(invOrganisation, invDepartment, invServer, null, configModel)) {
+						// This server is not part of the configured list
+						continue;
+					}
+					Server newServer = invServer.getCopy();
+					// --------------------------------
+					// Installations
+					// --------------------------------
+					LinkedList<Installation> newInstallations = new LinkedList<Installation>();
+					LinkedList<Installation> invInstallations = invServer.getInstallations();
+					for (int i = 0; i < invInstallations.size(); i++) {
+						Installation invInst = invInstallations.get(i);
+						if (!filtered(invOrganisation, invDepartment, invServer, invInst, configModel)) {
+							// This installation is not part of the configured list
+							continue;
+						}
+						newInstallations.add(invInst.getCopy());
+					}
+    				newServer.setInstallations(newInstallations);
+					newServers.add(newServer);
+				}
+				newDepartment.setServers(newServers);
+				newDepartments.add(newDepartment);
+			}
+			newOrganisation.setDepartments(newDepartments);
+			newOrganisations.add(newOrganisation);
+		}
+		
+		configInv.setInventory(newOrganisations);
+    	
+    	return configInv;
+    }
+    
+    
+    @JsonIgnore
+    private boolean filtered(Organisation org, Department dep, Server server, Installation inst, LinkedList<org.opencm.configuration.model.Organisation> configModel) {
+    	// --------------------------------
+    	// Inspect Org
+    	// --------------------------------
+    	if ((configModel == null) || (configModel.size() == 0)) {
+    		return true;
+    	}
+    	for (int o = 0; o < configModel.size(); o++) {
+    		org.opencm.configuration.model.Organisation configOrg = configModel.get(o);
+    		if (configOrg.getOrg().equals(org.getName())) {
+    			if (dep == null) {
+    				return true;
+    			}
+		    	// ----------------------------------------
+		    	// Also Ok, if there are no dep configured
+		    	// ----------------------------------------
+		    	if ((configOrg.getDepartments() == null) || (configOrg.getDepartments().size() == 0)) {
+		    		return true;
+		    	}
+		    	// --------------------------------
+		    	// Inspect Department
+		    	// --------------------------------
+		    	for (int d = 0; d < configOrg.getDepartments().size(); d++) {
+		    		org.opencm.configuration.model.Department configDep = configOrg.getDepartments().get(d);
+		    		if (configDep.getDep().equals(dep.getName())) {
+		    			if (server == null) {
+		    				return true;
+		    			} 
+				    	// ----------------------------------------
+				    	// Also Ok, if there are no env configured
+				    	// ----------------------------------------
+	    		    	if ((configDep.getEnvironments() == null) || (configDep.getEnvironments().size() == 0)) {
+	    		    		return true;
+	    		    	}
+	    		    	// --------------------------------
+	    		    	// Inspect Filters under Environment
+	    		    	// --------------------------------
+	    		    	for (int e = 0; e < configDep.getEnvironments().size(); e++) {
+	    		    		org.opencm.configuration.model.Environment configEnv = configDep.getEnvironments().get(e);
+	    		    		if (serverExistsForEnvironment(server.getName(),configEnv.getEnv())) {
+    		    		    	// --------------------------------
+    		    		    	// Inspect Installation
+    		    		    	// --------------------------------
+	    		    			if (inst == null) {
+	    		    				return true;
+	    		    			}
+    		    		    	// --------------------------------
+    		    		    	// If no additional filters, also ok
+    		    		    	// --------------------------------
+    		    		    	if ((configEnv.getNodes() == null) || (configEnv.getNodes().size() == 0)) {
+        		    		    	if ((configEnv.getLayers() == null) || (configEnv.getLayers().size() == 0)) {
+            		    		    	if ((configEnv.getSublayers() == null) || (configEnv.getSublayers().size() == 0)) {
+                		    		    	if ((configEnv.getVersions() == null) || (configEnv.getVersions().size() == 0)) {
+                		    		    		return true;
+                		    		    	}
+            		    		    	}
+        		    		    	}
+    		    		    	}
+	    				    	// ----------------------------------------
+	    				    	// Check Defined Filters
+	    				    	// ----------------------------------------
+    		    		    	// --------------------------------
+    		    		    	// Inspect Filtered Installations
+    		    		    	// --------------------------------
+    		    		    	if ((configEnv.getNodes() != null) && (configEnv.getNodes().size() > 0)) {
+    		    		    		boolean lFilter = false;
+	    		    		    	for (int n = 0; n < configEnv.getNodes().size(); n++) {
+	    		    		    		if (configEnv.getNodes().get(n).equals(inst.getName())) {
+	    		    		    			lFilter = true;
+	    		    		    			break;
+	    		    		    		}
+	    		    		    	}
+	    		    		    	// Installation filtered but not one of them
+	    		    		    	if (!lFilter) {
+	    		    		    		return false;
+	    		    		    	}
+    		    		    	}
+    		    		    	// --------------------------------
+    		    		    	// Inspect Filtered Layers
+    		    		    	// --------------------------------
+    		    		    	if ((configEnv.getLayers() != null) && (configEnv.getLayers().size() > 0)) {
+    		    		    		boolean lFilter = false;
+	    		    		    	for (int n = 0; n < configEnv.getLayers().size(); n++) {
+	    		    		    		if (configEnv.getLayers().get(n).equals(inst.getLayer())) {
+	    		    		    			lFilter = true;
+	    		    		    			break;
+	    		    		    		}
+	    		    		    	}
+	    		    		    	// Layer filtered but not one of them
+	    		    		    	if (!lFilter) {
+	    		    		    		return false;
+	    		    		    	}
+    		    		    	}
+    		    		    	// --------------------------------
+    		    		    	// Inspect Filtered Sublayers
+    		    		    	// --------------------------------
+    		    		    	if ((configEnv.getSublayers() != null) && (configEnv.getSublayers().size() > 0)) {
+    		    		    		boolean lFilter = false;
+	    		    		    	for (int n = 0; n < configEnv.getSublayers().size(); n++) {
+	    		    		    		if (configEnv.getSublayers().get(n).equals(inst.getSublayer())) {
+	    		    		    			lFilter = true;
+	    		    		    			break;
+	    		    		    		}
+	    		    		    	}
+	    		    		    	// Sublayer filtered but not one of them
+	    		    		    	if (!lFilter) {
+	    		    		    		return false;
+	    		    		    	}
+    		    		    	}
+    		    		    	// --------------------------------
+    		    		    	// Inspect Filtered Versions
+    		    		    	// --------------------------------
+    		    		    	if ((configEnv.getVersions() != null) && (configEnv.getVersions().size() > 0)) {
+    		    		    		boolean lFilter = false;
+	    		    		    	for (int n = 0; n < configEnv.getVersions().size(); n++) {
+	    		    		    		if (configEnv.getVersions().get(n).equals(inst.getVersion())) {
+	    		    		    			lFilter = true;
+	    		    		    			break;
+	    		    		    		}
+	    		    		    	}
+	    		    		    	// Version filtered but not one of them
+	    		    		    	if (!lFilter) {
+	    		    		    		return false;
+	    		    		    	}
+    		    		    	}
+    		    		    	
+    		    		    	// All defined filters are applied and ok
+   		    		    		return true;
+		    		    	}
+		    			}
+		    		}
+    			}
+			}
+    	}
+    	
+    	return false;
+    
+    }
+    	
 }

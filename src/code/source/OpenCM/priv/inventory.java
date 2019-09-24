@@ -116,7 +116,7 @@ public final class inventory
 									if ((lInst.getRuntimes() != null) && (lInst.getRuntimes().size() > 0)) {
 										LinkedList<RuntimeComponent> lRuntimes = lInst.getRuntimes();
 										for (int r = 0; r < lRuntimes.size(); r++) {
-											RuntimeComponent lRuntime = lRuntimes.get(i);
+											RuntimeComponent lRuntime = lRuntimes.get(r);
 											sb.append("  --> [" + lInst.getName() +  " - " + lRuntime.getName() +"] :: " + lServer.getName() + " " + lRuntime.getProtocol() + " " + lRuntime.getPort() + " " + System.lineSeparator());
 										}
 									}

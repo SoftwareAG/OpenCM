@@ -1,14 +1,10 @@
 package org.opencm.inventory;
 
 import java.util.LinkedList;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class Server {
 
-    @JsonPropertyOrder({ "name", "description", "os", "type", "installations" })
-    
 	public static final String		SERVER_METADATA_NAME			= "META_DATA";
 	public static final String 		KEEPASS_PROPERTY_DESCRIPTION	= "description";
 	public static final String 		KEEPASS_PROPERTY_OS				= "os";
@@ -81,4 +77,14 @@ public class Server {
         return getName();
     }
     
+    @JsonIgnore
+    public Server getCopy() {
+    	Server srv = new Server();
+		srv.setName(getName());
+		srv.setDescription(getDescription());
+		srv.setOs(getOs());
+		srv.setType(getType());
+		return srv;
+    }
+
 }

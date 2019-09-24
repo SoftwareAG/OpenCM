@@ -16,7 +16,6 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.opencm.configuration.Configuration;
-import org.opencm.configuration.model.*;
 import org.opencm.inventory.Inventory;
 import org.opencm.inventory.Server;
 import org.opencm.inventory.Installation;
@@ -243,46 +242,10 @@ public final class synch
 			String runtimeDir =  opencmConfig.getCmdata_root() + File.separator + Configuration.OPENCM_RUNTIME_DIR;
 		
 			// --------------------------------------------------------------------
-			// Define which nodes to synch 
+			// Define which installations to synch 
 			// --------------------------------------------------------------------
-			LinkedList<Installation> installations = new LinkedList<Installation>();
+			LinkedList<Installation> installations = inv.createInventory(opencmConfig, opencmConfig.getSynch()).getAllInstallations();
 		
-			LinkedList<Organisation> synchOrgs = opencmConfig.getSynch();
-			for (int o = 0; o < synchOrgs.size(); o++) {
-				Organisation synchOrg = synchOrgs.get(o);
-				if ((synchOrg.getDepartments() == null) || (synchOrg.getDepartments().size() == 0)) {
-					// Collect all nodes defined under this Org
-					LinkedList<Installation> invNodes = inv.getInstallations(synchOrg.getOrg(),null,null);
-					installations = addInstallations(installations, invNodes);
-				} else {
-					LinkedList<Department> synchDeps = synchOrg.getDepartments();
-					for (int d = 0; d < synchDeps.size(); d++) {
-						Department synchDep = synchDeps.get(d);
-						if ((synchDep.getEnvironments() == null) || (synchDep.getEnvironments().size() == 0)) {
-							// Collect all nodes defined under this Dep
-							LinkedList<Installation> invNodes = inv.getInstallations(synchOrg.getOrg(),synchDep.getDep(),null);
-							installations = addInstallations(installations, invNodes);
-						} else {
-							LinkedList<Environment> synchEnvs = synchDep.getEnvironments();
-							for (int e = 0; e < synchEnvs.size(); e++) {
-								Environment synchEnv = synchEnvs.get(e);
-								if ((synchEnv.getNodes() == null) || (synchEnv.getNodes().size() == 0)) {
-									// Collect all nodes defined under this Env
-									LinkedList<Installation> invNodes = inv.getInstallations(synchOrg.getOrg(),synchDep.getDep(),synchEnv.getEnv());
-									installations = addInstallations(installations, invNodes);
-								} else {
-									// Add individual nodes
-									LinkedList<String> synchNodes = synchEnv.getNodes();
-									for (int n = 0; n < synchNodes.size(); n++) {
-										installations = addInstallation(installations, inv.getInstallation(synchNodes.get(n)));
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			
 			// --------------------------------------------------------------------
 			// Based on defined nodes to synch, loop through each node
 			// --------------------------------------------------------------------

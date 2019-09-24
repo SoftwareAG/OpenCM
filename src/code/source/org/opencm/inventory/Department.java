@@ -1,14 +1,10 @@
 package org.opencm.inventory;
 
 import java.util.LinkedList;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class Department {
 
-    @JsonPropertyOrder({ "name", "servers" })
-    
     private String name;
     private LinkedList<Server> servers;
 
@@ -95,4 +91,12 @@ public class Department {
 		}
         return servers;
     }
+    
+    @JsonIgnore
+    public Department getCopy() {
+    	Department dep = new Department();
+		dep.setName(getName());
+		return dep;
+    }
+
 }

@@ -28,7 +28,6 @@ dC5hZGQoaW5zdCk7CgkJfQoJfQoJcmV0dXJuIG5vZGVMaXN0Owp9Cgk=</value>
     <value>org.apache.commons.net.ftp.FTPSClient</value>
     <value>org.apache.commons.net.ftp.FTPReply</value>
     <value>org.opencm.configuration.Configuration</value>
-    <value>org.opencm.configuration.model.*</value>
     <value>org.opencm.inventory.Inventory</value>
     <value>org.opencm.inventory.Server</value>
     <value>org.opencm.inventory.Installation</value>

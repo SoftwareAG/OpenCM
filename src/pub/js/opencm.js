@@ -76,6 +76,12 @@ if (node_page) {
 var cmdataBaselineExists = false;
 var cmdataRuntimeExists = false;
 
+function createConnectivityReport() {
+	$.get( "/invoke/OpenCM.pub.dsp.snapshots/generateConnectivityReport");
+	$('#notification').html("<p>Connectivity Report is being created ....</p>");
+	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
+}
+
 function extractWithProps() {
 	if (confirm('Extract runtime information from all environment and nodes defined in extract.properties?')) {
 		$.get( "/invoke/OpenCM.pub.dsp.snapshots/initiateSnapshot", { node: "PROPS" } );

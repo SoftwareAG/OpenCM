@@ -7,15 +7,21 @@ import com.wm.util.Values;
 import com.wm.app.b2b.server.Service;
 import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import org.opencm.configuration.Configuration;
 import org.opencm.configuration.PkgConfiguration;
-import org.opencm.configuration.model.*;
 import org.opencm.inventory.Inventory;
+import org.opencm.inventory.RuntimeComponent;
 import org.opencm.inventory.Installation;
+import org.opencm.util.HttpClient;
 import org.opencm.util.LogUtils;
 import org.opencm.security.KeyUtils;
-import org.opencm.extract.configuration.*;
 import org.opencm.extract.spm.SpmOps;
 // --- <<IS-END-IMPORTS>> ---
 
@@ -32,6 +38,159 @@ public final class extract
 
 	// ---( server methods )---
 
+
+
+
+	public static final void createConnectivityReport (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(createConnectivityReport)>> ---
+		// @sigtype java 3.5
+		// --------------------------------------------------------------------
+		// Read in Default Package Properties 
+		// --------------------------------------------------------------------
+		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
+		
+		// --------------------------------------------------------------------
+		// Read in OpenCM Properties
+		// --------------------------------------------------------------------
+		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
+		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
+		
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Connectivity Report Process Started... ========== ");
+		
+		// --------------------------------------------------------------------
+		// Ensure that master password is stored in cache
+		// --------------------------------------------------------------------
+		if (KeyUtils.getMasterPassword() == null) {
+			try {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Connectivity Report : Master Pwd NULL - running startup service ... ");
+				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
+			} catch (Exception ex) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Connectivity Report :: " + ex.getMessage());
+			}
+		}
+		
+		// --------------------------------------------------------------------
+		// Construct Current date time for report
+		// --------------------------------------------------------------------
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd'_'HH-mm");
+		Date cDate = new Date(System.currentTimeMillis());
+		String cDateTime = formatter.format(cDate);
+		
+		// --------------------------------------------------------------------
+		// Read in Inventory
+		// --------------------------------------------------------------------
+		Inventory inv = Inventory.instantiate(opencmConfig);
+		
+		// --------------------------------------------------------------------
+		// Ensure Encrypted passwords ...
+		// --------------------------------------------------------------------
+		inv.ensureEncryptedPasswords(opencmConfig);
+		
+		// --------------------------------------------------------------------
+		// Define which nodes to extract 
+		// --------------------------------------------------------------------
+		LinkedList<Installation> installations = new LinkedList<Installation>();
+		
+		installations = inv.createInventory(opencmConfig, opencmConfig.getExtract()).getAllInstallations();
+		
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Connectivity Report: Installations: " + installations.size());
+		
+		// ------------------------------------------------------
+		// Create Fix Script Content
+		// ------------------------------------------------------
+		StringBuffer sb = new StringBuffer();
+		sb.append("------------------------------------------------------" + System.lineSeparator());
+		sb.append(" Connectivity Report :: " + cDateTime + System.lineSeparator());
+		sb.append("------------------------------------------------------" + System.lineSeparator());
+		sb.append(System.lineSeparator());
+		
+		HttpClient client = new HttpClient();
+		// --------------------------------------------------------------------
+		// Check All nodes
+		// --------------------------------------------------------------------
+		for (int i = 0; i < installations.size(); i++) {
+			Installation installation = installations.get(i);
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"  Verifying Installation: " + installation.getName());
+			RuntimeComponent spmRC = installation.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM);
+			String spmRequestURL = spmRC.getProtocol() + "://" + inv.getNodeServer(installation.getName()).getName() + ":" + spmRC.getPort() + "/spm/inventory/platform";
+			client.setURL(spmRequestURL);
+			client.setCredentials(spmRC.getUsername(), spmRC.getDecryptedPassword());
+			try {
+				client.get();
+				if (client.getStatusCode() == 200) {
+					sb.append("  SPM OK :: " + installation.getName() + System.lineSeparator());
+				} else {
+					sb.append("------------------------------------------------------" + System.lineSeparator());
+					sb.append("  " + installation.getName() + " SPM --> URL: " + spmRequestURL + System.lineSeparator());
+					sb.append("  HTTP Status Code = " + client.getStatusCode() + " (" + client.getResponse() + ")" + System.lineSeparator());
+					sb.append("------------------------------------------------------" + System.lineSeparator());
+				}
+			} catch (ServiceException ex) {
+				sb.append("------------------------------------------------------" + System.lineSeparator());
+				sb.append("  " + installation.getName() + " SPM --> URL: " + spmRequestURL + System.lineSeparator());
+				sb.append("  " + ex.toString() + System.lineSeparator());
+				sb.append("------------------------------------------------------" + System.lineSeparator());
+			}
+			// -----------------------------------------
+			// Check Integration Server connectivity
+			// -----------------------------------------
+			for (int c = 0; c < installation.getRuntimes().size(); c++) {
+				RuntimeComponent rc = installation.getRuntimes().get(c);
+				if (rc.getName().startsWith("integrationServer-")) {
+					String isRequestURL = rc.getProtocol() + "://" + inv.getNodeServer(installation.getName()).getName() + ":" + rc.getPort();
+					client.setURL(isRequestURL);
+					client.setCredentials(rc.getUsername(), rc.getDecryptedPassword());
+					try {
+						client.get();
+						if (client.getStatusCode() == 200) {
+							sb.append("  Integration Server OK :: " + installation.getName() + " IS instance: " + rc.getName() + System.lineSeparator());
+						} else {
+							sb.append("------------------------------------------------------" + System.lineSeparator());
+							sb.append("  " + installation.getName() + " IS instance: " + rc.getName() + " --> URL: " + isRequestURL + System.lineSeparator());
+							sb.append("  HTTP Status Code = " + client.getStatusCode() + " (" + client.getResponse() + ")" + System.lineSeparator());
+							sb.append("------------------------------------------------------" + System.lineSeparator());
+						}
+					} catch (ServiceException ex) {
+						sb.append("------------------------------------------------------" + System.lineSeparator());
+						sb.append("  " + installation.getName() + " IS instance: " + rc.getName() + " URL: " + isRequestURL + System.lineSeparator());
+						sb.append("  " + ex.toString() + System.lineSeparator());
+						sb.append("------------------------------------------------------" + System.lineSeparator());
+					}
+				}
+				
+			}
+			
+		}
+		
+		sb.append(System.lineSeparator());
+		sb.append("------------------------------------------------------" + System.lineSeparator());
+		
+		// ------------------------------------------------------
+		// Write Fix Script Content to file
+		// ------------------------------------------------------
+		try {
+			BufferedWriter bwr = new BufferedWriter(new FileWriter(opencmConfig.getOutput_dir() + File.separator + "ConnectivityReport_" + cDateTime + ".txt"));
+		    bwr.write(sb.toString());
+		   
+		    //flush the stream
+		    bwr.flush();
+		   
+		    //close the stream
+		    bwr.close();
+		    
+		} catch (IOException ex) {
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," Connectivity Report :: Exception: " + ex.toString());
+		}
+		
+			
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"--------------   Connectivity Report Process Completed... -------------- ");
+			
+		// --- <<IS-END>> ---
+
+                
+	}
 
 
 
@@ -88,52 +247,13 @@ public final class extract
 		LinkedList<Installation> installations = new LinkedList<Installation>();
 		
 		if (stNode.equals("PROPS")) {
-			// --------------------------------------------------------------------
-			// Read in OpenCM Extract Properties
-			// --------------------------------------------------------------------
-			ExtractConfiguration extractConfig = ExtractConfiguration.instantiate(opencmConfig);
-			LinkedList<Organisation> extractOrgs = extractConfig.getExtract();
-			for (int o = 0; o < extractOrgs.size(); o++) {
-				Organisation extractOrg = extractOrgs.get(o);
-				if ((extractOrg.getDepartments() == null) || (extractOrg.getDepartments().size() == 0)) {
-					// Collect all nodes defined under this Org
-					LinkedList<Installation> invNodes = inv.getInstallations(extractOrg.getOrg(),null,null);
-					installations = addInstallations(installations, invNodes);
-				} else {
-					LinkedList<Department> extractDeps = extractOrg.getDepartments();
-					for (int d = 0; d < extractDeps.size(); d++) {
-						Department extractDep = extractDeps.get(d);
-						if ((extractDep.getEnvironments() == null) || (extractDep.getEnvironments().size() == 0)) {
-							// Collect all nodes defined under this Dep
-							LinkedList<Installation> invNodes = inv.getInstallations(extractOrg.getOrg(),extractDep.getDep(),null);
-							installations = addInstallations(installations, invNodes);
-						} else {
-							LinkedList<Environment> extractEnvs = extractDep.getEnvironments();
-							for (int e = 0; e < extractEnvs.size(); e++) {
-								Environment extractEnv = extractEnvs.get(e);
-								if ((extractEnv.getNodes() == null) || (extractEnv.getNodes().size() == 0)) {
-									// Collect all nodes defined under this Env
-									LinkedList<Installation> invNodes = inv.getInstallations(extractOrg.getOrg(),extractDep.getDep(),extractEnv.getEnv());
-									installations = addInstallations(installations, invNodes);
-								} else {
-									// Add individual nodes
-									LinkedList<String> extractNodes = extractEnv.getNodes();
-									for (int n = 0; n < extractNodes.size(); n++) {
-										installations = addInstallation(installations, inv.getInstallation(extractNodes.get(n)));
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-				
+			installations = inv.createInventory(opencmConfig, opencmConfig.getExtract()).getAllInstallations();
 		} else {
 			// Single node extract
 			installations.add(inv.getInstallation(stNode));
 		}
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Ready for Extraction: " + installations.size() + " to process...");
+		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Extraction: Installations to be extracted: " + installations.size());
 		
 		// --------------------------------------------------------------------
 		// Extract All nodes
@@ -142,7 +262,7 @@ public final class extract
 			Installation installation = installations.get(i);
 			SpmOps spm = new SpmOps(opencmConfig, inv, installation);
 			if (spm.getNode() != null) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"Extracting Node .. " + installation.getName());
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Extraction: Processing Node " + installation.getName());
 				spm.extractAll();
 				spm.persist(); 
 			}
@@ -156,22 +276,7 @@ public final class extract
 	}
 
 	// --- <<IS-START-SHARED>> ---
-	private static LinkedList<Installation> addInstallation(LinkedList<Installation> nodeList, Installation inst) {
-		if ((inst != null) && !nodeList.contains(inst)) {
-			nodeList.add(inst);
-		}
-		return nodeList;
-	}
-	private static LinkedList<Installation> addInstallations(LinkedList<Installation> nodeList, LinkedList<Installation> toAdd) {
-		for (int i = 0; i < toAdd.size(); i++) {
-			Installation inst = toAdd.get(i);
-			if (!nodeList.contains(inst)) {
-				nodeList.add(inst);
-			}
-		}
-		return nodeList;
-	}
-		
+	
 	// --- <<IS-END-SHARED>> ---
 }
 

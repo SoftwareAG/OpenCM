@@ -708,6 +708,18 @@ a#RightButton.highlighted:hover {
 #select>a:before {
     content: "\2263"
 }
+#inventoryMenu>a:before {
+    content: "\22A1"
+}
+#conf_RefreshInventory>a:before {
+    content: "\21BB"
+}
+#conf_InventoryReport>a:before {
+    content: "\2611"
+}
+#createConnectivityReportMenu>a:before {
+    content: "\2611"
+}
 #extractFromPropsMenu>a:before {
     content: "\21BB"
 }
@@ -740,15 +752,6 @@ a#RightButton.highlighted:hover {
 }
 #cceMenu>a:before {
     content: "\2692"
-}
-#inventoryMenu>a:before {
-    content: "\22A1"
-}
-#conf_RefreshInventory>a:before {
-    content: "\21BB"
-}
-#conf_InventoryReport>a:before {
-    content: "\2611"
 }
 #audit_PerformBaselineSingleAudit>a:before {
     content: "\21BB"

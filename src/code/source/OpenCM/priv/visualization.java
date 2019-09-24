@@ -88,16 +88,20 @@ public final class visualization
 		overviewTree.setName("Integration Platform");
 		overviewTree.setLevel("ROOT");
 		
-		LinkedList<Organisation> orgs = inv.getInventory();
+		// --------------------------------------------------------------------
+		// Create a subset of the inventory to include based on the tree config
+		// --------------------------------------------------------------------
+		Inventory filteredInv = inv.createInventory(opencmConfig, opencmConfig.getInventory_tree());
+		
+		// --------------------------------------------------------------------
+		// Construct the tree data
+		// --------------------------------------------------------------------
+		LinkedList<Organisation> orgs = filteredInv.getInventory();
 		LinkedList<Child> orgChildren = new LinkedList<Child>();
 		for (int o = 0; o < orgs.size(); o++) {
 			// Organisation
 			Organisation org = orgs.get(o);
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing org : " + org.getName());
-			if (!opencmConfig.treeInclude(org.getName(), null, null)) {
-				// Only include this org if it has been defined in the opencm inventory tree config
-				continue;
-			}
 			Child orgChild = new Child();
 			orgChild.setName(org.getName());
 			orgChild.setLevel("ORG");
@@ -107,10 +111,6 @@ public final class visualization
 				// Department
 				Department dep = deps.get(d);
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing department : " + dep.getName());
-				if (!opencmConfig.treeInclude(org.getName(), dep.getName(), null)) {
-					// Only include this dep if it has been defined in the opencm inventory tree config
-					continue;
-				}
 				Child depChild = new Child();
 				depChild.setName(dep.getName());
 				depChild.setLevel("DEP");
@@ -121,10 +121,6 @@ public final class visualization
 					// Environment
 					String env = envs.get(e);
 					LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Visualization: Processing environment : " + env);
-					if (!opencmConfig.treeInclude(org.getName(), dep.getName(), env)) {
-						// Only include this env if it has been defined in the opencm inventory tree config
-						continue;
-					}
 					Child envChild = new Child();
 					envChild.setName(env);
 					envChild.setLevel("ENV");
@@ -244,7 +240,6 @@ public final class visualization
 	}
 
 	// --- <<IS-START-SHARED>> ---
-	
 	private static LinkedList<Child> getComponents(File cmDirectory) {
 		// -------- Components ----------
 		File[] components = cmDirectory.listFiles();
