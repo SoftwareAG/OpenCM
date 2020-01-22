@@ -44,6 +44,18 @@ public class FileUtils {
 		}
 	}
 	
+	public static String readFromFile(String filename) {
+		File fFile = new File(filename);
+		if (!fFile.exists()) {
+			return null;
+		}
+		try {
+			return org.apache.commons.io.FileUtils.readFileToString(fFile, java.nio.charset.StandardCharsets.UTF_8);
+		} catch (IOException ex) {
+			System.out.println("OpenCM FileUtils :: readFromFile :: " + ex.toString());
+		}
+		return null;
+	}
 	 
 	 public static ArrayList<String> getSnapshotDirs(String runtimeDir) {
 		 // Get a list sorted by latest first

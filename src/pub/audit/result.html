@@ -429,6 +429,12 @@
 		} else {
 			$("#conf-template",window.parent.frames[0].document).html("");
 		}
+		if (isCompleted()) {
+			$("#btn-finish").show();
+		} else {
+			$("#btn-finish").hide();
+		}
+			
 	}
 	
 	function updateReportDiffsMenu() {
@@ -442,6 +448,12 @@
 		}
 		htmlString += "</tbody></table>";
 		$("#conf-diffs",window.parent.frames[0].document).html(htmlString);
+		
+		if (isCompleted()) {
+			$("#btn-finish").show();
+		} else {
+			$("#btn-finish").hide();
+		}
 	}
 	
 	function updatePropsMenu() {
@@ -471,6 +483,13 @@
 		} else {
 			$("#conf-props",window.parent.frames[0].document).html("");
 		}
+		
+		if (isCompleted()) {
+			$("#btn-finish").show();
+		} else {
+			$("#btn-finish").hide();
+		}
+		
 	}
 	function updateTypeMenu() {
 		// Update the left menu for properties based on the current definitions
@@ -506,6 +525,12 @@
 		}
 		htmlString += "</tbody></table>";
 		$("#conf-type",window.parent.frames[0].document).html(htmlString);
+		
+		if (isCompleted()) {
+			$("#btn-finish").show();
+		} else {
+			$("#btn-finish").hide();
+		}
 	}
 	
 	function updateNodesMenu() {
@@ -523,6 +548,11 @@
 		htmlString += "</tbody></table>";
 		$("#conf-nodes",window.parent.frames[0].document).html(htmlString);
 		
+		if (isCompleted()) {
+			$("#btn-finish").show();
+		} else {
+			$("#btn-finish").hide();
+		}
 	}
 	
 	/*  --------------------------------------------------------------------------
@@ -665,7 +695,8 @@
 		$('#div_audit_result').hide();
 		$('#span_audit_result_message').text("").hide();
 		$('#span_audit_result_summary').text("").hide();
-		$('#btn-finish').removeClass("disabled");
+		//$('#btn-finish').removeClass("disabled");
+		$('#btn-finish').hide();
 		// Save template page items
 		$('#span_save_template').text("").hide();
 		$('#div_save_template').hide();
@@ -848,7 +879,6 @@
 	*    -> Only performed on page load
 	* --------------------------------------------------------------------------------- */
 	$(document).ready(function(){
-	
 		// --------------------------------------------
 		// Smart Wizard Button Controls
 		// --------------------------------------------
@@ -878,14 +908,13 @@
 				}
 			}
 
-			if (stepPosition === 'final') {		
+			if (stepPosition === 'final') {
 				$("#btn-next").hide();
-				$("#btn-finish").show();
 			} else {
 				$("#btn-next").show();
-				$("#btn-finish").hide();
 			}
-		});		
+		});	
+		
 		
 		// --------------------------------------------
 		// Initializing Smart Wizard
@@ -914,6 +943,7 @@
 				transitionEffect: 'fade', // Effect on navigation, none/slide/fade
 				transitionSpeed: '400'
 		});
+		
 		
 		// Remove the default navigation controls
 		$('#smartwizard > div.btn-toolbar.sw-toolbar.sw-toolbar-bottom.justify-content-end').remove();
@@ -949,7 +979,7 @@
 			no_results_text: "Nothing found ...",
 			width: "90%"
 		});
-	
+
 		// --------------------------------------------
 		// Initializing Audit Type, Reference nodes list
 		// --------------------------------------------
@@ -961,33 +991,32 @@
 			no_results_text: "Nothing found ...",
 			width: "90%"
 		});
-	
+		
 		// --------------------------------------------
 		// Initializing Nodes Filter
 		// --------------------------------------------
-		var invData = Array();
-		$.each(top.window.opencm_inventory, function( index, org ) {
+		var invData = Array();  // Organisations
+		$.each(top.window.getAllOrganisations(), function( index, org ) {
 			var invDeps = Array();	// Departments
-			$.each(org.departments, function( index, dep ) {
+			$.each(top.window.getDepartmentsByOrganisation(org), function( index, dep ) {
 				var invEnvs = Array();	// Environments
-				$.each(dep.environments, function( index, env ) {
+				$.each(top.window.getEnvironmentsByOrgAndDep(org,dep), function( index, env ) {
 					var invLayers = Array();	// Layers
-					$.each(env.layers, function( index, layer ) {
+					$.each(top.window.getLayersByOrgAndDepAndEnv(org,dep,env), function( index, layer ) {
 						var invNodes = Array();	// Nodes
-						$.each(layer.servers, function( index, server ) {
-							$.each(server.nodes, function( index, node ) {
-								var nodeId = org.name + "_" + dep.name + "_" + env.name + "_" + layer.name + "_" + node.name;
-								invNodes.push( { id: nodeId, text: node.name });
-							});
+						$.each(top.window.getNodesByOrgAndDepAndEnvAndLayer(org,dep,env,layer), function( index, inst ) {
+							var nodeId = org + "_" + dep + "_" + env + "_" + layer + "_" + inst;
+							invNodes.push( { id: nodeId, text: inst });
 						});
-						invLayers.push({ text: layer.name, icon: false, children : invNodes });
+						invLayers.push({ text: layer, icon: false, children : invNodes });
 					});
-					invEnvs.push({ text: env.name, icon: false, children : invLayers });
+					invEnvs.push({ text: env, icon: false, children : invLayers });
 				});
-				invDeps.push({ text: dep.name, icon: false, state : { opened : true }, children : invEnvs });
+				invDeps.push({ text: dep, icon: false, state : { opened : true }, children : invEnvs });
 			});
-			invData.push({ text: org.name, icon: false, state : { opened : true }, children : invDeps });
+			invData.push({ text: org, icon: false, state : { opened : true }, children : invDeps });
 		});
+		
 		$('#div_jstree_inventory').jstree(
 			{'plugins':["wholerow","checkbox"], 'core' : {
 				'data' : invData
@@ -1339,8 +1368,9 @@
 
 	// Submit for auditing
 	$("#btn-finish").on("click", function() {
+		$('#smartwizard').smartWizard('goToStep', 5);
 		var auditConf = getAuditConfiguration();
-		var submit_url = top.window.opencm_url + "/invoke/OpenCM.pub.dsp.audit/submitForAuditing";
+		var submit_url = top.window.opencm_url + "/invoke/org.opencm.pub.dsp.audit/submitForAuditing";
 		var jsonResponse;
 		$('#div_audit_result_progress').showLoading();
 		$('#div_audit_result_progress').load(
@@ -1352,7 +1382,7 @@
 				processResult(JSON.parse(jsonResponse));
 		  }
 		);
-		$('#btn-finish').addClass("disabled");
+		// $('#btn-finish').addClass("disabled");
 		return true;
 	});
   </script>

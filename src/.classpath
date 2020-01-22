@@ -29,5 +29,13 @@
 	<classpathentry kind="var" path="IS_SERVER"/>
 	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/jackson-dataformat-yaml.jar"/>
 	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/commons-lang3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/common/lib/ext/derby.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/IntegrationServer/instances/default/packages/OpenCMRepository/code/jars/neo4j-graphdb-api-3.5.14.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hhansson/Documents/Install/SoftwareAG/LDEV_V104_01/IntegrationServer/instances/default/packages/OpenCMRepository/code/jars/neo4j-3.5.14.jar"/>
+	<classpathentry kind="src" path=".apt_generated">
+		<attributes>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="code/classes"/>
 </classpath>

@@ -49,13 +49,13 @@ if (!"opencm".fileExists()) {
 }
 
 function getQueryVariable(variable) {
-       var query = window.location.search.substring(1);
-       var vars = query.split("&");
-       for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if(pair[0] == variable){return pair[1];}
-       }
-       return(false);
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
 }
 
 var opencm_node = getQueryVariable("node");
@@ -77,14 +77,14 @@ var cmdataBaselineExists = false;
 var cmdataRuntimeExists = false;
 
 function createConnectivityReport() {
-	$.get( "/invoke/OpenCM.pub.dsp.snapshots/generateConnectivityReport");
+	$.get( "/invoke/org.opencm.pub.dsp.snapshots/generateConnectivityReport");
 	$('#notification').html("<p>Connectivity Report is being created ....</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 
 function extractWithProps() {
-	if (confirm('Extract runtime information from all environment and nodes defined in extract.properties?')) {
-		$.get( "/invoke/OpenCM.pub.dsp.snapshots/initiateSnapshot", { node: "PROPS" } );
+	if (confirm('Extract runtime information from all environment and nodes defined in properties?')) {
+		$.get( "/invoke/org.opencm.pub.dsp.snapshots/initiateSnapshot", { node: "PROPS" } );
 		$('#notification').html("<p>Runtime snapshot generation started....</p>");
 		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 	} else {
@@ -94,14 +94,14 @@ function extractWithProps() {
 }
 
 function extractNode() {
-	$.get( "/invoke/OpenCM.pub.dsp.snapshots/initiateSnapshot", { node: opencm_node } );
+	$.get( "/invoke/org.opencm.pub.dsp.snapshots/initiateSnapshot", { node: opencm_node } );
 	$('#notification').html("<p>Runtime extraction started for " + opencm_node + "....</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 
 function promoteNode() {
 	if (confirm('Promote Node ' + opencm_node + ' to Baseline?')) {
-		$.get( "/invoke/OpenCM.pub.dsp.snapshots/promoteSnapshot", { node: opencm_node } );
+		$.get( "/invoke/org.opencm.pub.dsp.snapshots/promoteSnapshot", { node: opencm_node } );
 		$('#notification').html("<p>Node " + opencm_node + " promoted to baseline....</p>");
 		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 	} else {
@@ -111,28 +111,28 @@ function promoteNode() {
 }
 
 function performTreeUpdate() {
-	callJsonService( "/invoke/OpenCM.pub.dsp.configuration/updateTree", "{}");
+	callJsonService( "/invoke/org.opencm.pub.dsp.configuration/updateTree", "{}");
 	location.reload();
 }
 
 function refreshInventory() {
-	callJsonService( "/invoke/OpenCM.pub.dsp.configuration/refreshInventory", "{}");
+	callJsonService( "/invoke/org.opencm.pub.dsp.configuration/refreshInventory", "{}");
 	location.reload();
 }
 function performInventoryReport() {
-	$.get( "/invoke/OpenCM.pub.dsp.configuration/generateInventoryReport");
+	$.get( "/invoke/org.opencm.pub.dsp.configuration/generateInventoryReport");
 	$('#notification').html("<p>Generating Inventory Report (into output folder) ...</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 
 function performEncrypt() {
-	$.get( "/invoke/OpenCM.pub.dsp.configuration/encrypt");
+	$.get( "/invoke/org.opencm.pub.dsp.configuration/encrypt");
 	$('#notification').html("<p>Encrypting Endpoint Passwords ....</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 function performDecrypt() {
 	if (confirm('Decrypt all passwords in the inventory.properties file?')) {
-		$.get( "/invoke/OpenCM.pub.dsp.configuration/decrypt");
+		$.get( "/invoke/org.opencm.pub.dsp.configuration/decrypt");
 		$('#notification').html("<p>Decrypting Endpoint Passwords ....</p>");
 		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 	} else {
@@ -142,7 +142,7 @@ function performDecrypt() {
 }
 function performCceRefresh() {
 	if (confirm('This action will remove/create all enviornments and nodes in Command Central based on the opencm configuration. Confirm to contine:')) {
-		$.get( "/invoke/OpenCM.pub.dsp.configuration/manageCCEnodes", { action: "refreshAll", node: null} );
+		$.get( "/invoke/org.opencm.pub.dsp.configuration/manageCCEnodes", { action: "refreshAll", node: null} );
 		$('#notification').html("<p>Creating all nodes and environments within Command Central ....</p>");
 		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 	} else {
@@ -151,18 +151,18 @@ function performCceRefresh() {
 	}
 }
 function performCceAddNode() {
-	$.get( "/invoke/OpenCM.pub.dsp.configuration/manageCCEnodes", { action: "generateNode", node: opencm_node} );
+	$.get( "/invoke/org.opencm.pub.dsp.configuration/manageCCEnodes", { action: "generateNode", node: opencm_node} );
 	$('#notification').html("<p>Creating the " + opencm_node + " node within Command Central ....</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 function performGenerateCceFixScript() {
-	$.get( "/invoke/OpenCM.pub.dsp.configuration/generateCceFixScript", { node: opencm_node} );
+	$.get( "/invoke/org.opencm.pub.dsp.configuration/generateCceFixScript", { node: opencm_node} );
 	$('#notification').html("<p>Generating Command Central CLI script for Fix installation based on " + opencm_node + " ...</p>");
 	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 function performSynchSend() {
 	if (confirm('Synchronize runtime extractions and send to target OpenCM component via FTPS?')) {
-		$.get( "/invoke/OpenCM.pub.dsp.configuration/synchSend");
+		$.get( "/invoke/org.opencm.pub.dsp.configuration/synchSend");
 		$('#notification').html("<p>Synchronizing runtime data to central OpenCM instance ....</p>");
 		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 	} else {
@@ -1275,13 +1275,9 @@ function getInventoryQuickSearch() {
 	var invData = Array();
 	$.each(opencm_inventory, function( index, org ) {
 		$.each(org.departments, function( index, department ) {
-			$.each(department.environments, function( index, environment ) {
-				$.each(environment.layers, function( index, layer ) {
-					$.each(layer.servers, function( index, server ) {
-						$.each(server.nodes, function( index, node ) {
-							invData.push([ server.name, node.name ]);
-						});
-					});
+			$.each(department.servers, function( index, server ) {
+				$.each(server.installations, function( index, installation ) {
+					invData.push([ server.name, installation.name ]);
 				});
 			});
 		});
@@ -1295,30 +1291,26 @@ function getInventoryForOrgAndDepAndEnv(organisation,department,environment) {
 		if (org.name == organisation) {
 			$.each(org.departments, function( index, dep ) {
 				if (dep.name == department) {
-					$.each(dep.environments, function( index, env ) {
-						if ((environment == null) || (environment == env.name)) {
-							$.each(env.layers, function( index, layer ) {
-								$.each(layer.servers, function( index, server ) {
-									$.each(server.nodes, function( index, node ) {
-										var rcs = Array();	// Runtime Components
-										$.each(node.rcs, function( index, rc ) {
-											rcs.push( {name: rc.name, protocol: rc.protocol, port: rc.port, username: rc.username } );
-										});
-										invData.push( { env: env.name, 
-														layer: layer.name, 
-														server: server.name, 
-														desc: server.description,
-														os: server.os,
-														type: server.type,
-														node: node.name,
-														sublayer: node.sublayer,
-														version: node.version,
-														rcs: rcs
-													});
-									});
+					$.each(dep.servers, function( index, server ) {
+						$.each(server.installations, function( index, installation ) {
+							if ((environment == null) || (environment == installation.environment)) {
+								var rcs = Array();	// Runtime Components
+								$.each(installation.runtimes, function( index, runtime ) {
+									rcs.push( {name: runtime.name, protocol: runtime.protocol, port: runtime.port, username: runtime.username } );
 								});
-							});
-						}
+								invData.push( { env: installation.environment, 
+												layer: installation.layer, 
+												server: server.name, 
+												desc: server.description,
+												os: server.os,
+												type: server.type,
+												node: installation.name,
+												sublayer: installation.sublayer,
+												version: installation.version,
+												rcs: rcs
+											});
+							}
+						});
 					});
 				}
 			});
@@ -1327,6 +1319,7 @@ function getInventoryForOrgAndDepAndEnv(organisation,department,environment) {
 
 	return invData;
 }
+
 // String list functions
 function getAllOrganisations() {
 	var invData = Array();
@@ -1350,10 +1343,12 @@ function getAllEnvironments() {
 	var invData = Array();
 	$.each(opencm_inventory, function( index, org ) {
 		$.each(org.departments, function( index, dep ) {
-			$.each(dep.environments, function( index, env ) {
-				if ($.inArray(env.name, invData) == -1) {
-					invData.push(env.name);
-				}
+			$.each(department.servers, function( index, server ) {
+				$.each(server.installations, function( index, installation ) {
+					if ($.inArray(installation.environment, invData) == -1) {
+						invData.push(installation.environment);
+					}
+				});
 			});
 		});
 	});
@@ -1363,10 +1358,10 @@ function getAllLayers() {
 	var invData = Array();
 	$.each(opencm_inventory, function( index, org ) {
 		$.each(org.departments, function( index, dep ) {
-			$.each(dep.environments, function( index, env ) {
-				$.each(env.layers, function( index, layer ) {
-					if ($.inArray(layer.name, invData) == -1) {
-						invData.push(layer.name);
+			$.each(department.servers, function( index, server ) {
+				$.each(server.installations, function( index, installation ) {
+					if ($.inArray(installation.layer, invData) == -1) {
+						invData.push(installation.layer);
 					}
 				});
 			});
@@ -1378,15 +1373,11 @@ function getAllNodes() {
 	var invData = Array();
 	$.each(opencm_inventory, function( index, org ) {
 		$.each(org.departments, function( index, dep ) {
-			$.each(dep.environments, function( index, env ) {
-				$.each(env.layers, function( index, layer ) {
-					$.each(layer.servers, function( index, server ) {
-						$.each(server.nodes, function( index, node ) {
-							if ($.inArray(node.name, invData) == -1) {
-								invData.push(node.name);
-							}
-						});
-					});
+			$.each(dep.servers, function( index, server ) {
+				$.each(server.installations, function( index, installation ) {
+					if ($.inArray(installation.name, invData) == -1) {
+						invData.push(installation.name);
+					}
 				});
 			});
 		});
@@ -1410,10 +1401,12 @@ function getEnvironmentsByOrgAndDep(organisation,department) {
 		if (org.name == organisation) {
 			$.each(org.departments, function( index, dep ) {
 				if (dep.name == department) {
-					$.each(dep.environments, function( index, env ) {
-						if ($.inArray(env.name, invData) == -1) {
-							invData.push(env.name);
-						}
+					$.each(dep.servers, function( index, server ) {
+						$.each(server.installations, function( index, installation ) {
+							if ($.inArray(installation.environment, invData) == -1) {
+								invData.push(installation.environment);
+							}
+						});
 					});
 				}
 			});
@@ -1427,14 +1420,14 @@ function getLayersByOrgAndDepAndEnv(organisation,department,environment) {
 		if (org.name == organisation) {
 			$.each(org.departments, function( index, dep ) {
 				if (dep.name == department) {
-					$.each(dep.environments, function( index, env ) {
-						if (env.name == environment) {
-							$.each(env.layers, function( index, layer ) {
-								if ($.inArray(layer.name, invData) == -1) {
-									invData.push(layer.name);
+					$.each(dep.servers, function( index, server ) {
+						$.each(server.installations, function( index, installation ) {
+							if (installation.environment == environment) {
+								if ($.inArray(installation.layer, invData) == -1) {
+									invData.push(installation.layer);
 								}
-							});
-						}
+							}
+						});
 					});
 				}
 			});
@@ -1448,25 +1441,18 @@ function getNodesByOrgAndDepAndEnvAndLayer(organisation,department,environment,l
 		if (org.name == organisation) {
 			$.each(org.departments, function( index, dep ) {
 				if (dep.name == department) {
-					$.each(dep.environments, function( index, env ) {
-						if (env.name == environment) {
-							$.each(env.layers, function( index, lar ) {
-								if (lar.name == layer) {
-									$.each(lar.servers, function( index, server ) {
-										$.each(server.nodes, function( index, node ) {
-											if ($.inArray(node.name, invData) == -1) {
-												invData.push(node.name);
-											}
-										});
-									});
-								}
-							});
-						}
+					$.each(dep.servers, function( index, server ) {
+						$.each(server.installations, function( index, installation ) {
+							if ((installation.environment == environment) && (installation.layer == layer) && ($.inArray(installation.name, invData) == -1)) {
+								invData.push(installation.name);
+							}
+						});
 					});
 				}
 			});
 		}
 	});
+	
 	return invData;
 }
 

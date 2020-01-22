@@ -17,7 +17,6 @@
   <script type="text/javascript" src="../js/jstree.min.js"></script>
  
   <script type="text/javascript">
-  
 	var inventoryTableInitialized = false;
 
 	// --------------------------------------------
@@ -39,9 +38,9 @@
 	function selectDep(org, dep) {
 		displayInventoryStats(org, dep);
 		if (inventoryTableInitialized) {
-			window.parent.result.redrawTable(org, dep);
+			window.parent.main.redrawTable(org, dep);
 		} else {
-			window.parent.result.initTable(org, dep);
+			window.parent.main.initTable(org, dep);
 			inventoryTableInitialized = true;
 		}
 	}
@@ -50,40 +49,39 @@
 	*   Display of Inventory Stats
 	*  ----------------------------------------------------- */
 	function displayInventoryStats(organisation, department) {
+		var arrServers = Array();
 		var arrEnvs = Array();
 		var arrEnvServers = Array();
 		var arrLayers = Array();
-		var arrServers = Array();
 		var totalNodes = 0;
 		$.each(top.window.opencm_inventory, function( index, org ) {
 			if (org.name == organisation) {
 				$.each(org.departments, function( index, dep ) {
 					if (dep.name == department) {
-						$.each(dep.environments, function( index, env ) {
-							arrEnvServers = [];
-							$.each(env.layers, function( index, layer ) {
-								if ($.inArray(layer.name, arrLayers) == -1) {
-									arrLayers.push(layer.name);
-								}
-								$.each(layer.servers, function( index, server ) {
-									if ($.inArray(server.name, arrServers) == -1) {
-										arrServers.push(server.name);
-									}
-									if ($.inArray(server.name, arrEnvServers) == -1) {
-										arrEnvServers.push(server.name);
-									}
-									totalNodes += server.nodes.length;
-								});
-							});
-							if ($.inArray(env.name, arrEnvs) == -1) {
-								arrEnvs.push({ name: env.name, env_servers: arrEnvServers.length });
+						$.each(dep.servers, function( index, server ) {
+							totalNodes += server.installations.length;
+							if ($.inArray(server.name, arrServers) == -1) {
+								arrServers.push(server.name);
 							}
+							$.each(server.installations, function( index, installation ) {
+								if ($.inArray(installation.layer, arrLayers) == -1) {
+									arrLayers.push(installation.layer);
+								}
+								let envSrv = arrEnvs.find((e) => {
+									return e.name === installation.environment;
+								});
+								if (envSrv == null) {
+									arrEnvs.push({name: installation.environment, env_servers: 1 });
+								} else {
+									envSrv.env_servers = envSrv.env_servers + 1;
+								}
+							});
 						});
 					}
 				});
 			}
 		});
-		
+								
 		var summaryDataSet = Array();
 		summaryDataSet.push({what: "Environments", size: arrEnvs.length });
 		summaryDataSet.push({what: "Layers", size: arrLayers.length });
@@ -117,7 +115,7 @@
 			columns: [
 				{ data: "name" ,
 				  render: function(data, type, row, meta){
-					return '<a href="javascript:void(0)" onclick="parent.result.redrawTable(\'' + organisation + '\',\'' + department + '\', \'' + data + '\');"><u>' + data + '</u></a>';
+					return '<a href="javascript:void(0)" onclick="parent.main.redrawTable(\'' + organisation + '\',\'' + department + '\', \'' + data + '\');"><u>' + data + '</u></a>';
 				  }
 				},
 				{ data: "env_servers" }
@@ -235,70 +233,7 @@
 			}
 		});
 	
-	});
-		
-	/**)
-		// --------------------------------------------
-		// Initializing Organisations
-		// --------------------------------------------
-		var orgs = getOrganisations();
-		var multi_orgs_deps = false;
-		var single_org;
-		var single_dep;
-		if (orgs.length > 1) {
-			multi_orgs_deps = true;
-		} else {
-			single_org = orgs[0];
-		}
-		$.each(orgs, function(idx, org) {
-			var deps = getDepartments(org);
-			if (deps.length > 1) {
-				multi_orgs_deps = true;
-			} else {
-				single_dep = deps[0];
-			}
-			$('#org-selection').append('<div><input type="radio" id="' + org + '" name="select_org" value="1"><label for="' + org + '"><p>' + org + '</p></label></div>');
-			$('#' + org + '' ).click(function() {
-				selectOrg(org);
-			});
-			// Create divs for underlying op departments
-			$.each(deps, function(idx, dep) {
-				$('#dep-selection').append('<div id="div_dep_' + org + '_' + dep + '" style="display:none;text-align:left"><input type="radio" id="but_dep_' + org + '_' + dep + '" name="select_dep_' + org + '" value="1"><label for="but_dep_' + org + '_' + dep + '"><p>' + dep + '</p></label></div>');
-				$('#but_dep_' + org + '_' + dep + '' ).click(function() {
-					selectDep(org, dep);
-				});
-			});
-		});
-		
-		if (multi_orgs_deps) {
-			if (single_org && !single_dep) {
-				//Pre-select org
-				var org = orgs[0];
-				$('#' + org + '' ).prop('checked', true);
-				var deps = getDepartments(org);
-				$.each(deps, function( index, dep ) {
-					// Show all deps for this
-					$('#div_dep_' + org + '_' + dep + '').show();
-				});
-				$("span[id='#org_dep_text']").text("Select Department:");
-			} else {
-				$("span[id='#org_dep_text']").text("Select Organisation/Department:");
-			}
-		} else {
-			// Pre-load single org and dep
-			var org = orgs[0];
-			var deps = getDepartments(org);
-			var dep = deps[0];
-			$('#' + org + '' ).prop('checked', true);
-			$('#div_dep_' + org + '_' + dep + '').show();
-			$('#but_dep_' + org + '_' + dep + '' ).click();
-			$("span[id='#org_dep_text']").text("");
-
-		}
-	});
-	
-	*/
-	
+	});	
  </script>	
 </body>
 </html>

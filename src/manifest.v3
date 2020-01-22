@@ -3,12 +3,14 @@
 <Values version="2.0">
   <value name="enabled">yes</value>
   <value name="system_package">no</value>
-  <value name="version">2.0.6</value>
+  <value name="version">2.0.8</value>
   <value name="classloader">package</value>
   <record name="startup_services" javaclass="com.wm.util.Values">
-    <null name="OpenCM.pub.startup:startup"/>
+    <null name="org.opencm.pub.startup:startup"/>
   </record>
-  <null name="shutdown_services"/>
+  <record name="shutdown_services" javaclass="com.wm.util.Values">
+    <null name="org.opencm.pub.shutdown:shutdown"/>
+  </record>
   <null name="replication_services"/>
   <null name="requires"/>
   <value name="listACL">Default</value>
