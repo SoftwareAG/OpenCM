@@ -1,0 +1,8 @@
+{
+  "name" : "PROD_SGW_V103_EG_02",
+  "level" : "NODE",
+  "layer" : "SGW",
+  "spmURL" : "http://sr05718.work.lantmannen.lan:8492/spm",
+  "children" : null,
+  "environment" : "PROD"
+}

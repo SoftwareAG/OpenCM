@@ -1,0 +1,2067 @@
+{
+  "name" : "PROD_MSG_V103_UM_01",
+  "level" : "NODE",
+  "layer" : "MSG",
+  "spmURL" : "http://sr05721.work.lantmannen.lan:8592/spm",
+  "children" : [ {
+    "name" : "NODE-FIXES",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "com.softwareag.fixinstall.feature.patch.feature.group",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.CCShared",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.NUMClient",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.NUMClient.WIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.NUMRealmServer",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.NUMRepository.SharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.NUMspmBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.NUMTemplateApplications.WIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SCGCommon.IS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SPM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "wMFix.SUMApi",
+      "level" : "INSTANCE"
+    } ]
+  }, {
+    "name" : "NODE-PRODUCTS",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "ACDLDeployerSharedBundle",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "BrokerJMSShared",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "CMP",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "CMP_API",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "CustomInstall",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "integrationServerMigrationFrameworkLib",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "ISSharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "jsw",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "LARSharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "license",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "LICRepository",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "LICSharedLibsJava",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "LICUtil",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "log4j",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "MfcAll",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "NUMClient",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "NUMInstanceManager",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "NUMMigration",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "NUMRealmServer",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "NUMRepository",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "NUMspm",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "NUMTemplateApplications",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "OSGI",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "PIFSharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SCGCommon",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "sjp",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SPM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SSX_TLS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SUM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "TESOSGi",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppGf",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "tppSEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "TPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "WISSharedBundles",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "WISSharedLibs",
+      "level" : "INSTANCE"
+    } ]
+  }, {
+    "name" : "OSGI-SPM",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJDBCConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJMSConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJNDIConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonKeystoresConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonLocalUsersConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonMessagingConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonPortsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonSMTPConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonSysPropsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonTruststoresConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonVarsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JAVASYSPROPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JSW",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JVM-OPTIONS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOCAL-USERS-Administrator",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOG-log_config.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-MEMORY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-defaultHttp",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-defaultHttps",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-defaultJmx",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-diagnostics",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-ssh",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SAG-INSTALL-DIR",
+      "level" : "INSTANCE"
+    } ]
+  }, {
+    "name" : "OSGI-SPM-ENGINE",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "com.softwareag.platform.management.common.inventory.InventoryService.pid",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "com.softwareag.platform.management.common.monitoring.BasicMonitoringService",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJDBCConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJMSConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJNDIConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonKeystoresConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonLocalUsersConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonMessagingConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonPortsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonSMTPConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonSysPropsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonTruststoresConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonVarsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JAAS-jaas.config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JAAS-REALMS-Default",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOG-log_config.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-sdc.softwareag.com-updates-prodRepo",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-SR05643-8092-fix-GATEWAY_MIRROR_V103_FIXES-repository",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "REPOSITORY-SR05643-8093-Gateway_Mirror2-repository",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SIN-INTERNAL-GROUPS-groups.txt",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SIN-INTERNAL-ROLES-roles.txt",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "SPM-NODEID",
+      "level" : "INSTANCE"
+    } ]
+  }, {
+    "name" : "Universal-Messaging-um_realm_internal",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.platform.management.nirvana.configuration.JNDICFMetadataManager.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.platform.management.nirvana.configuration.JNDIDestMetadataManager.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJDBCConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJMSConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJNDIConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonKeystoresConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonLocalUsersConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonMessagingConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonPortsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonSMTPConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonSysPropsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonTruststoresConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonVarsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JAVASYSPROPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JVM-OPTIONS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LICENSE-Universal-Messaging",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LICLOC-Universal-Messaging",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOCAL-USERS-Administrator",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-MEMORY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-nhp0",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Audit_Settings",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Client_Timeout_Values",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Cluster_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Comet_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Connection_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Data_Stream_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-DurableConfig",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Environment_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Event_Storage",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Fanout_Values",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Global_Values",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Inter-Realm_Comms_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Join_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-JVM_Management",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Logging_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Metric_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Plugin_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Protobuf_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Protocol_AMQP_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Protocol_MQTT_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-RecoveryDaemon",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Server_Protection",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Thread_Pool_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-TransactionManager",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-com--webmethods--cds--events_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-com--webmethods--nis--events_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-naming--defaultContext",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-PEBroadcastTopic",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-PERestartTopic",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--10_1_1_4_5555_1428306520_SCI_EAI__RequestReplyClient",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--10_240_178_139_5555_1558501746_ESB_UM_RequestReplyClient",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--10_240_19_128_5555_1428306073_SCI_EAI__RequestReplyClient",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--AC_ManageFileTransfer--docs--deliveredNotification",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--AC_ManageFileTransfer--docs--deliveryNotification",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--AC_ManageFileTransfer--docs--processNotification",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--AC_ManageFileTransfer--docs--runFlow",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--AC_Monitor--docs--dt_importStatus",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--AC_Monitor--docs--dt_notifyChange",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--AC_Monitor--docs--dt_notifyWrite",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--AC_Monitor--docs--runConfig",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--Anchal--UM_LoadTest--testPublish",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--LMAG_LAN_Logicenter--doc--deliveryInfo",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--LMAG_LAN_Logicenter--doc--logScope",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--LM_SCI_AnonymousAS2--ediint--doc--dt_processPayload",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--LM_SCI_Processing--docs--dt_Received",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--M3InStreamAdapter--notification--streamDataExceptionNotification",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--M3InStreamAdapter--notification--streamDataNotification",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--b2b--editn--rec--batchFailRecord",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--EDIINT--InSitu--processNotification",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--monitor--process--DeleteModelMetadata",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--debug--ProcessComplete",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--dispatch--CallActivityReturn",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--dispatch--CallActivityStart",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--dispatch--nullDoc",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--dispatch--ProcessTransition",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--dispatch--ProcessTransitionVol",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--dispatch--Signal",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--dispatch--SubprocessDone",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--dispatch--SubprocessReturn",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--dispatch--SubprocessStart",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--model--QoSChange",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--status--ChangeCommand",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--webservices--WebserviceReply",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--prt--webservices--WebserviceRequest",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--tn--rec--TaskDbUpdate",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-wm--is--wm--tn--rec--TaskFailure",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-Everyone",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-MWSAdmin",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-CF-com.webmethods.portal.msg.queue.factory_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-CF-com.webmethods.portal.msg.topic.factory_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-CF-um_local",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-com.webmethods.caf.command.reply.queue_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-com.webmethods.caf.command.request.queue_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-com.webmethods.caf.queue_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-com.webmethods.cds.events_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-com.webmethods.nis.events_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-com.webmethods.portal.notification.alert.msg.queue.messages_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-com.webmethods.portal.notification.email.msg.queue.messages_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-com.webmethods.portal.notification.portal.msg.queue.messages_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-com.webmethods.portal.notification.thing.msg.queue.messages_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-com.webmethods.portal.task.queue_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-PEBroadcastTopic",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-PERestartTopic",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-com--webmethods--caf--command--reply--queue_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-com--webmethods--caf--command--request--queue_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-com--webmethods--caf--queue_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-com--webmethods--portal--notification--alert--msg--queue--messages_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-com--webmethods--portal--notification--email--msg--queue--messages_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-com--webmethods--portal--notification--portal--msg--queue--messages_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-com--webmethods--portal--notification--thing--msg--queue--messages_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-com--webmethods--portal--task--queue_-2109799091",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-temp--queue7f44100000000",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-temp--queue7f44200000001",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-temp--queue7f52800000000",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-temp--queue7f52900000001",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-REALM-ACL",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-ZONE",
+      "level" : "INSTANCE"
+    } ]
+  }, {
+    "name" : "Universal-Messaging-um_realm_jms",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.platform.management.nirvana.configuration.JNDICFMetadataManager.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.platform.management.nirvana.configuration.JNDIDestMetadataManager.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJDBCConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJMSConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJNDIConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonKeystoresConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonLocalUsersConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonMessagingConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonPortsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonSMTPConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonSysPropsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonTruststoresConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonVarsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JAVASYSPROPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JVM-OPTIONS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LICENSE-Universal-Messaging",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LICLOC-Universal-Messaging",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOCAL-USERS-Administrator",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-MEMORY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-nhp0",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Audit_Settings",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Client_Timeout_Values",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Cluster_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Comet_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Connection_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Data_Stream_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-DurableConfig",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Environment_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Event_Storage",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Fanout_Values",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Global_Values",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Inter-Realm_Comms_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Join_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-JVM_Management",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Logging_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Metric_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Plugin_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Protobuf_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Protocol_AMQP_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Protocol_MQTT_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-RecoveryDaemon",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Server_Protection",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Thread_Pool_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-TransactionManager",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-Event--WebM--Deployment",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-Event--WebM--EventSubscriptionMgmt--SubscriptionChange",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-Event--WebM--Process--V1_0--ProcessStageDefinitionsChange",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-Event--WebM--TN--V1_0--DocumentAttributeAdded",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-Event--WebM--TN--V1_0--DocumentProcessingComplete",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-Event--WebM--TN--V1_0--SystemStatusChanged",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-naming--defaultContext",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-accessLabelAdapter",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-adapters",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-admin",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-eventLog",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-EventMembers",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-Everyone",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-IS-JMS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-JMSClient",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-WmJmsNamingReader",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-CF-JMSBrokerConnectionFactory",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-CF-LM_SCI_QCF",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-CF-LM_SCI_QCF_2",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-CF-um_local",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-EQ_P3_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-Event--WebM--Deployment",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-Event--WebM--EventSubscriptionMgmt--SubscriptionChange",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P1_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P1_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P1_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P1_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P1_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P1_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P1_SCI_FitNesse",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P2_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P2_CF_ENG_REPPE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P2_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P2_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P2_CF_LBR_AGROOY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P2_CF_LBR_AGROOY_FIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P2_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P2_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P2_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_AG_LAN_EXO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_CF_SSC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_CF_SSC_LUCIA",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_CF_SSC_LUCIA_EXO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_MA_MAS_MEC_AGCO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_MA_SWE_EXO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_P3_MA_SWE_PRECOM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S1_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S1_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S1_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S1_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S1_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S1_MA_MAS_Astro",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S1_MA_MAS_MEC_FWD",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S1_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S1_SCI_FitNesse",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S2_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S2_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S2_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S2_CF_LBR_AGROOY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S2_EN_ENE_FIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S2_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S2_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S2_MA_MAS_Astro",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S2_MA_MAS_MEC_FWD",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S2_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_AG_LAN_2",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_AG_LAN_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_AG_LAN_ECON_CustomerInvoice",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_MA_MAS_C4",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_MA_MAS_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_MA_MAS_MEC_FWD",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_MA_MAS_MEC_SPAREX",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-IQ_S3_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P1_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P1_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P1_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P1_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P1_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P1_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P1_SCI_FitNesse",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P2_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P2_CF_ENG_REPPE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P2_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P2_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P2_CF_LBR_AGROOY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P2_CF_LBR_AGROOY_FIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P2_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P2_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P2_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_AG_LAN_C4",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_AG_LAN_MEC_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_CF_SSC_LUCIA",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_CF_SSC_LUCIA_BGAGRC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_CF_SSC_LUCIA_BGMAX",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_FO_CER_C4",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_MA_MAS_MEC_AGCO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_MA_MAS_MEC_AGCO_MD",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_MA_MAS_MEC_AGCO_ORDACK",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_MA_MAS_MEC_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_MA_SWE_EXO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_P3_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S1_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S1_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S1_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S1_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S1_MA_MAS_Astro",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S1_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S1_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S1_SCI_FitNesse",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_CF_LBR_AGROOY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_CF_LBR_AGROOY_FT",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_EN_ENE_MEC_FIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_MA_MAS_Astro",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_MA_MAS_MEC_eCommerce",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S2_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_AG_LAN_MEC_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_CF_SSC_LUCIA",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_CF_SSC_LUCIA_CustomerInvoice_AGROL",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_CF_SSC_LUCIA_CustomerInvoice_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_CF_SSC_LUCIA_CustomerInvoice_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_MA_MAS_MEC_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_MA_MAS_MEC_SPAREX",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_MA_MAS_MEC_SPAREX_MD",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-OQ_S3_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-EQ_P3_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-Event--temp_queue",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P1_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P1_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P1_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P1_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P1_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P1_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P1_SCI_FitNesse",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P2_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P2_CF_ENG_REPPE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P2_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P2_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P2_CF_LBR_AGROOY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P2_CF_LBR_AGROOY_FIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P2_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P2_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P2_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_AG_LAN_EXO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_CF_SSC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_CF_SSC_LUCIA",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_CF_SSC_LUCIA_EXO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_MA_MAS_MEC_AGCO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_MA_SWE_EXO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_P3_MA_SWE_PRECOM",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S1_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S1_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S1_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S1_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S1_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S1_MA_MAS_Astro",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S1_MA_MAS_MEC_FWD",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S1_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S1_SCI_FitNesse",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S2_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S2_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S2_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S2_CF_LBR_AGROOY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S2_EN_ENE_FIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S2_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S2_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S2_MA_MAS_Astro",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S2_MA_MAS_MEC_FWD",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S2_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_AG_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_AG_LAN_2",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_AG_LAN_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_AG_LAN_ECON_CustomerInvoice",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_CF_FAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_FO_CER",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_MA_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_MA_MAS_C4",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_MA_MAS_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_MA_MAS_MEC_FWD",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_MA_MAS_MEC_SPAREX",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-IQ_S3_MA_SWE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P1_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P1_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P1_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P1_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P1_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P1_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P1_SCI_FitNesse",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P2_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P2_CF_ENG_REPPE",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P2_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P2_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P2_CF_LBR_AGROOY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P2_CF_LBR_AGROOY_FIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P2_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P2_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P2_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_AG_LAN_C4",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_AG_LAN_MEC_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_CF_SSC_LUCIA",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_CF_SSC_LUCIA_BGAGRC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_CF_SSC_LUCIA_BGMAX",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_FO_CER_C4",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_MA_MAS_MEC_AGCO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_MA_MAS_MEC_AGCO_MD",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_MA_MAS_MEC_AGCO_ORDACK",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_MA_MAS_MEC_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_MA_SWE_EXO",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_P3_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S1_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S1_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S1_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S1_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S1_MA_MAS_Astro",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S1_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S1_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S1_SCI_FitNesse",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_CF_LBR_AGROOY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_CF_LBR_AGROOY_FT",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_EN_ENE_MEC_FIN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_MA_MAS_Astro",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_MA_MAS_MEC_eCommerce",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S2_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_AG_LAN_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_AG_LAN_MEC_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_CF_FAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_CF_FO_CER_CB3_EC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_CF_SSC_LUCIA",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_CF_SSC_LUCIA_CustomerInvoice_AGROL",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_CF_SSC_LUCIA_CustomerInvoice_LAN",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_CF_SSC_LUCIA_CustomerInvoice_MAS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_FO_CER_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_MA_MAS_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_MA_MAS_MEC_ECON",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_MA_MAS_MEC_SPAREX",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_MA_MAS_MEC_SPAREX_MD",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-OQ_S3_MA_SWE_MEC",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-temp--queue954000000002",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-temp--queue954500000002",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-REALM-ACL",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-ZONE",
+      "level" : "INSTANCE"
+    } ]
+  }, {
+    "name" : "Universal-Messaging-um_realm_optimize",
+    "level" : "COMPONENT",
+    "children" : [ {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.platform.management.nirvana.configuration.JNDICFMetadataManager.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.platform.management.nirvana.configuration.JNDIDestMetadataManager.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJDBCConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJMSConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonJNDIConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonKeystoresConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonLocalUsersConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonMessagingConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonPortsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonSMTPConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonSysPropsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonTruststoresConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-CONFIGURATION-TYPE-METADATA-com.softwareag.plm.spm.spm.impl.CommonVarsConfigurationTypeMetadata.xml",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JAVASYSPROPS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-JVM-OPTIONS",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LICENSE-Universal-Messaging",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LICLOC-Universal-Messaging",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-LOCAL-USERS-Administrator",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-MEMORY",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-PORTS-nhp0",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Audit_Settings",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Client_Timeout_Values",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Cluster_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Comet_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Connection_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Data_Stream_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-DurableConfig",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Environment_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Event_Storage",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Fanout_Values",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Global_Values",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Inter-Realm_Comms_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Join_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-JVM_Management",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Logging_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Metric_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Plugin_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Protobuf_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Protocol_AMQP_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Protocol_MQTT_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-RecoveryDaemon",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Server_Protection",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-Thread_Pool_Config",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "COMMON-SYSPROPS-TransactionManager",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-Event--WebM--Process--V2_0--ProcessInstanceChange",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-Event--WebM--Process--V2_0--ProcessInstanceError",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-Event--WebM--Process--V2_0--ProcessStepInstanceChange",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-Event--WebM--Process--V2_0--ProcessStepInstanceError",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-naming--defaultContext",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--cache_change",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--cache_request",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--dca_event_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--deployment_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--dimension_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--job_queue_change",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--meta_names_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--process_event_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--process_model",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--proc_err_meta_del",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-CHANNELS-topic--rule_change",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-GROUPS-Everyone",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-CF-um_local",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-Event--WebM--Process--V2_0--ProcessInstanceChange",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-Event--WebM--Process--V2_0--ProcessInstanceError",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-Event--WebM--Process--V2_0--ProcessStepInstanceChange",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-Event--WebM--Process--V2_0--ProcessStepInstanceError",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--alg_state_persist",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--cache_reply",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--dca_dimension",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--dca_event",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--deployment",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--dimension_request",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--discovered_asset_change",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--discovered_asset_change_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--discovery_action",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--discovery_action_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--kpi_aggregate_diagnosis",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--kpi_aggregate_stats",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--kpi_event",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--mapped_event",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--meta_names_request",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--monitor_change_internal",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--process_instance",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--process_instance_0",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--process_model_request",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--rule_dim_disabled",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--rule_dim_event_eval",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--rule_event",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--rule_event_eval",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--rule_event_write",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--rule_kpi",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--rule_kpi_eval",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--rule_reading_eval",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--rule_threshold",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--rule_threshold_eval",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--stats_persist",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-queue--subscription_registration",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--cache_change",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--cache_request",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--dca_event_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--deployment_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--dimension_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--job_queue_change",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--meta_names_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--process_event_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--process_model",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--proc_err_meta_del",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-JNDI-DEST-topic--rule_change",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--alg_state_persist",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--cache_reply",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--dca_dimension",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--dca_event",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--deployment",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--dimension_request",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--discovered_asset_change",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--discovered_asset_change_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--discovery_action",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--discovery_action_response",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--kpi_aggregate_diagnosis",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--kpi_aggregate_stats",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--kpi_event",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--mapped_event",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--meta_names_request",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--monitor_change_internal",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--process_instance",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--process_instance_0",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--process_model_request",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--rule_dim_disabled",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--rule_dim_event_eval",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--rule_event",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--rule_event_eval",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--rule_event_write",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--rule_kpi",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--rule_kpi_eval",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--rule_reading_eval",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--rule_threshold",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--rule_threshold_eval",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--stats_persist",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-QUEUES-queue--subscription_registration",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-REALM-ACL",
+      "level" : "INSTANCE"
+    }, {
+      "name" : "UM-ZONE",
+      "level" : "INSTANCE"
+    } ]
+  } ],
+  "environment" : "PROD"
+}

@@ -15,7 +15,7 @@
 
   <!-- nodes -->
 
-<INVOKE TIMEOUT="" SERVICE="org.opencm.priv.repo.shutdown:run" VALIDATE-IN="$none" VALIDATE-OUT="$none">
+<INVOKE TIMEOUT="" SERVICE="org.opencm.priv.repo.shutdown:run" VALIDATE-IN="$none" VALIDATE-OUT="$none" DISABLED="true">
   <COMMENT></COMMENT>
 </INVOKE>
 </SEQUENCE>

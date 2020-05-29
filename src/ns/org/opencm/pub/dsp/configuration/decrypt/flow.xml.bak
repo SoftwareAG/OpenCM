@@ -41,7 +41,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_security_decrypt</value>
+        <value name="rec_ref">org.opencm.doc:event_security_decrypt</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -69,7 +69,7 @@
 
   <!-- nodes -->
 
-<MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="false" GLOBALVARIABLES="false" FIELD="/decrypt;4;0;OpenCM.doc:event_security_decrypt/dummy;1;0">
+<MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="false" GLOBALVARIABLES="false" FIELD="/decrypt;4;0;org.opencm.doc:event_security_decrypt/dummy;1;0">
   <DATA ENCODING="XMLValues" I18N="true">
 
 <Values version="2.0">
@@ -204,7 +204,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_security_decrypt</value>
+        <value name="rec_ref">org.opencm.doc:event_security_decrypt</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -264,7 +264,7 @@
 </DATA>
 </MAPSET>
 
-<MAPCOPY FROM="/decrypt;4;0;OpenCM.doc:event_security_decrypt" TO="/document;2;0">
+<MAPCOPY FROM="/decrypt;4;0;org.opencm.doc:event_security_decrypt" TO="/document;2;0">
 </MAPCOPY>
 
 <MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="false" GLOBALVARIABLES="false" FIELD="/documentTypeName;1;0">
@@ -360,7 +360,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_security_decrypt</value>
+        <value name="rec_ref">org.opencm.doc:event_security_decrypt</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -400,7 +400,7 @@
 <MAPDELETE FIELD="/document;2;0">
 </MAPDELETE>
 
-<MAPDELETE FIELD="/decrypt;4;0;OpenCM.doc:event_security_decrypt">
+<MAPDELETE FIELD="/decrypt;4;0;org.opencm.doc:event_security_decrypt">
 </MAPDELETE>
 </MAP>
 </INVOKE>

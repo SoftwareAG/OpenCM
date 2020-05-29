@@ -41,7 +41,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_cce_mgmt</value>
+        <value name="rec_ref">org.opencm.doc:event_cce_mgmt</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -107,10 +107,10 @@
 
   <!-- nodes -->
 
-<MAPCOPY FROM="/action;1;0" TO="/cce_mgmt;4;0;OpenCM.doc:event_cce_mgmt/action;1;0">
+<MAPCOPY FROM="/action;1;0" TO="/cce_mgmt;4;0;org.opencm.doc:event_cce_mgmt/action;1;0">
 </MAPCOPY>
 
-<MAPCOPY FROM="/node;1;0" TO="/cce_mgmt;4;0;OpenCM.doc:event_cce_mgmt/node;1;0">
+<MAPCOPY FROM="/node;1;0" TO="/cce_mgmt;4;0;org.opencm.doc:event_cce_mgmt/node;1;0">
 </MAPCOPY>
 
 <MAPDELETE FIELD="/action;1;0">
@@ -226,7 +226,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_cce_mgmt</value>
+        <value name="rec_ref">org.opencm.doc:event_cce_mgmt</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -286,7 +286,7 @@
 </DATA>
 </MAPSET>
 
-<MAPCOPY FROM="/cce_mgmt;4;0;OpenCM.doc:event_cce_mgmt" TO="/document;2;0">
+<MAPCOPY FROM="/cce_mgmt;4;0;org.opencm.doc:event_cce_mgmt" TO="/document;2;0">
 </MAPCOPY>
 
 <MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="false" GLOBALVARIABLES="false" FIELD="/documentTypeName;1;0">
@@ -382,7 +382,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_cce_mgmt</value>
+        <value name="rec_ref">org.opencm.doc:event_cce_mgmt</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -422,7 +422,7 @@
 <MAPDELETE FIELD="/delayUntilServiceSuccess;1;0">
 </MAPDELETE>
 
-<MAPDELETE FIELD="/cce_mgmt;4;0;OpenCM.doc:event_cce_mgmt">
+<MAPDELETE FIELD="/cce_mgmt;4;0;org.opencm.doc:event_cce_mgmt">
 </MAPDELETE>
 </MAP>
 </INVOKE>

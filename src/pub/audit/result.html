@@ -737,7 +737,7 @@
 	function saveAsTemplate() {
 		var templateName = getTemplateName();
 		var auditConf = getAuditConfiguration();
-		var resp = top.window.callJsonService("/invoke/OpenCM.pub.dsp.audit/saveTemplate", JSON.stringify(auditConf));
+		var resp = top.window.callJsonService("/invoke/org.opencm.pub.dsp.audit/saveTemplate", JSON.stringify(auditConf));
 		if (resp.rc == 0) {
 			$('#span_save_template').text("Template successfully saved ...").show();
 			// Add to template list if not already there

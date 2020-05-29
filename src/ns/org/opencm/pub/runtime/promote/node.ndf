@@ -25,7 +25,7 @@
             <value name="field_password">false</value>
           </record>
           <value name="is_public">false</value>
-          <value name="field_name">OpenCM.doc:event_promote_node</value>
+          <value name="field_name">org.opencm.doc:event_promote_node</value>
           <value name="field_type">recref</value>
           <value name="field_dim">0</value>
           <value name="wrapper_type">IData</value>
@@ -77,6 +77,17 @@
     <value name="startExecution">false</value>
     <value name="stopExecution">false</value>
     <value name="onError">true</value>
+  </record>
+  <record name="circuitbreakersettings" javaclass="com.wm.util.Values">
+    <value name="enabled">false</value>
+    <value name="failureEvent">1</value>
+    <value name="timeoutPeriod">60</value>
+    <value name="failureThreshold">5</value>
+    <value name="failurePeriod">60</value>
+    <value name="openAction">1</value>
+    <null name="serviceToInvoke"/>
+    <value name="resetPeriod">300</value>
+    <value name="cancelThreadOnTimeout">false</value>
   </record>
   <array name="allowedHTTPMethods" type="value" depth="1">
     <value>HEAD</value>

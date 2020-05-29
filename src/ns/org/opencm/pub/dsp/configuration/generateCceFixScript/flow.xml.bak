@@ -41,7 +41,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_generate_cce_cli_fix_script</value>
+        <value name="rec_ref">org.opencm.doc:event_generate_cce_cli_fix_script</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -88,7 +88,7 @@
 
   <!-- nodes -->
 
-<MAPCOPY FROM="/node;1;0" TO="/generate_cli;4;0;OpenCM.doc:event_generate_cce_cli_fix_script/node;1;0">
+<MAPCOPY FROM="/node;1;0" TO="/generate_cli;4;0;org.opencm.doc:event_generate_cce_cli_fix_script/node;1;0">
 </MAPCOPY>
 
 <MAPDELETE FIELD="/node;1;0">
@@ -201,7 +201,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_generate_cce_cli_fix_script</value>
+        <value name="rec_ref">org.opencm.doc:event_generate_cce_cli_fix_script</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -261,7 +261,7 @@
 </DATA>
 </MAPSET>
 
-<MAPCOPY FROM="/generate_cli;4;0;OpenCM.doc:event_generate_cce_cli_fix_script" TO="/document;2;0">
+<MAPCOPY FROM="/generate_cli;4;0;org.opencm.doc:event_generate_cce_cli_fix_script" TO="/document;2;0">
 </MAPCOPY>
 
 <MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="false" GLOBALVARIABLES="false" FIELD="/documentTypeName;1;0">
@@ -357,7 +357,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_generate_cce_cli_fix_script</value>
+        <value name="rec_ref">org.opencm.doc:event_generate_cce_cli_fix_script</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -397,7 +397,7 @@
 <MAPDELETE FIELD="/document;2;0">
 </MAPDELETE>
 
-<MAPDELETE FIELD="/generate_cli;4;0;OpenCM.doc:event_generate_cce_cli_fix_script">
+<MAPDELETE FIELD="/generate_cli;4;0;org.opencm.doc:event_generate_cce_cli_fix_script">
 </MAPDELETE>
 </MAP>
 </INVOKE>

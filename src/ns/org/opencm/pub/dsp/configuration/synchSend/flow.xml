@@ -114,6 +114,7 @@
     <value name="field_name">publishInput</value>
     <value name="field_type">record</value>
     <value name="field_dim">0</value>
+    <value name="wrapper_type">IData</value>
     <value name="nillable">true</value>
     <value name="form_qualified">false</value>
     <value name="is_global">false</value>
@@ -136,6 +137,7 @@
         <value name="field_name">document</value>
         <value name="field_type">record</value>
         <value name="field_dim">0</value>
+        <value name="wrapper_type">IData</value>
         <value name="nillable">true</value>
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
@@ -264,11 +266,14 @@
 </DATA>
 </MAPSET>
 
+<MAPCOPY FROM="/synch_send;4;0;org.opencm.doc:event_synch_send" TO="/document;2;0">
+</MAPCOPY>
+
 <MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="false" GLOBALVARIABLES="false" FIELD="/documentTypeName;1;0">
   <DATA ENCODING="XMLValues" I18N="true">
 
 <Values version="2.0">
-  <value name="xml">OpenCM.doc:event_synch_send</value>
+  <value name="xml">org.opencm.doc:event_synch_send</value>
   <record name="type" javaclass="com.wm.util.Values">
     <value name="node_type">field</value>
     <value name="node_subtype">unknown</value>
@@ -283,9 +288,6 @@
 </Values>
 </DATA>
 </MAPSET>
-
-<MAPCOPY FROM="/synch_send;4;0;org.opencm.doc:event_synch_send" TO="/document;2;0">
-</MAPCOPY>
 </MAP>
 
 <MAP MODE="OUTPUT">

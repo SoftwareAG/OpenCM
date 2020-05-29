@@ -82,7 +82,7 @@
           <value name="field_password">false</value>
         </record>
         <value name="is_public">false</value>
-        <value name="field_name">OpenCM.doc:event_promote_node</value>
+        <value name="field_name">org.opencm.doc:event_promote_node</value>
         <value name="field_type">recref</value>
         <value name="field_dim">0</value>
         <value name="wrapper_type">IData</value>
@@ -91,7 +91,7 @@
         <value name="is_global">false</value>
         <value name="rec_closed">true</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_promote_node</value>
+        <value name="rec_ref">org.opencm.doc:event_promote_node</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -101,7 +101,7 @@
 
   <!-- nodes -->
 
-<MAPCOPY FROM="/OpenCM.doc:event_promote_node;4;0;OpenCM.doc:event_promote_node/node;1;0" TO="/node;1;0">
+<MAPCOPY FROM="/org.opencm.doc:event_promote_node;4;0;org.opencm.doc:event_promote_node/node;1;0" TO="/node;1;0">
 </MAPCOPY>
 </MAP>
 

@@ -42,7 +42,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_extract</value>
+        <value name="rec_ref">org.opencm.doc:event_extract</value>
       </record>
       <record javaclass="com.wm.util.Values">
         <value name="node_type">record</value>
@@ -109,7 +109,7 @@
 
   <!-- nodes -->
 
-<MAPCOPY FROM="/node;1;0" TO="/snapshot;4;0;OpenCM.doc:event_extract/node;1;0">
+<MAPCOPY FROM="/node;1;0" TO="/snapshot;4;0;org.opencm.doc:event_extract/node;1;0">
 </MAPCOPY>
 
 <MAPDELETE FIELD="/node;1;0">
@@ -225,7 +225,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_extract</value>
+        <value name="rec_ref">org.opencm.doc:event_extract</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -235,7 +235,7 @@
 
   <!-- nodes -->
 
-<MAPCOPY FROM="/snapshot;4;0;OpenCM.doc:event_extract" TO="/document;2;0">
+<MAPCOPY FROM="/snapshot;4;0;org.opencm.doc:event_extract" TO="/document;2;0">
 </MAPCOPY>
 
 <MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="false" GLOBALVARIABLES="false" FIELD="/local;1;0">
@@ -383,7 +383,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_extract</value>
+        <value name="rec_ref">org.opencm.doc:event_extract</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -415,7 +415,7 @@
 <MAPDELETE FIELD="/documentTypeName;1;0">
 </MAPDELETE>
 
-<MAPDELETE FIELD="/snapshot;4;0;OpenCM.doc:event_extract">
+<MAPDELETE FIELD="/snapshot;4;0;org.opencm.doc:event_extract">
 </MAPDELETE>
 
 <MAPDELETE FIELD="/document;2;0">

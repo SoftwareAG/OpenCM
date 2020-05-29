@@ -1,0 +1,8 @@
+{
+  "name" : "PROD_API_V103_APIGW_01",
+  "level" : "NODE",
+  "layer" : "API",
+  "spmURL" : "http://sr05721.work.lantmannen.lan:8292/spm",
+  "children" : null,
+  "environment" : "PROD"
+}

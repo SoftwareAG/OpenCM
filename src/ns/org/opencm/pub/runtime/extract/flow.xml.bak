@@ -81,7 +81,7 @@
           <value name="field_password">false</value>
         </record>
         <value name="is_public">false</value>
-        <value name="field_name">OpenCM.doc:event_extract</value>
+        <value name="field_name">org.opencm.doc:event_extract</value>
         <value name="field_type">recref</value>
         <value name="field_dim">0</value>
         <value name="wrapper_type">IData</value>
@@ -90,7 +90,7 @@
         <value name="is_global">false</value>
         <value name="rec_closed">true</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_extract</value>
+        <value name="rec_ref">org.opencm.doc:event_extract</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -100,7 +100,7 @@
 
   <!-- nodes -->
 
-<MAPCOPY FROM="/OpenCM.doc:event_extract;4;0;OpenCM.doc:event_extract/node;1;0" TO="/node;1;0">
+<MAPCOPY FROM="/org.opencm.doc:event_extract;4;0;org.opencm.doc:event_extract/node;1;0" TO="/node;1;0">
 </MAPCOPY>
 </MAP>
 
@@ -138,7 +138,7 @@
           <value name="field_password">false</value>
         </record>
         <value name="is_public">false</value>
-        <value name="field_name">OpenCM.doc:event_extract</value>
+        <value name="field_name">org.opencm.doc:event_extract</value>
         <value name="field_type">recref</value>
         <value name="field_dim">0</value>
         <value name="wrapper_type">IData</value>
@@ -147,7 +147,7 @@
         <value name="is_global">false</value>
         <value name="rec_closed">true</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_extract</value>
+        <value name="rec_ref">org.opencm.doc:event_extract</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -287,7 +287,7 @@
           <value name="field_password">false</value>
         </record>
         <value name="is_public">false</value>
-        <value name="field_name">OpenCM.doc:event_extract</value>
+        <value name="field_name">org.opencm.doc:event_extract</value>
         <value name="field_type">recref</value>
         <value name="field_dim">0</value>
         <value name="wrapper_type">IData</value>
@@ -296,7 +296,7 @@
         <value name="is_global">false</value>
         <value name="rec_closed">true</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_extract</value>
+        <value name="rec_ref">org.opencm.doc:event_extract</value>
       </record>
       <record javaclass="com.wm.util.Values">
         <value name="node_type">record</value>

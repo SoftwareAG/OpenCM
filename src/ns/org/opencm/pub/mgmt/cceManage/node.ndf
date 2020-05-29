@@ -25,7 +25,7 @@
             <value name="field_password">false</value>
           </record>
           <value name="is_public">false</value>
-          <value name="field_name">OpenCM.doc:event_cce_mgmt</value>
+          <value name="field_name">org.opencm.doc:event_cce_mgmt</value>
           <value name="field_type">recref</value>
           <value name="field_dim">0</value>
           <value name="wrapper_type">IData</value>

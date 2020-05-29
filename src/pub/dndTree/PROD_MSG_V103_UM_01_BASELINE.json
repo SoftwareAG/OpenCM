@@ -1,0 +1,8 @@
+{
+  "name" : "PROD_MSG_V103_UM_01",
+  "level" : "NODE",
+  "layer" : "MSG",
+  "spmURL" : "http://sr05721.work.lantmannen.lan:8592/spm",
+  "children" : null,
+  "environment" : "PROD"
+}

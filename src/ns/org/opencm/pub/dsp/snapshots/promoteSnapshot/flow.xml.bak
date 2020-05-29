@@ -62,7 +62,7 @@
         <value name="is_global">false</value>
         <value name="rec_closed">true</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_promote_node</value>
+        <value name="rec_ref">org.opencm.doc:event_promote_node</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -110,7 +110,7 @@
 
   <!-- nodes -->
 
-<MAPCOPY FROM="/node;1;0" TO="/promote;4;0;OpenCM.doc:event_promote_node/node;1;0">
+<MAPCOPY FROM="/node;1;0" TO="/promote;4;0;org.opencm.doc:event_promote_node/node;1;0">
 </MAPCOPY>
 
 <MAPDELETE FIELD="/node;1;0">
@@ -226,7 +226,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_promote_node</value>
+        <value name="rec_ref">org.opencm.doc:event_promote_node</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -286,7 +286,7 @@
 </DATA>
 </MAPSET>
 
-<MAPCOPY FROM="/promote;4;0;OpenCM.doc:event_promote_node" TO="/document;2;0">
+<MAPCOPY FROM="/promote;4;0;org.opencm.doc:event_promote_node" TO="/document;2;0">
 </MAPCOPY>
 
 <MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="false" GLOBALVARIABLES="false" FIELD="/documentTypeName;1;0">
@@ -384,7 +384,7 @@
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
         <value name="modifiable">true</value>
-        <value name="rec_ref">OpenCM.doc:event_promote_node</value>
+        <value name="rec_ref">org.opencm.doc:event_promote_node</value>
       </record>
     </array>
     <value name="modifiable">true</value>
@@ -416,7 +416,7 @@
 <MAPDELETE FIELD="/documentTypeName;1;0">
 </MAPDELETE>
 
-<MAPDELETE FIELD="/promote;4;0;OpenCM.doc:event_promote_node">
+<MAPDELETE FIELD="/promote;4;0;org.opencm.doc:event_promote_node">
 </MAPDELETE>
 
 <MAPDELETE FIELD="/delayUntilServiceSuccess;1;0">

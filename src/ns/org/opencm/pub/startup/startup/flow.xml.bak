@@ -399,6 +399,10 @@
 <INVOKE TIMEOUT="" SERVICE="org.opencm.priv.util:refreshInventory" VALIDATE-IN="$none" VALIDATE-OUT="$none">
   <COMMENT></COMMENT>
 </INVOKE>
+
+<INVOKE TIMEOUT="" SERVICE="org.opencm.priv.repo.startup:run" VALIDATE-IN="$none" VALIDATE-OUT="$none">
+  <COMMENT></COMMENT>
+</INVOKE>
 </SEQUENCE>
 
 <SEQUENCE TIMEOUT="" EXIT-ON="DONE">

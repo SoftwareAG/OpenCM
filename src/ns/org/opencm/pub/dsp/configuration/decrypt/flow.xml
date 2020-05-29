@@ -271,7 +271,7 @@
   <DATA ENCODING="XMLValues" I18N="true">
 
 <Values version="2.0">
-  <value name="xml">OpenCM.doc:event_security_decrypt</value>
+  <value name="xml">org.opencm.doc:event_security_decrypt</value>
   <record name="type" javaclass="com.wm.util.Values">
     <value name="node_type">field</value>
     <value name="node_subtype">unknown</value>
