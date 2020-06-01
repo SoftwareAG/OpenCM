@@ -63,7 +63,7 @@ public final class inventory
 		if (KeyUtils.getMasterPassword() == null) {
 			try {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," inventory :: generateReport :: Master Pwd NULL - running startup service ... ");
-				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
+				Service.doInvoke(com.wm.lang.ns.NSName.create("org.opencm.pub.startup", "startup"), IDataFactory.create());
 			} catch (Exception ex) {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," inventory :: generateReport :: " + ex.getMessage());
 			}
@@ -117,7 +117,7 @@ public final class inventory
 										LinkedList<RuntimeComponent> lRuntimes = lInst.getRuntimes();
 										for (int r = 0; r < lRuntimes.size(); r++) {
 											RuntimeComponent lRuntime = lRuntimes.get(r);
-											sb.append("  --> [" + lInst.getName() +  " - " + lRuntime.getName() +"] :: " + lServer.getName() + " " + lRuntime.getProtocol() + " " + lRuntime.getPort() + " " + System.lineSeparator());
+											sb.append("  --> [" + lInst.getName() +  " - " + lRuntime.getName() +"] :: " + lRuntime.getProtocol() + "://" + lServer.getName() + ":" + lRuntime.getPort() + " (user: " + lRuntime.getUsername() + ", pwd: " + lRuntime.getDecryptedPassword() + ")" + System.lineSeparator());
 										}
 									}
 								}

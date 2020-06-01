@@ -139,16 +139,6 @@
               "hasBaseline" : true,
               "hasRuntime" : true
             } ]
-          }, {
-            "name" : "server_02",
-            "level" : "SERVER",
-            "children" : [ {
-              "name" : "ORGX_DEV_ESB_V103_IS_02",
-              "level" : "NODE",
-              "url" : "node=ORGX_DEV_ESB_V103_IS_02",
-              "hasBaseline" : true,
-              "hasRuntime" : true
-            } ]
           } ]
         } ]
       } ]

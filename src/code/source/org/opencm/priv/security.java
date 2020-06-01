@@ -70,7 +70,7 @@ public final class security
 		if (KeyUtils.getMasterPassword() == null) {
 			try {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," updatePasswords :: Master Pwd NULL - running startup service ... ");
-				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
+				Service.doInvoke(com.wm.lang.ns.NSName.create("org.opencm.pub.startup", "startup"), IDataFactory.create());
 			} catch (Exception ex) {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," updatePasswords :: " + ex.getMessage());
 			}

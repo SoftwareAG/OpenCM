@@ -11,6 +11,10 @@
   <array name="implements" type="value" depth="1">
   </array>
   <array name="imports" type="value" depth="1">
+    <value>java.io.BufferedWriter</value>
+    <value>java.io.File</value>
+    <value>java.io.FileWriter</value>
+    <value>java.io.IOException</value>
     <value>java.util.HashMap</value>
     <value>java.util.Iterator</value>
     <value>java.util.LinkedList</value>

@@ -718,6 +718,7 @@ public class Inventory {
 	    		    	if ((configDep.getEnvironments() == null) || (configDep.getEnvironments().size() == 0)) {
 	    		    		return true;
 	    		    	}
+	    		    	
 	    		    	// --------------------------------
 	    		    	// Inspect Filters under Environment
 	    		    	// --------------------------------
@@ -730,88 +731,79 @@ public class Inventory {
 	    		    			if (inst == null) {
 	    		    				return true;
 	    		    			}
+	    		    			
     		    		    	// --------------------------------
-    		    		    	// If no additional filters, also ok
+    		    		    	// If no layers filter, also ok
     		    		    	// --------------------------------
-    		    		    	if ((configEnv.getNodes() == null) || (configEnv.getNodes().size() == 0)) {
-        		    		    	if ((configEnv.getLayers() == null) || (configEnv.getLayers().size() == 0)) {
-            		    		    	if ((configEnv.getSublayers() == null) || (configEnv.getSublayers().size() == 0)) {
-                		    		    	if ((configEnv.getVersions() == null) || (configEnv.getVersions().size() == 0)) {
-                		    		    		return true;
-                		    		    	}
-            		    		    	}
-        		    		    	}
-    		    		    	}
-	    				    	// ----------------------------------------
-	    				    	// Check Defined Filters
-	    				    	// ----------------------------------------
-    		    		    	// --------------------------------
-    		    		    	// Inspect Filtered Installations
-    		    		    	// --------------------------------
-    		    		    	if ((configEnv.getNodes() != null) && (configEnv.getNodes().size() > 0)) {
-    		    		    		boolean lFilter = false;
-	    		    		    	for (int n = 0; n < configEnv.getNodes().size(); n++) {
-	    		    		    		if (configEnv.getNodes().get(n).equals(inst.getName())) {
-	    		    		    			lFilter = true;
-	    		    		    			break;
-	    		    		    		}
-	    		    		    	}
-	    		    		    	// Installation filtered but not one of them
-	    		    		    	if (!lFilter) {
-	    		    		    		return false;
-	    		    		    	}
-    		    		    	}
-    		    		    	// --------------------------------
-    		    		    	// Inspect Filtered Layers
-    		    		    	// --------------------------------
-    		    		    	if ((configEnv.getLayers() != null) && (configEnv.getLayers().size() > 0)) {
-    		    		    		boolean lFilter = false;
-	    		    		    	for (int n = 0; n < configEnv.getLayers().size(); n++) {
-	    		    		    		if (configEnv.getLayers().get(n).equals(inst.getLayer())) {
-	    		    		    			lFilter = true;
-	    		    		    			break;
-	    		    		    		}
-	    		    		    	}
-	    		    		    	// Layer filtered but not one of them
-	    		    		    	if (!lFilter) {
-	    		    		    		return false;
-	    		    		    	}
-    		    		    	}
-    		    		    	// --------------------------------
-    		    		    	// Inspect Filtered Sublayers
-    		    		    	// --------------------------------
-    		    		    	if ((configEnv.getSublayers() != null) && (configEnv.getSublayers().size() > 0)) {
-    		    		    		boolean lFilter = false;
-	    		    		    	for (int n = 0; n < configEnv.getSublayers().size(); n++) {
-	    		    		    		if (configEnv.getSublayers().get(n).equals(inst.getSublayer())) {
-	    		    		    			lFilter = true;
-	    		    		    			break;
-	    		    		    		}
-	    		    		    	}
-	    		    		    	// Sublayer filtered but not one of them
-	    		    		    	if (!lFilter) {
-	    		    		    		return false;
-	    		    		    	}
-    		    		    	}
-    		    		    	// --------------------------------
-    		    		    	// Inspect Filtered Versions
-    		    		    	// --------------------------------
-    		    		    	if ((configEnv.getVersions() != null) && (configEnv.getVersions().size() > 0)) {
-    		    		    		boolean lFilter = false;
-	    		    		    	for (int n = 0; n < configEnv.getVersions().size(); n++) {
-	    		    		    		if (configEnv.getVersions().get(n).equals(inst.getVersion())) {
-	    		    		    			lFilter = true;
-	    		    		    			break;
-	    		    		    		}
-	    		    		    	}
-	    		    		    	// Version filtered but not one of them
-	    		    		    	if (!lFilter) {
-	    		    		    		return false;
-	    		    		    	}
+    		    		    	if ((configEnv.getLayers() == null) || (configEnv.getLayers().size() == 0)) {
+    		    		    		return true;
     		    		    	}
     		    		    	
-    		    		    	// All defined filters are applied and ok
-   		    		    		return true;
+	    				    	// ----------------------------------------
+	    				    	// Check Defined Filters for each layer
+	    				    	// ----------------------------------------
+    		    		    	for (int l = 0; l < configEnv.getLayers().size(); l++) {
+			    		    		org.opencm.configuration.model.Layer configLayer = configEnv.getLayers().get(l);
+    		    		    		if (configLayer.getLayer().equals(inst.getLayer())) {
+    	    		    		    	// --------------------------------------
+    	    		    		    	// Check additional filters under layer
+    	    		    		    	// --------------------------------------
+    	    		    		    	// --------------------------------
+    	    		    		    	// Inspect Filtered Versions
+    	    		    		    	// --------------------------------
+    	    		    		    	if ((configLayer.getVersions() != null) && (configLayer.getVersions().size() > 0)) {
+    	    		    		    		boolean lFilter = false;
+    		    		    		    	for (int n = 0; n < configLayer.getVersions().size(); n++) {
+    		    		    		    		if (configLayer.getVersions().get(n).equals(inst.getVersion())) {
+    		    		    		    			lFilter = true;
+    		    		    		    			break;
+    		    		    		    		}
+    		    		    		    	}
+    		    		    		    	// Version filtered but not one of them
+    		    		    		    	if (!lFilter) {
+    		    		    		    		return false;
+    		    		    		    	}
+    	    		    		    	}
+    	    		    		    	// --------------------------------
+    	    		    		    	// Inspect Filtered Sublayers
+    	    		    		    	// --------------------------------
+    	    		    		    	if ((configLayer.getSublayers() != null) && (configLayer.getSublayers().size() > 0)) {
+    	    		    		    		boolean lFilter = false;
+    		    		    		    	for (int n = 0; n < configLayer.getSublayers().size(); n++) {
+    		    		    		    		if (configLayer.getSublayers().get(n).equals(inst.getSublayer())) {
+    		    		    		    			lFilter = true;
+    		    		    		    			break;
+    		    		    		    		}
+    		    		    		    	}
+    		    		    		    	// Sublayer filtered but not one of them
+    		    		    		    	if (!lFilter) {
+    		    		    		    		return false;
+    		    		    		    	}
+    	    		    		    	}
+    	    		    		    	// --------------------------------
+    	    		    		    	// Inspect Filtered Installations
+    	    		    		    	// --------------------------------
+    	    		    		    	if ((configLayer.getNodes() != null) && (configLayer.getNodes().size() > 0)) {
+    	    		    		    		boolean lFilter = false;
+    		    		    		    	for (int n = 0; n < configLayer.getNodes().size(); n++) {
+    		    		    		    		if (configLayer.getNodes().get(n).equals(inst.getName())) {
+    		    		    		    			lFilter = true;
+    		    		    		    			break;
+    		    		    		    		}
+    		    		    		    	}
+    		    		    		    	// Installation filtered but not one of them
+    		    		    		    	if (!lFilter) {
+    		    		    		    		return false;
+    		    		    		    	}
+    	    		    		    	}
+    		    		    			
+    		    		    			// All defined filters are applied and ok
+           		    		    		return true;
+    		    		    		}
+    		    		    	}
+    		    		    	
+		    		    		// Installation not part of the layer
+		    		    		return false;
 		    		    	}
 		    			}
 		    		}

@@ -140,15 +140,10 @@ function performDecrypt() {
 		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 	}
 }
-function performCceRefresh() {
-	if (confirm('This action will remove/create all enviornments and nodes in Command Central based on the opencm configuration. Confirm to contine:')) {
-		$.get( "/invoke/org.opencm.pub.dsp.configuration/manageCCEnodes", { action: "refreshAll", node: null} );
-		$('#notification').html("<p>Creating all nodes and environments within Command Central ....</p>");
-		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
-	} else {
-		$('#notification').html("<p>CCE refresh cancelled ....</p>");
-		$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
-	}
+function performCceCliList() {
+	$.get( "/invoke/org.opencm.pub.dsp.configuration/manageCCEnodes", { action: "cli", node: null} );
+	$('#notification').html("<p>Generating CLI script for Command Central Nodes and Groups....</p>");
+	$('#notification').slideToggle(500).delay(3000).fadeToggle(500);
 }
 function performCceAddNode() {
 	$.get( "/invoke/org.opencm.pub.dsp.configuration/manageCCEnodes", { action: "generateNode", node: opencm_node} );

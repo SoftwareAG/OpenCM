@@ -783,7 +783,7 @@ a#RightButton.highlighted:hover {
 #conf_Decrypt>a:before {
     content: "\25C1"
 }
-#conf_CceRefresh>a:before {
+#conf_CceCliList>a:before {
     content: "\21BB"
 }
 #conf_CceAddNode>a:before {

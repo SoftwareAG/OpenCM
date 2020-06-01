@@ -7,6 +7,10 @@ import com.wm.util.Values;
 import com.wm.app.b2b.server.Service;
 import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -73,7 +77,7 @@ public final class cce
 		if (action == null) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM cce:manage :: No action specified .. ");
 			return;
-		} else if (!action.equals("refreshAll") && !action.equals("generateNode")) {
+		} else if (!action.equals("cli") && !action.equals("generateNode")) {
 			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM cce:manage :: Invalid action specified .. " + action);
 			return;
 		} else if (action.equals("generateNode") && (node == null)) {
@@ -86,8 +90,8 @@ public final class cce
 		// --------------------------------------------------------------------
 		if (KeyUtils.getMasterPassword() == null) {
 			try {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Manage CCE nodes: Master Pwd NULL - running startup service ... ");
-				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," vizualization:generate : Master Pwd NULL - running startup service ... ");
+				Service.doInvoke(com.wm.lang.ns.NSName.create("org.opencm.pub.startup", "startup"), IDataFactory.create());
 			} catch (Exception ex) {
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM cce:manage :: " + ex.getMessage());
 			}
@@ -138,7 +142,7 @@ public final class cce
 		
 		CceUtils cceUtils = new CceUtils(opencmConfig, inv);
 		
-		if (action.equals("refreshAll")) {
+		if (action.equals("cli")) {
 			// --------------------------------------------------------------------
 			// Define which installations to create
 			// --------------------------------------------------------------------
@@ -200,6 +204,19 @@ public final class cce
 				cceNodes.put(installation, groupAlias);
 			}
 			
+			// ------------------------------------------------------
+			// Create Fix Script Content
+			// ------------------------------------------------------
+			StringBuffer sb = new StringBuffer();
+			sb.append("-------------------------------------------------------------------------------" + System.lineSeparator());
+			sb.append(System.lineSeparator());
+			sb.append("     Auto-generated CLI commands for generating CCE nodes and groups ... " + System.lineSeparator());
+			sb.append(System.lineSeparator());
+			sb.append("-------------------------------------------------------------------------------" + System.lineSeparator());
+			sb.append(System.lineSeparator());
+			sb.append("---------------------------------------------------------------" + System.lineSeparator());
+			sb.append("     Create groups: " + System.lineSeparator());
+			sb.append("---------------------------------------------------------------" + System.lineSeparator());
 			// -------------------------------------------------------------------- 
 			// Create all groups
 			// --------------------------------------------------------------------
@@ -208,10 +225,13 @@ public final class cce
 				String gAlias = itGroups.next();
 				String gName = cceGroups.get(gAlias);
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," --> Creating CCE Environment (alias) :: " + gAlias);
-				cceUtils.deleteEnvironment(gAlias);
-				cceUtils.createEnvironment(gAlias,gName);
+				// cceUtils.createEnvironment(gAlias,gName);
+				sb.append(".\\sagcc create landscape environments alias=" + gAlias + " name=\"" + gName + "\"" + System.lineSeparator());
 			}
-		
+			sb.append(System.lineSeparator());
+			sb.append("---------------------------------------------------------------" + System.lineSeparator());
+			sb.append("     Create All nodes and assign to groups: " + System.lineSeparator());
+			sb.append("---------------------------------------------------------------" + System.lineSeparator());
 			// -------------------------------------------------------------------- 
 			// Create all Nodes and assign to group
 			// --------------------------------------------------------------------
@@ -222,27 +242,54 @@ public final class cce
 				
 				Server server = inv.getNodeServer(newNode.getName());
 				
-				if (!newNode.getName().equals(opencmConfig.getCce_mgmt_node())) {
-					cceUtils.deleteNode(newNode.getName());
-				}
 				RuntimeComponent spmRuntime = newNode.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM);
 				String spmUrl = spmRuntime.getProtocol() + "://" + server.getName() + ":" + spmRuntime.getPort();
 				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"   - Creating Node :: " + newNode.getName());
 				if (newNode.getName().equals(opencmConfig.getCce_mgmt_node())) {
-					// Update the local CCE node alias to match the OpenCM CCE node alias
-					cceUtils.updateNodeName("local", newNode.getName());
-					if (gAlias != null) {
-		    			cceUtils.assignNodeToEnv(gAlias, "local");
-					}
+					// Ignore local CCE node alias 
 				} else {
-					cceUtils.createNode(newNode.getName(), spmUrl);
-					cceUtils.setNodePassword(newNode.getName(), spmRuntime.getDecryptedPassword());
+					// Create node
+					// cceUtils.createNode(newNode.getName(), spmUrl);
+					sb.append(".\\sagcc add landscape nodes alias=" + newNode.getName() + " url=" + spmUrl + System.lineSeparator());
+					// Change Password
+					// cceUtils.setNodePassword(newNode.getName(), spmRuntime.getDecryptedPassword());
+					sb.append(".\\sagcc add security credentials nodeAlias=" + gAlias + " runtimeComponentId=SPM-CONNECTION authenticationType=BASIC username=Administrator password=" + spmRuntime.getDecryptedPassword() + System.lineSeparator());
+					
+					// Assign to group
 					if (gAlias != null) {
-						cceUtils.assignNodeToEnv(gAlias, newNode.getName());
+						// cceUtils.assignNodeToEnv(gAlias, newNode.getName());
+						sb.append(".\\sagcc add landscape environments " + gAlias + " nodes nodeAlias=" + newNode.getName() + System.lineSeparator());
 					}
 				}
+				sb.append(System.lineSeparator());
 				
 			}
+			
+			sb.append(System.lineSeparator());
+			sb.append("-------------------------------------------------------------------------------" + System.lineSeparator());
+			sb.append("     End of CLI commands " + System.lineSeparator());
+			sb.append("-------------------------------------------------------------------------------" + System.lineSeparator());
+			
+			
+			// ------------------------------------------------------
+			// Write Fix Script Content to file
+			// ------------------------------------------------------
+			try {
+				BufferedWriter bwr = new BufferedWriter(new FileWriter(opencmConfig.getOutput_dir() + File.separator + Configuration.OPENCM_RESULTS_DIR_CLI + File.separator + "CCENodes.txt"));
+			    bwr.write(sb.toString());
+			   
+			    //flush the stream
+			    bwr.flush();
+			   
+			    //close the stream
+			    bwr.close();
+			    
+			} catch (IOException ex) {
+				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"CLI Generation - Exception: " + ex.toString());
+			}
+			
+			
+			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," -------------- CLI Generation Process Completed   ------------   ");
 			
 		} else if (action.equals("generateNode")) {
 			Installation installation = inv.getInstallation(node);
@@ -287,12 +334,6 @@ public final class cce
 				groupAlias += installation.getLayer();
 				// groupName += installation.getLayer();
 			}
-			
-			// --------------------------------------------------------------------
-			// Create cce group (if it doesn't exist)
-			// --------------------------------------------------------------------
-			// cceUtils.createEnvironment(groupAlias,groupName);
-			// Above recreates the environment if it exists. I.e. removes all existing nodes within...
 			
 			// --------------------------------------------------------------------
 			// Delete if exists
