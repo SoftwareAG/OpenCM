@@ -22,6 +22,8 @@
     <value>org.opencm.configuration.Configuration</value>
     <value>org.opencm.configuration.PkgConfiguration</value>
     <value>org.opencm.inventory.Inventory</value>
+    <value>org.opencm.inventory.Department</value>
+    <value>org.opencm.inventory.Organisation</value>
     <value>org.opencm.inventory.Server</value>
     <value>org.opencm.inventory.Installation</value>
     <value>org.opencm.inventory.RuntimeComponent</value>

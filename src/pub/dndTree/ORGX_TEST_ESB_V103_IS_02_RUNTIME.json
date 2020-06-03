@@ -293,6 +293,9 @@
       "name" : "wMFix.CCShared",
       "level" : "INSTANCE"
     }, {
+      "name" : "wMFix.SPM",
+      "level" : "INSTANCE"
+    }, {
       "name" : "wMFix.SUMApi",
       "level" : "INSTANCE"
     } ]

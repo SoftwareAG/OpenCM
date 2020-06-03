@@ -501,6 +501,37 @@ public class Inventory {
     }
     
     @JsonIgnore
+    public LinkedList<Installation> getInstallations(String organisation, String department, String environment, String layer) {
+    	LinkedList<Installation> insts = new LinkedList<Installation>();
+ 		for (int o = 0; o < this.inventory.size(); o++) {
+ 			Organisation org = this.inventory.get(o);
+ 			if ((organisation != null) && (!organisation.equals(org.getName()))) {
+ 				continue;
+ 			}
+ 			LinkedList<Department> opDeps = org.getDepartments();
+ 	 		for (int d = 0; d < opDeps.size(); d++) {
+ 	 			Department opDep = opDeps.get(d);
+ 	 			if ((department != null) && (!department.equals(opDep.getName()))) {
+ 	 				continue;
+ 	 			}
+ 	 			LinkedList<Server> srvs = opDep.getServers();
+ 	 	 		for (int s = 0; s < srvs.size(); s++) {
+ 	 	 			Server srv = srvs.get(s);
+ 	 	 			LinkedList<Installation> nodes = srv.getInstallations();
+ 	 	 	 		for (int n = 0; n < nodes.size(); n++) {
+ 	 	 	 			Installation inst = nodes.get(n);
+ 	 	 				if (((environment == null) || environment.equals(inst.getEnvironment())) && ((layer == null) || layer.equals(inst.getLayer())) && !insts.contains(inst)) {
+ 	 	 					insts.add(inst);
+ 	 	 				}
+ 	 	 	 		}
+ 	 	 		}
+ 	 		}
+		}
+ 		
+        return insts;
+    }
+    
+    @JsonIgnore
     public void ensureEncryptedPasswords(Configuration opencmConfig) {
     	
     	if (!opencmConfig.getInventory_config().getType().equals(InventoryConfiguration.INVENTORY_CONFIG_OPENCM)) {
