@@ -6,7 +6,7 @@ In addition, OpenCM can act the "source of truth" for any configuration properti
 ## Description
 OpenCM is an Integration Server package that is centrally installed on an (administration) IS. Main external dependency to OpenCM is SoftwareAG Platform Manager for all remote webMethods installations, which are used to perform property extractions (retrievals) and subsequent storing of the information into a local, file-based, repository. OpenCM comes with a user interface for easy navigation and visualization of property information.
 
-![Alt text](/github_images/Inventory.png?raw=true "OpenCM User Interface")
+![Alt text](/github_images/inventory.png?raw=true "OpenCM User Interface")
 
 The OpenMC user interface can visualize the integration platform servers and installations via a treestructure (see above), and by selecting portions of the tree. Once selected, a list of installations defined will then be shown in the center table.
 
