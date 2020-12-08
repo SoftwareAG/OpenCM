@@ -7,19 +7,21 @@ import com.wm.util.Values;
 import com.wm.app.b2b.server.Service;
 import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Properties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.linguafranca.pwdb.kdbx.simple.SimpleDatabase;
+import org.opencm.audit.AuditConfiguration;
 import org.opencm.configuration.Configuration;
-import org.opencm.configuration.PkgConfiguration;
-import org.opencm.inventory.*;
-import org.opencm.util.LogUtils;
+import org.opencm.inventory.Inventory;
+import org.opencm.inventory.InventoryGroup;
+import org.opencm.inventory.InventoryInstallation;
+import org.opencm.secrets.SecretsConfiguration;
+import org.opencm.secrets.SecretsUtils;
+import org.opencm.util.Cache;
 import org.opencm.util.JsonUtils;
-import org.opencm.security.KeyUtils;
-import java.util.Date;
-import java.text.SimpleDateFormat;
+import org.opencm.util.LogUtils;
 // --- <<IS-END-IMPORTS>> ---
 
 public final class inventory
@@ -38,184 +40,193 @@ public final class inventory
 
 
 
-	public static final void generateReport (IData pipeline)
-        throws ServiceException
-	{
-		// --- <<IS-START(generateReport)>> ---
-		// @sigtype java 3.5
-				
-		// --------------------------------------------------------------------
-		// Read in Default Package Properties 
-		// --------------------------------------------------------------------
-		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
-		 
-		// --------------------------------------------------------------------
-		// Read in OpenCM Properties
-		// --------------------------------------------------------------------
-		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
-		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
-		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Inventory Report Generation Process Started ....");
-		
-		// --------------------------------------------------------------------
-		// Ensure that master password is stored in cache
-		// --------------------------------------------------------------------
-		if (KeyUtils.getMasterPassword() == null) {
-			try {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," inventory :: generateReport :: Master Pwd NULL - running startup service ... ");
-				Service.doInvoke(com.wm.lang.ns.NSName.create("org.opencm.pub.startup", "startup"), IDataFactory.create());
-			} catch (Exception ex) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," inventory :: generateReport :: " + ex.getMessage());
-			}
-		}
-		
-		// --------------------------------------------------------------------
-		// Read in Inventory
-		// --------------------------------------------------------------------
-		Inventory inv = Inventory.instantiate(opencmConfig);
-		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," inventory :: generateReport :: Starting Process ...... ");
-		
-		// --------------------------------------------------------------------
-		// Construct Current date time for report
-		// --------------------------------------------------------------------
-		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd'_'HH-mm");
-		Date cDate = new Date(System.currentTimeMillis());
-		String cDateTime = formatter.format(cDate);
-		
-		// ------------------------------------------------------
-		// Create Fix Script Content
-		// ------------------------------------------------------
-		StringBuffer sb = new StringBuffer();
-		sb.append("------------------------------------------------------" + System.lineSeparator());
-		sb.append(" Inventory Report :: " + cDateTime + System.lineSeparator());
-		sb.append("------------------------------------------------------" + System.lineSeparator());
-		sb.append(System.lineSeparator());
-		
-		LinkedList<Organisation> lOrgs = inv.getInventory();
-		for (int o = 0; o < lOrgs.size(); o++) {
-			Organisation lOrg = lOrgs.get(o);
-			if ((lOrg.getDepartments() != null) && (lOrg.getDepartments().size() > 0)) {
-				sb.append("------------------------------------------------------" + System.lineSeparator());
-				sb.append(" Organsiation: " + lOrg.getName() + System.lineSeparator());
-				sb.append("------------------------------------------------------" + System.lineSeparator());
-				LinkedList<Department> lDeps = lOrg.getDepartments();
-				for (int d = 0; d < lDeps.size(); d++) {
-					Department lDep = lDeps.get(d);
-					if ((lDep.getServers() != null) && (lDep.getServers().size() > 0)) {
-						sb.append("  ------------------------------------------------------" + System.lineSeparator());
-						sb.append("   Department: " + lDep.getName() + System.lineSeparator());
-						sb.append("  ------------------------------------------------------" + System.lineSeparator());
-						LinkedList<Server> lServers = lDep.getServers();
-						for (int s = 0; s < lServers.size(); s++) {
-							Server lServer = lServers.get(s);
-							if ((lServer.getInstallations() != null) && (lServer.getInstallations().size() > 0)) {
-								LinkedList<Installation> lInstallations = lServer.getInstallations();
-								for (int i = 0; i < lInstallations.size(); i++) {
-									Installation lInst = lInstallations.get(i);
-									if ((lInst.getRuntimes() != null) && (lInst.getRuntimes().size() > 0)) {
-										LinkedList<RuntimeComponent> lRuntimes = lInst.getRuntimes();
-										for (int r = 0; r < lRuntimes.size(); r++) {
-											RuntimeComponent lRuntime = lRuntimes.get(r);
-											sb.append("  --> [" + lInst.getName() +  " - " + lRuntime.getName() +"] :: " + lRuntime.getProtocol() + "://" + lServer.getName() + ":" + lRuntime.getPort() + " (user: " + lRuntime.getUsername() + ", pwd: " + lRuntime.getDecryptedPassword() + ")" + System.lineSeparator());
-										}
-									}
-								}
-							}
-						}
-						
-					}
-				}
-			}
-		}
-		
-		sb.append(System.lineSeparator());
-		sb.append("------------------------------------------------------" + System.lineSeparator());
-		
-		// ------------------------------------------------------
-		// Write Fix Script Content to file
-		// ------------------------------------------------------
-		try {
-			BufferedWriter bwr = new BufferedWriter(new FileWriter(opencmConfig.getOutput_dir() + File.separator + "InventoryReport_" + cDateTime + ".txt"));
-		    bwr.write(sb.toString());
-		   
-		    //flush the stream
-		    bwr.flush();
-		   
-		    //close the stream
-		    bwr.close();
-		    
-		} catch (IOException ex) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," inventory :: generateReport - Exception: " + ex.toString());
-		}
-		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," -------------- Inventory Report Generation Process Completed   ------------   ");
-			
-		// --- <<IS-END>> ---
-
-                
-	}
-
-
-
 	public static final void getInventory (IData pipeline)
         throws ServiceException
 	{
 		// --- <<IS-START(getInventory)>> ---
 		// @sigtype java 3.5
+		// [i] field:0:required keepassPassword
+		// [i] field:0:required vaultToken
 		// [o] field:0:required inventory_json
-		// --------------------------------------------------------------------
-		// Read in Default Package Properties
-		// --------------------------------------------------------------------
-		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String keepassPassword = IDataUtil.getString( pipelineCursor, "keepassPassword" );
+		String vaultToken = IDataUtil.getString( pipelineCursor, "vaultToken" );
+		pipelineCursor.destroy(); 
 		
-		// --------------------------------------------------------------------
-		// Read in OpenCM Properties
-		// --------------------------------------------------------------------
-		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
-		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
-		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," getInventory: Start Service");
-		
-		// --------------------------------------------------------------------
-		// Ensure that master password is stored in cache
-		// --------------------------------------------------------------------
-		if (KeyUtils.getMasterPassword() == null) {
-			try {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," getInventory: Master Pwd NULL - running startup service ... ");
-				Service.doInvoke(com.wm.lang.ns.NSName.create("org.opencm.pub.startup", "startup"), IDataFactory.create());
-			} catch (Exception ex) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," getInventory :: " + ex.getMessage());
-			}
-		}
+		LogUtils.logDebug("Getting Inventory");
 		
 		// --------------------------------------------------------------------
 		// Read in Inventory
 		// --------------------------------------------------------------------
-		Inventory inv = Inventory.instantiate(opencmConfig);
+		Inventory inv = Inventory.getInstance();
 		
-		// pipeline
-		IDataCursor pipelineCursor = pipeline.getCursor();
+		if (inv == null) {
+			// --------------------------------------------------------------------
+			// Refresh Inventory
+			// --------------------------------------------------------------------
+			LogUtils.logDebug("getInventory: Refreshing... ");
+			Cache.getInstance().set(Inventory.INVENTORY_CACHE_KEY, null);
+			inv = Inventory.instantiate();
+		}
 		
 		// --------------------------------------------------------------------
-		// Organisations
+		// Include Secrets if asked for
 		// --------------------------------------------------------------------
-		LinkedList<Organisation> orgs = inv.getInventory();
-		String jsonResponse = JsonUtils.convertJavaObjectToJson(orgs);
+		if ((keepassPassword != null) && (vaultToken != null))  {
+			// Try to get the cached version:
+			Inventory secretsInv = (Inventory) Cache.getInstance().get(Inventory.INVENTORY_SECRETS_CACHE_KEY);
+			if (secretsInv != null) {
+				LogUtils.logInfo("Inventory with secrets already in cache:  .... ");
+				inv = secretsInv;
+			} else {
+				// include credentials
+				LogUtils.logDebug("getInventory: Including Secrets into Inventory ... ");
+				SecretsConfiguration secConfig = SecretsConfiguration.instantiate();
+				if (secConfig.getType().equals(SecretsConfiguration.TYPE_LOCAL)) {
+					secConfig.setKeepassPassword(keepassPassword);
+					SimpleDatabase db = SecretsUtils.getDatabase(secConfig);
+					if (db != null) {
+						Inventory.includeSecrets(inv.getRootGroup(), secConfig, db);
+					}
+				} else {
+					secConfig.setVaultToken(vaultToken);
+					Inventory.includeSecrets(inv.getRootGroup(), secConfig, null);
+				}
+				
+				// Store inventory with secrets into cache
+				Cache.getInstance().set(Inventory.INVENTORY_SECRETS_CACHE_KEY, inv);
+			}
+		}
+		
+		String jsonResponse = JsonUtils.convertJavaObjectToJson(inv);
 		
 		// -----------------------------------------------------
 		// Pass back result
 		// -----------------------------------------------------
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE, "getInventory: " + jsonResponse);
+		LogUtils.logDebug("getInventory: Got a new instance from server ... ");
+		LogUtils.logDebug("getInventory: " + jsonResponse);
+		
 		IDataCursor pipelineCursor2 = pipeline.getCursor();
 		IDataUtil.put( pipelineCursor2, "inventory_json", jsonResponse);
-		pipelineCursor.destroy(); 
+		pipelineCursor2.destroy(); 
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," getInventory: End Service");
+		LogUtils.logDebug("Got Inventory");
 			
 		// --- <<IS-END>> ---
 
                 
 	}
+
+
+
+	public static final void initInventory (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(initInventory)>> ---
+		// @sigtype java 3.5
+		LogUtils.logDebug("Init Inventory");
+		
+		// --------------------------------------------------------------------
+		// Refresh Inventory
+		// --------------------------------------------------------------------
+		Cache.getInstance().set(Inventory.INVENTORY_CACHE_KEY, null);
+		Cache.getInstance().set(Inventory.INVENTORY_SECRETS_CACHE_KEY, null);
+		Inventory.instantiate();
+		
+		LogUtils.logInfo("Inventory Initialized");
+			
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void saveInventory (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(saveInventory)>> ---
+		// @sigtype java 3.5
+		// [i] field:0:required inventory_configuration
+		// [i] field:0:required keepassPassword
+		// [o] field:0:required json
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String inventory_configuration = IDataUtil.getString( pipelineCursor, "inventory_configuration" );
+		String keepassPassword = IDataUtil.getString( pipelineCursor, "keepassPassword" );
+		pipelineCursor.destroy();
+		
+		LogUtils.logDebug("Saving Inventory Configuration .. ");
+		LogUtils.logDebug("Inventory to save: " + inventory_configuration);
+		Inventory inv = new Inventory();
+		
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			inv = mapper.readValue(inventory_configuration, Inventory.class);
+		} catch (Exception e) {
+			LogUtils.logError("Inventory - Exception: " + e.toString());
+		}
+		
+		
+		// -----------------------------------------------------
+		// Return information
+		// -----------------------------------------------------
+		String msg = "Success"; 
+		int rc = 0;
+		
+		// -----------------------------------------------------
+		// Check inventory directory
+		// -----------------------------------------------------
+		Inventory.checkDirectory(); 
+		if (!Inventory.INVENTORY_CONFIG_DIRECTORY.exists()) {
+			rc = -1;
+			msg = "Unable to get directory " + Inventory.INVENTORY_CONFIG_DIRECTORY.getPath();
+			
+		}		
+		
+		// -----------------------------------------------------
+		// Handle Passwords passed..
+		// -----------------------------------------------------
+		if (rc == 0) {
+			SecretsConfiguration secConfig = SecretsConfiguration.instantiate();
+			if (secConfig.getType().equals(SecretsConfiguration.TYPE_LOCAL)) {
+				LogUtils.logDebug("Managing passwords ....");
+				secConfig.setKeepassPassword(keepassPassword);
+				SimpleDatabase db = SecretsUtils.getDatabase(secConfig);
+				if (db != null) {
+					LogUtils.logDebug("Updating Secrets in the passed Inventory ....");
+					Inventory.updateSecrets(inv.getRootGroup(), secConfig, db);
+					LogUtils.logDebug("Writing new secrets database ....");
+					SecretsUtils.writeDatabase(secConfig, db);
+					LogUtils.logDebug("Storing new Inventory ....");
+					inv.saveInventory();
+				} else {
+					rc = -1;
+					msg = "Error: Unable to get Local Keepass database.";
+				}
+			} else {
+				LogUtils.logDebug("Storing new Inventory ....");
+				inv.saveInventory();
+			}
+			LogUtils.logDebug("Inventory Saved");
+		}
+		
+		
+		// pipeline
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
+		
+		String jResp = JsonUtils.createJsonField("msg",msg);
+		jResp = JsonUtils.addField(jResp,"rc", new Integer(rc).toString());
+		
+		IDataUtil.put( pipelineCursor2, "json", jResp);
+		pipelineCursor.destroy(); 
+					
+		// --- <<IS-END>> ---
+
+                
+	}
+
+	// --- <<IS-START-SHARED>> ---
+	
+	// --- <<IS-END-SHARED>> ---
 }
 

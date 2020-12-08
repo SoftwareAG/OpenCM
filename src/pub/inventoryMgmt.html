@@ -1,0 +1,1023 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style>
+	/* ------------------------- */
+	/* ---- Div Top banner ----- */
+	/* ------------------------- */
+	#div_top_return_invmgmt {
+		float: left;
+		width: 20%;
+		padding-left: 15px;
+	}
+	#div_top_return_invmgmt a {
+		color: #3498db;
+		text-decoration: none;
+	}
+	#div_top_title {
+		width: 80%;
+	}
+	
+	#div_top_invmgmt_run {
+		position: fixed;
+		right: 0;
+		padding-right: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* --------   Inventory Tree     -------- */
+	/* -------------------------------------- */
+	#invmgmtTreeSection {
+		width: 30%;
+		float: left;
+	}
+	#div_jstree_invmgmt {
+		margin: 10px;
+	}
+	.vakata-context, .vakata-context ul {
+		font-size: 0.9em;
+		background-color: #FFFFFF;
+		font-family: Open Sans, Helvetica, Arial, sans-serif;
+	}
+	
+	/* -------------------------------------- */
+	/* -------  Inventory Config     -------- */
+	/* -------------------------------------- */
+	#invmgmtConfigSection {
+		width: 70%;
+		height: 100%;
+		float: left;
+	}
+	#invmgmtConfigSection h4 {
+		color: #3498db;
+		font-size: 1.2em;
+		font-weight: bold;
+		text-align: left
+	}
+	
+	#div_invmgmt_installation_name, #div_invmgmt_installation_server, #div_invmgmt_installation_runtimes, #div_invmgmt_installation_lb {
+		width: 100%;
+		float: left;
+		margin: 10px;
+		padding: 20px 5px 20px;
+		border-bottom: 1px solid #3498db;
+	}
+
+	#div_invmgmt_installation_name h6 {
+		font-weight: bold;
+		text-align: left;
+	}
+	
+	#div_invmgmt_empty {
+		float: left;
+		width: 100%;
+		padding: 10% 10%;
+	}
+	#div_invmgmt_empty_text {
+		background-color: #F7F8FE;
+		border: 1px solid #3498db;
+		padding: 20px 5% 20px; 
+		text-align: left;
+	}
+	#span_invmgmt_empty_text {
+		color: #3498db;
+		font-size: 1.2em;
+	}
+	#span_invmgmt_empty_text li {
+		margin: 10px 0;
+	}
+
+
+	#div_invmgmt_table  {
+		display:none;
+		width:100%
+		float: left;
+		margin: 10px;
+		top: 0px;
+		padding: 20px 5px 0px;
+	}
+	
+	
+	#div_invmgmt_installation_runtimes a {
+		color: #3498db;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	
+	#div_invmgmt_installation_lb a {
+		color: #3498db;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	
+	/* -------------------------------------- */
+	/* --------     Buttons            ------ */
+	/* -------------------------------------- */
+	#button_save_inventory {
+		width: 150px;
+	}
+
+  </style>
+  <script type="text/javascript">
+	$(document).ready(function(){
+
+		// Event Listener for Returning to Inventory
+		$( '#div_top_return_invmgmt' ).on('click', 'a', function() {
+			showInventory();
+		});
+		
+		// --------------------------------------------
+		// Get Description
+		// --------------------------------------------
+		function getDescription() {
+			var desc = $("#in_invmgmt_description").val();
+			if (desc == null) {
+				return "";
+			}
+			return desc;
+		}
+		// --------------------------------------------
+		// Get Hostname
+		// --------------------------------------------
+		function getHostname() {
+			var host = $("#in_invmgmt_hostname").val();
+			if (host == null) {
+				return "";
+			}
+			return host;
+		}
+		
+		// --------------------------------------------
+		// Collect defined runtimes 
+		// --------------------------------------------
+		function getRuntimes(type) {
+			var runtimes = new Array();
+			$('#table_invmgmt_runtimes_' + type + '_body tr').each(function() {
+				var name = $(this).find('#row_name').text();
+				var prot = $(this).find('#row_protocol').text();
+				var port = $(this).find('#row_port').text();
+				var altHost = $(this).find('#row_althostname').text();
+				var user = $(this).find('#row_username').text();
+				var pwd = "";
+				var handle = "";
+				if (type == "LOCAL") {
+					pwd = $(this).find('#row_password').attr("name");
+				} else {
+					handle = $(this).find('#row_password_handle').text();
+				}
+				runtimes.push({	name: name,
+								protocol: prot,
+								port: port,
+								alt_hostname: altHost,
+								username: user,
+								password: pwd,
+								password_handle: handle
+							});
+			});
+			return runtimes;
+		}
+		
+		// --------------------------------------------
+		// Collect defined load balancers 
+		// --------------------------------------------
+		function getLoadBalancers() {
+			var lbs = new Array();
+			$('#table_invmgmt_lb_body tr').each(function() {
+				var url = $(this).find('#row_lb_url').text();
+				var port = $(this).find('#row_lb_port').text();
+				lbs.push({	url: url,
+							port: port
+						});
+			});
+			return lbs;
+		}
+		
+		function clearRuntime() {
+			$("#in_invmgt_name").val("");
+			$('#select_runtime_protocol option[id="http"]').prop("selected", true);
+			$("#in_invmgt_port").val("");
+			$("#in_invmgt_althostname").val("");
+			$("#in_invmgt_username").val("");
+			$("#in_invmgt_password").val("");
+			$("#in_invmgt_password_handle").val("");
+		}
+		
+		function clearLoadBalancer() {
+			$("#in_invmgt_lb_url").val("");
+			$("#in_invmgt_lb_port").val("");
+		}
+		
+		// --------------------------------------------
+		// Get defined Inventory tree configuration
+		// --------------------------------------------
+		function getInventoryConfiguration() {
+			var inventoryData = {} ;
+			var root_node = $('#div_jstree_invmgmt').jstree(true).get_node('OpenCM');
+			inventoryData = getInvMgmtTree(root_node, inventoryData);
+			return { root_group: inventoryData };
+		}
+		
+		// --------------------------------------------
+		// Get Inventory Tree data (from JsTree)
+		// --------------------------------------------
+		function getInvMgmtTree(node, treeData) {
+			var installationNodes = false;
+			var leafNode = false;
+			
+			if ((node.children != null) && (node.children.length == 0)) {
+				leafNode = true;
+			}
+			
+			var subTreeArray = Array();
+			$.each(node.children, function( index, child ) {
+				var childNode = $("#div_jstree_invmgmt").jstree().get_node(child);
+				if (childNode.original.type == "leaf") {
+					installationNodes = true;
+				}
+				getInvMgmtTree(childNode, subTreeArray);
+			});
+			
+			// Path:
+			var node_path = $("#div_jstree_invmgmt").jstree().get_path(node);
+			
+			if (leafNode) {
+				subTreeArray.push({ name: node.text, path: node_path });
+				treeData.push({ name: node.text, description: node.original.description, hostname: node.original.hostname, path: node_path, runtimes: node.original.runtimes, load_balancers: node.original.load_balancers });
+			} else if (subTreeArray.length > 0) {
+				if (installationNodes) {
+					treeData.push({ name: node.text, path: node_path, installations: subTreeArray });
+				} else {
+					if (node.parent == "#") {
+						treeData = { name: node.text, path: node_path, groups: subTreeArray };
+					} else {
+						treeData.push({ name: node.text, path: node_path, groups: subTreeArray });
+					}
+				}
+			}
+			
+			return treeData;
+		}
+		
+		// --------------------------------------------
+		// Update Inventory Mgmt View
+		// --------------------------------------------
+		function updateInvMgmtView() {
+			var type = secrets_configuration.type;
+			var selectedNodeValues = $('#div_jstree_invmgmt').jstree(true).get_selected(true)[0];
+
+			var nodeName;
+			if (selectedNodeValues != null) {
+				nodeName = selectedNodeValues.text;
+				selectedNodeValues = selectedNodeValues['original'];
+			} else {
+				return;
+			}
+			
+			// Only display installation nodes
+			if (selectedNodeValues.type != "leaf") {
+				return;
+			}
+
+			$('#installation_name').text(nodeName);
+
+			if (selectedNodeValues.hostname == null) {
+				$("#in_invmgmt_hostname").val("");
+			} else {
+				$("#in_invmgmt_hostname").val(selectedNodeValues.hostname);
+			}
+			if (selectedNodeValues.description == null) {
+				$("#in_invmgmt_description").val("");
+			} else {
+				$("#in_invmgmt_description").val(selectedNodeValues.description);
+			}
+			
+			// Clear runtime values...
+			clearRuntime();
+			
+			// Load runtime table...
+			if ((selectedNodeValues.runtimes != null) && (selectedNodeValues.runtimes.length > 0)) {
+				$('#table_invmgmt_runtimes_' + type + '_body').empty();
+				$.each(selectedNodeValues.runtimes, function( idx, runtime ) {
+					addRuntimeRow(runtime.name, runtime.protocol, runtime.port, runtime.alt_hostname, runtime.username, runtime.password, runtime.password_handle, type);
+				});
+				$('#div_invmgmt_runtimes_' + type + '_table').show();
+			} else {
+				$('#table_invmgmt_runtimes_' + type + '_body').empty();
+				$('#div_invmgmt_runtimes_' + type + '_table').hide();
+			}
+			
+			// Load balancers table...
+			if ((selectedNodeValues.load_balancers != null) && (selectedNodeValues.load_balancers.length > 0)) {
+				$("#table_invmgmt_lb_body").empty();
+				$.each(selectedNodeValues.load_balancers, function( idx, load_balancer ) {
+					addLoadBalancerRow(load_balancer.url, load_balancer.port);
+				});
+				$("#div_invmgmt_lb_table").show();
+			} else {
+				$("#table_invmgmt_lb_body").empty();
+				$("#div_invmgmt_lb_table").hide();
+			}
+
+			$('#div_invmgmt_installation_name').show();
+			$('#div_invmgmt_installation_server').show();
+			$('#div_invmgmt_installation_runtimes').show();
+			$('#div_invmgmt_installation_lb').show();
+			$("#div_invmgmt_empty").hide();
+
+		}
+		
+		// --------------------------------------------
+		// Load Inventory Tree data (from Inventory)
+		// --------------------------------------------
+		var jsTreeData = new Array();
+		jsTreeData = parent.getTreeDataWithInstallations(getInventory().root_group, jsTreeData, 0, "");
+		
+		$('#div_jstree_invmgmt').jstree({
+			'core' : {
+				'check_callback' : true,
+				'data' : jsTreeData
+			},
+			'plugins': [
+				"wholerow",
+				"contextmenu",
+				"dnd",
+				"unique"
+			],
+			"contextmenu":{
+			    "select_node": false,
+				"items": function(tree_node) {
+					var tree = $("#div_jstree_invmgmt").jstree(true);
+					var items = {
+						"Create": {
+							"separator_before": false,
+							"separator_after": true,
+							"label": "Create",
+							"icon": "./img/tree_create.svg",
+							"action": false,
+							"submenu": {
+							  "Group": {
+								"seperator_before": false,
+								"seperator_after": false,
+								"icon": "./img/tree_group.svg",
+								"label": "Group",
+								action: function (obj) {
+									tree_node = tree.create_node(tree_node, {
+										text: 'New Group',
+										type: 'default',
+										icon: false
+									});
+									tree.edit(tree_node);
+									tree.deselect_all();
+									tree.select_node(tree_node);
+								}
+							  },
+							  "Installation": {
+								"seperator_before": false,
+								"seperator_after": false,
+								"label": "Installation",
+								"icon": "./img/tree_inst.svg",
+								action: function (obj) {
+									tree_node = tree.create_node(tree_node, {
+										text: 'New Installation',
+										type: 'leaf',
+										description: '',
+										hostname: '',
+										runtimes: [],
+										load_balancers: [],
+										icon: './img/tree_inst.svg'
+									});
+									tree.edit(tree_node);
+									tree.deselect_all();
+									tree.select_node(tree_node);
+								}
+							  }
+							}
+						},
+						"Rename": {
+							"separator_before": false,
+							"separator_after": false,
+							"label": "Rename",
+							"icon": "./img/tree_edit.svg",
+							"action": function (obj) { 
+								tree.edit(tree_node);
+							}
+						},
+						"Remove": {
+							"separator_before": false,
+							"separator_after": false,
+							"label": "Remove",
+							"icon": "./img/trash.svg",
+							"action": function (obj) { 
+								tree.delete_node(tree_node);
+							}
+						}
+					};
+					
+					if (tree_node.original.type == "leaf") {
+						delete items.Create;
+					}
+					return items;
+				}
+			}
+
+		});
+		
+		// --------------------------------------------
+		// Get Secrets Configuration
+		// --------------------------------------------
+		var secrets_configuration;
+		function getSecretsConfiguration() {
+			var resp = callJsonService("/invoke/org.opencm.pub.secrets/getConfiguration", "{}");
+			if (resp.rc != 0) {
+				notify("Unable to get secrets configuration: " + resp.msg);
+				return;
+			}
+			secrets_configuration = JSON.parse(resp.content);
+			
+			// Hide/show credentials options
+			if ((secrets_configuration.type != null) && (secrets_configuration.type == "LOCAL")) {
+				$("#div_secrets_password").show();
+				$("#div_secrets_password_handle").hide();
+			} else {
+				$("#div_secrets_password").hide();
+				$("#div_secrets_password_handle").show();
+			}
+		}
+
+		// --------------------------------------------
+		// Listeners
+		// --------------------------------------------
+		// Listener for selected tree nodes
+		$('#div_jstree_invmgmt').on("changed.jstree", function (e, data) {
+			updateInvMgmtView();
+		});
+		
+		// Adding description
+		var oldDesc = "";
+		$("#in_invmgmt_description").on("change keyup paste", function() {
+			var currentVal = $(this).val();
+			if(currentVal == oldDesc) {
+				return; //check to prevent multiple simultaneous triggers
+			}
+			oldDesc = currentVal;
+			var tree = $("#div_jstree_invmgmt").jstree(true);
+			$("#div_jstree_invmgmt").jstree(true).get_selected(true)[0]['original'].description = oldDesc;
+		});
+		// Adding hostname
+		var oldHost = "";
+		$("#in_invmgmt_hostname").on("change keyup paste", function() {
+			var currentVal = $(this).val();
+			if(currentVal == oldHost) {
+				return; //check to prevent multiple simultaneous triggers
+			}
+			oldHost = currentVal;
+			var tree = $("#div_jstree_invmgmt").jstree(true);
+			$("#div_jstree_invmgmt").jstree(true).get_selected(true)[0]['original'].hostname = oldHost;
+		});
+		
+		// Autocomplete the component name
+		$('#in_invmgt_name').autocomplete({
+			lookup: aut_components_inventory
+		});
+		// Autocomplete the username
+		$('#in_invmgt_username').autocomplete({
+			lookup: aut_usernames
+		});
+	  
+		// Adding a runtime 
+		$("#button_add_runtime").on("click", function() {
+			addRuntime(); 
+		});
+		// Editing a Runtime (Local)
+		jQuery(document).delegate('#anchor_edit_runtime_LOCAL', 'click', function(e) {
+			updateRuntimeRows(e,this,"LOCAL",true);
+		});
+		// Editing a Runtime (Vault)
+		jQuery(document).delegate('#anchor_edit_runtime_VAULT', 'click', function(e) {
+			updateRuntimeRows(e,this,"VAULT",true);
+		});
+		// Deleting a runtime (Local)
+		jQuery(document).delegate('#anchor_del_runtime_LOCAL', 'click', function(e) {
+			updateRuntimeRows(e,this,"LOCAL",false);
+		});
+		// Deleting a runtime (Vault)
+		jQuery(document).delegate('#anchor_del_runtime_VAULT', 'click', function(e) {
+			updateRuntimeRows(e,this,"VAULT",false);
+		});
+
+		// Adding a load balancer
+		$("#button_add_lb").on("click", function() {
+			addLoadBalancer(); 
+		});
+		// Editing a Load Balancer
+		jQuery(document).delegate('#anchor_edit_lb', 'click', function(e) {
+			updateLoadBalancerRows(e,this,true);
+		});
+		// Deleting a load balancer
+		jQuery(document).delegate('#anchor_del_lb', 'click', function(e) {
+			updateLoadBalancerRows(e,this,false);
+		});
+		
+		// Listener for saving inventory
+		$("#button_save_inventory").on("click", function() {
+			saveInventory(); 
+		});
+		
+		// --------------------------------------------
+		// Save/Update Inventory
+		// --------------------------------------------
+		function saveInventory() {
+			var resp = callService("/invoke/org.opencm.pub.inventory/saveInventory", "inventory_configuration=" + JSON.stringify(getInventoryConfiguration()) );
+			
+			if (resp.rc == 0) {
+				notify("Inventory successfully saved ...");
+			} else {
+				notify("Inventory not saved: " +  resp.msg);
+			}
+			
+			// refreshInventory();
+		}
+		
+		// --------------------------------------------
+		// Add/Remove Runtimes
+		// --------------------------------------------
+		function addRuntime() {
+			var comp = $("#in_invmgt_name").val();
+			var prot = $('#select_runtime_protocol').children(":selected").attr("id");
+			var port = $("#in_invmgt_port").val();
+			var altHost = $("#in_invmgt_althostname").val();
+			var user = $("#in_invmgt_username").val();
+			var pwd = $("#in_invmgt_password").val();
+			var handle = $("#in_invmgt_password_handle").val();
+			
+			// Check that component is not duplicated.
+			var duplicated = false;
+			var runtimes = getRuntimes(secrets_configuration.type);
+			$.each(runtimes, function( index, runtime ) {
+				if (runtime.name == comp) {
+					duplicated = true;
+					return false;
+				}
+			});
+			if (duplicated) {
+				notify("Cannot define duplicate components.");
+				return;
+			}
+			
+			if ((comp != "") && (prot != "") && (port != "") && (user != "")) {
+				addRuntimeRow(comp, prot, port, altHost, user, pwd, handle, secrets_configuration.type);
+				clearRuntime();
+				
+				// Update tree
+				$("#div_jstree_invmgmt").jstree(true).get_selected(true)[0]['original'].runtimes = getRuntimes(secrets_configuration.type);
+				
+			} else {
+				notify("Component, protocol, port and username requied.");
+			}
+		}
+		
+		function addRuntimeRow(comp, prot, port, altHost, user, pwd, pwdHandle, type) {
+			var content = jQuery('#table_invmgmt_runtimes_' + type + '_sample tr'),
+			row_id = jQuery('#table_invmgmt_runtimes_' + type + ' >tbody >tr').length + 1,
+			element = null,
+			element = content.clone();
+			element.find('#row_runtime_id').html(row_id);
+
+			element.find('#anchor_edit_runtime_' + type).attr('data-id', row_id);
+			element.find('#anchor_edit_runtime_' + type).html(comp);
+			
+			element.find('#row_protocol').html(prot);
+			element.find('#row_port').html(port);
+			element.find('#row_althostname').html(altHost);
+			element.find('#row_username').html(user);
+			
+			if (type == "LOCAL") {
+				if ((pwd != "") && (pwd != "**********")) {
+					element.find('#row_password').attr('name', pwd);
+				} else {
+					element.find('#row_password').attr('name', "");
+				}
+				element.find('#row_password').html("**********");
+			} else {
+				element.find('#row_password_handle').html(pwdHandle);
+			}
+			element.find('#anchor_del_runtime_' + type).attr('data-id', row_id);
+			element.appendTo('#table_invmgmt_runtimes_' + type);
+			
+			$('#div_invmgmt_runtimes_' + type + '_table').show();
+		}
+		
+		function updateRuntimeRows(e,row,type,editMode) {
+			e.preventDefault();    
+			var edit_id = jQuery(row).data('id');
+			var curr_row_found = false;
+			$('#table_invmgmt_runtimes_' + type + '_body tr').each(function(index) {
+				var curr_row = $(this).find('#row_runtime_id').html();
+				if (curr_row == edit_id) {
+					curr_row_found = true;
+					if (editMode) {
+						$("#in_invmgt_name").val($(this).find('#row_name').text());
+						$('#select_runtime_protocol option[id="' + $(this).find('#row_protocol').text() + '"]').prop("selected", true);
+						$("#in_invmgt_port").val($(this).find('#row_port').text());
+						$("#in_invmgt_althostname").val($(this).find('#row_althostname').text());
+						$("#in_invmgt_username").val($(this).find('#row_username').text());
+						$("#in_invmgt_password").attr("name", $(this).find('#row_password').attr("name"));
+						if (type == "LOCAL"){
+							$("#in_invmgt_password").val($(this).find('#row_password').text());
+						} else {
+							$("#in_invmgt_password_handle").val($(this).find('#row_password_handle').text());
+						}
+					}
+					$(this).remove();
+				} else if (curr_row_found) {
+					$(this).find('#row_runtime_id').html(index);
+					$(this).find('#anchor_edit_runtime_' + type).data('id',index);
+					$(this).find('#anchor_del_runtime_' + type).data('id',index);
+				}
+			});
+		  
+			if (getRuntimes(type).length == 0) {
+				$('#div_invmgmt_runtimes_' + type + '_table').hide();
+			}
+
+			return true;
+		}
+		
+		// --------------------------------------------
+		// Add/Remove Load Balancers
+		// --------------------------------------------
+		function addLoadBalancer() {
+			var url = $("#in_invmgt_lb_url").val();
+			var port = $("#in_invmgt_lb_port").val();
+			
+			// Check that port is not duplicated.
+			var duplicated = false;
+			var lbs = getLoadBalancers();
+			$.each(lbs, function( index, lb ) {
+				if (lb.url == url) {
+					duplicated = true;
+					return false;
+				}
+			});
+			if (duplicated) {
+				notify("Cannot define duplicate load balancer urls.");
+				return;
+			}
+			
+			if ((url != "") && (port != "")) {
+				addLoadBalancerRow(url, port);
+				clearLoadBalancer();
+				
+				// Update tree
+				$("#div_jstree_invmgmt").jstree(true).get_selected(true)[0]['original'].load_balancers = getLoadBalancers();
+				
+			} else {
+				notify("All load balancer info must be specified");
+			}
+		}
+		
+		function addLoadBalancerRow(url, port) {
+			var content = jQuery('#table_invmgmt_lb_sample tr'),
+			row_id = jQuery('#table_invmgmt_lb >tbody >tr').length + 1,
+			element = null,
+			element = content.clone();
+			element.find('#row_lb_id').html(row_id);
+			element.find('#anchor_edit_lb').html(url);
+			element.find('#anchor_edit_lb').attr('data-id', row_id);
+			element.find('#row_lb_port').html(port);
+			element.find('#anchor_del_lb').attr('data-id', row_id);
+			element.appendTo('#table_invmgmt_lb');
+			$("#div_invmgmt_lb_table").show();
+		}
+		
+		function updateLoadBalancerRows(e,row,editMode) {
+			e.preventDefault();    
+			var edit_id = jQuery(row).data('id');
+			var curr_row_found = false;
+			$('#table_invmgmt_lb_body tr').each(function(index) {
+				var curr_row = $(this).find('#row_lb_id').html();
+				if (curr_row == edit_id) {
+					curr_row_found = true;
+					if (editMode){
+						$("#in_invmgt_lb_url").val($(this).find('#row_lb_url').text());
+						$("#in_invmgt_lb_port").val($(this).find('#row_lb_port').text());
+					}
+					$(this).remove();
+				} else if (curr_row_found) {
+					$(this).find('#row_lb_id').html(index);
+					$(this).find('#anchor_edit_lb').data('id',index);
+					$(this).find('#anchor_del_lb').data('id',index);
+				}
+			});
+		  
+			if (getLoadBalancers().length == 0) {
+				$("#div_invmgmt_lb_table").hide();
+			}
+			// Update tree
+			$("#div_jstree_invmgmt").jstree(true).get_selected(true)[0]['original'].load_balancers = getLoadBalancers();
+			
+			return true;
+		}
+		
+		// Get Secrets Configuration
+		getSecretsConfiguration();
+		
+		// Initialize view
+		updateInvMgmtView();
+		
+	});
+  </script>
+ </head>
+  
+ <body>
+   <div id="div_top_banner">
+   <div id="div_top_return_invmgmt">
+   	  <a class="h6 text-center" href="javascript:;">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+			<path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
+		</svg>
+		<strong>Return to Inventory</strong>
+	  </a>
+    </div>
+    <div id="div_top_title"><p class="h5 text-center"><strong>Manage Inventory</strong></p></div>
+    <div id="div_top_invmgmt_run">
+		<button id="button_save_inventory" type="button" class="btn btn-primary btn-sm active">Save Inventory</button>
+    </div>
+  </div>
+  <section id="invmgmtTreeSection">
+   <div id="div_jstree_invmgmt"></div>
+  </section>
+  <section id="invmgmtConfigSection">
+
+   <div id="div_invmgmt_installation_name" style="display:none;">
+     <h6 id="installation_name"></h6>
+   </div>
+   
+   <div id="div_invmgmt_installation_server" style="display:none;">
+	 <div style="width:15%; float:left;"><h4>Server</h4></div>
+     <div style="width:85%; float:left;">
+        <div style="width:100%; float:left; padding:0px;">
+		 <div style="width:40%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Hostname</span>
+			  </div>
+			  <input id="in_invmgmt_hostname" type="text" class="form-control" placeholder="" aria-label="invmgmtHost" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:40%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Description</span>
+			  </div>
+			  <input id="in_invmgmt_description" type="text" class="form-control" placeholder="Free Text ..." aria-label="invmgmtDesc" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:20%; float:left;">
+		 </div>
+        </div>
+     </div>
+   </div>
+
+   <div id="div_invmgmt_installation_runtimes" style="display:none; width:100%; float:left;">
+	 <div style="width:15%; float:left;"><h4>Runtimes</h4></div>
+     <div style="width:85%; float:left;">
+	 
+        <div style="width:90%; float:left; padding:0px;">
+		
+		  <div style="width:100%; float:left;">
+			 <div style="width:35%; float:left;">
+				<div class="input-group input-group-sm mb-3" style="width:90%;">
+				  <div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">Component</span>
+				  </div>
+				  <input id="in_invmgt_name" type="text" class="form-control" autocomplete="off" placeholder="e.g. OSGI-SPM" aria-label="invmgtComponent" aria-describedby="basic-addon1">
+				</div>
+			 </div>
+			 
+			 <div style="width:30%; float:left;">
+				<div class="input-group input-group-sm mb-3" style="width:90%;">
+				  <div class="input-group-prepend">
+					<label class="input-group-text" for="inputGroupProtocol">Protocol</label>
+				  </div>
+				  <select class="custom-select" id="select_runtime_protocol">
+					<option id="http" selected>HTTP</option>
+					<option id="https">HTTPS</option>
+					<option id="ftps">FTPS</option>
+					<option id="nhp">NHP</option>
+					<option id="nhps">NHPS</option>
+					<option id="nsp">NSP</option>
+					<option id="nsps">NSPS</option>
+					<option id="jdbc">JDBC</option>
+				  </select>
+				</div>
+			 </div>
+				
+			 <div style="width:30%; float:left;">
+				<div class="input-group input-group-sm mb-3" style="width:50%;">
+				  <div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">Port</span>
+				  </div>
+				  <input id="in_invmgt_port" type="text" class="form-control" placeholder="" aria-label="invmgtPort" aria-describedby="basic-addon1">
+				</div>
+			 </div>
+		  </div>
+		 
+		  <div style="width:100%; float:left;">
+			 <div style="width:35%; float:left;">
+				<div class="input-group input-group-sm mb-3" style="width:90%;">
+				  <div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">Alt Hostname</span>
+				  </div>
+				  <input id="in_invmgt_althostname" type="text" class="form-control" placeholder="Optional" aria-label="invmgtAltHostname" aria-describedby="basic-addon1">
+				</div>
+			 </div>
+			 <div style="width:30%; float:left;">
+				<div class="input-group input-group-sm mb-3" style="width:90%;">
+				  <div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">Username</span>
+				  </div>
+				  <input id="in_invmgt_username" type="text" class="form-control" placeholder="" aria-label="invmgtUsername" aria-describedby="basic-addon1">
+				</div>
+			 </div>
+			 <div id="div_secrets_password" style="display:none; width:30%; float:left;">
+				<div class="input-group input-group-sm mb-3" style="width:90%;">
+				  <div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">Password</span>
+				  </div>
+				  <input id="in_invmgt_password" type="password" name="" class="form-control" placeholder="" aria-label="invmgtPassword" aria-describedby="basic-addon1">
+				</div>
+			 </div>
+			 <div id="div_secrets_password_handle" style="display:none; width:30%; float:left;">
+				<div class="input-group input-group-sm mb-3" style="width:90%;">
+				  <div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">Handle</span>
+				  </div>
+				  <input id="in_invmgt_password_handle" type="text" class="form-control" placeholder="" aria-label="invmgtPasswordHandle" aria-describedby="basic-addon1">
+				</div>
+			 </div>
+			
+		  </div>
+		 
+        </div>
+		 
+		<div style="width:10%; float:left; padding:20px 10px;">
+		    <button id="button_add_runtime" type="button" class="btn btn-outline-primary btn-sm add-record" data-added="0">Add</button>
+		</div>
+		
+        <div id="div_invmgmt_runtimes_LOCAL_table" style="display:none; width:95%; float:left; padding-top:10px;">
+			<table id="table_invmgmt_runtimes_LOCAL" class="table table-hover table-sm">
+			  <thead>
+					<tr>
+					  <th>#</th>
+					  <th scope="col">Name</th>
+					  <th scope="col">Protocol</th>
+					  <th scope="col">Port</th>
+					  <th scope="col">Alt Hostname</th>
+					  <th scope="col">Username</th>
+					  <th scope="col">Password</th>
+					  <th scope="col"></th>
+					</tr>
+			  </thead>
+			  <tbody id="table_invmgmt_runtimes_LOCAL_body"></tbody>
+			</table>
+        </div>
+		<div style="display:none;">
+			<table id="table_invmgmt_runtimes_LOCAL_sample">
+			  <tr>
+			   <td id="row_runtime_id"></td>
+			   <td id="row_name"><a id="anchor_edit_runtime_LOCAL" data-id="0"></a></td>
+			   <td id="row_protocol"></td>
+			   <td id="row_port"></td>
+			   <td id="row_althostname"></td>
+			   <td id="row_username"></td>
+			   <td id="row_password" name=""></td>
+			   <td><a id="anchor_del_runtime_LOCAL" data-id="0"><img src="./img/trash.svg"/></a></td>
+			 </tr>
+		   </table>
+		</div>
+		 
+        <div id="div_invmgmt_runtimes_VAULT_table" style="display:none; width:95%; float:left; padding-top:10px;">
+			<table id="table_invmgmt_runtimes_VAULT" class="table table-hover table-sm">
+			  <thead>
+					<tr>
+					  <th>#</th>
+					  <th scope="col">Name</th>
+					  <th scope="col">Protocol</th>
+					  <th scope="col">Port</th>
+					  <th scope="col">Alt Hostname</th>
+					  <th scope="col">Username</th>
+					  <th scope="col">Handle</th>
+					  <th scope="col"></th>
+					</tr>
+			  </thead>
+			  <tbody id="table_invmgmt_runtimes_VAULT_body"></tbody>
+			</table>
+        </div>
+		<div style="display:none;">
+			<table id="table_invmgmt_runtimes_VAULT_sample">
+			  <tr>
+			   <td id="row_runtime_id"></td>
+			   <td id="row_name"><a id="anchor_edit_runtime_VAULT" data-id="0"></a></td>
+			   <td id="row_protocol"></td>
+			   <td id="row_port"></td>
+			   <td id="row_althostname"></td>
+			   <td id="row_username"></td>
+			   <td id="row_password_handle"></td>
+			   <td><a id="anchor_del_runtime_VAULT" data-id="0"><img src="./img/trash.svg"/></a></td>
+			 </tr>
+		   </table>
+		 </div>
+		
+     </div>
+   </div>
+   
+   <div id="div_invmgmt_installation_lb" style="display:none; width:100%; float:left;">
+	 <div style="width:15%; float:left;"><h4>Load Balancers</h4></div>
+     <div style="width:85%; float:left;">
+	 
+        <div style="width:90%; float:left; padding:0px;">
+		
+		  <div style="width:100%; float:left;">
+			 <div style="width:50%; float:left;">
+				<div class="input-group input-group-sm mb-3" style="width:90%;">
+				  <div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">Load Balancer URL</span>
+				  </div>
+				  <input id="in_invmgt_lb_url" type="text" class="form-control" placeholder="e.g. https://lb.acme.com:443" aria-label="invmgtLbUrl" aria-describedby="basic-addon1">
+				</div>
+			 </div>
+			 
+			 <div style="width:50%; float:left;">
+				<div class="input-group input-group-sm mb-3" style="width:60%;">
+				  <div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">Target Port</span>
+				  </div>
+				  <input id="in_invmgt_lb_port" type="text" class="form-control" placeholder="" aria-label="invmgtLbPort" aria-describedby="basic-addon1">
+				</div>
+			 </div>
+		  </div>
+		 
+        </div>
+		 
+		<div style="width:10%; float:left;">
+		    <button id="button_add_lb" type="button" class="btn btn-outline-primary btn-sm add-record" data-added="0">Add</button>
+		</div>
+		
+        <div id="div_invmgmt_lb_table" style="display:none; width:95%; float:left; padding-top:10px;">
+			<table id="table_invmgmt_lb" class="table table-hover table-sm">
+			  <thead>
+					<tr>
+					  <th>#</th>
+					  <th scope="col">Load Balancer URL</th>
+					  <th scope="col">Target Port</th>
+					  <th scope="col"></th>
+					</tr>
+			  </thead>
+			  <tbody id="table_invmgmt_lb_body"></tbody>
+			</table>
+        </div>
+		<div style="display:none;">
+			<table id="table_invmgmt_lb_sample">
+			  <tr>
+			   <td id="row_lb_id"></td>
+			   <td id="row_lb_url"><a id="anchor_edit_lb" data-id="0"></a></td>
+			   <td id="row_lb_port"></td>
+			   <td><a id="anchor_del_lb" data-id="0"><img src="./img/trash.svg"/></a></td>
+			 </tr>
+		   </table>
+		 </div>
+		
+     </div>
+   </div>
+   
+   <div id="div_invmgmt_empty">
+    <div id="div_invmgmt_empty_text">
+	  <span id="span_invmgmt_empty_text">
+		Inventory Management is where all the installations are defined.<br></br>
+		To change the location of an installation, drag and drop directly in the tree.<br></br>
+		To add, edit, rename or delete tree groups and installations, right-click on the tree group.
+		</br></br>
+		<b>Notes:</b>
+		<ul class="list-unstyled">
+ 		  <ul>
+			<li>The Inventory tree consists of "groups" and "installations". No sub-groups can be defined under an installation: installations are always leaf nodes.</li>
+			<li>Each installation may be defined with an "OSGI-SPM" component runtime. This enables subsequent extractions from that node.</li>
+			<li>For Integration Servers, an "integrationServer-.." component runtime can also be added. This enables retrieval of additional IS properties (such as installed packages).</li>
+			<li>If local Keepass store is used for handling secrets, the password for the runtime component will be stored in the defined secrets store (not in the saved inventory).</li>
+			<li>If Vault secrets store is used, the password must have been pre-generated. Only the path to the secret is then entered here.</li>
+		  </ul>
+		</ul>
+	  </span>
+    </div>
+   </div>
+   
+  </section>
+  
+ </body>
+</html>

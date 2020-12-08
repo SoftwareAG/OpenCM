@@ -1,8 +1,0 @@
-{
-  "name" : "TEST_API_V103_APIGW_01",
-  "level" : "NODE",
-  "layer" : "API",
-  "spmURL" : "http://sr05719.work.lantmannen.lan:8292/spm",
-  "children" : null,
-  "environment" : "TEST"
-}

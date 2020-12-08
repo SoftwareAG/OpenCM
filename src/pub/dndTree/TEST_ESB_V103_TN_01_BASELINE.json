@@ -1,8 +1,0 @@
-{
-  "name" : "TEST_ESB_V103_TN_01",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "http://sr05719.work.lantmannen.lan:8192/spm",
-  "children" : null,
-  "environment" : "TEST"
-}

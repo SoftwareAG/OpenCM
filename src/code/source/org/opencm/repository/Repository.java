@@ -1,108 +1,114 @@
 package org.opencm.repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
-import java.util.Properties;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.opencm.configuration.Configuration;
 import org.opencm.util.Cache;
 import org.opencm.util.LogUtils;
 
-import org.opencm.repository.db.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Repository {
 
-    public static String REPOSITORY_CACHE_KEY		= "OPENCM_REPOSITORY_DB_KEY";
-    public static String OPENCM_REPO_NAME 			= "OPENCM_REPOSITORY_DB";
-    public static String OPENCM_REPO_PROTOCOL		= "jdbc:derby:";
-    public static String OPENCM_REPO_USER 			= "opencm_repo_user";
-    public static String OPENCM_REPO_USER_PWD		= "manage";
-    
-    private Connection connection;
-    private Configuration opencmConfig;
+	public static File REPOSITORY_CONFIG_DIRECTORY 		= new File(Configuration.getRootDirectory() + File.separator + Configuration.OPENCM_DIR_REPOSITORY);
+    public static final String REPOSITORY_CACHE_KEY		= "OPENCM_REPOSITORY";
+
+    private LinkedList<RepoInstallation> installations = new LinkedList<RepoInstallation>();
     
     public Repository() {
-    	
     }
-   	
-    public static Repository instantiate(Configuration opencmConfig) {
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"org.opencm.repository.Repository: instantiate() - Instantiation repository " + OPENCM_REPO_NAME + ".... ");
-    	Repository repo = (Repository) Cache.getInstance().get(REPOSITORY_CACHE_KEY);
+    
+    public static Repository instantiate() {
+		LogUtils.logDebug("Repository Instantiation starting .... ");
+		Repository repo = (Repository) Cache.getInstance().get(REPOSITORY_CACHE_KEY);
     	if (repo != null) {
-    		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"org.opencm.repository.Repository: instantiate() - Repository already in cache: Returning .... ");
+    		LogUtils.logDebug("Repository already in cache: Returning .... ");
     		return repo;
     	}
 
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"org.opencm.repository.Repository: instantiate() - Repository not in cache - generating .... ");
-   		
-   		repo = new Repository();
-   		repo.setConfiguration(opencmConfig);
-    	repo.openConnection();
-
+		LogUtils.logDebug("Repository not in cache - generating .... ");
+		repo = new Repository();
+		
     	Cache.getInstance().set(REPOSITORY_CACHE_KEY, repo);
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG,"org.opencm.repository.Repository: instantiate() - Repository Instantiation finished .... ");
+		LogUtils.logDebug(" Repository Instantiation finishing .... ");
     	return repo;
     }
     
-    public void openConnection() {
-    	if (this.connection == null) {
-			try {
-				Properties props = new Properties();
-				props.put("user", OPENCM_REPO_USER);
-				props.put("password", OPENCM_REPO_USER_PWD);
-		        this.connection = DriverManager.getConnection(OPENCM_REPO_PROTOCOL + OPENCM_REPO_NAME + ";create=true", props);
-				LogUtils.log(Configuration.OPENCM_LOG_INFO,Configuration.OPENCM_LOG_INFO,"org.opencm.repository.Repository: setConnection - Connected to database " + OPENCM_REPO_NAME);
-				
-			} catch (Exception ex) {
-				LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"org.opencm.repository.Repository: setConnection Exception: " + ex.getMessage());
-			}
+    public LinkedList<RepoInstallation> getInstallations() {
+        return this.installations;
+    }
+    
+    public RepoInstallation getInstallation(ArrayList<String> path) {
+    	for (RepoInstallation inst : installations) {
+    		if (inst.getPath().equals(path)) {
+    			return inst;
+    		}
     	}
+        return null;
     }
     
-    public void closeConnection() {
-		try {
-            if (this.connection != null) {
-            	this.connection.close();
-            	this.connection = null;
-            }
-			LogUtils.log(Configuration.OPENCM_LOG_INFO,Configuration.OPENCM_LOG_INFO,"org.opencm.repository.Repository: closeConnection - Connection to database closed: " + OPENCM_REPO_NAME);
-		} catch (SQLException ex) {
-			LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"org.opencm.repository.Repository: closeConnection Exception: " + ex.getMessage());
+    public RepoInstallation addInstallation(ArrayList<String> path) {
+    	RepoInstallation newRepoInstallation = getRepoInstallation(path);
+    	this.installations.add(newRepoInstallation);
+    	Cache.getInstance().set(REPOSITORY_CACHE_KEY, this);
+    	return newRepoInstallation;
+    }
+    
+	/*
+	 * Reading in repository from file system
+	 * 
+	 */
+	public static RepoInstallation getRepoInstallation(ArrayList<String> path) {
+		LogUtils.logDebug("Repository :: getInstallation :: " + path.toString());
+		
+		// -------------------------------------------------------
+		// Determine repository
+		// -------------------------------------------------------
+		File repoFile = getInstallationRepositoryFile(path);
+		if (repoFile == null) {
+			LogUtils.logInfo("Repository :: getInstallation: repo does not exist: " + path.toString());
+			return null;
 		}
-
-    }
-    
-    public void shutdownDatabase() {
-		try {
-	        DriverManager.getConnection(OPENCM_REPO_PROTOCOL + OPENCM_REPO_NAME + ";shutdown=true");
-        	this.connection = null;
-			LogUtils.log(Configuration.OPENCM_LOG_INFO,Configuration.OPENCM_LOG_INFO,"org.opencm.repository.Repository: shutdownDatabase - Database " + OPENCM_REPO_NAME + " shut down.");
-		} catch (SQLException ex) {
-			LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"org.opencm.repository.Repository: " + ex.getMessage());
-		}
-
-    }
-    
-    private void setConfiguration(Configuration opencmConfig) {
-        this.opencmConfig = opencmConfig;
-    }
-    
-    public void createSchemas() {
+		
+		RepoInstallation repoInstallation = null;
     	
-    	if (this.connection == null) {
-			LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"org.opencm.repository.Repository: createSchema: Connection to DB is not available.");
-    		return;
+    	ObjectMapper mapper = new ObjectMapper();
+
+    	try {
+    		repoInstallation = mapper.readValue(repoFile, RepoInstallation.class);
+    	} catch (Exception e) {
+    		LogUtils.logError("Repository :: getInstallation - Exception: " + e.toString());
     	}
     	
-    	if (Organisation.exists(opencmConfig, this.connection)) {
-			LogUtils.log(this.opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"org.opencm.repository.Repository: createSchema: Schemas already exist.");
-    		return;
-    	} else {
-    		Organisation.create(opencmConfig, this.connection);
+		LogUtils.logDebug("Repository :: returning installation :: " + repoInstallation.getName());
+    	return repoInstallation;
+		
+	}
+	
+	public static boolean repoExists(ArrayList<String> path) {
+		if (getInstallationRepositoryFile(path).exists()) {
+			return true;
+		}
+		return false;
+	}
+	
+    @JsonIgnore
+    public static void checkDirectory() {
+    	if (!REPOSITORY_CONFIG_DIRECTORY.exists()) {
+    		if (!REPOSITORY_CONFIG_DIRECTORY.mkdir()) {
+    			LogUtils.logError("Unable to create directory " + REPOSITORY_CONFIG_DIRECTORY.getPath());
+    		}
     	}
-
     }
+    
+	public static File getInstallationRepositoryFile(ArrayList<String> path) {
+		String strPath = path.toString();
+		strPath = strPath.replaceAll("\\s","").replaceAll(",","_").replaceAll("\\[","").replaceAll("\\]","");
+		File repoFile = new File(REPOSITORY_CONFIG_DIRECTORY.getPath() + File.separator + strPath + ".json");
+		return repoFile;
+	}
     
 }

@@ -1,0 +1,1053 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style>  
+	/* ------------------------- */
+	/* ---- Div Top banner ----- */
+	/* ------------------------- */
+	#div_top_title_inv {
+		float: left;
+		color: #3498db;
+		padding-left: 50%;
+		text-align: center;
+	}
+	
+	/* -------------------------------------- */
+	/* --------    Inventory Tree    -------- */
+	/* -------------------------------------- */
+	#inventoryTreeSection {
+		width: 20%;
+		float: left;
+	}
+	#div_jstree_inventory {
+		margin: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* --------   Inventory Table    -------- */
+	/* -------------------------------------- */
+	#inventoryTableSection {
+		width: 80%;
+		float: left;
+		padding-top: 10px;
+	}
+	#div_inventory_empty {
+		width: 100%;
+		padding-left: 10%;
+	}
+	#div_inventory_empty_title {
+		padding: 100px 0 100px;
+		margin-right: 10%;
+		text-align: center;
+	}
+	#span_inventory_empty_title {
+		color: #CCDAF9;
+		font-size: 2.0em;
+	}
+	#div_inventory_empty_text {
+		width: 90%;
+		background-color: #F7F8FE;
+		border: 1px solid #3498db;
+		padding: 20px 5% 20px; 
+		text-align: left;
+	}
+	#span_inventory_empty_text {
+		color: #3498db;
+		font-size: 1.2em;
+	}
+	#span_inventory_empty_text li {
+		margin: 10px 0;
+	}
+	
+	#inventoryTableSection a {
+		color: #3498db;
+		text-decoration: none;
+		font-weight: bold
+	}
+	#div_table_inventory {
+		padding: 5px 20px 25px;
+	}
+	/* -------------------------------------- */
+	/* -------- Data Tables formatting ------ */
+	/* -------------------------------------- */
+	#inventory_table_wrapper #inventory_table_filter {
+		width: 30%;
+	}
+	#div_table_inventory #inventory_table_filter {
+		float: left;
+		text-align: left;
+	}
+	#div_installation_ports {
+		background-color: #F7F8FE;
+		padding: 10px 20px 10px;
+	}
+	#table_installation_ports {
+		width: 95%;
+		color: #326DED;
+	}
+	#table_installation_ports a {
+		font-weight: normal;
+	}
+	.port-disabled {
+		color: #CCDAF9;
+	}
+	
+	/* -------------------------------------- */
+	/* --------   Summary Stats      -------- */
+	/* -------------------------------------- */
+	#table_summary_statistics {
+		width: 80%;
+		margin-bottom: 0;
+		color: #3498db;
+	}
+	
+	/* -------------------------------------- */
+	/* --------  Connections tables  -------- */
+	/* -------------------------------------- */
+	#table_wmdb_wrapper #table_wmdb_filter {
+		width: 30%;
+	}
+	#div_table_wmdb #table_wmdb_filter {
+		float: left;
+		text-align: left;
+	}
+	#table_jdbc_wrapper #table_jdbc_filter {
+		width: 30%;
+	}
+	#div_table_jdbc #table_jdbc_filter {
+		float: left;
+		text-align: left;
+	}
+	#table_sap_wrapper #table_sap_filter {
+		width: 30%;
+	}
+	#div_table_sap #table_sap_filter {
+		float: left;
+		text-align: left;
+	}
+	#table_msg_wrapper #table_msg_filter {
+		width: 30%;
+	}
+	#div_table_msg #table_msg_filter {
+		float: left;
+		text-align: left;
+	}
+	
+  </style>  
+  
+  <script>
+	var inventoryTableInitialized = false;
+	var wmDbTableInitialized = false;
+	var jdbcTableInitialized = false;
+	var sapTableInitialized = false;
+	var msgTableInitialized = false;
+	var selectedServers;
+	var wmDbData = Array();
+	var jdbcData = Array();
+	var sapData = Array();
+	var msgData = Array();
+	
+	// --------------------------------------------
+	// Inventory 
+	// --------------------------------------------
+	$(document).ready(function(){
+
+		// --------------------------------------------
+		// After selecting from tree...
+		// --------------------------------------------
+		function updateInventoryView() {
+			$('#div_table_wmdb').hide();
+			$('#div_table_jdbc').hide();
+			$('#div_table_sap').hide();
+			$('#div_table_msg').hide();
+
+			var selTreeNodes = $('#div_jstree_inventory').jstree(true).get_bottom_selected(true);
+			if (selTreeNodes.length == 0) {
+				$('#div_inventory_empty').show();
+				$('#div_table_inventory').hide();
+				$('#div_summary_statistics').hide();
+				$('#div_buttons').hide();
+				return;
+			}
+			var inventoryTableData = getInventoryTableData(selTreeNodes);
+			if (inventoryTableData.length == 0) {
+				$('#div_inventory_empty').show();
+				$('#div_table_inventory').hide();
+				$('#div_summary_statistics').hide();
+				$('#div_buttons').hide();
+			} else {
+				$('#div_inventory_empty').hide();
+				$('#div_table_inventory').show();
+				$('#div_summary_statistics').show();
+				$('#div_buttons').show();
+			}
+			
+			// Statistics - servers and domains:
+			var domains = Array();
+			$.each(selectedServers, function( index, server ) {
+				 var dotIdx = server.indexOf('.'); 
+				 if (dotIdx > 0) {
+					var domain = server.substr(dotIdx + 1);
+					domains.push(domain);
+				 } else {
+					domains.push("Other");
+				 }
+			});
+			
+			var table_html = '<thead><tr>';
+			table_html += '<th>Total Servers</th>';
+			var uniqueDomains = domains.filter(getUnique);		
+			$.each(uniqueDomains, function( index, domain ) {
+				if (domain != "Other") {
+					table_html += '<th>' + domain + '</th>';
+				}
+			});
+
+			table_html += '<th>Unqualified</th>';
+			table_html += '</tr></thead>';
+			table_html += '<tbody><tr>';
+			table_html += '<td>' + selectedServers.length + '</td>';
+			$.each(uniqueDomains, function( index, domain ) {
+				if (domain != "Other") {
+					const dCount = domains.filter(dom => dom == domain);
+					table_html += '<td>' + dCount.length + '</td>';
+				}
+			});
+			
+			const dOthers = domains.filter(dom => dom == "Other");
+			table_html += '<td>' + dOthers.length + '</td>';
+			table_html += '</tr></tbody>';
+			
+			$('#table_summary_statistics').html(table_html);
+			
+			if (inventoryTableInitialized) {
+				redrawInventoryTable(inventoryTableData);
+			} else {
+				initInventoryTable(inventoryTableData);
+				inventoryTableInitialized = true;
+			}
+		}
+
+		// --------------------------------------------
+		// Load Inventory Tree data (from Inventory)
+		// --------------------------------------------
+		var jsTreeData = new Array();
+		jsTreeData = getTreeDataWithInstallations(getInventory().root_group, jsTreeData, 0, "");
+		
+		$('#div_jstree_inventory').jstree(
+			{'plugins':["wholerow","checkbox"], 'core' : {
+				'data' : jsTreeData
+			}}
+		); 
+		
+		// --------------------------------------------
+		// Listeners
+		// --------------------------------------------
+		// Listener for selected tree nodes
+		$('#div_jstree_inventory').on("changed.jstree", function (e, data) {
+			updateInventoryView();
+		});
+		// Listener for internal wm databases
+		$("#button-wmdb").on("click", function() {
+			if (wmDbData.length == 0) {
+				notify("No Internal DB info available");
+				return;
+			} else {
+				displayWmDbTable(); 
+				$('#div_table_jdbc').hide();
+				$('#div_table_sap').hide();
+				$('#div_table_msg').hide();
+				$('#div_table_wmdb').show();
+			}
+		});
+		// Listener for jdbc Conn info
+		$("#button-jdbc").on("click", function() {
+			if (jdbcData.length == 0) {
+				notify("No JDBC Connection info available");
+				return;
+			} else {
+				displayJdbcTable(); 
+				$('#div_table_wmdb').hide();
+				$('#div_table_sap').hide();
+				$('#div_table_msg').hide();
+				$('#div_table_jdbc').show();
+			}
+		});
+		// Listener for SAP Conn info
+		$("#button-sap").on("click", function() {
+			if (sapData.length == 0) {
+				notify("No SAP Connection info available");
+				return;
+			} else {
+				displaySapTable(); 
+				$('#div_table_wmdb').hide();
+				$('#div_table_jdbc').hide();
+				$('#div_table_msg').hide();
+				$('#div_table_sap').show();
+			}
+		});
+		// Listener for Messaging info
+		$("#button-msg").on("click", function() {
+			if (msgData.length == 0) {
+				notify("No Messaging info available");
+				return;
+			} else {
+				displayMessagingTable(); 
+				$('#div_table_wmdb').hide();
+				$('#div_table_jdbc').hide();
+				$('#div_table_sap').hide();
+				$('#div_table_msg').show();
+			}
+		});
+		
+		// --------------------------------------------
+		// Inventory Table
+		// --------------------------------------------
+		function getInventoryTableData(selectedLeafNodes) {
+			var paths = Array();
+			var distinctServers = new Array();
+		
+			$.each(selectedLeafNodes, function( index, node ) {
+				paths.push($('#div_jstree_inventory').jstree(true).get_path(node));
+			});
+
+			var invInstallations = Array();
+			var inventoryData = parent.getInventory().root_group;
+		    var includeAllInstallations = false;
+			invInstallations = getFilteredInstallations(inventoryData, paths, invInstallations, includeAllInstallations);
+
+			// Clear the global arrays:
+			wmDbData = [];
+			jdbcData = [];
+			sapData = [];
+			msgData = [];
+
+			var invInstallationData = Array();
+			$.each(invInstallations, function( index, installation ) {
+			
+				// Add link for node if there is a runtime repo available
+				var instName = installation.name;
+				if (installation.repoExists) {
+					instName = '<a href="javascript:;" onclick="openRepository(\'' + encodeURI(JSON.stringify(installation.path)) + '\');">' + installation.name + '</a>';
+				}
+				
+				// Additional Info from repository
+				var repoOS = "";
+				var repoCPU = "";
+				var repoVersion = "";
+				var repoInstallDir = "";
+				var repoInstallTime = "";
+				var repoExtractTime = "";
+				var repoExtractAlias = "";
+				$.each(installation.instances, function( index, instance ) {
+					if (instance.name == "install_info") {
+						$.each(instance.properties, function( index, property ) {
+							if (property.key == "install_os") {
+								repoOS = property.value;
+							} else if (property.key == "install_cpu_physical") {
+								repoCPU = property.value;
+							} else if (property.key == "install_time") {
+								repoInstallTime = property.value;
+							} else if (property.key == "install_dir") {
+								repoInstallDir = property.value;
+							} else if (property.key == "install_version") {
+								repoVersion = property.value;
+							} else if (property.key == "extract_time") {
+								repoExtractTime = property.value;
+							} else if (property.key == "extract_alias") {
+								repoExtractAlias = property.value;
+							}
+						});
+						return false; // Break loop
+					}
+				});
+
+				// Ports
+				var ports = Array();
+				var port_prefix = "install_port";
+				$.each(installation.instances, function( index, instance ) {
+					if (instance.name.startsWith(port_prefix)) {
+						var portRuntime = "";
+						var portIdentifier = "";
+						var portProtocol = "";
+						var portNumber = "";
+						var portAltHost = "";
+						var portEnabled = "";
+						var portBindAddress = "";
+						var portLBs = Array();
+						var portAccess = "";
+						$.each(instance.properties, function( index, property ) {
+							// Properties: runtime, identifier, protocol, alternative hostname, number, enabled, bind address, load balancers
+							// (load balancers can be multiple)
+							if (property.key == "install_port_runtime") {
+								portRuntime = property.value;
+							} else if (property.key == "id") {
+								portIdentifier = property.value;
+							} else if (property.key == "Port.Number") {
+								portNumber = property.value;
+							} else if (property.key == "Port.Protocol") {
+								portProtocol = property.value;
+							} else if (property.key == "Port.AltHost") {
+								portAltHost = property.value;
+							} else if (property.key == "Port.Enabled") {
+								portEnabled = property.value;
+							} else if (property.key == "Port.BindAddress") {
+								portBindAddress = property.value;
+							} else if (property.key.startsWith("install_port_lb")) {
+								portLBs.push(property.value);
+							}
+							if (portEnabled == "true") {
+								if (portBindAddress != "") {
+									portAccess = portProtocol + "://" + portBindAddress + ":" + portNumber;
+								} else if (portAltHost != "") {
+									portAccess = portProtocol + "://" + portAltHost + ":" + portNumber;
+								} else {
+									portAccess = portProtocol + "://" + installation.hostname + ":" + portNumber;
+								}
+								if (portRuntime == "OSGI-SPM") {
+									portAccess += "/spm";
+								}
+							}
+						});
+						ports.push( {runtime: portRuntime, identifier: portIdentifier, port: portNumber, protocol: portProtocol, enabled: portEnabled, lbs: portLBs, access: portAccess } );
+					}
+				});
+				
+				if (ports.length == 0) {
+					// No repo available... add inventory port info instead:
+					$.each(installation.runtimes, function( index, runtime ) {
+						var portLBs = Array();
+						if ((installation.lbs != null) && (installation.lbs.length > 0)) {
+							$.each(installation.lbs, function( index, lb ) {
+								if (lb.port == runtime.port) {
+									portLBs.push(lb.url);
+								}
+							});
+						}
+						
+                        var accessUrl;
+                        if (runtime.protocol == "jdbc") {
+                            accessUrl = runtime.protocol + ":wm:" + runtime.name + "://";
+                        } else {
+                            accessUrl = runtime.protocol + "://";
+                        }
+                        if ((runtime.alt_hostname != null) && (runtime.alt_hostname != "")) {
+                            accessUrl += runtime.alt_hostname + ":" + runtime.port;
+                        } else {
+                            accessUrl += installation.hostname + ":" + runtime.port;
+                        }
+                        if (runtime.name == "OSGI-SPM") {
+                            accessUrl += "/spm";
+                        } else if (runtime.protocol == "jdbc") {
+                            accessUrl += ";serviceName=" + runtime.username;
+                        }
+
+						ports.push( {runtime: runtime.name, identifier: "inventory", port: runtime.port, protocol: runtime.protocol, enabled: "unknown", lbs: portLBs, access: accessUrl } );
+					});
+				}
+				
+				// Wm DBs
+				var wmdb_prefix = "install_wmdb";
+				$.each(installation.instances, function( index, instance ) {
+					if (instance.name.startsWith(wmdb_prefix)) {
+						var jdbcId = "";
+						var jdbcUrl = "";
+						var jdbcUsername = "";
+						$.each(instance.properties, function( index, property ) {
+							if (property.key == "id") {
+								jdbcId = property.value;
+							} else if (property.key == "Pool.DatabaseServer.URL") {
+								jdbcUrl = property.value;
+							} else if (property.key == "Pool.DatabaseServer.User") {
+								jdbcUsername = property.value;
+							}
+						});
+						if ((jdbcId != "") && (jdbcUrl != "") && (jdbcUsername != "")) {
+							wmDbData.push( {installation: installation.name, id: jdbcId, url: jdbcUrl, user: jdbcUsername } );
+						}
+					}
+				});
+				
+				// JDBC Connections
+				var jdbc_prefix = "install_jdbc";
+				$.each(installation.instances, function( index, instance ) {
+					if (instance.name.startsWith(jdbc_prefix)) {
+						var jdbcId = "";
+						var jdbcEnabled = "";
+						var jdbcHostname = "";
+						var jdbcPort = "";
+						var jdbcDB = "";
+						var jdbcUsername = "";
+						$.each(instance.properties, function( index, property ) {
+							if (property.key == "id") {
+								jdbcId = property.value;
+							} else if (property.key == "Enabled") {
+								jdbcEnabled = property.value;
+							} else if (property.key == "Hostname") {
+								jdbcHostname = property.value;
+							} else if (property.key == "Port") {
+								jdbcPort = property.value;
+							} else if (property.key == "Database") {
+								jdbcDB = property.value;
+							} else if (property.key == "Username") {
+								jdbcUsername = property.value;
+							}
+						});
+						if ((jdbcId != "") && (jdbcEnabled != "") && (jdbcHostname != "") && (jdbcPort != "") && (jdbcDB != "") && (jdbcUsername != "")) {
+							jdbcData.push( {installation: installation.name, id: jdbcId, enabled: jdbcEnabled, url: jdbcHostname + ":" + jdbcPort, db: jdbcDB, user: jdbcUsername } );
+						}
+					}
+				});
+				
+				// SAP Connections
+				var sap_prefix = "install_sap";
+				$.each(installation.instances, function( index, instance ) {
+					if (instance.name.startsWith(sap_prefix)) {
+						var sapId = "";
+						var sapEnabled = "";
+						var appServer = "";
+						var msgServer = "";
+						var sapSystem = "";
+						var sapClient = "";
+						var sapUsername = "";
+						$.each(instance.properties, function( index, property ) {
+							if (property.key == "id") {
+								sapId = property.value;
+							} else if (property.key == "Enabled") {
+								sapEnabled = property.value;
+							} else if (property.key == "ApplicationServer") {
+								appServer = property.value;
+							} else if (property.key == "MessageServer") {
+								msgServer = property.value;
+							} else if (property.key == "SystemId") {
+								sapSystem = property.value;
+							} else if (property.key == "Client") {
+								sapClient = property.value;
+							} else if (property.key == "Username") {
+								sapUsername = property.value;
+							}
+						});
+						if ((sapId != "") && (sapEnabled != "")) {
+							sapData.push( {installation: installation.name, id: sapId, enabled: sapEnabled, app_server: appServer, msg_server: msgServer, system: sapSystem, client: sapClient, user: sapUsername } );
+						}
+					}
+				});
+				
+				// Messaging info
+				var msg_prefix = "install_msg";
+				$.each(installation.instances, function( index, instance ) {
+					if (instance.name.startsWith(msg_prefix)) {
+						var msgId = "";
+						var msgType = "";
+						var msgUrl = "";
+						var msgUsername = "";
+						$.each(instance.properties, function( index, property ) {
+							if (property.key == "id") {
+								msgId = property.value;
+							} else if (property.key == "Type") {
+								msgType = property.value;
+							} else if (property.key == "Url") {
+								msgUrl = property.value;
+							} else if (property.key == "Username") {
+								msgUsername = property.value;
+							}
+						});
+						if ((msgId != "") && (msgType != "") && (msgUrl != "")) {
+							msgData.push( {installation: installation.name, id: msgId, type: msgType, url: msgUrl, user: msgUsername } );
+						}
+					}
+				});
+				
+				if ((installation.hostname != null) && (installation.hostname != "")) {
+					if (!distinctServers.includes(installation.hostname)) {
+						distinctServers.push(installation.hostname);
+					}
+				}
+				
+				invInstallationData.push( { 'location': getPathString(installation.path), 
+											'hostname': installation.hostname,
+											'os': repoOS, 
+											'cpu': repoCPU,
+											'installation': instName,
+											'version': repoVersion,
+											'description': installation.description,
+											'install_dir': repoInstallDir,
+											'install_time': repoInstallTime,
+											'extract_time': repoExtractTime,
+											'extract_alias': repoExtractAlias,
+											'ports': ports
+										});
+			});
+			
+			selectedServers = distinctServers;
+			return invInstallationData;
+		}
+		
+		function getUnique(value, index, self) {
+		  return self.indexOf(value) === index;
+		}
+
+		// Clickable info for each row
+		function format ( d ) {
+			if ((d.ports != null) && (d.ports.length > 0)) {
+				var portData = '<thead><tr><th>Runtime</th><th>Identifier</th><th>Protocol</th><th>Port</th><th>Enabled</th><th>Load Balancer</th><th>Access URL</th></tr></thead><tbody>';
+				$.each(d.ports, function( index, port ) {
+					if (port.enabled == "false") {
+						portData += '<tr class="port-disabled">';
+					} else {
+						portData += '<tr>';
+					}
+					var lbUrl = "";
+					if ((port.lbs != null) && (port.lbs.length > 0)) {
+						$.each(port.lbs, function( index, lb ) {
+							lbUrl += '<a target="_blank" href="' + lb + '">' + lb + '</a>';
+							if ((index + 1) < port.lbs.length) {
+								lbUrl += '</br>';
+							}
+						});
+					}
+					portData += '<td>' + port.runtime + '</td><td>' + port.identifier + '</td><td>' + port.protocol + '</td><td>' + port.port + '</td><td>' + port.enabled + '</td><td>' + lbUrl + '</td>';
+					if ((port.protocol == "http") || (port.protocol == "https")) {
+						portData += '<td><a target="_blank" href="' + port.access + '">' + port.access + '</a></td></tr>';
+					} else {
+						portData += '<td>' + port.access + '</td></tr>';
+					}
+					
+				});
+				return '<div id="div_installation_ports"><table id="table_installation_ports">' + portData + '</tbody></table></div>';
+			}
+		}
+		
+		function redrawInventoryTable(selNodes) {
+			var table = $('#inventory_table').DataTable();
+			$('#inventory_table tbody').off('click');
+			table.clear();
+			table.rows.add(selNodes).draw();
+			$('#inventory_table tbody').on('click', 'td.details-control', function () {
+				var tr = $(this).closest('tr');
+				var row = table.row( tr );
+				if ( row.child.isShown() ) {
+					row.child.hide();
+					tr.removeClass('shown');
+				} else {
+					row.child( format(row.data()) ).show();
+					tr.addClass('shown');
+				}
+			});
+		}
+		
+		function initInventoryTable(selNodes) {
+			var table = $('#inventory_table').DataTable( {
+				data: selNodes,
+				dom: '<"html5buttons"B>ft<"row"<"col-md-6"i><"col-md-6"p>>',
+				ordering: true,
+				info:     true,
+				paging:   true,
+				scrollX:  true,
+				pageLength: 10,
+				lengthMenu: [],
+				filter:   true,
+				buttons: [ 
+				   {
+					extend: 'colvis',
+					text: "Columns",
+					postfixButtons: [ 'colvisRestore' ]
+				   },
+				   {extend: 'excel', 
+					text: 'Export', 
+					title: getExportName(),
+					exportOptions: {
+						format: {
+							body: function ( data, row, column, node ) {
+								if ((column == 6) && ($(data).text() != "")) {
+									// Format Installation name (remove anchor tag)
+									return $(data).text();
+								}
+								return data;
+							}
+						}
+					}
+				}
+				],
+				fixedColumns: {
+					leftColumns: 2
+				},
+				columns: [
+					{
+						"className":      'details-control',
+						"orderable":      false,
+						"data":           null,
+						"defaultContent": ''
+					},
+					{ data: "location" },
+					{ data: "hostname" },
+					{ data: "os" },
+					{ data: "cpu" },
+					{ data: "installation" },
+					{ data: "version" },
+					{ data: "description" },
+					{ data: "install_dir" },
+					{ data: "install_time" },
+					{ data: "extract_time" },
+					{ data: "extract_alias" }
+				],
+				columnDefs: [
+					{ 	className: "datatable_column_class",
+						targets: "_all"
+					},
+					{ 	targets: [3,4,8,9,10,11],
+						visible: false
+					}
+				]
+			});
+				
+			$('#inventory_table tbody').on('click', 'td.details-control', function () {
+				var tr = $(this).closest('tr');
+				var row = table.row( tr );
+				if ( row.child.isShown() ) {
+					row.child.hide();
+					tr.removeClass('shown');
+				}
+				else {
+					row.child( format(row.data()) ).show();
+					tr.addClass('shown');
+				}
+			});
+			
+		}
+		
+		// -------------------------------------------------
+		// Filename for saving off Inventory Table
+		// -------------------------------------------------
+		function getExportName() {
+			return "Inventory-" + getFormattedDateTime();
+		}
+		function getFormattedDateTime() {
+			var d = new Date();
+			d = d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2) + ('0' + d.getHours()).slice(-2) + ('0' + d.getMinutes()).slice(-2);
+			return d;
+		}
+		
+		// -------------------------------------------------
+		// Internal wM database info table
+		// -------------------------------------------------
+		function displayWmDbTable() {
+			if (wmDbTableInitialized) {
+				redrawWmDbTable();
+			} else {
+				initWmDbTable();
+				wmDbTableInitialized = true;
+			}
+		}
+
+		function redrawWmDbTable() {
+			var table = $('#table_wmdb').DataTable();
+			$('#table_wmdb tbody').off('click');
+			table.clear();
+			table.rows.add(wmDbData).draw();
+		}
+		function initWmDbTable() {
+			var table = $('#table_wmdb').DataTable( {
+				data: wmDbData,
+				dom: 'ft<"row"<"col-md-6"i><"col-md-6"p>>',
+				ordering: true,
+				info:     true,
+				paging:   true,
+				pageLength: 5,
+				lengthMenu: [],
+				filter:   true,
+				columns: [
+					{ data: "installation" },
+					{ data: "id" },
+					{ data: "url" },
+					{ data: "user" }
+				],
+				columnDefs: [
+					{ 	className: "datatable_column_class",
+						targets: "_all"
+					}
+				]
+			});
+				
+		}
+		
+		// -------------------------------------------------
+		// JDBC Connections info table
+		// -------------------------------------------------
+		function displayJdbcTable() {
+			if (jdbcTableInitialized) {
+				redrawJdbcTable();
+			} else {
+				initJdbcTable();
+				jdbcTableInitialized = true;
+			}
+		}
+
+		function redrawJdbcTable() {
+			var table = $('#table_jdbc').DataTable();
+			$('#table_jdbc tbody').off('click');
+			table.clear();
+			table.rows.add(jdbcData).draw();
+		}
+		function initJdbcTable() {
+			var table = $('#table_jdbc').DataTable( {
+				data: jdbcData,
+				dom: 'ft<"row"<"col-md-6"i><"col-md-6"p>>',
+				ordering: true,
+				info:     true,
+				paging:   true,
+				pageLength: 5,
+				lengthMenu: [],
+				filter:   true,
+				columns: [
+					{ data: "installation" },
+					{ data: "id" },
+					{ data: "enabled" },
+					{ data: "url" },
+					{ data: "db" },
+					{ data: "user" }
+				],
+				columnDefs: [
+					{ 	className: "datatable_column_class",
+						targets: "_all"
+					}
+				]
+			});
+				
+		}
+		
+		// -------------------------------------------------
+		// SAP Connections info table
+		// -------------------------------------------------
+		function displaySapTable() {
+			if (sapTableInitialized) {
+				redrawSapTable();
+			} else {
+				initSapTable();
+				sapTableInitialized = true;
+			}
+		}
+
+		function redrawSapTable() {
+			var table = $('#table_sap').DataTable();
+			$('#table_sap tbody').off('click');
+			table.clear();
+			table.rows.add(sapData).draw();
+		}
+		function initSapTable() {
+			var table = $('#table_sap').DataTable( {
+				data: sapData,
+				dom: 'ft<"row"<"col-md-6"i><"col-md-6"p>>',
+				ordering: true,
+				info:     true,
+				paging:   true,
+				pageLength: 5,
+				lengthMenu: [],
+				filter:   true,
+				columns: [
+					{ data: "installation" },
+					{ data: "id" },
+					{ data: "enabled" },
+					{ data: "app_server" },
+					{ data: "msg_server" },
+					{ data: "system" },
+					{ data: "client" },
+					{ data: "user" }
+				],
+				columnDefs: [
+					{ 	className: "datatable_column_class",
+						targets: "_all"
+					}
+				]
+			});
+				
+		}
+		
+		// -------------------------------------------------
+		// Messaging info table
+		// -------------------------------------------------
+		function displayMessagingTable() {
+			if (msgTableInitialized) {
+				redrawMessagingTable();
+			} else {
+				initMessagingTable();
+				msgTableInitialized = true;
+			}
+		}
+
+		function redrawMessagingTable() {
+			var table = $('#table_msg').DataTable();
+			$('#table_msg tbody').off('click');
+			table.clear();
+			table.rows.add(msgData).draw();
+		}
+		function initMessagingTable() {
+			var table = $('#table_msg').DataTable( {
+				data: msgData,
+				dom: 'ft<"row"<"col-md-6"i><"col-md-6"p>>',
+				ordering: true,
+				info:     true,
+				paging:   true,
+				pageLength: 5,
+				lengthMenu: [],
+				filter:   true,
+				columns: [
+					{ data: "installation" },
+					{ data: "id" },
+					{ data: "type" },
+					{ data: "url" },
+					{ data: "user" }
+				],
+				columnDefs: [
+					{ 	className: "datatable_column_class",
+						targets: "_all"
+					}
+				]
+			});
+				
+		}
+		
+	});
+  
+  </script>
+ </head>
+  
+ <body>
+   <div id="div_top_banner">
+    <div id="div_top_title_inv"><p class="h5 text-center"><strong>Installation Inventory</strong></p></div>
+   </div>
+
+  <section id="inventoryTreeSection">
+   <div id="div_jstree_inventory"></div>
+  </section>
+  <section id="inventoryTableSection">
+   <div id="div_inventory_empty">
+    <div id="div_inventory_empty_title">
+	  <span id="span_inventory_empty_title">Select From Inventory Tree</span>
+    </div>
+    <div id="div_inventory_empty_text">
+	  <span id="span_inventory_empty_text">
+		The Inventory is a visualization of all the integration landscape installations. Select from left side inventory tree.
+		
+		</br></br></br>
+		<b>Notes:</b>
+		<ul class="list-unstyled">
+ 		  <ul>
+			<li>A single installation defined in the inventory, may or may not have been "inspected" (i.e. configuration properties extracted).</li>
+			<li>If it has been extracted, then it will exist within the OpenCM configuration <b><i>repository</i></b>.</br>
+				The inventory installation table will then contain additionally decorated information, such as:</br>
+				<ul>
+					<li>Version</li>
+					<li>Installation Date</li>
+					<li>Operating system</li>
+					<li>Number of CPUs</li>
+					<li>etc.</li>
+				</ul>
+			</li>
+			<li>An installation in <b>bold</b> indicates whether an installation is in the repository.</br>Click on the installation name to view the repository.</li>
+			<li>To include or exclude certain information in the inventory table, press the "Columns" button.</li>
+			<li>Pressing the left-side "plus-sign" in the table list displays port information for the installation.</br>
+				Again, if there is no repository for the installation, only the ports defined in the inventory will be shown.
+			</li>
+		  </ul>
+		</ul>
+	  </span>
+    </div>
+   </div>
+   <div id="div_table_inventory" style="display:none;">
+   	 <table id="table_summary_statistics" class="table table-hover table-sm"></table>
+	 <br/><br/>
+	 <table id="inventory_table" class="display" style="width:100%; text-align:left;">
+        <thead>
+            <tr>
+                <th>Ports</th>
+                <th>Inventory Location</th>
+                <th>Hostname</th>
+                <th>OS</th>
+                <th>CPUs</th>
+                <th>Installation</th>
+                <th>Version</th>
+                <th>Description</th>
+                <th>Install Directory</th>
+                <th>Install Date</th>
+                <th>Extract Date</th>
+                <th>Extract Alias</th>
+            </tr>
+        </thead>
+	 </table>	
+   </div>
+   <div id="div_buttons" class="html5buttons" style="display:none;float:left;padding:10px 20px 20px">
+     <div>
+	   <span>External Connections:&nbsp;&nbsp;&nbsp;</span>
+       <button id="button-wmdb" aria-expanded="false" type="button" tabindex="0" class="dt-button buttons-collection buttons-colvis"><span>Product DBs</span></button> 
+       <button id="button-jdbc" aria-expanded="false" type="button" tabindex="0" class="dt-button buttons-collection buttons-colvis"><span>JDBC Connections</span></button> 
+       <button id="button-sap" aria-expanded="false" type="button" tabindex="0" class="dt-button buttons-collection buttons-colvis"><span>SAP Connections</span></button> 
+       <button id="button-msg" aria-expanded="false" type="button" tabindex="0" class="dt-button buttons-collection buttons-colvis"><span>Messaging</span></button> 
+     </div>
+   </div>
+	
+   <div id="div_table_wmdb" style="display:none;padding:5px 20px 0;">
+	 <table id="table_wmdb" class="display" style="width:100%; text-align:left;">
+        <thead>
+            <tr>
+                <th>Installation</th>
+                <th>ID</th>
+                <th>URL</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+	 </table>	
+   </div>
+
+   <div id="div_table_jdbc" style="display:none;padding:5px 20px 0;">
+	 <table id="table_jdbc" class="display" style="width:100%; text-align:left;">
+        <thead>
+            <tr>
+                <th>Installation</th>
+                <th>Connection</th>
+                <th>Enabled</th>
+                <th>Server:Port</th>
+                <th>Database</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+	 </table>	
+   </div>
+   
+   <div id="div_table_sap" style="display:none;padding:5px 20px 0;">
+	 <table id="table_sap" class="display" style="width:100%; text-align:left;">
+        <thead>
+            <tr>
+                <th>Installation</th>
+                <th>Connection</th>
+                <th>Enabled</th>
+                <th>App Server</th>
+                <th>Msg Server</th>
+                <th>System</th>
+                <th>Client</th>
+                <th>User</th>
+            </tr>
+        </thead>
+	 </table>	
+   </div>
+   
+   <div id="div_table_msg" style="display:none;padding:5px 20px 0;">
+	 <table id="table_msg" class="display" style="width:100%; text-align:left;">
+        <thead>
+            <tr>
+                <th>Installation</th>
+                <th>Id</th>
+                <th>Type</th>
+                <th>URL</th>
+                <th>User</th>
+            </tr>
+        </thead>
+	 </table>	
+   </div>
+   
+  </section>
+ </body>
+</html>

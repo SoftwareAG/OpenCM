@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <value name="node_type">interface</value>
+  <value name="node_subtype">unknown</value>
+  <value name="node_nsName">org.opencm.priv.repository</value>
+  <value name="is_public">false</value>
+  <value name="shared">CgoKCQ==</value>
+  <value name="encodeutf8">true</value>
+  <value name="extends"></value>
+  <array name="implements" type="value" depth="1">
+  </array>
+  <array name="imports" type="value" depth="1">
+    <value>com.fasterxml.jackson.databind.ObjectMapper</value>
+    <value>java.util.ArrayList</value>
+    <value>java.util.Arrays</value>
+    <value>java.util.LinkedList</value>
+    <value>org.opencm.repository.Repository</value>
+    <value>org.opencm.extract.ExtractConfiguration</value>
+    <value>org.opencm.repository.RepoInstallation</value>
+    <value>org.opencm.util.Cache</value>
+    <value>org.opencm.util.LogUtils</value>
+    <value>org.opencm.util.JsonUtils</value>
+  </array>
+</Values>

@@ -11,6 +11,18 @@
   <array name="implements" type="value" depth="1">
   </array>
   <array name="imports" type="value" depth="1">
+    <value>org.opencm.util.JsonParser</value>
     <value>org.opencm.util.JsonUtils</value>
+    <value>org.opencm.util.LogUtils</value>
+    <value>java.text.SimpleDateFormat</value>
+    <value>java.time.LocalDate</value>
+    <value>java.time.format.DateTimeFormatter</value>
+    <value>java.util.ArrayList</value>
+    <value>java.util.Arrays</value>
+    <value>java.util.LinkedList</value>
+    <value>org.opencm.configuration.Configuration</value>
+    <value>org.opencm.repository.RepoInstallation</value>
+    <value>org.opencm.secrets.SecretsConfiguration</value>
+    <value>org.opencm.secrets.SecretsUtils</value>
   </array>
 </Values>

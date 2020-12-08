@@ -1,8 +1,0 @@
-{
-  "name" : "TEST_MSG_V103_UM_02",
-  "level" : "NODE",
-  "layer" : "MSG",
-  "spmURL" : "http://sr05720.work.lantmannen.lan:8592/spm",
-  "children" : null,
-  "environment" : "TEST"
-}

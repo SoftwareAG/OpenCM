@@ -1,7 +1,10 @@
 package org.opencm.util;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.Writer;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +18,7 @@ public class FileUtils {
 		File fDir = new File(dir);
 		if (!fDir.exists()) {
 			if (!fDir.mkdir()) {
-				System.out.println("OpenCM FileUtils :: createDirectory :: Not Created: " + dir);
+				LogUtils.logError("FileUtils :: createDirectory :: Not Created: " + dir);
 				return false;
 			}
 		}
@@ -28,7 +31,7 @@ public class FileUtils {
 			try {
 				org.apache.commons.io.FileUtils.deleteDirectory(fDir);
 			} catch (IOException ex) {
-				System.out.println("OpenCM FileUtils :: removeDirectory :: Not Deleted: " + ex.toString());
+				LogUtils.logError("FileUtils :: removeDirectory :: Not Deleted: " + ex.toString());
 			}
 		}
 	}
@@ -36,11 +39,20 @@ public class FileUtils {
 	public static void writeToFile(String filename, String content) {
 		File fFile = new File(filename);
 		try {
-			FileWriter fWriter = new FileWriter(fFile, false);
-			fWriter.write(content);
-			fWriter.close();
+            Writer fWriter = new OutputStreamWriter(new FileOutputStream(fFile), StandardCharsets.UTF_8);
+            fWriter.write(content);
+            fWriter.close();
 		} catch (IOException ex) {
-			System.out.println("OpenCM FileUtils :: writeToFile :: " + ex.toString());
+			LogUtils.logError("FileUtils :: writeToFile :: " + ex.toString());
+		}
+	}
+	
+	public static void renameFile(File origFile, File targetFile) {
+		if (!origFile.exists()) {
+			LogUtils.logError("FileUtils :: renameFile :: Original file does not exist: " + origFile.getPath());
+		}
+		if (!origFile.renameTo(targetFile)) {
+			LogUtils.logError("FileUtils :: renameFile :: Unable to rename to : " + targetFile.getPath());
 		}
 	}
 	
@@ -52,7 +64,7 @@ public class FileUtils {
 		try {
 			return org.apache.commons.io.FileUtils.readFileToString(fFile, java.nio.charset.StandardCharsets.UTF_8);
 		} catch (IOException ex) {
-			System.out.println("OpenCM FileUtils :: readFromFile :: " + ex.toString());
+			LogUtils.logError("FileUtils :: readFromFile :: " + ex.toString());
 		}
 		return null;
 	}

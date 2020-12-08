@@ -1,0 +1,15 @@
+{
+  "name" : "LocalDev01",
+  "paths" : [ [ "OpenCM", "Acme", "Dev Zone", "Local Dev", "ACME_LDEV_S124_V104_01" ], [ "OpenCM", "Acme", "Dev Zone", "Local Dev", "ACME_LDEV_S125_V104_01" ] ],
+  "properties" : [ {
+    "component" : "integrationServer-default",
+    "instance" : "COMMON-SYSPROPS",
+    "key" : "watt.net.timeout",
+    "value" : "300"
+  }, {
+    "component" : "integrationServer-default",
+    "instance" : "COMMON-SYSPROPS",
+    "key" : "watt.net.ftpClientDataConnTimeout",
+    "value" : "30000"
+  } ]
+}

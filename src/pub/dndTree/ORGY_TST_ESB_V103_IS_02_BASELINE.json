@@ -1,8 +1,0 @@
-{
-  "name" : "ORGY_TST_ESB_V103_IS_02",
-  "level" : "NODE",
-  "layer" : "ESB",
-  "spmURL" : "https://server02.other.org:10093/spm",
-  "children" : null,
-  "environment" : "Test"
-}

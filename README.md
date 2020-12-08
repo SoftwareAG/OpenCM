@@ -1,34 +1,33 @@
 # OpenCM
-OpenCM is a Configuration Management Repository for webMethods components and is primarily an operational/runtime governance tool of DBP wM components. It can act as a "source of truth" (documentation repo) and provides the ability to audit & compare configuration property information in order to detect discrepancies. In addition, it is also used as an operations utility for quick and easy retrieval of property information through its user interface.   
- 
+OpenCM is a Configuration Management Repository for webMethods components and is primarily an operational/runtime governance tool of integration platform wM components. OpenCM provides an inventory if installation components and can thereafter (when defined) support the ability to audit & compare configuration property information in order to detect discrepancies. In addition, OpenCM can act the "source of truth" for any configuration properties within the landscape. By defining what properties should be, it is then possible to generate compliance reports to detect which runtime installations that are not configured according to the source of truth.
+
 ## Description
-OpenCM is an Integration Server package that is centrally installed on a separate administration IS. Main external dependency to OpenCM is SoftwareAG Platform Manager for all remote webMethods installations, which are used to perform property extractions (retrievals) and subsequent storing of the information into a local, file-based, repository. OpenCM comes with a user interface for easy navigation and visualization of property information.
+OpenCM is an Integration Server package that is centrally installed on an (administration) IS. Main external dependency to OpenCM is SoftwareAG Platform Manager for all remote webMethods installations, which are used to perform property extractions (retrievals) and subsequent storing of the information into a local, file-based, repository. OpenCM comes with a user interface for easy navigation and visualization of property information.
 
-![Alt text](/github_images/dnd-overview.png?raw=true "OpenCM User Interface")
+![Alt text](/github_images/Inventory.png?raw=true "OpenCM User Interface")
 
-The OpenMC user interface can visualize the integration platform servers and installations via a treestructure (see above), and by selecting an individual installation node, the configuration items are available for manual inspection as below.
+The OpenMC user interface can visualize the integration platform servers and installations via a treestructure (see above), and by selecting portions of the tree. Once selected, a list of installations defined will then be shown in the center table.
 
-![Alt text](/github_images/dnd-node.png?raw=true "OpenCM User Interface")
+The configuration properties of an installation can be inspected by clicking on an installation in the inventory table. 
 
-The above example shows the fix level version for a particular fix of an Integration Server. On top of the collected property information, automatic/continuous auditing of property information can then be performed to detect inconsistencies between different installations. 
+![Alt text](/github_images/Repository.png?raw=true "OpenCM User Interface")
 
-Another view of all the webMethods installations can be viewed through the "Inventory" page, similar to the main tree structure, but this time in a searchable, tabular form:
+Comparing differences is referred to as "Runtime Auditing" and is performed by describing which installations to audit, and what properties to compare:
 
-![Alt text](/github_images/inventory.png?raw=true "OpenCM Inventory")
+![Alt text](/github_images/RuntimeAudit.png?raw=true "OpenCM Auditing")
 
-Comparing differences is referred to as "Auditing" and is performed through a wizard on the user interface. Once all the information is provided, a report table is generated:
+This example shows that there are differences in extended settings between the two installations selected. The result table can also be saved off as an Excel sheet for offline viewing.
 
-![Alt text](/github_images/auditing.png?raw=true "OpenCM Auditing")
+In addition to Runtime Audits, it is also possible to perform "Governance Audits", which is to ensure that configuration properties are according to a so-called "source of truth". I.e., a particular configuration property must be of a certain value.
 
-This example shows that there are differences in fix levels between the installations within the different environments. The report can also be saved off as an Excel sheet for offline viewing.
+![Alt text](/github_images/GovernanceAudit.png?raw=true "OpenCM Auditing")
+
+The definition of a "governance rule" is similar to runtime audits, with the addition of a property value that is considered what it must be.
 
 ## Requirements
 
-The project was developed and tested on the following installation:
-
-1. Integration Server 9.9, 9.12, 10.0, 10.1, 10.3 (Windows)
-2. Google Chrome Version 64.0
-  
+The project was developed and tested on Integration Servers 9.x and 10.x. Browser verifications include MS Edge, Firefox, Chrome and MS Explorer.
+ 
 ## Set-up
 
 ### Pre-requisites
@@ -44,53 +43,17 @@ git clone https://github.com/SoftwareAG/OpenCM
 **Install & Configure OpenCM** 
 
 * Using the Integration Server Administrator, install the package 
-* Using the Integration Server Administrator, define a Global Variable:
-```
-name: OPENCM_MASTER_PASSWORD
-value: <your_password>
-type: password
-```
-
-* Create a separate file path for the OpenCM data repository and other output files:
+* It is then recommended to create a separate file path for the OpenCM configurations and data repository files:
 ```
 e.g. D:\SoftwareAG\opencm
 
 ```
-* Under the above opencm directory, extract the sample/template configuration files found under the src. It will create the following sub-directories:
+* Once created, change the global variable:
 ```
-	<opencm_root>/cmdata
-	<opencm_root>/config
-	<opencm_root>/output
-```
-
-* Create a soft link from the package directory (<opencm_package_dir>):
-```
-Windows: 
- Open up a CMD window and cd to <opencm_package_dir>/pub:
- 	>> mklink /D opencm "<opencm_root>\opencm"	(e.g. >> mklink /D opencm "\SoftwareAG\opencm")
-
-Linux: 
- Open up a shell window and cd to <opencm_package_dir>/pub:
- 	>> ln -s <opencm_root>/opencm .
-```
-
-* Update configuration files to match your installation setup:
-```
-	<is_install_instance>/packages/OpenCM/config/default.properties
-	<opencm_root>/config/opencm.properties
+	OPENCM_ROOT_DIR = D:\SoftwareAG\opencm
 ```
 
 ## How it works
-
-### Quick Start
-	* Open browser and point to http://<host>:<port>/OpenCM
-	* Expand the tree to view the environment layout
-	* Select/click on an individual installation
-	* Expand tree by clicking on individual tree nodes, drag canvas, zoom by scrolling 
-	* Select a configuration instance leaf to view individual configuration properties
-	* To view Inventory: select menu Inventory, and then select the desired department from the tree
-	* To run Audit: select menu Auditing, and then follow the wizard steps
-
 Please refer to the OpenCM User Guide for more detailed information
 	
 ______________________

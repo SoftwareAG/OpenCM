@@ -5,24 +5,26 @@
   <value name="node_subtype">unknown</value>
   <value name="node_nsName">org.opencm.priv.inventory</value>
   <value name="is_public">false</value>
-  <value name="shared"></value>
+  <value name="shared">CQ==</value>
   <value name="encodeutf8">true</value>
   <value name="extends"></value>
   <array name="implements" type="value" depth="1">
   </array>
   <array name="imports" type="value" depth="1">
-    <value>java.io.BufferedWriter</value>
     <value>java.io.File</value>
-    <value>java.io.FileWriter</value>
-    <value>java.io.IOException</value>
     <value>java.util.LinkedList</value>
+    <value>java.util.Properties</value>
+    <value>com.fasterxml.jackson.databind.ObjectMapper</value>
+    <value>org.linguafranca.pwdb.kdbx.simple.SimpleDatabase</value>
+    <value>org.opencm.audit.AuditConfiguration</value>
     <value>org.opencm.configuration.Configuration</value>
-    <value>org.opencm.configuration.PkgConfiguration</value>
-    <value>org.opencm.inventory.*</value>
-    <value>org.opencm.util.LogUtils</value>
+    <value>org.opencm.inventory.Inventory</value>
+    <value>org.opencm.inventory.InventoryGroup</value>
+    <value>org.opencm.inventory.InventoryInstallation</value>
+    <value>org.opencm.secrets.SecretsConfiguration</value>
+    <value>org.opencm.secrets.SecretsUtils</value>
+    <value>org.opencm.util.Cache</value>
     <value>org.opencm.util.JsonUtils</value>
-    <value>org.opencm.security.KeyUtils</value>
-    <value>java.util.Date</value>
-    <value>java.text.SimpleDateFormat</value>
+    <value>org.opencm.util.LogUtils</value>
   </array>
 </Values>

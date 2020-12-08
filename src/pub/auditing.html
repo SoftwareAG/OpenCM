@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style>
+	/* ------------------------- */
+	/* ---- Div Top banner ----- */
+	/* ------------------------- */
+	#div_top_return_aud {
+		float: left;
+		width: 20%;
+		padding-left: 15px;
+	}
+	#div_top_return_aud a {
+		color: #3498db;
+		text-decoration: none;
+	}
+	#div_top_title {
+		width: 80%;
+	}
+	
+	#div_top_audit_run {
+		position: fixed;
+		right: 0;
+		padding-right: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* --------    Auditing Tree     -------- */
+	/* -------------------------------------- */
+	#auditingTreeSection {
+		width: 30%;
+		float: left;
+	}
+	#div_jstree_auditing {
+		margin: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* --------   Auditing Config    -------- */
+	/* -------------------------------------- */
+	#auditingConfigSection {
+		width: 70%;
+		height: 100%;
+		float: left;
+	}
+	#auditingConfigSection h4 {
+		color: #3498db;
+		font-size: 1.2em;
+		font-weight: bold;
+		text-align: left;
+		margin-block-start: 0em;
+		margin-block-end: 0,5em;
+	}
+	#div_auditing_template, #div_auditing_properties_include, #div_auditing_properties_exclude, #div_auditing_execute, #div_auditing_options  {
+		float: left;
+		margin: 10px;
+		top: 0px;
+		padding: 0px 5px 0px;
+		border-bottom: 1px solid #3498db;
+	}
+	#table_excl_filter #del {
+		padding-top: 2px;
+	}
+	
+	#div_auditing_empty {
+		float: left;
+		width: 100%;
+		padding: 5% 10%;
+	}
+	#div_auditing_empty_text {
+		background-color: #F7F8FE;
+		border: 1px solid #3498db;
+		padding: 20px 5% 20px; 
+		text-align: left;
+	}
+	#span_auditing_empty_text {
+		color: #3498db;
+		font-size: 1.2em;
+	}
+	#span_auditing_empty_text li {
+		margin: 10px 0;
+	}
+	
+	#div_auditing_properties_exclude a {
+		color: #3498db;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	
+	#div_auditing_result  {
+		display:none;
+		width:100%
+		float: left;
+		margin: 10px;
+		top: 0px;
+		padding: 20px 5px 0px;
+	}
+	
+	/* -------------------------------------- */
+	/* --------     Buttons            ------ */
+	/* -------------------------------------- */
+	#button_run_auditing, #button_send_auditing {
+		width: 150px;
+	}
+	
+	/* -------------------------------------- */
+	/* -------- Data Tables formatting ------ */
+	/* -------------------------------------- */
+	#table_audit_result_wrapper {
+		padding-top: 15px;
+	}
+	#table_audit_result_wrapper #table_audit_result_filter {
+		float: left;
+		width: 30%;
+	}
+	#div_auditing_result #table_audit_result_filter {
+		float: left;
+		text-align: left;
+	}
+	
+
+  </style>
+  <script type="text/javascript">
+	var auditTableInitialized = false;
+
+	$(document).ready(function(){
+		// Event Listener for Returning to Inventory
+		$( '#div_top_return_aud' ).on('click', 'a', function() {
+			showInventory();
+		});
+		
+		// --------------------------------------------
+		// Collect Selected Installations from tree
+		// --------------------------------------------
+		function getAuditPaths() {
+			var pathData = new Array();
+			var selectedLeafNodes = $('#div_jstree_auditing').jstree(true).get_bottom_selected(true);
+			if (selectedLeafNodes.length == 0) {
+				return null;
+			}
+			$.each(selectedLeafNodes, function( index, node ) {
+				var path = $('#div_jstree_auditing').jstree(true).get_path(node,'/').split('/');
+				pathData.push(path);
+			});
+			return pathData;
+		}
+		
+		// --------------------------------------------
+		// Collect Properties include data
+		// --------------------------------------------
+		function getInclComponent() {
+			var auditItem = $("#in_audit_component").val();
+			if ((auditItem == null) || (auditItem == "")) {
+				return null;
+			}
+			return auditItem;
+		}
+		function getInclInstance() {
+			var auditItem = $("#in_audit_instance").val();
+			if ((auditItem == null) || (auditItem == "")) {
+				return null;
+			}
+			return auditItem;
+		}
+		function getInclKey() {
+			var auditItem = $("#in_audit_key").val();
+			if ((auditItem == null) || (auditItem == "")) {
+				return null;
+			}
+			return auditItem;
+		}
+		
+		// --------------------------------------------
+		// Collect filter data
+		// --------------------------------------------
+		function getExcludeFilters() {
+			var filters = Array();
+			$('#table_excl_filter_body tr').each(function() {
+				var comp = $(this).find('#row_filter_comp').text();
+				var inst = $(this).find('#row_filter_inst').text();
+				var key = $(this).find('#row_filter_key').text();
+				filters.push({	component: comp,
+								instance: inst,
+								key: key
+							});
+			});
+			return filters;
+		}
+		function clearFilter() {
+			$("#in_filter_component").val("");
+			$("#in_filter_instance").val("");
+			$("#in_filter_key").val("");
+		}
+		
+		// --------------------------------------------
+		// Collect Options
+		// --------------------------------------------
+		function getEqualsFlag() {
+			if ($("#checkbox_equals").is(':checked')) {
+				return "true";
+			}
+			return "false";
+		}
+		
+		// --------------------------------------------
+		// Entered Template Name for saving
+		// --------------------------------------------
+		function getTemplateName() {
+			var templateName = $("#audit_template_name").val();
+			if ((templateName == null) || (templateName == "")) {
+				return null;
+			}
+			return templateName;
+		}
+		
+		// --------------------------------------------
+		// Verify forms
+		// --------------------------------------------
+		function updateAudView() {
+			var completed = false;
+			// Installations from tree
+			var selectedLeafNodes = $('#div_jstree_auditing').jstree(true).get_bottom_selected(true);
+			
+			if ((selectedLeafNodes.length > 0) && 
+				(getInclComponent() != null) &&
+				(getInclInstance() != null) &&
+				(getInclKey() != null)) {
+				completed = true;
+			}
+			
+			if (completed) {
+				$("#div_aud_save_template").show();
+				$("#button_run_auditing").prop('disabled', false);
+				$("#button_send_auditing").prop('disabled', false);
+			} else {
+				$("#button_run_auditing").prop('disabled', true);
+				$("#button_send_auditing").prop('disabled', true);
+				$("#div_aud_save_template").hide();
+			}
+		}
+		
+		// --------------------------------------------
+		// Get configuration as javascript struct
+		// --------------------------------------------
+		function getAuditConfiguration(auditName) {
+			var auditConfig = {
+				name: auditName,
+				paths: getAuditPaths(),
+				incl_component: getInclComponent(),
+				incl_instance: getInclInstance(),
+				incl_key: getInclKey(),
+				excl_filters: getExcludeFilters(),
+				option_equals: getEqualsFlag()
+			};
+			return auditConfig;
+		}
+		
+		// --------------------------------------------
+		// Load Inventory Tree data (from Inventory)
+		// --------------------------------------------
+		var jsTreeData = new Array();
+		jsTreeData = parent.getTreeDataWithInstallations(getInventory().root_group, jsTreeData, 0, "");
+
+		$('#div_jstree_auditing').jstree(
+			{'plugins':["wholerow","checkbox"], 'core' : {
+				'data' : jsTreeData
+			}}
+		); 
+		
+		// --------------------------------------------
+		// Listeners
+		// --------------------------------------------
+		// Selected tree nodes
+		$('#div_jstree_auditing').on("changed.jstree", function (e, data) {
+			updateAudView();
+		});
+		// Loading template
+		$("#select_audit_template").on("change", function() {
+			var id = $('#select_audit_template').children(":selected").attr("id");
+			if (id == 0) {
+				showAuditing();
+			} else {
+				var template = $("#select_audit_template option:selected").val();
+				loadTemplate(template); 
+			}
+		});
+		
+		// Saving template
+		$("#anchor_save_audit_template").on("click", function() {
+			saveTemplate(); 
+		});
+		
+		// Autocomplete the component name
+		$('#in_audit_component').autocomplete({
+			lookup: aut_components
+		});
+		$('#in_filter_component').autocomplete({
+			lookup: aut_components
+		});
+			
+		// Adding Component data
+		var oldComp = "";
+		$("#in_audit_component").on("change keyup paste", function() {
+			var currentVal = $(this).val();
+			if(currentVal == oldComp) {
+				return; //check to prevent multiple simultaneous triggers
+			}
+			oldComp = currentVal;
+			updateAudView();
+		});
+		
+		// Autocomplete the instance name
+		$('#in_audit_instance').autocomplete({
+			lookup: aut_instances
+		});
+		$('#in_filter_instance').autocomplete({
+			lookup: aut_instances
+		});
+			
+		// Adding Instance data
+		var oldInst = "";
+		$("#in_audit_instance").on("change keyup paste", function() {
+			var currentVal = $(this).val();
+			if(currentVal == oldInst) {
+				return; 
+			}
+			oldInst = currentVal;
+			updateAudView();
+		});
+		// Adding Properties data
+		var oldProp = "";
+		$("#in_audit_key").on("change keyup paste", function() {
+			var currentVal = $(this).val();
+			if(currentVal == oldProp) {
+				return; 
+			}
+			oldProp = currentVal;
+			updateAudView();
+		});
+		
+		// Adding an exclude filter 
+		$("#button_add_filter").on("click", function() {
+			addFilter(); 
+		});
+		// Editing a Filter 
+		$("#table_excl_filter_body").delegate('#anchor_edit_filter', 'click', function(e) {
+			updateFilterRows(e,this,true);
+		});
+		// Deleting an exclude filter 
+		jQuery(document).delegate('#anchor_del_filter', 'click', function(e) {
+			updateFilterRows(e,this,false);
+		});
+		
+		// Running audit
+		$("#button_run_auditing").on("click", function() {
+			runAudit(); 
+		});
+		// Send audit result
+		$("#button_send_auditing").on("click", function() {
+			sendAudit(); 
+		});
+		
+		// --------------------------------------------
+		// Load all existing templates to drop-down
+		// --------------------------------------------
+		var resp = callService( "/invoke/org.opencm.pub.audit/getTemplates", "");
+		if (resp.rc != 0) {
+			notify(resp.msg);
+			return;
+		}
+		var audit_templates = JSON.parse(resp.content);
+		$.each(audit_templates, function(idx, value) {   
+			$('#select_audit_template').append($("<option></option>").attr("value",value).text(value)); 
+		});
+
+		// --------------------------------------------
+		// Load Individual Auditing template
+		// --------------------------------------------
+		function loadTemplate(template) {
+			var resp = callService("/invoke/org.opencm.pub.audit/getTemplate", "templateName=" + template);
+			if (resp.rc != 0) {
+				notify("Unable to get template: " + resp.msg);
+				return;
+			}
+			var audit_configuration = JSON.parse(resp.content);
+			
+			// Audit Tree items
+			$('#div_jstree_auditing').jstree(true).uncheck_all();
+			if ((audit_configuration.paths != null) && (audit_configuration.paths.length > 0)) {
+				$.each(audit_configuration.paths, function( idx, path ) {
+					// Select tree node
+					$('#div_jstree_auditing').jstree(true).select_node(getTreeNodeId(path));
+				});
+			}
+			
+			// Component
+			$("#in_audit_component").val(audit_configuration.incl_component);
+			// Instance
+			$("#in_audit_instance").val(audit_configuration.incl_instance);
+			// Key
+			$("#in_audit_key").val(audit_configuration.incl_key);
+			
+			// Filters
+			$("#table_excl_filter_body").empty();
+			if ((audit_configuration.excl_filters != null) && (audit_configuration.excl_filters.length > 0)) {
+				$.each(audit_configuration.excl_filters, function( idx, filter ) {
+					addFilterRow(filter.component, filter.instance, filter.key);
+				});
+			}
+			
+			// Options
+			if ((audit_configuration.option_equals != null) && (audit_configuration.option_equals == "false")) {
+				$('#checkbox_equals').prop("checked", false);
+			} else {
+				$('#checkbox_equals').prop("checked", true);
+			}
+			
+			// Set template name same as this one..
+			$("#audit_template_name").val(template);
+
+			$("#div_auditing_empty").show();
+			$('#div_auditing_result').hide();
+			updateAudView();
+		}
+		
+		// --------------------------------------------
+		// Save/Update auditing to template
+		// --------------------------------------------
+		function saveTemplate() {
+			var templateName = getTemplateName();
+			if ((templateName == null) || (templateName == "")) {
+				notify("Template name not specified, not saved...");
+				return;
+			}
+			var resp = callService("/invoke/org.opencm.pub.audit/saveTemplate", "audit_configuration=" + JSON.stringify(getAuditConfiguration(templateName) ));
+			if (resp.rc == 0) {
+				notify("Template successfully saved ...");
+				// Add to template list if not already there
+				var templates = Array();
+				$('#select_audit_template option').each(function() {
+					var tname = $(this).text();
+					if (tname != "") {
+						templates.push(tname);
+					}
+				});
+
+				if ($.inArray(templateName, templates) == -1) {
+					$('#select_audit_template').append($("<option></option>").attr("value",templateName).text(templateName)); 
+				}
+				
+			} else {
+				notify("Template not saved: " +  resp.msg);
+			}
+		}
+		
+		// --------------------------------------------
+		// Add/Remove Exclude Filter
+		// --------------------------------------------
+		function addFilter() {
+			var comp = $("#in_filter_component").val();
+			var inst = $("#in_filter_instance").val();
+			var key = $("#in_filter_key").val();
+			if ((comp != "") && (inst != "") && (key != "")) {
+				clearFilter();
+				addFilterRow(comp, inst, key);
+			} else {
+				notify("All exclude items must be specified");
+			}
+		}
+		
+		function addFilterRow(comp, inst, key) {
+			var content = jQuery('#table_excl_filter_sample tr'),
+			row_id = jQuery('#table_excl_filter >tbody >tr').length + 1,
+			element = null,
+			element = content.clone();
+			element.find('#row_filter_id').html(row_id);
+			element.find('#anchor_edit_filter').attr('data-id', row_id);
+			element.find('#anchor_edit_filter').html(comp);
+			element.find('#row_filter_inst').html(inst);
+			element.find('#row_filter_key').html(key);
+			element.find('#anchor_del_filter').attr('data-id', row_id);
+			element.appendTo('#table_excl_filter');
+			$("#div_table_excl_filter").show();
+		}
+		
+		function updateFilterRows(e,row,editMode) {
+			e.preventDefault();    
+			var edit_id = jQuery(row).data('id');
+			var curr_row_found = false;
+			$('#table_excl_filter_body tr').each(function(index) {
+				var curr_row = $(this).find('#row_filter_id').html();
+				if (curr_row == edit_id) {
+					curr_row_found = true;
+					if (editMode) {
+						$("#in_filter_component").val($(this).find('#row_filter_comp').text());
+						$("#in_filter_instance").val($(this).find('#row_filter_inst').text());
+						$("#in_filter_key").val($(this).find('#row_filter_key').text());
+					}
+					$(this).remove();
+				} else if (curr_row_found) {
+					$(this).find('#row_filter_id').html(index);
+					$(this).find('#anchor_edit_filter').data('id',index);
+					$(this).find('#anchor_del_filter').data('id',index);
+				}
+			});
+		  
+			if (getExcludeFilters().length == 0) {
+				$("#div_table_excl_filter").hide();
+			}
+			
+			return true;
+		}
+
+		// --------------------------------------------
+		// Run Auditing
+		// --------------------------------------------
+		function runAudit() {
+			var resp = callService("/invoke/org.opencm.pub.audit/runAudit", "audit_configuration=" + JSON.stringify(getAuditConfiguration("Runtime Audit")) );
+			if (resp.rc == 0) {
+				processResult(resp);
+			} else {
+				notify("Audit Error: " +  resp.msg);
+			}
+			return true;
+		}
+		
+		// --------------------------------------------
+		// Send Auditing Result via mail
+		// --------------------------------------------
+		function sendAudit() {
+			var resp = callService("/invoke/org.opencm.pub.audit/sendAuditResult", "audit_configuration=" + JSON.stringify(getAuditConfiguration("Runtime Audit")) );
+			notify(resp.response);
+			return true;
+		}
+		
+		// -------------------------------------------------
+		// Process Audit Result
+		// -------------------------------------------------
+		function processResult(responseData) {
+			$('#span_audit_result_summary').text("Total number of properties audited: " + responseData.numPropertiesAudited + " - Total Differences: " + responseData.numPropertiesDifferent).show();
+			
+			if ((responseData.auditProperties == null) || (responseData.auditProperties.length == 0)) {
+				$('#table_audit_result').hide();
+			} else {
+				var resultTable = Array();
+				$.each(responseData.auditProperties, function( index, auditProperty ) {
+					var locationStr = "";
+					var valueStr = "";
+					$.each(auditProperty.auditValues, function( idx, auditValue ) {
+						locationStr += auditValue.path[auditValue.path.length - 1] + "->" + auditValue.component + "->" + auditValue.instance;
+						valueStr += auditValue.value;
+						if ((idx + 1) < auditProperty.auditValues.length) {
+							locationStr += "<br>";
+							valueStr += "<br>";
+						}
+					});
+					resultTable.push({ Property: auditProperty.propertyName,
+									   Location: locationStr,
+									   Value: valueStr
+					});
+				});
+
+				if (auditTableInitialized) {
+					redrawTable(resultTable);
+				} else {
+					initTable(resultTable);
+					auditTableInitialized = true;
+				}
+				$('#table_audit_result').show();
+			}
+
+			$("#div_auditing_empty").hide();
+			$('#div_auditing_result').show();
+			
+		}
+		
+		// -------------------------------------------------
+		// Result Table
+		// -------------------------------------------------
+		function redrawTable(tableData) {
+			var table = $('#table_audit_result').DataTable();
+			table.clear();
+			table.rows.add(tableData).draw();
+		}
+		
+		function initTable(tableData) {
+			$('#table_audit_result').html("<thead><tr><th>Property</th><th>Location</th><th>Value</th></tr></thead>");
+			var table = $('#table_audit_result').DataTable( {
+				data: tableData,
+				dom: '<"html5buttons"B>ft<"row"<"col-md-6"i><"col-md-6"p>>',
+				ordering: true,
+				pageLength: 6,
+				buttons: [
+				   {extend: 'excel', 
+					text: 'Export',
+					title: getExportName(),
+					exportOptions: {
+						format: {
+							body: function ( data, row, column, node ) {
+								return column === 1 | 2 ?
+									data.replace( /<br\s*\/?>/ig, "\n" ) :
+									data;
+							}
+						}
+					}
+				}
+				],
+				columns: [
+					{ data: "Property" },
+					{ data: "Location" },
+					{ data: "Value" }
+				],
+				columnDefs: [
+					{ orderable: true, targets: [0, 1], className: 'dt-head-left' },
+					{ orderable: false, targets: 2, className: 'dt-head-left' }
+				]
+				
+			});
+		}
+		// -------------------------------------------------
+		// Filename for saving off audit result
+		// -------------------------------------------------
+		function getExportName() {
+			var exportName = getTemplateName();
+			if (exportName == null) {
+				return "Audit-" + getFormattedDateTime();
+			}
+			return exportName + "-" + getFormattedDateTime();
+		}
+		function getFormattedDateTime() {
+			var d = new Date();
+			d = d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2) + ('0' + d.getHours()).slice(-2) + ('0' + d.getMinutes()).slice(-2);
+			return d;
+		}
+		
+		// Initialize view
+		updateAudView();
+		
+	});
+		
+  </script>
+ </head>
+  
+ <body>
+  <div id="div_top_banner">
+   <div id="div_top_return_aud">
+   	  <a class="h6 text-center" href="javascript:;">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+			<path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
+		</svg>
+		<strong>Return to Inventory</strong>
+	  </a>
+   </div>
+   <div id="div_top_title"><p class="h5 text-center"><strong>Runtime Audits</strong></p></div>
+   <div id="div_top_audit_run">
+     <button id="button_send_auditing" type="button" class="btn btn-primary btn-sm active">Send as Email</button>
+     <button id="button_run_auditing" type="button" class="btn btn-primary btn-sm active">Run Audit</button>
+   </div>
+  </div>
+  
+  <section id="auditingTreeSection">
+   <div id="div_jstree_auditing"></div>
+  </section>
+  
+  <section id="auditingConfigSection">
+   <div id="div_auditing_template" style="width:100%; float:left; padding-top: 10px;">
+	 <div style="width:15%; float:left;"><h4>Template</h4></div>
+	 <div style="width:35%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:90%;">
+		  <div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelect01">Select</label>
+		  </div>
+		  <select class="custom-select" id="select_audit_template">
+			<option id="0" selected>Choose...</option>
+		  </select>
+		</div>
+     </div>
+	 <div id="div_aud_save_template" style="display:none; width:50%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:70%;">
+		  <div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1"><a id="anchor_save_audit_template" href="#">Save</a></span>
+		  </div>
+		  <input id="audit_template_name" type="text" class="form-control" placeholder="Template Name" aria-label="templateName" aria-describedby="basic-addon1">
+		</div>	 
+     </div>
+   </div>
+   
+   <div id="div_auditing_properties_include" style="width:100%; float:left;">
+	 <div style="width:15%; float:left;"><h4>Include</h4></div>
+     <div style="width:85%; float:left;">
+        <div style="width:100%; float:left; padding:0px;">
+		 <div style="width:25%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Component</span>
+			  </div>
+			  <input id="in_audit_component" type="text" class="form-control" placeholder="e.g. OSGI-SPM" aria-label="audComponent" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:35%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Instance</span>
+			  </div>
+			  <input id="in_audit_instance" type="text" class="form-control" placeholder="e.g. COMMON-SYSPROPS" aria-label="audInstance" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:30%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Key</span>
+			  </div>
+			  <input id="in_audit_key" type="text" class="form-control" placeholder="e.g. watt.server.timeout" aria-label="audProperty" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:10%; float:left;">
+		 </div>
+        </div>
+     </div>
+   </div>
+   
+   <div id="div_auditing_properties_exclude" style="width:100%; float:left;">
+	 <div style="width:15%; float:left;"><h4>Exclude</h4></div>
+     <div style="width:85%; float:left;">
+        <div style="width:100%; float:left; padding:0px;">
+		 <div style="width:25%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Component</span>
+			  </div>
+			  <input id="in_filter_component" type="text" class="form-control" placeholder="e.g. OSGI-SPM" aria-label="filterComponent" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:35%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Instance</span>
+			  </div>
+			  <input id="in_filter_instance" type="text" class="form-control" placeholder="e.g. COMMON-SYSPROPS" aria-label="filterInstance" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:30%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Key</span>
+			  </div>
+			  <input id="in_filter_key" type="text" class="form-control" placeholder="e.g. watt.server.timeout" aria-label="filterProperty" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:10%; float:left;">
+		    <button id="button_add_filter" type="button" class="btn btn-outline-primary btn-sm add-record" data-added="0">Add</button>
+		 </div>
+        </div>
+		
+        <div id="div_table_excl_filter" style="display:none; width:90%; float:left; padding-top:10px;">
+			<table id="table_excl_filter" class="table table-hover table-sm">
+			  <thead>
+					<tr>
+					  <th>#</th>
+					  <th scope="col">Component</th>
+					  <th scope="col">Instance</th>
+					  <th scope="col">Property Key</th>
+					  <th scope="col"></th>
+					</tr>
+			  </thead>
+			  <tbody id="table_excl_filter_body"></tbody>
+			</table>
+        </div>
+		<div style="display:none;">
+			<table id="table_excl_filter_sample">
+			  <tr>
+			   <td id="row_filter_id"></td>
+			   <td id="row_filter_comp"><a id="anchor_edit_filter" data-id="0"></a></td>
+			   <td id="row_filter_inst"></td>
+			   <td id="row_filter_key"></td>
+			   <td><a id="anchor_del_filter" data-id="0"><img src="./img/trash.svg"/></a></td>
+			 </tr>
+		   </table>
+		 </div>
+		
+     </div>
+   </div>
+   
+   <div id="div_auditing_options" style="width:100%; float:left; padding-bottom: 5px; line-height: 1.5;">
+	 <div style="width:15%; float:left;"><h4>Options</h4></div>
+	 <div style="width:85%; float:left;">
+		<div class="form-check">
+		  <input class="form-check-input" type="checkbox" value="" id="checkbox_equals" >
+		  <label class="form-check-label" for="checkbox_equals">Include equal values</label>
+		</div>
+     </div>
+   </div>
+   
+   <div id="div_auditing_empty">
+    <div id="div_auditing_empty_text">
+	  <span id="span_auditing_empty_text">
+		Runtime Auditing is a way to compare property values between different runtime repositories.
+		</br></br></br>
+		<b>Notes:</b>
+		<ul class="list-unstyled">
+ 		  <ul>
+			<li>Select which installations to be included in the left-side inventory tree.</li>
+			<li>"Include" items identifies which components, instances and property keys to locate (or to audit).</li>
+			<li>Each include item can take wild-cards, e.g. component name = integrationServer-*, or property key = *.Enabled</li>
+			<li>"Exclude" items can be viewed as a filter to the include items. If a property is matching the exclude filter, it will not be audited.</li>
+			<li>Each exclude item can also be defined with wild-cards.</li>
+			<li>The option to include or exclude equals values, refer to the result: if checked, properties that are equal in all installations will be shown.</li>
+			<li>A completed audit configuration can be saved off as an auditing "template".</li>
+			<li>Based on the template name, automated audits can then be scheduled on a frequent basis by invoking the org.opencm.audit/scheduledAudit service.</li>
+			<li>Once complete audit configuration is defined, it is possible to run audit using the "Run Audit" button.</br>
+			   It is also possible to send the audit result via email, to the defined email recipients (refer to documentation).</br>
+			   Note: this can only be done if there is a template defined for the audit configuration.</li>
+		</ul>
+	  </span>
+    </div>
+   </div>
+   
+   <div id="div_auditing_result">
+	 <div style="width:95%; float:left;">
+		<h4>Runtime Audit Result: </h4><span id="span_audit_result_summary" style="display:none;margin:0;padding:5px"></span>
+		<table id="table_audit_result" class="display" style="width:100%"></table>	
+     </div>
+   </div>
+   
+  </section>
+  
+ </body>
+</html>

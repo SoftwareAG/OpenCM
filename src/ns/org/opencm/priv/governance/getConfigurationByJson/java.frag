@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <value name="name">getConfigurationByJson</value>
+  <value name="encodeutf8">true</value>
+  <value name="body">Ly8gcGlwZWxpbmUNCklEYXRhQ3Vyc29yIHBpcGVsaW5lQ3Vyc29yID0gcGlwZWxpbmUuZ2V0Q3Vy
+c29yKCk7DQpTdHJpbmcJc3RKc29uID0gSURhdGFVdGlsLmdldFN0cmluZyggcGlwZWxpbmVDdXJz
+b3IsICJqc29uIiApOyANCnBpcGVsaW5lQ3Vyc29yLmRlc3Ryb3koKTsNCg0KTG9nVXRpbHMubG9n
+RGVidWcoIkdldCBDb25maWd1cmF0aW9uIE9iamVjdCBieSBKc29uIik7IA0KDQpHb3Zlcm5hbmNl
+Q29uZmlndXJhdGlvbiBnb3ZDb25maWcgPSBHb3Zlcm5hbmNlQ29uZmlndXJhdGlvbi5pbnN0YW50
+aWF0ZShzdEpzb24pOyANCg0KLy8gcGlwZWxpbmUNCklEYXRhQ3Vyc29yIHBpcGVsaW5lQ3Vyc29y
+MiA9IHBpcGVsaW5lLmdldEN1cnNvcigpOw0KSURhdGFVdGlsLnB1dCggcGlwZWxpbmVDdXJzb3Iy
+LCAiR292ZXJuYW5jZUNvbmZpZ3VyYXRpb24iLCBnb3ZDb25maWcgKTsNCnBpcGVsaW5lQ3Vyc29y
+Mi5kZXN0cm95KCk7IA0KDQpMb2dVdGlscy5sb2dEZWJ1ZygiR290IENvbmZpZ3VyYXRpb24gT2Jq
+ZWN0Iik7DQoJ</value>
+</Values>

@@ -28,6 +28,7 @@ import java.security.cert.CertificateException;
 
 import javax.net.ssl.HostnameVerifier;
 import java.security.NoSuchAlgorithmException;
+import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 
 
@@ -148,7 +149,7 @@ public class HttpClient {
 			    this.statusLine = httpResp.getStatusLine().toString();
 			    this.statusCode = httpResp.getStatusLine().getStatusCode();
 			    HttpEntity respEntity = httpResp.getEntity();
-			    this.response = EntityUtils.toString(respEntity);
+			    this.response = EntityUtils.toString(respEntity, Charset.defaultCharset());
 			    EntityUtils.consume(respEntity);
 			} finally {
 				httpResp.close();

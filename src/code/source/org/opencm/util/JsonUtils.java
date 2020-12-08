@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.XML;
 
 import com.wm.app.b2b.server.ServiceException;
 
@@ -22,7 +23,8 @@ public class JsonUtils {
 			this.node = mapper.readTree(json);
 			
     	} catch (Exception e) {
-    		throw new ServiceException("OpenCM [CRITICAL] : JsonUtils: " + e.toString());
+    		LogUtils.logError("JsonUtils: " + e.toString());
+    		throw new ServiceException(e.toString());
     	}
     }
 
@@ -63,13 +65,13 @@ public class JsonUtils {
     public static String convertToJson(String inString) {
     	try {
     		if (inString.startsWith("<")) {
-        		return org.json.XML.toJSONObject(inString).toString();
+        		return XML.toJSONObject(inString).toString();
     		} else {
     			// Escape double-ticks and remove all new line characters...
         		return "{\"plain-text-property\":\"" + inString.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "").replace("\r","") + "\"}";
     		}
     	} catch (Exception e) {
-    		System.out.println("OpenCM [CRITICAL] : JsonUtils - convertToJson: " + e.toString());
+    		LogUtils.logError("JsonUtils - convertToJson: " + e.toString());
     	}
     	return null;
     }
@@ -80,7 +82,7 @@ public class JsonUtils {
 			return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(inObject);
 
     	} catch (Exception e) {
-    		System.out.println("OpenCM [CRITICAL] : JsonUtils - convertToJson: " + e.toString());
+    		LogUtils.logWarning("JsonUtils - convertToJson: " + e.toString());
     	}
     	return null;
     }
@@ -90,7 +92,7 @@ public class JsonUtils {
 			ObjectMapper mapper = new ObjectMapper(new JsonFactory());
 			return mapper.readTree(jsonFile).at(stKey).textValue();
     	} catch (Exception e) {
-    		System.out.println("OpenCM [WARNING] : JsonUtils - getJsonValue: " + e.toString());
+    		LogUtils.logWarning("JsonUtils - getJsonValue: " + e.toString());
     	}
     	return null;
     }
@@ -100,7 +102,7 @@ public class JsonUtils {
 			ObjectMapper mapper = new ObjectMapper(new JsonFactory());
 			return mapper.readTree(jsonString).at(stKey).textValue();
     	} catch (Exception e) {
-    		System.out.println("OpenCM [WARNING] : JsonUtils - getJsonValue: " + e.toString());
+    		LogUtils.logWarning("JsonUtils - getJsonValue: " + e.toString());
     	}
     	return null;
     }
@@ -112,7 +114,7 @@ public class JsonUtils {
 			JsonNode jnAdd = mapper.readTree(stNode);
 			return ((ObjectNode) jnMain).set(jsonField,jnAdd).toString();
     	} catch (Exception e) {
-    		System.out.println("OpenCM [WARNING] : JsonUtils - addElement: " + e.toString());
+    		LogUtils.logWarning("JsonUtils - addElement: " + e.toString());
     	}
     	return null;
     }
@@ -123,7 +125,7 @@ public class JsonUtils {
 			JsonNode jn = mapper.createObjectNode();
 			return ((ObjectNode) jn).put(jsonField,stValue).toString();
     	} catch (Exception e) {
-    		System.out.println("OpenCM [WARNING] : JsonUtils - createJsonField: " + e.toString());
+    		LogUtils.logWarning("JsonUtils - createJsonField: " + e.toString());
     	}
     	return null;
     }
@@ -134,9 +136,44 @@ public class JsonUtils {
 			JsonNode jn = mapper.readTree(jsonString);
 			return ((ObjectNode) jn).put(jsonField,stValue).toString();
     	} catch (Exception e) {
-    		System.out.println("OpenCM [WARNING] : JsonUtils - addElement: " + e.toString());
+    		LogUtils.logWarning("JsonUtils - addElement: " + e.toString());
     	}
     	return null;
     }
     
+    /*
+     * Used for getting Components and Instances
+     * 
+     */
+    public static HashMap<String,String> getArray(String json, String path, String fieldName) {
+		HashMap<String,String> hmList = new HashMap<String,String>();
+		
+		JsonNode jNode = getNode(json).at(path);
+		if (jNode.isMissingNode()) {
+			return hmList;
+		}
+		if (jNode.has(fieldName)) {
+			// Single item (no Array)
+			hmList.put(jNode.get(fieldName).textValue(),jNode.toString());
+		} else {
+	    	ArrayNode arrayNode = (ArrayNode) jNode;
+			for (int i = 0; i < arrayNode.size(); i++) {
+				jNode = arrayNode.get(i);
+				hmList.put(jNode.get(fieldName).textValue(),jNode.toString());
+			}
+		}
+		return hmList;
+    }
+
+    private static JsonNode getNode(String json) {
+    	try {
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readTree(json);
+			
+    	} catch (Exception ex) {
+    		LogUtils.logError(" JsonUtils :: getNode - Exception: " + ex.getMessage());
+    	}
+    	return null;
+    }
+
 }

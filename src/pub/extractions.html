@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style>
+	/* ------------------------- */
+	/* ---- Div Top banner ----- */
+	/* ------------------------- */
+	#div_top_return_extr {
+		float: left;
+		width: 20%;
+		padding-left: 15px;
+	}
+	#div_top_return_extr a {
+		color: #3498db;
+		text-decoration: none;
+	}
+	#div_top_title {
+		width: 80%;
+	}
+	
+	#div_top_ext_run {
+		position: fixed;
+		right: 0;
+		padding-right: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* --------   Extractions Tree   -------- */
+	/* -------------------------------------- */
+	#extractionsTreeSection {
+		width: 30%;
+		float: left;
+	}
+	#div_jstree_extractions {
+		margin: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* -------  Extractions Config   -------- */
+	/* -------------------------------------- */
+	#extractionConfigSection {
+		width: 70%;
+		height: 100%;
+		float: left;
+	}
+	#extractionConfigSection h4 {
+		color: #3498db;
+		font-size: 1.2em;
+		font-weight: bold;
+		text-align: left
+	}
+	
+	#div_extraction_template {
+		width: 100%;
+		float: left;
+		margin: 10px;
+		padding: 20px 5px 20px;
+		border-bottom: 1px solid #3498db;
+	}
+
+	#div_extraction_empty {
+		float: left;
+		width: 100%;
+		padding: 10% 10%;
+	}
+	#div_extraction_empty_text {
+		background-color: #F7F8FE;
+		border: 1px solid #3498db;
+		padding: 20px 5% 20px; 
+		text-align: left;
+	}
+	#span_extraction_empty_text {
+		color: #3498db;
+		font-size: 1.2em;
+	}
+	#span_extraction_empty_text li {
+		margin: 10px 0;
+	}
+
+
+	#div_extractions_table  {
+		display:none;
+		width:100%
+		float: left;
+		margin: 10px;
+		top: 0px;
+		padding: 20px 5px 0px;
+	}
+	
+	/* -------------------------------------- */
+	/* --------     Buttons            ------ */
+	/* -------------------------------------- */
+	#button_run_extractions {
+		width: 150px;
+	}
+	
+	/* -------------------------------------- */
+	/* -------- Data Tables formatting ------ */
+	/* -------------------------------------- */
+	#table_extractions_wrapper {
+		padding-top: 15px;
+	}
+	#table_extractions_wrapper #table_extractions_filter {
+		float: left;
+		width: 30%;
+	}
+	#div_extractions_table #table_extractions_filter {
+		float: left;
+		text-align: left;
+	}
+
+  </style>
+  <script type="text/javascript">
+	$(document).ready(function(){
+		var extTableInitialized = false;
+		var templateTreeLoading = false;
+	
+		// Event Listener for Returning to Inventory
+		$( '#div_top_return_extr' ).on('click', 'a', function() {
+			showInventory();
+		});
+		
+		// --------------------------------------------
+		// Get defined configuration
+		// --------------------------------------------
+		function getExtPaths() {
+			var pathData = new Array();
+			var selectedLeafNodes = $('#div_jstree_extractions').jstree(true).get_bottom_selected(true);
+			if (selectedLeafNodes.length == 0) {
+				return pathData;
+			}
+			$.each(selectedLeafNodes, function( index, node ) {
+				var path = $('#div_jstree_extractions').jstree(true).get_path(node);
+				pathData.push(path);
+			});
+			return pathData;
+		}
+		
+		// --------------------------------------------
+		// Update Extraction View
+		// --------------------------------------------
+		function updateExtView() {
+			if (templateTreeLoading) {
+				return;
+			}
+			var selectedLeafNodes = getExtPaths();
+			if (selectedLeafNodes.length == 0) {
+				$('#select_ext_template option[id="0"]').prop("selected", true);
+				$('#div_extraction_empty').show();
+				$("#div_ext_save_template").hide();
+				$("#button_run_extractions").prop('disabled', true);
+				$('#div_extractions_table').hide();
+			} else {
+				$('#div_extraction_empty').hide();
+				$("#div_ext_save_template").show();
+				$("#button_run_extractions").prop('disabled', false);
+				$('#span_ext_totals').text(selectedLeafNodes.length);
+				updateExtractionsTable(selectedLeafNodes);
+				$('#div_extractions_table').show();
+			}
+		}
+		
+		// --------------------------------------------
+		// Load Inventory Tree data (from Inventory)
+		// --------------------------------------------
+		var jsTreeData = new Array();
+		jsTreeData = parent.getTreeDataWithInstallations(getInventory().root_group, jsTreeData, 0, "");
+
+		$('#div_jstree_extractions').jstree(
+			{'plugins':["wholerow","checkbox"], 'core' : {
+				'data' : jsTreeData
+			}}
+		); 
+		
+		// --------------------------------------------
+		// Listeners
+		// --------------------------------------------
+		// Listener for selected tree nodes
+		$('#div_jstree_extractions').on("changed.jstree", function (e, data) {
+			updateExtView();
+		});
+		// Listener for loading template
+		$("#select_ext_template").on("change", function() {
+			var id = $('#select_ext_template').children(":selected").attr("id");
+			if (id == 0) {
+				showExtractions();
+			} else {
+				var template = $("#select_ext_template option:selected").val();
+				loadTemplate(template); 
+			}
+		});
+		
+		// Listener for saving template
+		$("#anchor_save_ext_template").on("click", function() {
+			saveTemplate(); 
+		});
+		
+		// Listener for running extract
+		$("#button_run_extractions").on("click", function() {
+			runExtract(); 
+		});
+		
+		// --------------------------------------------
+		// Save/Update Extraction to template
+		// --------------------------------------------
+		function saveTemplate() {
+			var templateName = $("#ext_template_name").val();
+			if ((templateName == null) || (templateName == "")) {
+				notify("Template name not specified, not saved...");
+				return;
+			}
+			
+			var resp = callService("/invoke/org.opencm.pub.extract/saveTemplate", "ext_configuration=" + JSON.stringify( { name: templateName, paths: getExtPaths() } ) );
+			if (resp.rc == 0) {
+				notify("Template successfully saved ...");
+				// Add to template list if not already there
+				var templates = Array();
+				$('#select_ext_template option').each(function() {
+					var tname = $(this).text();
+					if (tname != "") {
+						templates.push(tname);
+					}
+				});
+
+				if ($.inArray(templateName, templates) == -1) {
+					$('#select_ext_template').append($("<option></option>").attr("value",templateName).text(templateName)); 
+				}
+				
+			} else {
+				notify("Template not saved: " +  resp.msg);
+			}
+		}
+		
+		// --------------------------------------------
+		// Load all existing templates to drop-down
+		// --------------------------------------------
+		var resp = callService( "/invoke/org.opencm.pub.extract/getTemplates", "");
+		if (resp.rc != 0) {
+			notify(resp.msg);
+			return;
+		}
+		var ext_templates = JSON.parse(resp.content);
+		$.each(ext_templates, function(idx, value) {   
+			$('#select_ext_template').append($("<option></option>").attr("value",value).text(value)); 
+		});
+
+		// --------------------------------------------
+		// Load Individual Extraction template
+		// --------------------------------------------
+		function loadTemplate(template) {
+			var resp = callService("/invoke/org.opencm.pub.extract/getTemplate", "templateName=" + encodeURI(template) );
+			if (resp.rc != 0) {
+				notify("Unable to get template: " + resp.msg);
+				return;
+			}
+			
+			var ext_configuration = JSON.parse(resp.content);
+			
+			// Extraction Tree items
+			templateTreeLoading = true;
+			$('#div_jstree_extractions').jstree(true).uncheck_all();
+			if ((ext_configuration.paths != null) && (ext_configuration.paths.length > 0)) {
+				$.each(ext_configuration.paths, function( idx, path ) {
+					// Select tree node
+					$('#div_jstree_extractions').jstree(true).select_node(getTreeNodeId(path));
+				});
+			}
+			templateTreeLoading = false;
+			
+			// Set template name same as this one..
+			$("#ext_template_name").val(template);
+			updateExtView();
+		}
+		
+		// --------------------------------------------
+		// Run Extraction
+		// --------------------------------------------
+		function runExtract() {
+			var pathData = new Array();
+			var selectedLeafNodes = $('#div_jstree_extractions').jstree(true).get_bottom_selected(true);
+			if (selectedLeafNodes.length == 0) {
+				notify("No installations selected ...");
+				return;
+			}
+			$.each(selectedLeafNodes, function( index, node ) {
+				var path = $('#div_jstree_extractions').jstree(true).get_path(node);
+				pathData.push(path);
+			});
+			var resp = callService("/invoke/org.opencm.pub.extract/runExtract", "paths=" + JSON.stringify( { paths: pathData } ));
+			notify(resp.response);
+			return;
+		}
+		
+		// --------------------------------------------
+		// Populate extractions table
+		// --------------------------------------------
+		function updateExtractionsTable(selectedTreeItems) {
+			var extrData = getSimpleTableData(selectedTreeItems);
+		
+			if (extTableInitialized) {
+				redrawExtractionsTable(extrData);
+			} else {
+				initExtractionsTable(extrData);
+				extTableInitialized = true;
+			}
+		}
+
+		function redrawExtractionsTable(tableData) {
+			var table = $('#table_extractions').DataTable();
+			$('#table_extractions tbody').off('click');
+			table.clear();
+			table.rows.add(tableData).draw();
+		}
+		
+		function initExtractionsTable(tableData) {
+			var table = $('#table_extractions').DataTable( {
+				data: tableData,
+				dom: 'ft<"row"<"col-md-6"i><"col-md-6"p>>',
+				ordering: true,
+				info:     true,
+				paging:   true,
+				pageLength: 10,
+				lengthMenu: [],
+				filter:   true,
+				columns: [
+					{ data: "location" },
+					{ data: "hostname" },
+					{ data: "installation" }
+				],
+				columnDefs: [
+					{ 	className: "datatable_column_class",
+						targets: "_all"
+					}
+				]
+			});
+				
+		}
+		
+		// Initialize view
+		updateExtView();
+		
+	});
+  </script>
+ </head>
+  
+ <body>
+   <div id="div_top_banner">
+   <div id="div_top_return_extr">
+   	  <a class="h6 text-center" href="javascript:;">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+			<path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
+		</svg>
+		<strong>Return to Inventory</strong>
+	  </a>
+    </div>
+    <div id="div_top_title"><p class="h5 text-center"><strong>Runtime Extractions</strong></p></div>
+    <div id="div_top_ext_run">
+		<button id="button_run_extractions" type="button" class="btn btn-primary btn-sm active">Run Extraction</button>
+    </div>
+  </div>
+  <section id="extractionsTreeSection">
+   <div id="div_jstree_extractions"></div>
+  </section>
+  <section id="extractionConfigSection">
+     <div id="div_extraction_template">
+	 <div style="width:15%; float:left;"><h4>Template</h4></div>
+	 <div style="width:35%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:90%;">
+		  <div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelect01">Select</label>
+		  </div>
+		  <select class="custom-select" id="select_ext_template">
+			<option id="0" selected>Choose...</option>
+		  </select>
+		</div>
+     </div>
+	 <div id="div_ext_save_template" style="display:none; width:50%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:70%;">
+		  <div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1"><a id="anchor_save_ext_template" href="#">Save</a></span>
+		  </div>
+		  <input id="ext_template_name" type="text" class="form-control" placeholder="Template Name" aria-label="templateName" aria-describedby="basic-addon1">
+		</div>	 
+     </div>
+   </div>
+
+   <div id="div_extraction_empty">
+    <div id="div_extraction_empty_text">
+	  <span id="span_extraction_empty_text">
+		Runtime Extractions is about retrieving configuration properties from installations and storing them into the configuration "repository".<br><br>
+		<b>Notes:</b>
+		<ul class="list-unstyled">
+ 		  <ul>
+			<li>The selected inventory installations can be extracted by clicking on the "Run Extraction" button.</li>
+			<li>A selection of inventory installations can also be saved off as an extraction "template".</li>
+			<li>Based on the template name, extractions can then be scheduled on a frequent basis by invoking the org.opencm.extract/scheduledExtract service.</li>
+		  </ul>
+		</ul>
+	  </span>
+    </div>
+   </div>
+   
+   <div id="div_extractions_table" style="display:none">
+	 <div style="width:95%; float:left;">
+		<h4>Included installations: <span id="span_ext_totals"></span></h4>
+		 <table id="table_extractions" class="display" style="width:100%">
+			<thead>
+				<tr>
+					<th>Inventory Location</th>
+					<th>Hostname</th>
+					<th>Installation</th>
+				</tr>
+			</thead>
+		 </table>	
+     </div>
+   </div>
+  </section>
+  
+ </body>
+</html>

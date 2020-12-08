@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style>
+	/* ------------------------- */
+	/* ---- Div Top banner ----- */
+	/* ------------------------- */
+	#div_top_return_smtp {
+		float: left;
+		width: 20%;
+		padding-left: 15px;
+	}
+	#div_top_return_smtp a {
+		color: #3498db;
+		text-decoration: none;
+	}
+	#div_top_title {
+		width: 80%;
+	}
+	
+	#div_top_smtp_save {
+		position: fixed;
+		right: 0;
+		padding-right: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* --------   Inventory Tree     -------- */
+	/* -------------------------------------- */
+	#smtpTreeSection {
+		width: 30%;
+		float: left;
+	}
+	#div_jstree_smtp {
+		margin: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* -------    Config Section     -------- */
+	/* -------------------------------------- */
+	#smtpConfigSection {
+		width: 70%;
+		height: 100%;
+		float: left;
+	}
+	#smtpConfigSection h4 {
+		color: #3498db;
+		font-size: 1.2em;
+		font-weight: bold;
+		text-align: left
+	}
+	
+	#div_smtp_server, #div_smtp_access, #div_smtp_email, #div_smtp_properties, #div_smtp_recipients {
+		width: 100%;
+		float: left;
+		margin: 10px;
+		padding: 20px 5px 20px;
+		border-bottom: 1px solid #3498db;
+	}
+
+	#div_smtp_empty {
+		float: left;
+		width: 100%;
+		padding: 5% 5%;
+	}
+	#div_smtp_empty_text {
+		background-color: #F7F8FE;
+		border: 1px solid #3498db;
+		padding: 20px 5% 20px; 
+		text-align: left;
+	}
+	#span_smtp_empty_text {
+		color: #3498db;
+		font-size: 1.2em;
+	}
+	#span_smtp_empty_text li {
+		margin: 10px 0;
+	}
+
+	#div_smtp_config a {
+		color: #3498db;
+		text-decoration: none;
+		cursor: pointer;
+	}
+	
+	/* -------------------------------------- */
+	/* --------     Buttons            ------ */
+	/* -------------------------------------- */
+	#button_save_smtp {
+		width: 150px;
+	}
+	
+
+  </style>
+  <script type="text/javascript">
+	$(document).ready(function(){
+
+		// Event Listener for Returning to Inventory
+		$( '#div_top_return_smtp' ).on('click', 'a', function() {
+			showInventory();
+		});
+		
+		// --------------------------------------------
+		// Get Server Settings
+		// --------------------------------------------
+		function getHostname() {
+			return $("#in_smtp_hostname").val();
+		}
+		function getPort() {
+			return $("#in_smtp_port").val();
+		}
+		function getStartTls() {
+			return $('#select_smtp_starttls').children(":selected").attr("id");
+		}
+		// --------------------------------------------
+		// Get Access Settings
+		// --------------------------------------------
+		function getUsername() {
+			return $("#in_smtp_username").val();
+		}
+		function getPassword() {
+			var pwd = $("#in_smtp_password").val();
+			if (pwd == "**********") {
+				return "";
+			}
+			return pwd;
+		}
+		function getPasswordHandle() {
+			return $("#in_smtp_password_handle").val();
+		}
+		// --------------------------------------------
+		// Get Mail Settings
+		// --------------------------------------------
+		function getSubject() {
+			return $("#in_smtp_subject").val();
+		}
+		function getFromEmail() {
+			return $("#in_smtp_from_email").val();
+		}
+
+		// --------------------------------------------
+		// Get Properties
+		// --------------------------------------------
+		function getProperties() {
+			var props = new Array();
+			$('#table_smtp_prop_body tr').each(function() {
+				var key = $(this).find('#row_prop_key').text();
+				var value = $(this).find('#row_prop_value').text();
+				props.push({	key: key,
+								value: value
+							});
+			});
+			return props;
+		}
+		
+		function clearProperty() {
+			$("#in_smtp_prop_key").val("");
+			$("#in_smtp_prop_value").val("");
+		}
+		
+		// --------------------------------------------
+		// Get Recipients
+		// --------------------------------------------
+		function getRecipients() {
+			var recs = new Array();
+			$('#table_smtp_recipient_body tr').each(function() {
+				var rec = $(this).find('#row_recipient').text();
+				recs.push(rec);
+			});
+			return recs;
+		}
+		function clearRecipient() {
+			$("#in_smtp_recipient").val("");
+		}
+		
+		// --------------------------------------------
+		// Get defined Smtp configuration
+		// --------------------------------------------
+		function getSmtpConfiguration() {
+			return { hostname: getHostname(), port: getPort(), starttls: getStartTls(), username: getUsername(), password: getPassword(), password_handle: getPasswordHandle(), subject: getSubject(), from_email: getFromEmail(), properties: getProperties(), recipients: getRecipients() };
+		}
+		
+		// --------------------------------------------
+		// Listeners
+		// --------------------------------------------
+		// Adding a Property
+		$("#button_add_smtp_prop").on("click", function() {
+			addProperty(); 
+		});
+		// Editing a Property 
+		jQuery(document).delegate('#anchor_edit_smtp_prop', 'click', function(e) {
+			updatePropertyRows(e,this,true);
+		});
+		// Deleting a Property 
+		jQuery(document).delegate('#anchor_del_smtp_prop', 'click', function(e) {
+			updatePropertyRows(e,this,false);
+		});
+		
+		// Adding a Recipient
+		$("#button_add_smtp_recipient").on("click", function() {
+			addRecipient(); 
+		});
+		// Editing a Recipient
+		jQuery(document).delegate('#anchor_edit_smtp_recipient', 'click', function(e) {
+			updateRecipientRows(e,this,true);
+		});
+		// Deleting a Recipient
+		jQuery(document).delegate('#anchor_del_smtp_recipient', 'click', function(e) {
+			updateRecipientRows(e,this,false);
+		});
+		
+		// Listener for saving configuration
+		$("#button_save_smtp").on("click", function() {
+			saveSmtpConfiguration(); 
+		});
+		
+		// --------------------------------------------
+		// Load Configuration
+		// --------------------------------------------
+		function loadSmtpConfiguration() {
+			var resp = callJsonService("/invoke/org.opencm.pub.smtp/getConfiguration", "{}");
+			if (resp.rc != 0) {
+				notify("Unable to get configuration: " + resp.msg);
+				return;
+			}
+			var smtp_configuration = JSON.parse(resp.content);
+			
+			// Hostname
+			$("#in_smtp_hostname").val(smtp_configuration.hostname);
+			// Port
+			$("#in_smtp_port").val(smtp_configuration.port);
+			
+			// Start TLS
+			if ((smtp_configuration.starttls != null) && (smtp_configuration.starttls != "")) {
+				$('#select_smtp_starttls option[id="' + smtp_configuration.starttls + '"]').prop("selected", true);
+			}
+			
+			// Username
+			$("#in_smtp_username").val(smtp_configuration.username);
+			// Password
+			$("#in_smtp_password").attr("name", smtp_configuration.password);
+			$("#in_smtp_password").val("**********");
+			// Password Handle
+			$("#in_smtp_password_handle").val(smtp_configuration.password_handle);
+
+			// From Email
+			$("#in_smtp_from_email").val(smtp_configuration.from_email);
+			// Subject
+			$("#in_smtp_subject").val(smtp_configuration.subject);
+			
+			// Properties table
+			if ((smtp_configuration.properties != null) && (smtp_configuration.properties.length > 0)) {
+				$("#table_smtp_prop_body").empty();
+				$.each(smtp_configuration.properties, function( idx, property ) {
+					addPropertyRow(property.key, property.value);
+				});
+				$("#div_smtp_prop_table").show();
+			} else {
+				$("#table_smtp_prop_body").empty();
+				$("#div_smtp_prop_table").hide();
+			}
+
+			// Recipients
+			if ((smtp_configuration.recipients != null) && (smtp_configuration.recipients.length > 0)) {
+				$("#table_smtp_recipient_body").empty();
+				$.each(smtp_configuration.recipients, function( idx, recipient ) {
+					addRecipientRow(recipient);
+				});
+				$("#div_smtp_recipient_table").show();
+			} else {
+				$("#table_smtp_recipient_body").empty();
+				$("#div_smtp_recipient_table").hide();
+			}
+			
+		}
+		
+		// --------------------------------------------
+		// Add/Remove Properties
+		// --------------------------------------------
+		function addProperty() {
+			var key = $("#in_smtp_prop_key").val();
+			var value = $("#in_smtp_prop_value").val();
+			
+			// Check that key is not duplicated.
+			var duplicated = false;
+			var props = getProperties();
+			$.each(props, function( index, prop ) {
+				if (prop.key == key) {
+					duplicated = true;
+					return false;
+				}
+			});
+			if (duplicated) {
+				notify("Cannot define duplicate Property Keys");
+				return;
+			}
+			
+			if ((key != "") && (value != "")) {
+				addPropertyRow(key, value);
+				clearProperty();
+				
+			} else {
+				notify("Both Key and Value must be specified");
+			}
+		}
+		
+		function addPropertyRow(key, value) {
+			var content = jQuery('#table_smtp_prop_sample tr'),
+			row_id = jQuery('#table_smtp_prop >tbody >tr').length + 1,
+			element = null,
+			element = content.clone();
+			element.find('#row_prop_id').html(row_id);
+			element.find('#anchor_edit_smtp_prop').attr('data-id', row_id);
+			element.find('#anchor_edit_smtp_prop').html(key);
+			element.find('#row_prop_value').html(value);
+			element.find('#anchor_del_smtp_prop').attr('data-id', row_id);
+			element.appendTo('#table_smtp_prop');
+			$("#div_smtp_prop_table").show();
+		}
+		
+		function updatePropertyRows(e,row,editMode) {
+			e.preventDefault();    
+			var edit_id = jQuery(row).data('id');
+			var curr_row_found = false;
+			$('#table_smtp_prop_body tr').each(function(index) {
+				var curr_row = $(this).find('#row_prop_id').html();
+				if (curr_row == edit_id) {
+					curr_row_found = true;
+					if (editMode) {
+						$("#in_smtp_prop_key").val($(this).find('#row_prop_key').text());
+						$("#in_smtp_prop_value").val($(this).find('#row_prop_value').text());
+					}
+					$(this).remove();
+				} else if (curr_row_found) {
+					$(this).find('#row_prop_id').html(index);
+					$(this).find('#anchor_edit_smtp_prop').data('id',index);
+					$(this).find('#anchor_del_smtp_prop').data('id',index);
+				}
+			});
+		  
+			if (getProperties().length == 0) {
+				$("#div_smtp_prop_table").hide();
+			}
+			
+			return true;
+		}
+
+		// --------------------------------------------
+		// Add/Remove Recipients
+		// --------------------------------------------
+		function addRecipient() {
+			var recipient = $("#in_smtp_recipient").val();
+			
+			// Check that mail is not duplicated.
+			var duplicated = false;
+			var recs = getRecipients();
+			$.each(recs, function( index, rec ) {
+				if (rec.recipient == recipient) {
+					duplicated = true;
+					return false;
+				}
+			});
+			if (duplicated) {
+				notify("Cannot define duplicate Recipients");
+				return;
+			}
+			
+			if (recipient != "") {
+				addRecipientRow(recipient);
+				clearRecipient();
+			} else {
+				notify("Email must be specified");
+			}
+		}
+		
+		function addRecipientRow(rec) {
+			var content = jQuery('#table_smtp_recipient_sample tr'),
+			row_id = jQuery('#table_smtp_recipient >tbody >tr').length + 1,
+			element = null,
+			element = content.clone();
+			element.find('#row_recipient_id').html(row_id);
+			element.find('#anchor_edit_smtp_recipient').html(rec);
+			element.find('#anchor_edit_smtp_recipient').attr('data-id', row_id);
+			element.find('#anchor_del_smtp_recipient').attr('data-id', row_id);
+			element.appendTo('#table_smtp_recipient');
+			$("#div_smtp_recipient_table").show();
+		}
+		
+		function updateRecipientRows(e,row,editMode) {
+			e.preventDefault();    
+			var edit_id = jQuery(row).data('id');
+			var curr_row_found = false;
+			$('#table_smtp_recipient_body tr').each(function(index) {
+				var curr_row = $(this).find('#row_recipient_id').html();
+				if (curr_row == edit_id) {
+					curr_row_found = true;
+					if (editMode) {
+						$("#in_smtp_recipient").val($(this).find('#row_recipient').text());
+					}
+					$(this).remove();
+				} else if (curr_row_found) {
+					$(this).find('#row_recipient_id').html(index);
+					$(this).find('#anchor_edit_smtp_recipient').data('id',index);
+					$(this).find('#anchor_del_smtp_recipient').data('id',index);
+				}
+			});
+		  
+			if (getRecipients().length == 0) {
+				$("#div_smtp_recipient_table").hide();
+			}
+			
+			return true;
+		}
+		
+		// --------------------------------------------
+		// Get Secrets Configuration
+		// --------------------------------------------
+		var secrets_configuration;
+		function getSecretsConfiguration() {
+			var resp = callJsonService("/invoke/org.opencm.pub.secrets/getConfiguration", "{}");
+			if (resp.rc != 0) {
+				notify("Unable to get secrets configuration: " + resp.msg);
+				return;
+			}
+			secrets_configuration = JSON.parse(resp.content);
+			// Hide/show credentials options
+			if ((secrets_configuration.type != null) && (secrets_configuration.type == "LOCAL")) {
+				$("#div_smtp_password").show();
+				$("#div_smtp_password_handle").hide();
+			} else {
+				$("#div_smtp_password").hide();
+				$("#div_smtp_password_handle").show();
+			}
+		}
+		
+		// --------------------------------------------
+		// Save/Update Configurations
+		// --------------------------------------------
+		function saveSmtpConfiguration() {
+			var resp = callService("/invoke/org.opencm.pub.smtp/saveConfiguration", "smtp_configuration=" + JSON.stringify(getSmtpConfiguration()) );
+			
+			if (resp.rc == 0) {
+				notify("Configuration successfully saved ...");
+			} else {
+				notify("Configuration not saved: " +  resp.msg);
+			}
+
+		}
+		
+		// Get Secrets Configuration
+		getSecretsConfiguration();
+		
+		// Load Configuration
+		loadSmtpConfiguration();
+		
+	});
+  </script>
+ </head>
+  
+ <body>
+   <div id="div_top_banner">
+   <div id="div_top_return_smtp">
+   	  <a class="h6 text-center" href="javascript:;">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+			<path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
+		</svg>
+		<strong>Return to Inventory</strong>
+	  </a>
+    </div>
+    <div id="div_top_title"><p class="h5 text-center"><strong>Email Configuration</strong></p></div>
+    <div id="div_top_smtp_save">
+		<button id="button_save_smtp" type="button" class="btn btn-primary btn-sm active">Save Configuration</button>
+    </div>
+  </div>
+  <section id="smtpTreeSection">
+   <!-- <div id="div_jstree_smtp"><p></p></div> -->
+   <div id="div_smtp_empty">
+    <div id="div_smtp_empty_text">
+	  <span id="span_smtp_empty_text">
+		Email Configuration is used for sending audit result emails to defined recipients.</br></br></br>
+		<b>Notes:</b>
+		<ul class="list-unstyled">
+ 		  <ul>
+			<li>Email configuration is used in the following situations:</li>
+			  <ul>
+			    <li>Scheduled Audits - results will be sent to recipient list</li>
+			    <li>Audits from UI - results can be sent to recipient list</li>
+  		      </ul>
+		  </ul>
+		</ul>
+	  </span>
+    </div>
+   </div>
+   
+   
+  </section>
+  <section id="smtpConfigSection">
+   <div id="div_smtp_config">
+   
+    <div id="div_smtp_server">
+	 <div style="width:15%; float:left;"><h4>SMTP Server</h4></div>
+     <div style="width:85%; float:left;">
+        <div style="width:100%; float:left; padding:0px;">
+		 <div style="width:30%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Hostname</span>
+			  </div>
+			  <input id="in_smtp_hostname" type="text" class="form-control" placeholder="" aria-label="smtpHostname" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:20%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Port</span>
+			  </div>
+			  <input id="in_smtp_port" type="text" class="form-control" placeholder="" aria-label="smtpPort" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div class="input-group input-group-sm mb-3" style="width:20%;">
+		  <div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelect01">Start TLS</label>
+		  </div>
+		  <select class="custom-select" id="select_smtp_starttls">
+			<option id="true" selected>true</option>
+			<option id="false">false</option>
+		  </select>
+		 </div>
+		 <div style="width:30%; float:left;">
+		 </div>
+        </div>
+		
+     </div>
+    </div>
+	
+    <div id="div_smtp_access">
+	 <div style="width:15%; float:left;"><h4>Access</h4></div>
+     <div style="width:85%; float:left;">
+        <div style="width:100%; float:left; padding:0px;">
+		 <div style="width:30%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Username</span>
+			  </div>
+			  <input id="in_smtp_username" type="text" class="form-control" placeholder="" aria-label="smtpUsername" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div id="div_smtp_password" style="width:30%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Password</span>
+			  </div>
+			  <input id="in_smtp_password" type="password" name="" class="form-control" placeholder="" aria-label="smtpPassword" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div id="div_smtp_password_handle" style="width:40%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Handle</span>
+			  </div>
+			  <input id="in_smtp_password_handle" type="text" class="form-control" placeholder="" aria-label="smtpPasswordHandle" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+        </div>
+		
+     </div>
+    </div>
+	
+    <div id="div_smtp_email">
+	 <div style="width:15%; float:left;"><h4>Mail</h4></div>
+     <div style="width:85%; float:left;">
+        <div style="width:100%; float:left; padding:0px;">
+		 <div style="width:30%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">From Email</span>
+			  </div>
+			  <input id="in_smtp_from_email" type="text" class="form-control" placeholder="" aria-label="smtpFromEmail" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:30%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:95%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Subject</span>
+			  </div>
+			  <input id="in_smtp_subject" type="text" class="form-control" placeholder="" aria-label="smtpSubject" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:40%; float:left;">
+		 </div>
+        </div>
+     </div>
+    </div>
+
+    <div id="div_smtp_properties" style="width:100%; float:left;">
+	 <div style="width:15%; float:left;"><h4>Properties</h4></div>
+     <div style="width:85%; float:left;">
+	 
+	  <div style="width:100%; float:left;">
+		 <div style="width:30%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:90%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Key</span>
+			  </div>
+			  <input id="in_smtp_prop_key" type="text" class="form-control" placeholder="" aria-label="smtpKey" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+			 
+		 <div style="width:30%; float:left;">
+			<div class="input-group input-group-sm mb-3" style="width:90%;">
+			  <div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Value</span>
+			  </div>
+			  <input id="in_smtp_prop_value" type="text" class="form-control" placeholder="" aria-label="smtpValue" aria-describedby="basic-addon1">
+			</div>
+		 </div>
+		 <div style="width:10%; float:left;">
+			<button id="button_add_smtp_prop" type="button" class="btn btn-outline-primary btn-sm add-record" data-added="0">Add</button>
+		 </div>
+		 <div style="width:30%; float:left;">
+		  </div>
+      </div>
+
+	  <div style="width:100%; float:left;">
+        <div id="div_smtp_prop_table" style="display:none; width:50%; float:left; padding-top:10px;">
+			<table id="table_smtp_prop" class="table table-hover table-sm">
+			  <thead>
+					<tr>
+					  <th>#</th>
+					  <th scope="col">Key</th>
+					  <th scope="col">Value</th>
+					  <th scope="col"></th>
+					</tr>
+			  </thead>
+			  <tbody id="table_smtp_prop_body"></tbody>
+			</table>
+        </div>
+	    <div style="display:none;">
+			<table id="table_smtp_prop_sample">
+			  <tr>
+			   <td id="row_prop_id"></td>
+			   <td id="row_prop_key"><a id="anchor_edit_smtp_prop" data-id="0"></a></td>
+			   <td id="row_prop_value"></td>
+			   <td><a id="anchor_del_smtp_prop" data-id="0"><img src="./img/trash.svg"/></a></td>
+			 </tr>
+		   </table>
+	    </div>
+	  </div>
+	  
+     </div>
+    </div>
+   
+    <div id="div_smtp_recipients" style="width:100%; float:left;">
+	 <div style="width:15%; float:left;"><h4>Recipients</h4></div>
+     <div style="width:85%; float:left;">
+	 
+        <div style="width:100%; float:left; padding:0px;">
+		
+		 <div style="width:40%; float:left;">
+				<div class="input-group input-group-sm mb-3" style="width:95%;">
+				  <div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">Email</span>
+				  </div>
+				  <input id="in_smtp_recipient" type="text" class="form-control" placeholder="" aria-label="smtpRecEmail" aria-describedby="basic-addon1">
+				</div>
+		 </div>
+	     <div style="width:20%; float:left;"><p></p></div>
+		 <div style="width:10%; float:left;">
+			<button id="button_add_smtp_recipient" type="button" class="btn btn-outline-primary btn-sm add-record" data-added="0">Add</button>
+		 </div>
+			 
+	     <div style="width:30%; float:left;">
+	     </div>
+		  
+        </div>
+		
+        <div id="div_smtp_recipient_table" style="display:none; width:50%; float:left; padding-top:10px;">
+			<table id="table_smtp_recipient" class="table table-hover table-sm">
+			  <thead>
+					<tr>
+					  <th>#</th>
+					  <th scope="col">Email</th>
+					  <th scope="col"></th>
+					</tr>
+			  </thead>
+			  <tbody id="table_smtp_recipient_body"></tbody>
+			</table>
+        </div>
+		<div style="display:none;">
+			<table id="table_smtp_recipient_sample">
+			  <tr>
+			   <td id="row_recipient_id"></td>
+			   <td id="row_recipient"><a id="anchor_edit_smtp_recipient" data-id="0"></a></td>
+			   <td><a id="anchor_del_smtp_recipient" data-id="0"><img src="./img/trash.svg"/></a></td>
+			 </tr>
+		   </table>
+		 </div>
+		
+     </div>
+    </div>
+
+   </div>
+   
+  </section>
+  
+ </body>
+</html>

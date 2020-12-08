@@ -7,18 +7,22 @@ import com.wm.util.Values;
 import com.wm.app.b2b.server.Service;
 import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.io.File;
-import org.opencm.audit.Collection;
-import org.opencm.audit.configuration.AuditConfiguration;
-import org.opencm.audit.configuration.PropertyFilter;
-import org.opencm.audit.configuration.TreeNode;
-import org.opencm.audit.result.AuditResult;
+import freemarker.template.Template;
+import org.opencm.audit.*;
 import org.opencm.configuration.Configuration;
-import org.opencm.configuration.PkgConfiguration;
+import org.opencm.secrets.SecretsConfiguration;
+import org.opencm.secrets.SecretsUtils;
+import org.opencm.smtp.SmtpConfiguration;
+import org.opencm.freemarker.FMConfiguration;
 import org.opencm.inventory.Inventory;
-import org.opencm.util.JsonUtils;
-import org.opencm.util.LogUtils;
+import org.opencm.util.*;
 // --- <<IS-END-IMPORTS>> ---
 
 public final class audit
@@ -37,285 +41,32 @@ public final class audit
 
 
 
-	public static final void getAuditConfigProperties (IData pipeline)
+	public static final void getAuditResultJson (IData pipeline)
         throws ServiceException
 	{
-		// --- <<IS-START(getAuditConfigProperties)>> ---
+		// --- <<IS-START(getAuditResultJson)>> ---
 		// @sigtype java 3.5
-		// [i] field:0:required auditName
-		// [o] recref:0:required auditConfiguration org.opencm.doc:auditConfiguration
-		// pipeline
-		IDataCursor pipelineCursor = pipeline.getCursor();
-		String	auditConfigName = IDataUtil.getString( pipelineCursor, "auditName" );
-		pipelineCursor.destroy(); 
-		
-		// --------------------------------------------------------------------
-		// Read in Default Package Properties 
-		// --------------------------------------------------------------------
-		PkgConfiguration pkgConfig = PkgConfiguration.instantiate(); 
-		
-		// --------------------------------------------------------------------
-		// Read in OpenCM Properties
-		// --------------------------------------------------------------------
-		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
-		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," .. Getting Audit Configuration Properties based on " + auditConfigName);
-		
-		AuditConfiguration auditConf = AuditConfiguration.instantiate(opencmConfig, auditConfigName); 
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"AuditConfiguration: " + auditConf.getAudit_description());
-			
-		// pipeline
-		IDataCursor pipelineCursor_1 = pipeline.getCursor();
-		
-		// auditConfiguration
-		IData	auditConfiguration = IDataFactory.create();
-		IDataCursor auditConfigurationCursor = auditConfiguration.getCursor();
-		IDataUtil.put( auditConfigurationCursor, "templateName", auditConfigName );
-		
-		// auditConfiguration.submitData
-		IData	submitData = IDataFactory.create();
-		IDataCursor submitDataCursor = submitData.getCursor();
-		IDataUtil.put( submitDataCursor, "audit_description", auditConf.getAudit_description() );
-		IDataUtil.put( submitDataCursor, "audit_type", auditConf.getAudit_type() );
-		IDataUtil.put( submitDataCursor, "repo_name", auditConf.getRepo_name() );
-		IDataUtil.put( submitDataCursor, "prop_component", auditConf.getProp_component() );
-		IDataUtil.put( submitDataCursor, "prop_instance", auditConf.getProp_instance() );
-		IDataUtil.put( submitDataCursor, "prop_key", auditConf.getProp_key() );
-		
-		// auditConfiguration.submitData.prop_filters
-		if (auditConf.getProp_filters() != null) {
-			IData[]	prop_filters = new IData[auditConf.getProp_filters().size()];
-			for (int i = 0; i < auditConf.getProp_filters().size(); i ++) {
-				PropertyFilter pf = auditConf.getProp_filters().get(i);
-				prop_filters[i] = IDataFactory.create();
-				IDataCursor prop_filtersCursor = prop_filters[i].getCursor();
-				IDataUtil.put( prop_filtersCursor, "component", pf.getComponent() );
-				IDataUtil.put( prop_filtersCursor, "instance", pf.getInstance() );
-				IDataUtil.put( prop_filtersCursor, "key", pf.getKey() );
-				prop_filtersCursor.destroy();
-			}
-			IDataUtil.put( submitDataCursor, "prop_filters", prop_filters );
-		}
-		
-		// auditConfiguration.submitData.tree_nodes
-		IData[]	tree_nodes = new IData[auditConf.getTree_nodes().size()];
-		for (int i = 0; i < auditConf.getTree_nodes().size(); i ++) {
-			TreeNode tn = auditConf.getTree_nodes().get(i);
-			tree_nodes[i] = IDataFactory.create();
-			IDataCursor tree_nodesCursor = tree_nodes[i].getCursor();
-			IDataUtil.put( tree_nodesCursor, "organisation", tn.getOrganisation() );
-			IDataUtil.put( tree_nodesCursor, "department", tn.getDepartment() );
-			IDataUtil.put( tree_nodesCursor, "environment", tn.getEnvironment() );
-			IDataUtil.put( tree_nodesCursor, "layer", tn.getLayer() );
-			IDataUtil.put( tree_nodesCursor, "installation", tn.getInstallation() );
-			tree_nodesCursor.destroy();
-		}
-		IDataUtil.put( submitDataCursor, "tree_nodes", tree_nodes );
-		submitDataCursor.destroy();
-		IDataUtil.put( auditConfigurationCursor, "submitData", submitData );
-		auditConfigurationCursor.destroy();
-		IDataUtil.put( pipelineCursor_1, "auditConfiguration", auditConfiguration );
-		pipelineCursor_1.destroy();
-			
-		// --- <<IS-END>> ---
-
-                
-	}
-
-
-
-	public static final void getPropertyFiles (IData pipeline)
-        throws ServiceException
-	{
-		// --- <<IS-START(getPropertyFiles)>> ---
-		// @sigtype java 3.5
-		// [o] field:0:required propertyFiles_json
-		// --------------------------------------------------------------------
-		// Read in Default Package Properties
-		// --------------------------------------------------------------------
-		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
-		
-		// --------------------------------------------------------------------
-		// Read in OpenCM Properties
-		// --------------------------------------------------------------------
-		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
-		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
-		
-		java.util.LinkedList<String> lPropertyFiles = new java.util.LinkedList<String>();
-		try {
-			java.io.File fDirectory = new java.io.File(opencmConfig.getConfigDirectory() + File.separator + Configuration.OPENCM_CONFIG_DIR_AUDIT);
-			java.io.File [] fDirectories = fDirectory.listFiles();
-			for(java.io.File path:fDirectories) {
-				if ((path.isFile() && path.getName().endsWith(".properties"))) {
-					lPropertyFiles.add(path.getName().substring(0,path.getName().lastIndexOf(".")));
-				}
-			}
-		} catch (Exception ex) {
-			System.out.println("Exception: " + ex);
-		}
-		
-		// -----------------------------------------------------
-		// Pass back result
-		// -----------------------------------------------------
-		String jsonResponse = JsonUtils.convertJavaObjectToJson(lPropertyFiles);
-		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE, "getInventory: " + jsonResponse);
-		IDataCursor pipelineCursor = pipeline.getCursor();
-		IDataUtil.put( pipelineCursor, "propertyFiles_json", jsonResponse);
-		pipelineCursor.destroy(); 
-			
-			
-		// --- <<IS-END>> ---
-
-                
-	}
-
-
-
-	public static final void runAudit (IData pipeline)
-        throws ServiceException
-	{
-		// --- <<IS-START(runAudit)>> ---
-		// @sigtype java 3.5
-		// [i] recref:0:required auditConfiguration org.opencm.doc:auditConfiguration
+		// [i] object:0:required AuditConfiguration
 		// [o] field:0:required json_response
-		// [o] object:0:required auditResult
-		// --------------------------------------------------------------------
-		// Read in Default Package Properties 
-		// --------------------------------------------------------------------
-		PkgConfiguration pkgConfig = PkgConfiguration.instantiate(); 
-		
-		// --------------------------------------------------------------------
-		// Read in OpenCM Properties
-		// --------------------------------------------------------------------
-		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
-		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== Run Audit - Starting Process ..... ============ ");
-		
-		AuditConfiguration auditConf = new AuditConfiguration(); 
-		
 		// pipeline
 		IDataCursor pipelineCursor = pipeline.getCursor();
-		
-		// auditConfiguration
-		IData	auditConfiguration = IDataUtil.getIData( pipelineCursor, "auditConfiguration" );
-		if ( auditConfiguration != null) {
-			IDataCursor auditConfigurationCursor = auditConfiguration.getCursor();
-		
-			// i.submitData
-			IData	submitData = IDataUtil.getIData( auditConfigurationCursor, "submitData" );
-			if ( submitData != null) {
-				IDataCursor submitDataCursor = submitData.getCursor();
-				auditConf.setAudit_description(IDataUtil.getString( submitDataCursor, "audit_description" ));
-				auditConf.setAudit_type(IDataUtil.getString( submitDataCursor, "audit_type" ));
-				auditConf.setRepo_name(IDataUtil.getString( submitDataCursor, "repo_name" ));
-				auditConf.setProp_component(IDataUtil.getString( submitDataCursor, "prop_component" ));
-				auditConf.setProp_instance(IDataUtil.getString( submitDataCursor, "prop_instance" ));
-				auditConf.setProp_key(IDataUtil.getString( submitDataCursor, "prop_key" ));
-		
-				// i.prop_filters
-				IData[]	prop_filters = IDataUtil.getIDataArray( submitDataCursor, "prop_filters" );
-				if ( prop_filters != null) {
-					LinkedList<PropertyFilter> filters = new LinkedList<PropertyFilter>();
-					for ( int i = 0; i < prop_filters.length; i++ ) {
-						PropertyFilter filter = new PropertyFilter();
-						IDataCursor prop_filtersCursor = prop_filters[i].getCursor();
-						filter.setComponent(IDataUtil.getString( prop_filtersCursor, "component" ));
-						filter.setInstance(IDataUtil.getString( prop_filtersCursor, "instance" ));
-						filter.setKey(IDataUtil.getString( prop_filtersCursor, "key" ));
-						prop_filtersCursor.destroy();
-						filters.add(filter);
-					}
-					auditConf.setProp_filters(filters);
-				}
-				
-				// i.prop_filters
-				IData[]	tree_nodes = IDataUtil.getIDataArray( submitDataCursor, "tree_nodes" );
-				if ( tree_nodes != null) {
-					LinkedList<TreeNode> treeNodes = new LinkedList<TreeNode>();
-					for ( int i = 0; i < tree_nodes.length; i++ ) {
-						TreeNode treeNode = new TreeNode();
-						IDataCursor tree_nodesCursor = tree_nodes[i].getCursor();
-						treeNode.setOrganisation(IDataUtil.getString( tree_nodesCursor, "organisation" ));
-						treeNode.setDepartment(IDataUtil.getString( tree_nodesCursor, "department" ));
-						treeNode.setEnvironment(IDataUtil.getString( tree_nodesCursor, "environment" ));
-						treeNode.setLayer(IDataUtil.getString( tree_nodesCursor, "layer" ));
-						treeNode.setInstallation(IDataUtil.getString( tree_nodesCursor, "installation" ));
-						tree_nodesCursor.destroy();
-						treeNodes.add(treeNode);
-					}
-					auditConf.setTree_nodes(treeNodes);
-				}
-				
-				auditConf.setReport_diffs(IDataUtil.getString( submitDataCursor, "report_diffs" ));
-				
-				submitDataCursor.destroy();
-			}
-			auditConfigurationCursor.destroy();
-		}
+		AuditConfiguration auditConfig = (AuditConfiguration) IDataUtil.get( pipelineCursor, "AuditConfiguration" );
 		pipelineCursor.destroy();
 		
-		// -----------------------------------------------------
-		// Validate
-		// -----------------------------------------------------
-		if ((auditConf.getAudit_type() == null) || (auditConf.getAudit_type().equals(""))) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR, " - Audit :: Invalid audit_type ..... " + auditConf.getAudit_type());
-			return;
-		}
-		if ((auditConf.getRepo_name() == null) || (auditConf.getRepo_name().equals(""))) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR," - Audit :: Invalid repo_name ..... " + auditConf.getRepo_name());
-			return;
-		}
-		if ((auditConf.getProp_component() == null) || (auditConf.getProp_component().equals(""))) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR," - Audit :: Invalid prop_component ..... " + auditConf.getProp_component());
-			return;
-		}
-		if ((auditConf.getProp_instance() == null) || (auditConf.getProp_instance().equals(""))) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR," - Audit :: Invalid prop_instance ..... " + auditConf.getProp_instance());
-			return;
-		}
-		if ((auditConf.getProp_key() == null) || (auditConf.getProp_key().equals(""))) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR," - Audit :: Invalid prop_key ..... " + auditConf.getProp_key());
-			return;
-		}
-		if ((auditConf.getTree_nodes() == null) || (auditConf.getTree_nodes().size() == 0)) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR," - Audit :: Invalid TreeNodes ..... Null or Empty ");
-			return;
-		}
+		LogUtils.logDebug("Run Audit Starting");
 		
 		String jsonResponse = "";
-		AuditResult ar = null;
-		// --------------------------------------------------------------------
-		// Read in Inventory
-		// --------------------------------------------------------------------
-		Inventory inv = Inventory.instantiate(opencmConfig);
-		if (inv == null) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"runAudit - Inventory is NULL ..... ");
-			// --------------------------------------------------------------------
-			// Run startup services...
-			// --------------------------------------------------------------------
-			try {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," runAudit - running startup services ... ");
-				Service.doInvoke(com.wm.lang.ns.NSName.create("OpenCM.pub.startup", "startup"), IDataFactory.create());
-			} catch (Exception ex) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM runAudit :: " + ex.getMessage());
-			}
-		}
-		inv = Inventory.instantiate(opencmConfig);
-		if (inv == null) {
-			// Something not correct in environment...
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"runAudit - Inventory is NULL ..... ");
-			jsonResponse = JsonUtils.createJsonField("msg","runAudit - Inventory is still NULL after initialization..... .");
+		
+		// -----------------------------------------------------
+		// Run Audit
+		// -----------------------------------------------------
+		AuditResult ar = AuditUtils.performAudit(auditConfig); 
+		if (ar != null) {
+			jsonResponse = JsonUtils.convertJavaObjectToJson(ar);
+			jsonResponse = JsonUtils.addField(jsonResponse,"rc", new Integer(0).toString());
 		} else {
-			// -----------------------------------------------------
-			// Call Audit Collection  
-			// -----------------------------------------------------
-			ar = Collection.collect(opencmConfig, inv, auditConf);
-			if (ar != null) {
-				jsonResponse = JsonUtils.convertJavaObjectToJson(ar);
-			} else {
-				jsonResponse = JsonUtils.createJsonField("msg","runAudit - No Audit Result ..... refer to log.");
-			}
+			jsonResponse = JsonUtils.createJsonField("msg","Auditing Error - refer to log.");
+			jsonResponse = JsonUtils.addField(jsonResponse,"rc", new Integer(-1).toString());
 		}
 		
 		// -----------------------------------------------------
@@ -323,12 +74,223 @@ public final class audit
 		// -----------------------------------------------------
 		// pipeline
 		IDataCursor pipelineCursor2 = pipeline.getCursor();
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_TRACE, jsonResponse);
+		LogUtils.logDebug(jsonResponse);
 		IDataUtil.put( pipelineCursor2, "json_response", jsonResponse);
-		IDataUtil.put( pipelineCursor2, "auditResult", ar);
 		pipelineCursor.destroy(); 
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== Audit - Process Completed ..... ============ ");
+		LogUtils.logDebug("Run Audit Completed");
+		
+			
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void getAuditResultObject (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(getAuditResultObject)>> ---
+		// @sigtype java 3.5
+		// [i] object:0:required AuditConfiguration
+		// [o] object:0:required AuditResult
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		AuditConfiguration auditConfig = (AuditConfiguration) IDataUtil.get( pipelineCursor, "AuditConfiguration" );
+		pipelineCursor.destroy();
+		
+		LogUtils.logDebug("Run Scheduled Audit Starting"); 
+		
+		// -----------------------------------------------------
+		// Run Audit
+		// -----------------------------------------------------
+		AuditResult ar = AuditUtils.performAudit(auditConfig);
+		
+		// pipeline
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
+		IDataUtil.put( pipelineCursor2, "AuditResult", ar );
+		pipelineCursor2.destroy(); 
+		
+		LogUtils.logDebug("Run Scheduled Audit Completed");
+		
+			
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void getConfigurationByJson (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(getConfigurationByJson)>> ---
+		// @sigtype java 3.5
+		// [i] field:0:required json
+		// [o] object:0:required AuditConfiguration
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String	stJson = IDataUtil.getString( pipelineCursor, "json" ); 
+		pipelineCursor.destroy();
+		
+		LogUtils.logDebug("Get Configuration Object by Json"); 
+		
+		AuditConfiguration auditConfig = AuditConfiguration.instantiate(stJson);
+		
+		// pipeline
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
+		IDataUtil.put( pipelineCursor2, "AuditConfiguration", auditConfig );
+		pipelineCursor2.destroy(); 
+		
+		LogUtils.logDebug("Got Configuration Object");
+			
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void getConfigurationByTemplate (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(getConfigurationByTemplate)>> ---
+		// @sigtype java 3.5
+		// [i] field:0:required templateName
+		// [o] object:0:required AuditConfiguration
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor(); 
+		String	stTemplateName = IDataUtil.getString( pipelineCursor, "templateName" );
+		pipelineCursor.destroy();
+		
+		LogUtils.logDebug("Get Configuration Object from Template");
+		
+		File templateFile = new File(AuditConfiguration.AUDIT_CONFIG_DIRECTORY.getPath() + File.separator + stTemplateName + ".json");
+		
+		if (!templateFile.exists()) {
+			LogUtils.logError("Get AuditConfiguration: No file exists :: " + templateFile.getPath());
+			return;
+		}
+			
+		AuditConfiguration auditConfig = AuditConfiguration.instantiate(templateFile); 
+		
+		// pipeline
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
+		IDataUtil.put( pipelineCursor2, "AuditConfiguration", auditConfig );
+		pipelineCursor2.destroy(); 
+		
+		LogUtils.logDebug("Got Configuration Object from Template");
+					
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void getTemplate (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(getTemplate)>> ---
+		// @sigtype java 3.5
+		// [i] field:0:required templateName
+		// [o] field:0:required json_response
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String	stTemplateName = IDataUtil.getString( pipelineCursor, "templateName" );
+		pipelineCursor.destroy();
+		
+		LogUtils.logDebug("Get Template"); 
+		
+		String msg = "Success";  
+		int rc = 0;
+		
+		String json = null;
+		
+		File templateFile = new File(AuditConfiguration.AUDIT_CONFIG_DIRECTORY.getPath() + File.separator + stTemplateName + ".json");
+		if (!templateFile.exists()) {
+			LogUtils.logError(" Get Template: No file exists :: " + templateFile.getPath());
+			msg = "Failure: No template file exists.";
+			rc = -1;
+		} else { 
+			AuditConfiguration auditConfig = AuditConfiguration.instantiate(templateFile);
+			if (auditConfig == null) {
+				rc = -1;
+				msg = "Failure getting configuration ";
+			} else {
+				json = JsonUtils.convertJavaObjectToJson(auditConfig);
+			}
+		}
+		
+		// pipeline
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
+		
+		String jResp = JsonUtils.createJsonField("rc", new Integer(rc).toString());
+		if (rc < 0) {
+			jResp = JsonUtils.addField(jResp,"msg",msg);
+		} else {
+			jResp = JsonUtils.addField(jResp,"content", json);
+		}
+		IDataUtil.put( pipelineCursor2, "json_response", jResp);
+		pipelineCursor2.destroy(); 
+		
+		LogUtils.logDebug("Got Template");
+					
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void getTemplates (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(getTemplates)>> ---
+		// @sigtype java 3.5
+		// [o] field:0:required json_response
+		LogUtils.logDebug("Get Templates"); 
+		
+		String msg = "Success"; 
+		int rc = 0;
+		
+		LinkedList<String> lTemplates = new LinkedList<String>();
+		
+		AuditConfiguration.checkDirectory();
+		if (!AuditConfiguration.AUDIT_CONFIG_DIRECTORY.exists()) {
+			msg = "Failure: Unable to get templates directory.";
+			rc = -1;
+		} else {
+			try {
+				File [] fDirectories = AuditConfiguration.AUDIT_CONFIG_DIRECTORY.listFiles();
+				for(File path : fDirectories) {
+					if ((path.isFile() && path.getName().endsWith(".json"))) {
+						lTemplates.add(path.getName().substring(0,path.getName().lastIndexOf(".")));
+					}
+				}
+			} catch (Exception ex) {
+				LogUtils.logError("getTemplates: Exception: " + ex.getMessage());
+			}
+		}
+		
+		String json = JsonUtils.convertJavaObjectToJson(lTemplates);
+		
+		// -----------------------------------------------------
+		// Pass back result
+		// -----------------------------------------------------
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
+		String jResp = JsonUtils.createJsonField("rc", new Integer(rc).toString());
+		if (rc < 0) {
+			jResp = JsonUtils.addField(jResp,"msg",msg);
+		} else {
+			jResp = JsonUtils.addField(jResp,"content", json);
+		}
+		IDataUtil.put( pipelineCursor2, "json_response", jResp);
+		pipelineCursor2.destroy(); 
+		
+		LogUtils.logDebug("Got Templates");
+			
 			
 		// --- <<IS-END>> ---
 
@@ -342,140 +304,33 @@ public final class audit
 	{
 		// --- <<IS-START(saveTemplate)>> ---
 		// @sigtype java 3.5
-		// [i] recref:0:required auditConfiguration org.opencm.doc:auditConfiguration
+		// [i] object:0:required AuditConfiguration
 		// [o] field:0:required json_response
-		// --------------------------------------------------------------------
-		// Read in Default Package Properties
-		// --------------------------------------------------------------------
-		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();  
-		
-		// --------------------------------------------------------------------
-		// Read in OpenCM Properties
-		// --------------------------------------------------------------------
-		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
-		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== Save Template - Starting Process ..... ============ ");
-		
-		AuditConfiguration auditConf = new AuditConfiguration();
-		String templateName = null;
-		
-		// pipeline
 		IDataCursor pipelineCursor = pipeline.getCursor();
+		AuditConfiguration auditConfig = (AuditConfiguration) IDataUtil.get( pipelineCursor, "AuditConfiguration" );
 		
-		// auditConfiguration
-		IData	auditConfiguration = IDataUtil.getIData( pipelineCursor, "auditConfiguration" );
-		if ( auditConfiguration != null) {
-			IDataCursor auditConfigurationCursor = auditConfiguration.getCursor();
-			templateName = IDataUtil.getString( auditConfigurationCursor, "templateName" );
-		
-			// i.submitData
-			IData	submitData = IDataUtil.getIData( auditConfigurationCursor, "submitData" );
-			if ( submitData != null) {
-				IDataCursor submitDataCursor = submitData.getCursor();
-				auditConf.setAudit_description(IDataUtil.getString( submitDataCursor, "audit_description" ));
-				auditConf.setAudit_type(IDataUtil.getString( submitDataCursor, "audit_type" ));
-				auditConf.setRepo_name(IDataUtil.getString( submitDataCursor, "repo_name" ));
-				auditConf.setProp_component(IDataUtil.getString( submitDataCursor, "prop_component" ));
-				auditConf.setProp_instance(IDataUtil.getString( submitDataCursor, "prop_instance" ));
-				auditConf.setProp_key(IDataUtil.getString( submitDataCursor, "prop_key" ));
-		
-				// i.prop_filters
-				IData[]	prop_filters = IDataUtil.getIDataArray( submitDataCursor, "prop_filters" );
-				if ( prop_filters != null) {
-					LinkedList<PropertyFilter> filters = new LinkedList<PropertyFilter>();
-					for ( int i = 0; i < prop_filters.length; i++ ) {
-						PropertyFilter filter = new PropertyFilter();
-						IDataCursor prop_filtersCursor = prop_filters[i].getCursor();
-						filter.setComponent(IDataUtil.getString( prop_filtersCursor, "component" ));
-						filter.setInstance(IDataUtil.getString( prop_filtersCursor, "instance" ));
-						filter.setKey(IDataUtil.getString( prop_filtersCursor, "key" ));
-						prop_filtersCursor.destroy();
-						filters.add(filter);
-					}
-					auditConf.setProp_filters(filters);
-				}
-				
-				// i.tree_nodes
-				IData[]	tree_nodes = IDataUtil.getIDataArray( submitDataCursor, "tree_nodes" );
-				if ( tree_nodes != null) {
-					LinkedList<TreeNode> treeNodes = new LinkedList<TreeNode>();
-					for ( int i = 0; i < tree_nodes.length; i++ ) {
-						TreeNode treeNode = new TreeNode();
-						IDataCursor tree_nodesCursor = tree_nodes[i].getCursor();
-						treeNode.setOrganisation(IDataUtil.getString( tree_nodesCursor, "organisation" ));
-						treeNode.setDepartment(IDataUtil.getString( tree_nodesCursor, "department" ));
-						treeNode.setEnvironment(IDataUtil.getString( tree_nodesCursor, "environment" ));
-						treeNode.setLayer(IDataUtil.getString( tree_nodesCursor, "layer" ));
-						treeNode.setInstallation(IDataUtil.getString( tree_nodesCursor, "installation" ));
-						tree_nodesCursor.destroy();
-						treeNodes.add(treeNode);
-					}
-					auditConf.setTree_nodes(treeNodes);
-				}
-				
-				auditConf.setReport_diffs(IDataUtil.getString( submitDataCursor, "report_diffs" ));
-				
-				submitDataCursor.destroy();
-			}
-			auditConfigurationCursor.destroy();
-		}
 		pipelineCursor.destroy();
 		
+		LogUtils.logDebug("Saving Template");
+		
 		// -----------------------------------------------------
-		// Validate
+		// Return information
 		// -----------------------------------------------------
-		String msg = "Success";
+		String msg = "Success"; 
 		int rc = 0;
 		
-		if ((templateName == null) || (templateName.equals(""))) {
-			msg = " - Save Template :: Invalid templateName ..... " + templateName;
-			rc = -1;
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,msg);
-		}
-		if ((auditConf.getAudit_description() == null) || (auditConf.getAudit_description().equals(""))) {
-			msg = " - Save Template :: Invalid audit_description ..... " + auditConf.getAudit_description();
-			rc = -1;
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,msg);
-		}
-		if ((auditConf.getAudit_type() == null) || (auditConf.getAudit_type().equals(""))) {
-			msg = " - Save Template :: Invalid audit_type ..... " + auditConf.getAudit_type();
-			rc = -1;
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,msg);
-		}
-		if ((auditConf.getRepo_name() == null) || (auditConf.getRepo_name().equals(""))) {
-			msg = " - Save Template :: Invalid repo_name ..... " + auditConf.getRepo_name();
-			rc = -1;
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,msg);
-		}
-		if ((auditConf.getProp_component() == null) || (auditConf.getProp_component().equals(""))) {
-			msg = " - Save Template :: Invalid prop_component ..... " + auditConf.getProp_component();
-			rc = -1;
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,msg);
-		}
-		if ((auditConf.getProp_instance() == null) || (auditConf.getProp_instance().equals(""))) {
-			msg = " - Save Template :: Invalid prop_instance ..... " + auditConf.getProp_instance();
-			rc = -1;
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,msg);
-		}
-		if ((auditConf.getProp_key() == null) || (auditConf.getProp_key().equals(""))) {
-			msg = " - Save Template :: Invalid prop_key ..... " + auditConf.getProp_key();
-			rc = -1;
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,msg);
-		}
-		if ((auditConf.getTree_nodes() == null) || (auditConf.getTree_nodes().size() == 0)) {
-			msg = " - Save Template :: Invalid Tree Nodes ..... Null or Empty ";
-			rc = -1;
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_ERROR,msg);
-		}
-		
 		// -----------------------------------------------------
-		// Write
+		// Save template
 		// -----------------------------------------------------
-		if (rc == 0) {
-			auditConf.write(opencmConfig, templateName);
+		AuditConfiguration.checkDirectory();
+		if (!AuditConfiguration.AUDIT_CONFIG_DIRECTORY.exists()) {
+			rc = -1;
+			msg = "Unable to get directory " + AuditConfiguration.AUDIT_CONFIG_DIRECTORY.getPath();
+			
+		} else {
+			auditConfig.save();
+			LogUtils.logDebug("Template Saved");
 		}
-		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========== Save Template - Process Completed ..... ============ ");
 		
 		// pipeline
 		IDataCursor pipelineCursor2 = pipeline.getCursor();
@@ -485,6 +340,91 @@ public final class audit
 		
 		IDataUtil.put( pipelineCursor2, "json_response", jResp);
 		pipelineCursor.destroy(); 
+					
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void sendAuditResult (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(sendAuditResult)>> ---
+		// @sigtype java 3.5
+		// [i] object:0:required AuditResult
+		// [i] field:0:required keepassPassword
+		// [i] field:0:required vaultToken
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		AuditResult	auditResult = (AuditResult) IDataUtil.get( pipelineCursor, "AuditResult" );
+		String keepassPassword = IDataUtil.getString( pipelineCursor, "keepassPassword" );
+		String vaultToken = IDataUtil.getString( pipelineCursor, "vaultToken" );
+		pipelineCursor.destroy();
+		
+		LogUtils.logInfo("Sending Audit Result ... " + auditResult.getName());
+		
+		if (auditResult == null) {
+			LogUtils.logWarning("Send Audit Result :: No audit Result - Exiting.");
+			return;
+		}
+		
+		// --------------------------------------------------------------------
+		// Get SMTP Configuration from Inventory
+		// --------------------------------------------------------------------
+		SmtpConfiguration smtpConfig = SmtpConfiguration.instantiate();
+		if (smtpConfig == null) {
+			LogUtils.logError("sendAuditResult - SMTP Configuration is NULL ..... ");
+			return;
+		}
+		
+		// --------------------------------------------------------------------
+		// Get SMTP Password from secret store
+		// --------------------------------------------------------------------
+		if ((smtpConfig.getPasswordHandle() != null) && !smtpConfig.getPasswordHandle().equals("")) {
+			SecretsConfiguration secConfig = SecretsConfiguration.instantiate();
+			if (secConfig.getType().equals(SecretsConfiguration.TYPE_LOCAL)) {
+				secConfig.setKeepassPassword(keepassPassword);
+			} else {
+				secConfig.setVaultToken(vaultToken);
+			}
+			String pwd = SecretsUtils.getPassword(secConfig, smtpConfig.getUsername(), smtpConfig.getPasswordHandle());
+			smtpConfig.setPassword(pwd);
+		}
+		
+		// --------------------------------------------------------------------
+		// Read in Freemarker Configuration
+		// --------------------------------------------------------------------
+		FMConfiguration fmc = FMConfiguration.instantiate();
+		if (fmc == null) {
+			LogUtils.logError("sendAuditResult - Freemarker Configuration is NULL ..... ");
+			return;
+		}
+		
+		// --------------------------------------------------------------------
+		// Generate the HTML email body
+		// --------------------------------------------------------------------
+		try {
+			/* Create a data-model */
+		    Map<String, Object> root = new HashMap<String, Object>();
+		    root.put("audit_name", auditResult.getName());
+		    root.put("result", auditResult);
+		    
+			Template auditTemplate = fmc.getConfiguration().getTemplate("audit.ftlh");
+		    
+		    /* Merge data-model with template */
+		    java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
+		    java.io.Writer out = new java.io.OutputStreamWriter(bos);
+			auditTemplate.process(root, out);
+			
+			smtpConfig.setBody(bos.toString());
+			MailUtils.sendMessage(smtpConfig);
+			
+		    bos.close();
+		} catch (Exception ex) {
+			LogUtils.logError("OpenCM sendAuditResult :: " + ex);
+		}
+		
 			
 		// --- <<IS-END>> ---
 

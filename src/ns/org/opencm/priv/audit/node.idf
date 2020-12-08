@@ -11,17 +11,21 @@
   <array name="implements" type="value" depth="1">
   </array>
   <array name="imports" type="value" depth="1">
+    <value>java.util.Arrays</value>
+    <value>java.util.ArrayList</value>
     <value>java.util.LinkedList</value>
+    <value>java.util.Map</value>
+    <value>java.util.HashMap</value>
+    <value>java.util.Iterator</value>
     <value>java.io.File</value>
-    <value>org.opencm.audit.Collection</value>
-    <value>org.opencm.audit.configuration.AuditConfiguration</value>
-    <value>org.opencm.audit.configuration.PropertyFilter</value>
-    <value>org.opencm.audit.configuration.TreeNode</value>
-    <value>org.opencm.audit.result.AuditResult</value>
+    <value>freemarker.template.Template</value>
+    <value>org.opencm.audit.*</value>
     <value>org.opencm.configuration.Configuration</value>
-    <value>org.opencm.configuration.PkgConfiguration</value>
+    <value>org.opencm.secrets.SecretsConfiguration</value>
+    <value>org.opencm.secrets.SecretsUtils</value>
+    <value>org.opencm.smtp.SmtpConfiguration</value>
+    <value>org.opencm.freemarker.FMConfiguration</value>
     <value>org.opencm.inventory.Inventory</value>
-    <value>org.opencm.util.JsonUtils</value>
-    <value>org.opencm.util.LogUtils</value>
+    <value>org.opencm.util.*</value>
   </array>
 </Values>

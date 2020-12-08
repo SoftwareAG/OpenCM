@@ -1,0 +1,4 @@
+{
+  "name" : "LocalDev",
+  "paths" : [ [ "OpenCM", "Acme", "Dev Zone", "Local Dev", "ACME_LDEV_S124_V104_01" ], [ "OpenCM", "Acme", "Dev Zone", "Local Dev", "ACME_LDEV_S125_V104_01" ] ]
+}

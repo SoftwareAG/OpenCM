@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <value name="node_type">interface</value>
+  <value name="node_subtype">unknown</value>
+  <value name="node_nsName">org.opencm.priv.smtp</value>
+  <value name="is_public">false</value>
+  <value name="shared">CQ==</value>
+  <value name="encodeutf8">true</value>
+  <value name="extends"></value>
+  <array name="implements" type="value" depth="1">
+  </array>
+  <array name="imports" type="value" depth="1">
+    <value>com.fasterxml.jackson.databind.ObjectMapper</value>
+    <value>org.linguafranca.pwdb.kdbx.simple.SimpleDatabase</value>
+    <value>org.opencm.secrets.SecretsUtils</value>
+    <value>org.opencm.secrets.SecretsConfiguration</value>
+    <value>org.opencm.smtp.SmtpConfiguration</value>
+    <value>org.opencm.util.JsonUtils</value>
+    <value>org.opencm.util.LogUtils</value>
+  </array>
+</Values>

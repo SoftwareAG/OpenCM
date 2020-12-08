@@ -1,9 +1,6 @@
 package org.opencm.util;
 
 import java.util.Properties;
-import java.util.Iterator;
-
-import org.opencm.configuration.Configuration;
 
 import javax.mail.Session;
 import javax.mail.Message;
@@ -14,33 +11,33 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.Transport;
 import javax.mail.MessagingException;
 
+import org.opencm.smtp.SmtpConfiguration;
+import org.opencm.smtp.Property;
+
 public class MailUtils {
 
-	public static boolean sendMessage(Configuration opencmConfig, String smtpPassword, String bodyMsg) {
+	private static String JAVAX_MAIL_PROPERTY_HOSTNAME		= "mail.smtp.host";
+	private static String JAVAX_MAIL_PROPERTY_PORT			= "mail.smtp.port";
+	private static String JAVAX_MAIL_PROPERTY_STARTTLS		= "mail.smtp.starttls.enable";
+	
+	
+	public static boolean sendMessage(SmtpConfiguration smtpConfig) {
 		
-		String to_email = "";
-		for (int i = 0; i < opencmConfig.getSmtp().getRecipients().size(); i++) {
-			to_email += opencmConfig.getSmtp().getRecipients().get(i);
-			if (i+1 < opencmConfig.getSmtp().getRecipients().size()) {
-				to_email += ",";
-			}
-		}
-		opencmConfig.getSmtp().getRecipients().getFirst();
-		String sender_email = opencmConfig.getSmtp().getFrom_email();
-		final String username = opencmConfig.getSmtp().getSmtp_username();
+		Properties properties = new Properties();
+        for (Property property : smtpConfig.getProperties()) {
+			LogUtils.logDebug("MailUtils :: Property: " + property.getKey() + " - " + property.getValue());
+        	properties.setProperty(property.getKey(), property.getValue());
+        }
+		
+        // Add properties
+        properties.setProperty(JAVAX_MAIL_PROPERTY_HOSTNAME, smtpConfig.getHostname());
+        properties.setProperty(JAVAX_MAIL_PROPERTY_PORT, smtpConfig.getPort());
+        properties.setProperty(JAVAX_MAIL_PROPERTY_STARTTLS, smtpConfig.getStartTLS());
 
-		Properties props = new Properties();
-		Iterator<String> it = opencmConfig.getSmtp().getProperties().keySet().iterator();
-		while (it.hasNext()) {
-			String key = it.next();
-			String val = opencmConfig.getSmtp().getProperties().get(key);
-		    props.put(key, val);
-		}
-    
 	    // Get the Session object.
-	    Session session = Session.getInstance(props, new Authenticator() {
+	    Session session = Session.getInstance(properties, new Authenticator() {
 	    	protected PasswordAuthentication getPasswordAuthentication() {
-	    		return new PasswordAuthentication(username, smtpPassword);
+	    		return new PasswordAuthentication(smtpConfig.getUsername(), smtpConfig.getPassword());
             }
 	    });
 	    
@@ -49,23 +46,30 @@ public class MailUtils {
 	    	Message message = new MimeMessage(session);
 	   	   
 	    	// Set From: header field of the header.
-	    	message.setFrom(new InternetAddress(sender_email));
+	    	message.setFrom(new InternetAddress(smtpConfig.getFromEmail()));
 
 	    	// Set To: header field of the header.
-	    	message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to_email));
+	    	message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(String.join(",", smtpConfig.getRecipients())));
 
 	    	// Set Subject: header field
-	    	message.setSubject(opencmConfig.getSmtp().getSubject());
+	    	message.setSubject(smtpConfig.getSubject());
 
 	    	// Send the actual HTML message, as big as you like
-	    	message.setContent(bodyMsg,"text/html");
-	    	// "<b>Whatever</b>, dude <br/><br/> and whatever goes here ... ",
+	    	message.setContent(smtpConfig.getBody(),"text/html");
 
+			LogUtils.logDebug("MailUtils :: Sending from " + smtpConfig.getFromEmail());
+			LogUtils.logDebug("MailUtils :: Sending to " + smtpConfig.getRecipients().toString());
+			LogUtils.logDebug("MailUtils :: Subject " + smtpConfig.getSubject());
+			LogUtils.logDebug("MailUtils :: Using username: " + smtpConfig.getUsername());
+			LogUtils.logDebug("MailUtils :: Using password: " + smtpConfig.getPassword());
+			
+			LogUtils.logDebug("MailUtils :: Body " + smtpConfig.getBody());
+ 
 	    	// Send message
 	    	Transport.send(message);
 		   
 	    } catch (MessagingException mex) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"MailUtils Exception: " + mex);
+			LogUtils.logError("MailUtils Exception: " + mex);
 	    }
 		    
 		return true;

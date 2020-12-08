@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style>
+	/* ------------------------- */
+	/* ---- Div Top banner ----- */
+	/* ------------------------- */
+	#div_top_return_synch {
+		float: left;
+		width: 20%;
+		padding-left: 15px;
+	}
+	#div_top_return_synch a {
+		color: #3498db;
+		text-decoration: none;
+	}
+	#div_top_title {
+		width: 80%;
+	}
+	
+	#div_top_synch_run {
+		position: fixed;
+		right: 0;
+		padding-right: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* --------   Synch Tree         -------- */
+	/* -------------------------------------- */
+	#synchTreeSection {
+		width: 30%;
+		float: left;
+	}
+	#div_jstree_synch {
+		margin: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* -------     Synch Config      -------- */
+	/* -------------------------------------- */
+	#synchConfigSection {
+		width: 70%;
+		height: 100%;
+		float: left;
+		padding-top: 20px;
+	}
+	#synchConfigSection h4 {
+		color: #3498db;
+		font-size: 1.2em;
+		font-weight: bold;
+		text-align: left
+	}
+	#div_synch_template, #div_synch_target {
+		width: 100%;
+		float: left;
+		margin: 10px;
+		padding: 10px 5px 20px;
+		border-bottom: 1px solid #3498db;
+	}
+
+	#div_synch_empty {
+		float: left;
+		width: 100%;
+		padding: 10% 10%;
+	}
+	#div_synch_empty_text {
+		background-color: #F7F8FE;
+		border: 1px solid #3498db;
+		padding: 20px 5% 20px; 
+		text-align: left;
+	}
+	#span_synch_empty_text {
+		color: #3498db;
+		font-size: 1.2em;
+	}
+	#span_synch_empty_text li {
+		margin: 10px 0;
+	}
+
+	#div_synch_table  {
+		display:none;
+		width:100%
+		float: left;
+		margin: 10px;
+		top: 0px;
+		padding: 20px 5px 0px;
+	}
+	
+	/* -------------------------------------- */
+	/* --------     Buttons            ------ */
+	/* -------------------------------------- */
+	#button_run_synch {
+		width: 150px;
+	}
+	
+	/* -------------------------------------- */
+	/* -------- Data Tables formatting ------ */
+	/* -------------------------------------- */
+	#table_synch_wrapper {
+		padding-top: 15px;
+	}
+	#table_synch_wrapper #table_synch_filter {
+		float: left;
+		width: 30%;
+	}
+	#div_synch_table #table_synch_filter {
+		float: left;
+		text-align: left;
+	}
+
+  </style>
+  <script type="text/javascript">
+	$(document).ready(function(){
+		var synchTableInitialized = false;
+		var templateTreeLoading = false;
+	
+		// Event Listener for Returning to Inventory
+		$( '#div_top_return_synch' ).on('click', 'a', function() {
+			showInventory();
+		});
+		
+		// --------------------------------------------
+		// Selected Target
+		// --------------------------------------------
+		function getTargetPath() {
+			var id = $('#select_synch_target').children(":selected").attr("id");
+			if (id == 0) {
+				return null;
+			}
+			var targetPath = $('#select_synch_target').children(":selected").attr("path");
+			if ((targetPath == null) || (targetPath == "")) {
+				return null;
+			}
+			return JSON.parse(decodeURI(targetPath));
+		}
+		
+		// --------------------------------------------
+		// Selected Target URL
+		// --------------------------------------------
+		function getTargetURL() {
+			var targetURL = "";
+			var id = $('#select_synch_target').children(":selected").attr("id");
+			if (id == 0) {
+				return targetURL;
+			}
+			targetURL = $('#select_synch_target').children(":selected").attr("url");
+			if ((targetURL == null) || (targetURL == "")) {
+				return targetURL;
+			}
+			return decodeURI(targetURL);
+		}
+
+		// --------------------------------------------
+		// Get defined configuration
+		// --------------------------------------------
+		function getSynchPaths() {
+			var pathData = new Array();
+			var selectedLeafNodes = $('#div_jstree_synch').jstree(true).get_bottom_selected(true);
+			if (selectedLeafNodes.length == 0) {
+				return pathData;
+			}
+			$.each(selectedLeafNodes, function( index, node ) {
+				var path = $('#div_jstree_synch').jstree(true).get_path(node);
+				pathData.push(path);
+			});
+			return pathData;
+		}
+		
+		// --------------------------------------------
+		// Update Synch View
+		// --------------------------------------------
+		function updateSynchView() {
+			if (templateTreeLoading) {
+				return;
+			}
+		
+			// Target defined
+			var targetPath = getTargetPath();
+			if (targetPath != null) {
+				$("#div_synch_target_info").show();
+				$('#span_synch_target_info').text("Synch Target: " + getTargetURL());
+			} else {
+				$('#select_synch_target option[id="0"]').prop("selected", true);
+				$('#select_synch_template option[id="0"]').prop("selected", true);
+				$("#div_synch_target_info").hide();
+			}
+			// Synch tree installations defined
+			var selectedLeafNodes = getSynchPaths();
+			if (selectedLeafNodes.length == 0) {
+				$('#select_synch_template option[id="0"]').prop("selected", true);
+				$("#div_synch_empty").show();
+				$('#div_synch_table').hide();
+			} else {
+				var repoInstallationsSelected = updateSynchTable(selectedLeafNodes);
+				if (repoInstallationsSelected > 0) {
+					$("#div_synch_empty").hide();
+					$('#span_synch_totals').text(repoInstallationsSelected);
+					$('#div_synch_table').show();
+				} else {
+					$('#select_synch_template option[id="0"]').prop("selected", true);
+					$("#div_synch_empty").show();
+					$('#div_synch_table').hide();
+				}
+			}
+			if ((targetPath == null) || (selectedLeafNodes.length == 0)) {
+				$("#div_synch_save_template").hide();
+				$("#button_run_synch").prop('disabled', true);
+			} else {
+				$("#div_synch_save_template").show();
+				$("#button_run_synch").prop('disabled', false);
+			}
+		}
+		
+		// --------------------------------------------
+		// Load Inventory Tree data (from Inventory)
+		// --------------------------------------------
+		var jsTreeData = new Array();
+		jsTreeData = parent.getTreeDataWithInstallations(getInventory().root_group, jsTreeData, 0, "");
+
+		$('#div_jstree_synch').jstree(
+			{'plugins':["wholerow","checkbox"], 'core' : {
+				'data' : jsTreeData
+			}}
+		); 
+		
+		// --------------------------------------------
+		// Listeners
+		// --------------------------------------------
+		// Listener for selected tree nodes
+		$('#div_jstree_synch').on("changed.jstree", function (e, data) {
+			updateSynchView();
+		});
+		// Listener for loading template
+		$("#select_synch_template").on("change", function() {
+			var id = $('#select_synch_template').children(":selected").attr("id");
+			if (id == 0) {
+				showSynchronization();
+			} else {
+				var template = $("#select_synch_template option:selected").val();
+				loadTemplate(template); 
+			}
+		});
+		
+		// Listener for target
+		$("#select_synch_target").on("change", function() {
+			updateSynchView();
+		});
+		
+		// Listener for saving template
+		$("#anchor_save_synch_template").on("click", function() {
+			saveTemplate(); 
+		});
+		
+		// Listener for running synch
+		$("#button_run_synch").on("click", function() {
+			runSynch(); 
+		});
+		
+		// --------------------------------------------
+		// Get configuration as javascript struct
+		// --------------------------------------------
+		function getSynchConfiguration(synchName) {
+			var synchConfig = {
+				name: synchName,
+				target_path: getTargetPath(),
+				paths: getSynchPaths()
+			};
+			return synchConfig;
+		}
+		
+		// --------------------------------------------
+		// Entered Template Name for saving
+		// --------------------------------------------
+		function getTemplateName() {
+			var templateName = $("#synch_template_name").val();
+			if ((templateName == null) || (templateName == "")) {
+				return null;
+			}
+			return templateName;
+		}
+
+		// --------------------------------------------
+		// Save/Update Synch to template
+		// --------------------------------------------
+		function saveTemplate() {
+			var templateName = getTemplateName();
+			if ((templateName == null) || (templateName == "")) {
+				notify("Template name not specified, not saved...");
+				return;
+			}
+			var resp = callService("/invoke/org.opencm.pub.synch/saveTemplate", "synch_configuration=" + JSON.stringify(getSynchConfiguration(templateName)) );
+			if (resp.rc == 0) {
+				notify("Template successfully saved ...");
+				// Add to template list if not already there
+				var templates = Array();
+				$('#select_synch_template option').each(function() {
+					var tname = $(this).text();
+					if (tname != "") {
+						templates.push(tname);
+					}
+				});
+
+				if ($.inArray(templateName, templates) == -1) {
+					$('#select_synch_template').append($("<option></option>").attr("value",templateName).text(templateName)); 
+				}
+				
+			} else {
+				notify("Template not saved: " +  resp.msg);
+			}
+		}
+		
+		// --------------------------------------------
+		// Load all existing templates to drop-down
+		// --------------------------------------------
+		var resp = callService( "/invoke/org.opencm.pub.synch/getTemplates", "");
+		if (resp.rc != 0) {
+			notify(resp.msg);
+			return;
+		}
+		var synch_templates = JSON.parse(resp.content);
+		$.each(synch_templates, function(idx, value) {   
+			$('#select_synch_template').append($("<option></option>").attr("value",value).text(value)); 
+		});
+
+		// --------------------------------------------
+		// Load all target to drop-down
+		// --------------------------------------------
+		var resp = callService( "/invoke/org.opencm.pub.synch/getTargets", "");
+		if (resp.rc != 0) {
+			notify(resp.msg);
+			return;
+		}
+		var synch_targets = JSON.parse(resp.content);
+
+		$.each(synch_targets, function(idx, installation) {
+			var synch_path = encodeURI(JSON.stringify(installation.path));
+			var synch_url = "";
+			$.each(installation.runtimes, function(idx, runtime) {
+				if (runtime.name == "OPENCM-SYNCH") {
+					synch_url = runtime.protocol + "://" + installation.hostname + ":" + runtime.port;
+					return false;
+				}
+			});
+			$('#select_synch_target').append($("<option></option>").attr("path", synch_path).attr("url", synch_url).text(installation.name)); 
+		});
+		
+		// --------------------------------------------
+		// Load Individual Synch template
+		// --------------------------------------------
+		function loadTemplate(template) {
+			var resp = callService("/invoke/org.opencm.pub.synch/getTemplate", "templateName=" + template);
+			if (resp.rc != 0) {
+				notify("Unable to get template: " + resp.msg);
+				return;
+			}
+			var synch_configuration = JSON.parse(resp.content);
+			
+			// Synch Target 
+			if ((synch_configuration.target_path != null) && (synch_configuration.target_path != "")) {
+				$('#select_synch_target option[path="' + encodeURI(JSON.stringify(synch_configuration.target_path)) + '"]').prop("selected", true);
+			}
+			
+			// Synch Tree items
+			templateTreeLoading = true;
+			$('#div_jstree_synch').jstree(true).uncheck_all();
+			if ((synch_configuration.paths != null) && (synch_configuration.paths.length > 0)) {
+				$.each(synch_configuration.paths, function( idx, path ) {
+					// Select tree node
+					$('#div_jstree_synch').jstree(true).select_node(getTreeNodeId(path));
+				});
+			}
+			templateTreeLoading = false;
+			
+			// Set template name same as this one..
+			$("#synch_template_name").val(template);
+	
+			updateSynchView();
+		}
+		
+		// --------------------------------------------
+		// Run Synch
+		// --------------------------------------------
+		function runSynch() {
+			var resp = callService("/invoke/org.opencm.pub.synch/runSynch", "synch_configuration=" + JSON.stringify(getSynchConfiguration("UI")) );
+			notify(resp.response);
+			return;
+		}
+		
+		// --------------------------------------------
+		// Populate synch table
+		// --------------------------------------------
+		function updateSynchTable(selectedTreeItems) {
+			var synchData = getSimpleTableData(selectedTreeItems);
+			
+			if (synchData.length == 0) {
+				return 0;
+			}
+			if (synchTableInitialized) {
+				redrawSynchTable(synchData);
+			} else {
+				initSynchTable(synchData);
+				synchTableInitialized = true;
+			}
+			return synchData.length;
+		}
+
+		function redrawSynchTable(tableData) {
+			var table = $('#table_synch').DataTable();
+			$('#table_synch tbody').off('click');
+			table.clear();
+			table.rows.add(tableData).draw();
+		}
+		
+		function initSynchTable(tableData) {
+			var table = $('#table_synch').DataTable( {
+				data: tableData,
+				dom: 'ft<"row"<"col-md-6"i><"col-md-6"p>>',
+				ordering: true,
+				info:     true,
+				paging:   true,
+				pageLength: 10,
+				lengthMenu: [],
+				filter:   true,
+				columns: [
+					{ data: "location" },
+					{ data: "hostname" },
+					{ data: "installation" }
+				],
+				columnDefs: [
+					{ 	className: "datatable_column_class",
+						targets: "_all"
+					}
+				]
+			});
+				
+		}
+		
+		// Initialize view
+		updateSynchView();
+		
+	});
+  </script>
+ </head>
+  
+ <body>
+   <div id="div_top_banner">
+   <div id="div_top_return_synch">
+   	  <a class="h6 text-center" href="javascript:;">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+			<path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
+		</svg>
+		<strong>Return to Inventory</strong>
+	  </a>
+    </div>
+    <div id="div_top_title"><p class="h5 text-center"><strong>Repository Synchronization</strong></p></div>
+    <div id="div_top_synch_run">
+		<button id="button_run_synch" type="button" class="btn btn-primary btn-sm active">Run Synch</button>
+    </div>
+  </div>
+  <section id="synchTreeSection">
+   <div id="div_jstree_synch"></div>
+  </section>
+  <section id="synchConfigSection">
+   <div id="div_synch_template">
+	 <div style="width:15%; float:left;"><h4>Template</h4></div>
+	 <div style="width:35%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:90%;">
+		  <div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelect01">Select</label>
+		  </div>
+		  <select class="custom-select" id="select_synch_template">
+			<option id="0" selected>Choose...</option>
+		  </select>
+		</div>
+     </div>
+	 <div id="div_synch_save_template" style="display:none; width:50%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:70%;">
+		  <div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1"><a id="anchor_save_synch_template" href="#">Save</a></span>
+		  </div>
+		  <input id="synch_template_name" type="text" class="form-control" placeholder="Template Name" aria-label="templateName" aria-describedby="basic-addon1">
+		</div>	 
+     </div>
+   </div>
+   
+   <div id="div_synch_target">
+	 <div style="width:15%; float:left;"><h4>Target</h4></div>
+	 <div style="width:35%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:90%;">
+		  <div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelect01">Select</label>
+		  </div>
+		  <select class="custom-select" id="select_synch_target">
+			<option id="0" selected>Choose...</option>
+		  </select>
+		</div>
+     </div>
+	 <div id="div_synch_target_info" style="display:none; width:50%; float:left; padding-top:5px;">
+		<span id="span_synch_target_info"></span>
+     </div>
+   </div>
+   
+   <div id="div_synch_empty">
+    <div id="div_synch_empty_text">
+	  <span id="span_synch_empty_text">
+		Repository Synchronization involves sending extracted configurations from this OpenCM instance to another one.
+		</br></br></br>
+		<b>Notes:</b>
+		<ul class="list-unstyled">
+ 		  <ul>
+			<li>The "Target" represents the remote OpenCM instance to send to.</li>
+			<li>Targets are identified by inventory installations that contain the "OPENCM-SYNCH" entry.</li>
+			<li>Transmission protocol is <b>ftps</b> and the target must be reachable on the defined ftps port.</li>
+			<li>Which installations to synchronize is based on the selected inventory installations on the left-side tree.</li>
+			<li>To start synchronization, click on the "Run Synch" button. Only installations with repositories will be synchronized</li>
+			<li>A selection of inventory installations (and selected target) can also be saved off as an synchronization "template".</li>
+			<li>Based on the template name, synchronizations can then be scheduled on a frequent basis by invoking the org.opencm.synch/scheduledSynch service.</ul>
+		</ul>
+	  </span>
+    </div>
+   </div>
+   
+   <div id="div_synch_table" style="display:none">
+	 <div style="width:95%; float:left;">
+		<h4>Included repository installations : <span id="span_synch_totals"></span></h4>
+		 <table id="table_synch" class="display" style="width:100%">
+			<thead>
+				<tr>
+					<th>Inventory Location</th>
+					<th>Hostname</th>
+					<th>Installation</th>
+				</tr>
+			</thead>
+		 </table>	
+     </div>
+   </div>
+  </section>
+  
+ </body>
+</html>

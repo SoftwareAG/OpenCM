@@ -3,7 +3,7 @@
 <Values version="2.0">
   <value name="enabled">yes</value>
   <value name="system_package">no</value>
-  <value name="version">2.0.11</value>
+  <value name="version">3.0.0</value>
   <value name="classloader">package</value>
   <record name="startup_services" javaclass="com.wm.util.Values">
     <null name="org.opencm.pub.startup:startup"/>
@@ -18,8 +18,8 @@
   <value name="name">OpenCM</value>
   <value name="build"></value>
   <value name="description"></value>
-  <value name="time">2019-05-24 15:39:07 CEST</value>
-  <value name="jvm_version">1.8.0_212</value>
-  <value name="publisher">MCHHANSSON04.eur.ad.sag</value>
+  <value name="time">2020-09-30 10:24:30 CEST</value>
+  <value name="jvm_version">1.8.0_192</value>
+  <value name="publisher">SAG-7676ZW2.eur.ad.sag</value>
   <value name="patch_nums"></value>
 </Values>

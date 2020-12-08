@@ -1,0 +1,8 @@
+{
+  "name" : "LocalDev",
+  "delimiter" : "1",
+  "id_01" : "1",
+  "id_03" : "3",
+  "id_02" : "2",
+  "paths" : [ [ "OpenCM", "Acme", "Dev Zone", "Local Dev", "ACME_LDEV_S124_V104_01" ], [ "OpenCM", "Acme", "Dev Zone", "Local Dev", "ACME_LDEV_S125_V104_01" ] ]
+}

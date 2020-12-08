@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <value name="node_type">interface</value>
+  <value name="node_subtype">unknown</value>
+  <value name="node_nsName">org.opencm.priv.governance</value>
+  <value name="is_public">false</value>
+  <value name="shared"></value>
+  <value name="encodeutf8">true</value>
+  <value name="extends"></value>
+  <array name="implements" type="value" depth="1">
+  </array>
+  <array name="imports" type="value" depth="1">
+    <value>java.util.ArrayList</value>
+    <value>java.util.LinkedList</value>
+    <value>java.io.File</value>
+    <value>com.fasterxml.jackson.databind.ObjectMapper</value>
+    <value>com.fasterxml.jackson.core.type.TypeReference</value>
+    <value>org.opencm.audit.AuditUtils</value>
+    <value>org.opencm.audit.AuditResult</value>
+    <value>org.opencm.governance.*</value>
+    <value>org.opencm.configuration.Configuration</value>
+    <value>org.opencm.inventory.Inventory</value>
+    <value>org.opencm.util.*</value>
+  </array>
+</Values>

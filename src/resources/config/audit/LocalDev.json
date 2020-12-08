@@ -1,0 +1,13 @@
+{
+  "name" : "LocalDev",
+  "incl_key" : "*",
+  "incl_instance" : "COMMON-SYSPROPS",
+  "incl_component" : "integrationServer-*",
+  "option_equals" : "false",
+  "paths" : [ [ "OpenCM", "Acme", "Dev Zone", "Local Dev", "ACME_LDEV_S124_V104_01" ], [ "OpenCM", "Acme", "Dev Zone", "Local Dev", "ACME_LDEV_S125_V104_01" ] ],
+  "excl_filters" : [ {
+    "component" : "integrationServer-*",
+    "instance" : "COMMON-SYSPROPS",
+    "key" : "watt.server.BrokerDocSync.LockRetries"
+  } ]
+}

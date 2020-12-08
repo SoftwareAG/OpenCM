@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style>
+	/* ------------------------- */
+	/* ---- Div Top banner ----- */
+	/* ------------------------- */
+	#div_top_return_cce {
+		float: left;
+		width: 20%;
+		padding-left: 15px;
+	}
+	#div_top_return_cce a {
+		color: #3498db;
+		text-decoration: none;
+	}
+	#div_top_title {
+		width: 80%;
+	}
+	
+	/* -------------------------------------- */
+	/* --------  Cce Tree Selection  -------- */
+	/* -------------------------------------- */
+	#cceTreeSection {
+		width: 30%;
+		float: left;
+	}
+	#div_jstree_cce {
+		margin: 10px;
+	}
+	
+	/* -------------------------------------- */
+	/* -------     Cce Config        -------- */
+	/* -------------------------------------- */
+	#cceConfigSection {
+		width: 70%;
+		height: 100%;
+		float: left;
+	}
+	#cceConfigSection h4 {
+		color: #3498db;
+		font-size: 1.2em;
+		font-weight: bold;
+		text-align: left
+	}
+
+	#div_cce_template, #div_cce_groups, #div_cce_script {
+		width: 100%;
+		float: left;
+		margin: 10px;
+		top: 0px;
+		padding: 10px 5px 20px;
+		border-bottom: 1px solid #3498db;
+	}
+
+	#div_cce_empty {
+		float: left;
+		width: 100%;
+		padding: 5% 10%;
+	}
+	#div_cce_empty_text {
+		background-color: #F7F8FE;
+		border: 1px solid #3498db;
+		padding: 20px 5% 20px; 
+		text-align: left;
+	}
+	#span_cce_empty_text {
+		color: #3498db;
+		font-size: 1.2em;
+	}
+	#span_cce_empty_text li {
+		margin: 10px 0;
+	}
+	
+  </style>
+  <script type="text/javascript">
+	$(document).ready(function(){
+		var opencm_inventory_with_secrets = callService( "/invoke/org.opencm.pub.inventory/getInventoryWithSecrets", "");
+
+		// Event Listener for Returning to Inventory
+		$( '#div_top_return_cce' ).on('click', 'a', function() {
+			showInventory();
+		});
+		
+		// --------------------------------------------
+		// Get defined configuration
+		// --------------------------------------------
+		function getCcePaths() {
+			var pathData = new Array();
+			var selectedLeafNodes = $('#div_jstree_cce').jstree(true).get_bottom_selected(true);
+			if (selectedLeafNodes.length == 0) {
+				return pathData;
+			}
+			$.each(selectedLeafNodes, function( index, node ) {
+				var path = $('#div_jstree_cce').jstree(true).get_path(node);
+				pathData.push(path);
+			});
+			return pathData;
+		}
+		
+		function getName01() {
+			return $('#select_group_name_01').children(":selected").val();
+		}
+		function getId01() {
+			return $('#select_group_name_01').children(":selected").attr("id");
+		}
+		function getName02() {
+			return $('#select_group_name_02').children(":selected").val();
+		}
+		function getId02() {
+			return $('#select_group_name_02').children(":selected").attr("id");
+		}
+		function getName03() {
+			return $('#select_group_name_03').children(":selected").val();
+		}
+		function getId03() {
+			return $('#select_group_name_03').children(":selected").attr("id");
+		}
+		function getDelimiterId() {
+			return $("#select_group_delimiter option:selected").attr("id");
+		}
+		function getDelimiterValue() {
+			var delimiter = $("#select_group_delimiter option:selected").val();
+			if (delimiter == "[space]") {
+				delimiter = " ";
+			} else {
+				delimiter = " " + delimiter + " ";
+			}
+			return  delimiter;
+		}
+		
+		// --------------------------------------------
+		// Update Script section
+		// --------------------------------------------
+		function updateCceView() {
+			var id_01 = parseInt(getId01(), 10);
+			var id_02 = parseInt(getId02(), 10);
+			var id_03 = parseInt(getId03(), 10);
+			var delimiter = getDelimiterValue();
+			
+			// Organize correct options for each dropdown
+			selectOptions(id_01, id_02, id_03);
+		
+			var selectedLeafNodes = getCcePaths();
+			if (selectedLeafNodes.length == 0) {
+				$('#div_cce_empty').show();
+				$('#div_cce_script').hide();
+				$("#div_cce_save_template").hide();
+				$("textarea[id='#textarea_cce_script']").val('');
+			} else {
+				$('#div_cce_empty').hide();
+				$('#div_cce_script').show();
+				$("#div_cce_save_template").show();
+				generateScriptCommands(selectedLeafNodes, id_01, id_02, id_03, delimiter);
+			}
+		}
+		
+		function selectOptions(id_01, id_02, id_03) {
+			if (id_01 > 0) {
+				$('#select_group_name_01').prop('disabled',false);
+				$('#select_group_name_02').prop('disabled',false);
+				// Disable options with equal or higher levels
+				if (id_01 == 4) {
+					$('#select_group_name_02 option[id="0"]').prop("selected", true);
+					$('#select_group_name_02').prop('disabled',true);
+					$('#select_group_name_03 option[id="0"]').prop("selected", true);
+					$('#select_group_name_03').prop('disabled',true);
+				} else {
+					for (i = 1; i < 5; i++) {
+						if (i > id_01) {
+							$('#select_group_name_02 option[id="' + i + '"]').prop('disabled',false);
+						} else {
+							$('#select_group_name_02 option[id="' + i + '"]').prop('disabled',true);
+						}
+					}
+				}
+				if (id_02 > 0) {
+					$('#select_group_name_03').prop('disabled',false);
+					if (id_02 == 4) {
+						$('#select_group_name_03 option[id="0"]').prop("selected", true);
+						$('#select_group_name_03').prop('disabled',true);
+					} else {
+						for (i = 1; i < 5; i++) {
+							if (i > id_02) {
+								$('#select_group_name_03 option[id="' + i + '"]').prop('disabled',false);
+							} else {
+								$('#select_group_name_03 option[id="' + i + '"]').prop('disabled',true);
+							}
+						}
+					}
+					$('#select_group_delimiter').prop('disabled',false);
+				} else {
+					$('#select_group_name_03 option[id="0"]').prop("selected", true);
+					$('#select_group_name_03').prop('disabled',true);
+					for (i = 1; i < 5; i++) {
+						$('#select_group_name_03 option[id="' + i + '"]').prop('disabled',false);
+					}
+					$('#select_group_delimiter option[id="0"]').prop("selected", true);
+					$('#select_group_delimiter').prop('disabled',true);
+				}
+			} else {
+				for (i = 1; i < 5; i++) {
+					$('#select_group_name_02 option[id="' + i + '"]').prop('disabled',false);
+					$('#select_group_name_03 option[id="' + i + '"]').prop('disabled',false);
+				}
+				$('#select_group_name_02 option[id="0"]').prop("selected", true);
+				$('#select_group_name_02').prop('disabled',true);
+				$('#select_group_name_03 option[id="0"]').prop("selected", true);
+				$('#select_group_name_03').prop('disabled',true);
+				$('#select_group_delimiter option[id="0"]').prop("selected", true);
+				$('#select_group_delimiter').prop('disabled',true);
+			}
+		}
+		
+		function generateScriptCommands(selectedLeafNodes, id_01, id_02, id_03, delimiter) {
+		
+			// Reset
+			$("textarea[id='#textarea_cce_script']").val('');
+			
+			var emptyArray = Array();
+			cceInstallations = getFilteredInstallations(opencm_inventory_with_secrets.root_group, selectedLeafNodes, emptyArray);
+			
+			var envData = Array(); 	// All environments to create
+			var instData = Array(); // All installations to create
+			$.each(cceInstallations, function( index, installation ) {
+			
+				// ------------------------------------------
+				// Identify which environments to create:
+				// ------------------------------------------
+				groupName = "";
+				groupAlias = "";
+				var path = installation.path;
+				if ((id_01 > 0) && (installation.path.length > (id_01 + 1))) {
+					groupName += installation.path[id_01];
+					groupAlias += installation.path[id_01].replace(/\s/g,'_');
+				}
+				if ((id_02 > 0) && (installation.path.length > (id_02 + 1))) {
+					groupName += delimiter + installation.path[id_02];
+					groupAlias += "_" + installation.path[id_02].replace(/\s/g,'_');
+				}
+				if ((id_03 > 0) && (installation.path.length > (id_03 + 1))) {
+					groupName += delimiter + installation.path[id_03];
+					groupAlias += "_" + installation.path[id_03].replace(/\s/g,'_');
+				}
+				if (groupName != "") {
+					if (envData.length == 0) {
+						envData.push({ name: groupName, alias: groupAlias });
+					} else {
+						// Check if it already exists:
+						var found = false;
+						$.each(envData, function( index, env ) {
+							if (env.alias == groupAlias) {
+								found = true;
+								return false;
+							}
+						});
+						if (!found) {
+							envData.push({ name: groupName, alias: groupAlias });
+						}
+					}
+				}
+				
+				// ------------------------------------------
+				// Identify Installations nodes:
+				// ------------------------------------------
+				var spmUrl = "";
+				var spmUsername = "";
+				var spmPassword = "";
+				if ((installation.hostname != null) && (installation.hostname != "")) {
+					$.each(installation.runtimes, function( index, runtime ) {
+						if (runtime.name == "OSGI-SPM") {
+                            var hostname = installation.hostname;
+                            if ((runtime.alt_hostname != null) && (runtime.alt_hostname != "")) {
+                                hostname = runtime.alt_hostname;
+                            }
+                            spmUrl = runtime.protocol + "://" + hostname + ":" + runtime.port;
+							spmUsername = runtime.username;
+							if ((runtime.password != null) && (runtime.password != "")) {
+								spmPassword = runtime.password;
+							} else {
+								spmPassword = "manage";
+							}
+							return false;
+						}
+					});
+					if (spmUrl != "") {
+						instData.push({ name: installation.name, url: spmUrl, username: spmUsername, password: spmPassword, alias: groupAlias });
+					}
+				}
+			});
+			
+			// ------------------------------------------
+			// Output data to script window
+			// ------------------------------------------
+			var cceScriptData = "";
+			
+			if (envData.length > 0) {
+				cceScriptData += "------------------------------------------------\n";
+				cceScriptData += "--  Create Environment Groups \n";
+				cceScriptData += "------------------------------------------------\n";
+			}
+			$.each(envData, function( index, env ) {
+				cceScriptData += "sagcc create landscape environments alias=" + env.alias + " name=\"" + env.name + "\"\n";
+			});
+			cceScriptData += "\n";
+			cceScriptData += "------------------------------------------------\n";
+			cceScriptData += "--  Create Installation Nodes \n";
+			cceScriptData += "------------------------------------------------\n";
+			$.each(instData, function( index, inst ) {
+				cceScriptData += "sagcc add landscape nodes alias=" + inst.name + " url=" + inst.url + "\n";
+				if ((inst.password != null) && (inst.password != "manage")) {
+					cceScriptData += "sagcc add security credentials nodeAlias=" + inst.name + " runtimeComponentId=SPM-CONNECTION authenticationType=BASIC username=" + inst.username + " password=" + inst.password + "\n";
+				}
+				if ((inst.alias != null) && (inst.alias != "")) {
+					cceScriptData += "sagcc add landscape environments " + inst.alias + " nodes nodeAlias=" + inst.name + "\n";
+				}
+				cceScriptData += "\n";
+			});
+			
+			$("textarea[id='#textarea_cce_script']").val(cceScriptData);
+		}
+		
+		// --------------------------------------------
+		// Load Inventory Tree data (from Inventory)
+		// --------------------------------------------
+		var jsTreeData = new Array();
+		jsTreeData = getTreeDataWithInstallations(opencm_inventory_with_secrets.root_group, jsTreeData, 0, "");
+
+		$('#div_jstree_cce').jstree(
+			{'plugins':["wholerow","checkbox"], 'core' : {
+				'data' : jsTreeData
+			}}
+		); 
+		
+		// --------------------------------------------
+		// Listeners
+		// --------------------------------------------
+		// Listener for selected tree nodes
+		$('#div_jstree_cce').on("changed.jstree", function (e, data) {
+			updateCceView();
+			
+		});
+		// Listener for loading template
+		$("#select_cce_template").on("change", function() {
+			var id = $('#select_cce_template').children(":selected").attr("id");
+			if (id == 0) {
+				showCommandCentral();
+			} else {
+				var template = $("#select_cce_template option:selected").val();
+				loadTemplate(template); 
+			}
+		});
+		
+		// Listener for saving template
+		$("#anchor_save_cce_template").on("click", function() {
+			saveTemplate(); 
+		});
+		
+		// Listener for Name 01
+		$("#select_group_name_01").on("change", function() {
+			$('#select_group_name_02 option[id="0"]').prop("selected", true);
+			$('#select_group_name_03 option[id="0"]').prop("selected", true);
+			updateCceView(); 
+		});
+
+		// Listener for Name 02
+		$("#select_group_name_02").on("change", function() {
+			$('#select_group_name_03 option[id="0"]').prop("selected", true);
+			updateCceView(); 
+		});
+		
+		// Listener for Name 03
+		$("#select_group_name_03").on("change", function() {
+			updateCceView(); 
+		});
+		
+		// Listener for Delimiter
+		$("#select_group_delimiter").on("change", function() {
+			updateCceView(); 
+		});
+		
+		// --------------------------------------------
+		// Entered Template Name for saving
+		// --------------------------------------------
+		function getTemplateName() {
+			var templateName = $("#cce_template_name").val();
+			if ((templateName == null) || (templateName == "")) {
+				return null;
+			}
+			return templateName;
+		}
+		
+		// --------------------------------------------
+		// Get configuration for template saving
+		// --------------------------------------------
+		function getCceConfiguration() {
+			var cceConfig =  {
+				name: getTemplateName(),
+				paths: getCcePaths(),
+				id_01: getId01(),
+				id_02: getId02(),
+				id_03: getId03(),
+				delimiter: getDelimiterId()
+			};
+			return cceConfig;
+		}
+		
+		// --------------------------------------------
+		// Load all existing templates to drop-down
+		// --------------------------------------------
+		var resp = callService( "/invoke/org.opencm.pub.cce/getTemplates", "");
+		if (resp.rc != 0) {
+			notify(resp.msg);
+			return;
+		}
+		var cce_templates = JSON.parse(resp.content);
+		$.each(cce_templates, function(idx, value) {   
+			$('#select_cce_template').append($("<option></option>").attr("value",value).text(value)); 
+		});
+
+		// --------------------------------------------
+		// Load Individual CCE template
+		// --------------------------------------------
+		function loadTemplate(template) {
+			var resp = callService("/invoke/org.opencm.pub.cce/getTemplate", "templateName=" + template);
+			if (resp.rc != 0) {
+				notify("Unable to get template: " + resp.msg);
+				return;
+			}
+			var cce_configuration = JSON.parse(resp.content);
+			
+			// CCE Tree items
+			$('#div_jstree_cce').jstree(true).uncheck_all();
+			if ((cce_configuration.paths != null) && (cce_configuration.paths.length > 0)) {
+				$.each(cce_configuration.paths, function( idx, path ) {
+					// Select tree node
+					$('#div_jstree_cce').jstree(true).select_node(getTreeNodeId(path));
+				});
+			}
+			// Group Names
+			if ((cce_configuration.id_01 != null) && (cce_configuration.id_01 != "")) {
+				$('#select_group_name_01 option[id="' + cce_configuration.id_01 + '"]').prop("selected", true);
+			}
+			if ((cce_configuration.id_02 != null) && (cce_configuration.id_02 != "")) {
+				$('#select_group_name_02 option[id="' + cce_configuration.id_02 + '"]').prop("selected", true);
+			}
+			if ((cce_configuration.id_03 != null) && (cce_configuration.id_03 != "")) {
+				$('#select_group_name_03 option[id="' + cce_configuration.id_03 + '"]').prop("selected", true);
+			}
+			if ((cce_configuration.delimiter != null) && (cce_configuration.delimiter != "")) {
+				$('#select_group_delimiter option[id="' + cce_configuration.delimiter + '"]').prop("selected", true);
+			}
+			
+			// Set template name same as this one..
+			$("#cce_template_name").val(template);
+	
+			updateCceView();
+		}
+		
+		// --------------------------------------------
+		// Save/Update CCE to template
+		// --------------------------------------------
+		function saveTemplate() {
+			var templateName = getTemplateName();
+			if ((templateName == null) || (templateName == "")) {
+				notify("Template name not specified, not saved...");
+				return;
+			}
+			var resp = callService("/invoke/org.opencm.pub.cce/saveTemplate", "cce_configuration=" + JSON.stringify(getCceConfiguration()) );
+			if (resp.rc == 0) {
+				notify("Template successfully saved ...");
+				// Add to template list if not already there
+				var templates = Array();
+				$('#select_cce_template option').each(function() {
+					var tname = $(this).text();
+					if (tname != "") {
+						templates.push(tname);
+					}
+				});
+
+				if ($.inArray(templateName, templates) == -1) {
+					$('#select_cce_template').append($("<option></option>").attr("value",templateName).text(templateName)); 
+				}
+				
+			} else {
+				notify("Template not saved: " +  resp.msg);
+			}
+		}
+		
+		// Initialize view
+		updateCceView();
+	});
+  </script>
+ </head>
+  
+ <body>
+   <div id="div_top_banner">
+   <div id="div_top_return_cce">
+   	  <a class="h6 text-center" href="javascript:;">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+			<path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
+		</svg>
+		<strong>Return to Inventory</strong>
+	  </a>
+    </div>
+    <div id="div_top_title"><p class="h5 text-center"><strong>Command Central Node Script Generation</strong></p></div>
+  </div>
+  <section id="cceTreeSection">
+   <div id="div_jstree_cce"></div>
+  </section>
+  <section id="cceConfigSection">
+   <div id="div_cce_template">
+	 <div style="width:15%; float:left;"><h4>Template</h4></div>
+	 <div style="width:35%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:90%;">
+		  <div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelect01">Select</label>
+		  </div>
+		  <select class="custom-select" id="select_cce_template">
+			<option id="0" selected>Choose...</option>
+		  </select>
+		</div>
+     </div>
+	 <div id="div_cce_save_template" style="display:none; width:50%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:70%;">
+		  <div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1"><a id="anchor_save_cce_template" href="#">Save</a></span>
+		  </div>
+		  <input id="cce_template_name" type="text" class="form-control" placeholder="Template Name" aria-label="templateName" aria-describedby="basic-addon1">
+		</div>	 
+     </div>
+   </div>
+
+   <div id="div_cce_groups">
+	 <div style="width:15%; float:left; padding-top: 5px;"><h4>Group/Environment</h4><p class="text-left"><i>Optional</i></p></div>
+	 <div style="width:20%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:90%;">
+		  <div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelect01">Name</label>
+		  </div>
+		  <select class="custom-select" id="select_group_name_01">
+			<option id="0" selected>Choose...</option>
+			<option id="1">Tree Level 01</option>
+			<option id="2">Tree Level 02</option>
+			<option id="3">Tree Level 03</option>
+			<option id="4">Tree Level 04</option>
+		  </select>
+		</div>
+	 </div>
+	 <div style="width:20%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:90%;">
+		  <div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelect02">Name</label>
+		  </div>
+		  <select class="custom-select" id="select_group_name_02">
+			<option id="0" selected>Choose...</option>
+			<option id="1">Tree Level 01</option>
+			<option id="2">Tree Level 02</option>
+			<option id="3">Tree Level 03</option>
+			<option id="4">Tree Level 04</option>
+		  </select>
+		</div>
+	 </div>
+	 <div style="width:20%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:90%;">
+		  <div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelect03">Name</label>
+		  </div>
+		  <select class="custom-select" id="select_group_name_03">
+			<option id="0" selected>Choose...</option>
+			<option id="1">Tree Level 01</option>
+			<option id="2">Tree Level 02</option>
+			<option id="3">Tree Level 03</option>
+			<option id="4">Tree Level 04</option>
+		  </select>
+		</div>
+	 </div>
+	 <div style="width:20%; float:left;">
+		<div class="input-group input-group-sm mb-3" style="width:90%;">
+		  <div class="input-group-prepend">
+			<label class="input-group-text" for="inputGroupSelectDel">Delimiter</label>
+		  </div>
+		  <select class="custom-select" id="select_group_delimiter">
+			<option id="0" selected>[space]</option>
+			<option id="1"> :: </option>
+			<option id="2"> -> </option>
+			<option id="3"> => </option>
+			<option id="4"> : </option>
+			<option id="5"> - </option>
+			<option id="6"> / </option>
+			<option id="7"> # </option>
+			<option id="8"> @ </option>
+		  </select>
+		</div>
+	 </div>
+		
+   </div>
+   
+   <div id="div_cce_empty">
+    <div id="div_cce_empty_text">
+	  <span id="span_cce_empty_text">
+		Node generation is a tool to help define Command Central installation nodes based on the inventory.</br></br>
+		The generated CLI commands are then executed from the command line, using the CCE client tool.</br></br>
+		<b>Notes:</b>
+		<ul class="list-unstyled">
+ 		  <ul>
+			<li>Select which installations to be included in the left-side inventory tree.</li>
+			<li>"Group/Environment" section defines optional CCE groups to be generated.</li>
+ 		      <ul>
+				<li>A group name is based on the inventory tree level, where level 01 is the first level under the top OpenCM group in the tree.</li>
+				<li>Up to three different levels can be included in the group.</li>
+				<li>The group delimiter defines the character sequence in between levels (within a single group name).</li>
+			  </ul>
+			<li>A completed CCE CLI configuration can be saved off as a "template".</li>
+			<li>Based on the template name, different CLI scripts can then be easily generated for different Command Central installations.</li>
+		</ul>
+	  </span>
+    </div>
+   </div>
+   
+   <div id="div_cce_script" style="display:none;">
+	  <h4>Command Central CLI:</h4>
+	  <textarea id="#textarea_cce_script" rows="30" cols="150" readonly></textarea>
+   </div>
+   
+   
+  </section>
+  
+ </body>
+</html>

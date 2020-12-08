@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style>
+	/* ------------------------- */
+	/* ---- Div Top banner ----- */
+	/* ------------------------- */
+	#div_top_return_about {
+		float: left;
+		width: 20%;
+		padding-left: 15px;
+	}
+	#div_top_return_about a {
+		color: #3498db;
+		text-decoration: none;
+	}
+	#div_top_title {
+		width: 80%;
+	}
+	
+	/* -------------------------------------- */
+	/* --------      Left side       -------- */
+	/* -------------------------------------- */
+	#aboutLeftSection {
+		width: 20%;
+		float: left;
+	}
+	
+	/* -------------------------------------- */
+	/* -------    Config Section     -------- */
+	/* -------------------------------------- */
+	#aboutSection {
+		width: 80%;
+		height: 100%;
+		float: left;
+	}
+	#aboutSection h4 {
+		color: #3498db;
+		font-size: 1.2em;
+		font-weight: bold;
+		text-align: left
+	}
+	
+	#div_about_github, #div_about_background, #div_about_licenses, #div_about_licenses_3rd {
+		width: 100%;
+		float: left;
+		margin: 10px;
+		padding: 20px 5px 20px;
+		border-bottom: 1px solid #3498db;
+	}
+	#div_about_contributions {
+		width: 100%;
+		float: left;
+		margin: 10px;
+		padding: 20px 5px 20px;
+	}
+
+  </style>
+  <script type="text/javascript">
+	$(document).ready(function(){
+		// Event Listener for Returning to Inventory
+		$( '#div_top_return_about' ).on('click', 'a', function() {
+			showInventory();
+		});
+	});
+  </script>
+ </head>
+  
+ <body>
+   <div id="div_top_banner">
+   <div id="div_top_return_about">
+   	  <a class="h6 text-center" href="javascript:;">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+			<path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
+		</svg>
+		<strong>Return to Inventory</strong>
+	  </a>
+    </div>
+    <div id="div_top_title"><p class="h5 text-center"><strong>About OpenCM</strong></p></div>
+  </div>
+  <section id="aboutLeftSection"><p></p></section>
+  <section id="aboutSection">
+   <div id="div_about_github">
+	  <div style="width:15%; float:left;"><h4>OpenCM on GitHub</h4></div>
+	  <div style="width:85%; float:left;"> 
+	    <div style="width:90%; float:left; margin: 0 20px;"> 
+		  <span>
+				This tool is provided as-is and without warranty or support. OpenCM does not constitute part of the Software AG product suite. Users are free to use, fork and modify it, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.
+				</br></br>
+		  </span>
+		</div>
+      </div>
+   </div>
+   <div id="div_about_background">
+	  <div style="width:15%; float:left;"><h4>Background</h4></div>
+	  <div style="width:85%; float:left;"> 
+	    <div style="width:90%; float:left; margin: 0 20px;"> 
+		  <span>
+			OpenCM was originally developed in 2017 to support governance and control over installed and configured webMethods components. The intention is to provide a means for documenting the required configuration properties as well as an ability to audit properties that are used within runtime installations. 
+			<br/><br/>
+			Over the course of implementing such a tool, it also became apparent that an inventory of servers and installations are properly defined, along with endpoint information. This is also a prerequisite for being able to inspect/retrieve configuration information from remotely installed runtimes. Focus has therefore also been to easily manage such an "inventory" of integration platform components.
+		  </span>
+		</div>
+      </div>
+   </div>
+   <div id="div_about_licenses">
+	  <div style="width:15%; float:left;"><h4>Licensing</h4></div>
+	  <div style="width:85%; float:left;"> 
+	    <div style="width:90%; float:left; margin: 0 20px;"> 
+		  <span>
+			OpenCM is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="main"><b>Apache 2.0</b></a>: 
+			<br/><br/>
+			A permissive license whose main conditions require preservation of copyright and license notices. Contributors provide an express grant of patent rights. Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+		  </span>
+		</div>
+      </div>
+   </div>
+   <div id="div_about_licenses_3rd">
+	  <div style="width:15%; float:left; padding-top: 5px;"><h4>3rd Party Inclusions</h4></div>
+	  <div style="width:85%; float:left;"> 
+	    <div style="width:75%; float:left; margin: 0 20px;"> 
+		   <table class="table-striped table-bordered" style="width:100%;" >
+			  <thead>
+				<tr align="left"><th width="30%" style="padding: 10px">License</th><th width="35%" style="padding: 10px">Included Java</th><th width="35%" style="padding: 10px">Included Javascripts</th></tr>
+			  </thead>
+			  
+			  <tbody>
+				<tr align="left">
+					<td width="30%" style="padding: 10px"><a href="http://www.apache.org/licenses/LICENSE-2.0" target="main">Apache 2</a></td>
+					<td width="35%" style="padding: 10px">
+						<a href="https://mvnrepository.com/artifact/com.fasterxml/aalto-xml/1.0.0" target="main">Aalto XML</a>,&nbsp;
+						<a href="http://commons.apache.org/proper/commons-net" target="main">Apache Commons Net</a>,&nbsp;
+						<a href="https://freemarker.apache.org" target="main">Freemarker</a>,&nbsp;
+						<a href="http://htmlunit.sourceforge.net" target="main">HtmlUnit</a>,&nbsp;
+						<a href="https://hc.apache.org/index.html" target="main">HttpComponents</a>,&nbsp;
+						<a href="https://github.com/jorabin/KeePassJava2" target="main">KeePassJava2</a>,&nbsp;
+						<a href="https://logging.apache.org/log4j/2.x/" target="main">Log4j</a>,&nbsp;
+						<a href="http://www.seleniumhq.org" target="main">Selenium Java</a>,&nbsp;
+						<a href="http://simple.sourceforge.net/" target="main">Simple XML</a>
+					</td>
+					<td width="35%" style="padding: 10px">
+						
+					</td>
+				</tr>
+				<tr align="left">
+					<td width="30%" style="padding: 10px"><a href="http://www.bouncycastle.org/licence.html" target="main">BouncyCastle</a></td>
+					<td width="35%" style="padding: 10px">
+						<a href="http://rtyley.github.io/spongycastle" target="main">Spongy Castle</a>
+					</td>
+					<td width="35%" style="padding: 10px">
+						
+					</td>
+				</tr>
+				<tr align="left">
+					<td width="30%" style="padding: 10px">
+					    <a href="http://www.eclipse.org/legal/epl-2.0/" target="main">Eclipse</a>,&nbsp;
+					    <a href="https://www.gnu.org/software/classpath/license.html" target="main">GNU</a>
+					</td>
+					<td width="35%" style="padding: 10px">
+						<a href="https://eclipse-ee4j.github.io/mail/" target="main">Jakarta Mail</a>
+					</td>
+					<td width="35%" style="padding: 10px">
+						
+					</td>
+				</tr>
+				<tr align="left">
+					<td width="30%" style="padding: 10px"><a href="https://opensource.org/licenses/MIT" target="main">MIT</a></td>
+					<td width="35%" style="padding: 10px">
+						<a href="https://github.com/BetterCloud/vault-java-driver" target="main">Vault Java Driver</a>
+					</td>
+					<td width="35%" style="padding: 10px">
+						<a href="https://getbootstrap.com/" target="main">Bootstrap 4</a>,&nbsp;
+						<a href="https://datatables.net/" target="main">Datatables</a>,&nbsp;
+						<a href="https://jquery.com/" target="main">JQuery</a>,&nbsp;
+						<a href="https://www.jstree.com/" target="main">JSTree</a>
+					</td>
+				</tr>
+				<tr align="left">
+					<td width="30%" style="padding: 10px"><a href="http://json.org/license.html" target="main">Json</a></td>
+					<td width="35%" style="padding: 10px">
+						<a href="https://github.com/stleary/JSON-java" target="main">JSON In Java</a>
+					</td>
+					<td width="35%" style="padding: 10px">
+						
+					</td>
+				</tr>
+			  </tbody>
+		   </table>
+		</div>
+      </div>
+   </div>
+   <div id="div_about_contributions">
+	  <div style="width:15%; float:left;"><h4>Contributions</h4></div>
+	  <div style="width:85%; float:left;"> 
+	    <div style="width:90%; float:left; margin: 0 20px;"> 
+		  <span>
+			Contributions are highly welcomed and encouraged, although we do not guarantee that every contribution will be incorporated into the main project.
+		  </span>
+		</div>
+      </div>
+   </div>
+   
+   
+  </section>
+  
+ </body>
+</html>

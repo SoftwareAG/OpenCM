@@ -1,0 +1,15 @@
+{
+  "hostname" : "smtp.gmail.com",
+  "port" : "587",
+  "username" : "mats.hakan.hansson@gmail.com",
+  "password" : "",
+  "subject" : "OpenCM Audit",
+  "properties" : [ {
+    "key" : "mail.smtp.auth",
+    "value" : "true"
+  } ],
+  "recipients" : [ "hakan.hansson@softwareag.com" ],
+  "from_email" : "audit@opencm.org",
+  "starttls" : "true",
+  "password_handle" : "/OpenCM/SMTP"
+}

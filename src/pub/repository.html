@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <style>
+	/* ------------------------- */
+	/* ---- Div Top banner ----- */
+	/* ------------------------- */
+	#div_top_return_repo {
+		float: left;
+		width: 20%;
+		padding-left: 15px;
+	}
+	#div_top_return_repo a {
+		color: #3498db;
+		text-decoration: none;
+	}
+	#div_top_title {
+		width: 80%;
+	}
+  
+	/* -------------------------------------- */
+	/* --------    Component Tree    -------- */
+	/* -------------------------------------- */
+	#componentsTreeSection {
+		width: 20%;
+		float: left;
+	}
+	#div_jstree_components {
+		margin: 10px;
+		height: 100%;
+	}
+	
+	/* -------------------------------------- */
+	/* --------    Instance Table    -------- */
+	/* -------------------------------------- */
+	#repositoryInstanceSection {
+		width: 80%;
+		float: left;
+		padding-top: 10px;
+	}
+	#div_repository_empty {
+		width: 100%;
+		padding: 0 10% 50px;
+	}
+	#div_repository_empty_title {
+		padding: 20px 0 20px;
+		margin-right: 10%;
+		text-align: center;
+	}
+	#span_repository_empty_title {
+		color: #CCDAF9;
+		font-size: 2.0em;
+	}
+	#div_repository_empty_text {
+		width: 90%;
+		background-color: #F7F8FE;
+		border: 1px solid #3498db;
+		padding: 20px 5% 20px; 
+		text-align: left;
+	}
+	#span_repository_empty_text {
+		color: #3498db;
+		font-size: 1.2em;
+	}
+	#span_repository_empty_text li {
+		margin: 10px 0;
+	}
+	
+	#div_table_instances {
+		width: 90%;
+		padding: 10px 0 50px;
+	}
+	
+	#repositoryInstanceSection h6 {
+		font-weight: bold;
+		text-align: center;
+	}
+	
+	#div_table_instances #table_instances_filter {
+		float: left;
+	}
+	#div_table_properties #table_properties_filter {
+		float: left;
+	}
+	
+	/* -------------------------------------- */
+	/* --------   Properties Table   -------- */
+	/* -------------------------------------- */
+	#repositoryPropertySection {
+		width: 80%;
+		float: right;
+		padding-top: 10px;
+		border-top: 1px solid #3498db;
+	}
+	#div_table_properties {
+		width: 90%;
+	}
+	#repositoryPropertySection h6 {
+		font-weight: bold;
+		text-align: center;
+	}
+	
+	#table_properties_wrapper #table_properties_filter {
+		float: left;
+	}
+	#div_table_properties #table_properties_filter {
+		float: left;
+	}
+	
+  </style>
+  
+  <script type="text/javascript">
+	$(document).ready(function(){
+	
+		// Event Listener for Returning to Inventory
+		$( '#div_top_return_repo' ).on('click', 'a', function() {
+			showInventory();
+		});
+		
+		function getRepoInstallation() {
+			var installationPath = JSON.parse(getRepoInstallationPath());
+			return installationPath[installationPath.length - 1];
+		}
+
+		var instanceTableInitialized = false;
+		var propertyTableInitialized = false;
+		
+		var repoInstallation = callService( "/invoke/org.opencm.pub.repository/getRepository", "path=" + getRepoInstallationPath() );
+
+	   // --------------------------------------------
+	   // Components Tree
+	   // --------------------------------------------
+		var repoComponents = Array();
+		$.each(repoInstallation.components, function( index, component ) {
+			repoComponents.push( { id: component.name, text: component.name, icon: false, state : { opened : false } } );
+		});
+		var repoData = Array();  
+		repoData.push({ id: repoInstallation.name, text: repoInstallation.name, icon: false, state : { opened : true }, children : repoComponents });
+
+		$('#div_jstree_components').jstree(
+			{'plugins':["wholerow"], 'core' : {
+				'data' : repoData
+			}}
+		); 
+		
+		$('#div_jstree_components').on('changed.jstree', function (e, data) {
+			if (data.node.id == getRepoInstallation()) {
+				displayInstallationProperties();
+			} else {
+				displayComponentProperties(data.node.id);
+			}
+			displayInstances(data.node.id);
+		});
+		
+		// --------------------------------------------
+		// Display Installation Properties by default
+		// --------------------------------------------
+		displayInstallationProperties();
+		
+		// --------------------------------------------
+		// Instance Table
+		// --------------------------------------------
+		function displayInstances(component) {
+			if (component == getRepoInstallation()) {
+				$('#div_table_instances').hide();
+				$('#div_repository_empty').show();
+				return;
+			} else {
+				$('#div_repository_empty').hide();
+			}
+			$('#div_table_instances').show();
+			$('#instance_name').text("Instances for component: " + component);
+			var instances = getInstances(component);
+			if (instanceTableInitialized) {
+				redrawInstanceTable(instances);
+			} else {
+				initInstanceTable(instances);
+				instanceTableInitialized = true;
+			}
+		}
+		
+		function getInstances(comp) {
+			var instanceData = Array();
+			$.each(repoInstallation.components, function( index, component ) {
+				if (component.name == comp) {
+					$.each(component.instances, function( index, instance ) {
+						instanceData.push( { instance: component.name + '::' + instance.name });
+					});
+					return false;	// Breaks components loop
+				}
+			});
+			return instanceData;
+		}
+		
+		function redrawInstanceTable(instances) {
+			var table = $('#table_instances').DataTable();
+			table.clear();
+			table.rows.add(instances).draw();
+		}
+		
+		function initInstanceTable(instances) {
+			var table = $('#table_instances').DataTable( {
+				data: instances,
+				dom: 'ft<"row"<"col-md-6"i><"col-md-6"p>>',
+				ordering: true,
+				info:     true,
+				paging:   true,
+				pageLength: 8,
+				lengthMenu: [],
+				filter:   true,
+				columns: [
+					{ data: "instance",
+						render: function(data, type, row, meta) {
+							if (type == "display") {
+								var comp_inst = data.split('::');
+								var instance = comp_inst[1];
+								var link = '<a href="#" id="' + data + '">' + instance + '</a>';
+								return link;
+							} else {
+								return data;
+							}
+						}
+					}					
+				],
+				
+				columnDefs: [
+					{ orderable: true, targets: '_all', className: 'dt-head-left' }
+				]
+			});
+			
+			$('#table_instances').show();
+		}
+		
+		// Event Listener for Instances clicks
+		$( '#table_instances' ).on('click', 'a', function() {
+			var comp_inst = $(this).attr('id').split('::');
+			displayProperties(comp_inst[0], comp_inst[1]);
+		});
+
+
+		// --------------------------------------------
+		// Properties Table
+		// --------------------------------------------
+		function displayInstallationProperties() {
+			$('#div_table_properties').show();
+			$('#property_name').text("Installation Properties");
+			var properties = getInstallationProperties();
+			if (propertyTableInitialized) {
+				redrawPropertyTable(properties);
+			} else {
+				initPropertyTable(properties);
+				propertyTableInitialized = true;
+			}
+		}
+		
+		function displayComponentProperties(component) {
+			$('#div_table_properties').show();
+			$('#property_name').text("Component Properties");
+			var properties = getComponentProperties(component);
+			if (propertyTableInitialized) {
+				redrawPropertyTable(properties);
+			} else {
+				initPropertyTable(properties);
+				propertyTableInitialized = true;
+			}
+		}
+		
+		function displayProperties(component, instance) {
+			$('#div_table_properties').show();
+			$('#property_name').text("Properties for instance: " + instance);
+			var properties = getProperties(component, instance);
+			if (propertyTableInitialized) {
+				redrawPropertyTable(properties);
+			} else {
+				initPropertyTable(properties);
+				propertyTableInitialized = true;
+			}
+		}
+		
+		function getInstallationProperties() {
+			var propertyData = Array();
+			$.each(repoInstallation.properties, function( index, property ) {
+				propertyData.push( { key: property.key, value: property.value });
+			});
+			return propertyData;
+		}
+		
+		function getComponentProperties(comp) {
+			var propertyData = Array();
+			$.each(repoInstallation.components, function( index, component ) {
+				if (component.name == comp) {
+					$.each(component.properties, function( index, property ) {
+						propertyData.push( { key: property.key, value: property.value });
+					});
+				}
+				if (propertyData.length > 0) {
+					return false;	// Breaks components loop
+				}
+			});
+			return propertyData;
+		}
+		
+		function getProperties(comp, inst) {
+			var propertyData = Array();
+			$.each(repoInstallation.components, function( index, component ) {
+				if (component.name == comp) {
+					$.each(component.instances, function( index, instance ) {
+						if (instance.name == inst) {
+							$.each(instance.properties, function( index, property ) {
+								propertyData.push( { key: property.key, value: property.value });
+							});
+							return false;	// Breaks instances loop
+						}
+					});
+				}
+				if (propertyData.length > 0) {
+					return false;	// Breaks components loop
+				}
+			});
+			return propertyData;
+		}
+		
+		function redrawPropertyTable(properties) {
+			var table = $('#table_properties').DataTable();
+			$('#table_properties tbody').off('click');
+			table.clear();
+			table.rows.add(properties).draw();
+		}
+		
+		function initPropertyTable(properties) {
+			var table = $('#table_properties').DataTable( {
+				data: properties,
+				dom: 'ft<"row"<"col-md-6"i><"col-md-6"p>>',
+				ordering: true,
+				info:     true,
+				paging:   true,
+				pageLength: 8,
+				lengthMenu: [],
+				filter:   true,
+				columns: [
+					{ data: "key" },
+					{ data: "value" }
+				],
+				columnDefs: [
+					{ orderable: true, targets: '_all', className: 'dt-head-left' }
+				]
+			});
+			
+			$('#property_table').show();
+		}
+		
+	});
+  </script>
+ </head>
+  
+ <body>
+   <div id="div_top_banner">
+    <div id="div_top_return_repo">
+   	  <a class="h6 text-center" href="javascript:;">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path fill-rule="evenodd" d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z"/>
+			<path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
+		</svg>
+		<strong>Return to Inventory</strong>
+	  </a>
+    </div>
+    <div id="div_top_title"><p class="h5 text-center"><strong>Installation Repository</strong></p></div>
+   </div>
+ 
+  <section id="componentsTreeSection">
+   <div id="div_jstree_components"></div>
+  </section>
+  
+  <section id="repositoryInstanceSection">
+   <div id="div_repository_empty">
+    <div id="div_repository_empty_title">
+	  <span id="span_repository_empty_title">Select Component from tree</span>
+    </div>
+    <div id="div_repository_empty_text">
+	  <span id="span_repository_empty_text">
+		The Repository contains all extracted configuration properties for an installation.
+		</br></br>
+		<b>Clarifications:</b>
+		<ul class="list-unstyled">
+ 		  <ul>
+			<li>The repository for an installation is made up of:
+				<ul>
+					<li>Components</li>
+					<li>Instances</li>
+					<li>Properties</li>
+				</ul>
+			</li>
+			<li>The components are listed in the left-side tree. Clicking a component will show the instances in a table.</li>
+			<li>The instances are then also clickable, which will display all the properties for a single instance.</li>
+			<li>An installation itself also contains certain properties (which are displayed here).</li>
+		  </ul>
+		</ul>
+	  </span>
+    </div>
+   </div>
+   <div id="div_table_instances" style="display:none">
+	<h6 id="instance_name"></h6>
+	<table id="table_instances" class="display" style="width:100%">
+       <thead>
+           <tr>
+               <th>Instance Name</th>
+           </tr>
+       </thead>
+	 </table>	
+    </div>
+  </section>
+  <section id="repositoryPropertySection">
+   <div id="div_table_properties" style="display:none;">
+	<h6 id="property_name"></h6>
+	<table id="table_properties" class="display" style="width:100%">
+       <thead>
+           <tr>
+               <th>Property Key</th>
+               <th>Value</th>
+           </tr>
+       </thead>
+	 </table>	
+    </div>
+  </section>
+  
+ </body>
+</html>

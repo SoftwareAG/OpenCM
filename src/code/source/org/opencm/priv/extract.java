@@ -7,22 +7,19 @@ import com.wm.util.Values;
 import com.wm.app.b2b.server.Service;
 import com.wm.app.b2b.server.ServiceException;
 // --- <<IS-START-IMPORTS>> ---
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Date;
-import java.text.SimpleDateFormat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.io.File;
 import org.opencm.configuration.Configuration;
-import org.opencm.configuration.PkgConfiguration;
 import org.opencm.inventory.Inventory;
-import org.opencm.inventory.RuntimeComponent;
-import org.opencm.inventory.Installation;
-import org.opencm.util.HttpClient;
+import org.opencm.inventory.InventoryInstallation;
+import org.opencm.extract.ExtractRuntimes;
+import org.opencm.extract.ExtractConfiguration;
 import org.opencm.util.LogUtils;
-import org.opencm.security.KeyUtils;
-import org.opencm.extract.spm.SpmOps;
+import org.opencm.util.FileUtils;
+import org.opencm.util.JsonUtils;
 // --- <<IS-END-IMPORTS>> ---
 
 public final class extract
@@ -41,155 +38,174 @@ public final class extract
 
 
 
-	public static final void createConnectivityReport (IData pipeline)
+	public static final void getConfigurationByJson (IData pipeline)
         throws ServiceException
 	{
-		// --- <<IS-START(createConnectivityReport)>> ---
+		// --- <<IS-START(getConfigurationByJson)>> ---
 		// @sigtype java 3.5
-		// --------------------------------------------------------------------
-		// Read in Default Package Properties 
-		// --------------------------------------------------------------------
-		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
+		// [i] field:0:required json
+		// [o] object:0:required ExtractConfiguration
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String	stJson = IDataUtil.getString( pipelineCursor, "json" ); 
+		pipelineCursor.destroy();
 		
-		// --------------------------------------------------------------------
-		// Read in OpenCM Properties
-		// --------------------------------------------------------------------
-		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
-		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
+		LogUtils.logDebug("Get Configuration Object by Json"); 
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Connectivity Report Process Started... ========== ");
+		ExtractConfiguration extConfig = ExtractConfiguration.instantiate(stJson); 
 		
-		// --------------------------------------------------------------------
-		// Ensure that master password is stored in cache
-		// --------------------------------------------------------------------
-		if (KeyUtils.getMasterPassword() == null) {
-			try {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Connectivity Report : Master Pwd NULL - running startup service ... ");
-				Service.doInvoke(com.wm.lang.ns.NSName.create("org.opencm.pub.startup", "startup"), IDataFactory.create());
-			} catch (Exception ex) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"Connectivity Report :: " + ex.getMessage());
+		// pipeline
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
+		IDataUtil.put( pipelineCursor2, "ExtractConfiguration", extConfig );
+		pipelineCursor2.destroy(); 
+		
+		LogUtils.logDebug("Got Configuration Object by Json");
+					
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void getConfigurationByTemplate (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(getConfigurationByTemplate)>> ---
+		// @sigtype java 3.5
+		// [i] field:0:required templateName
+		// [o] object:0:required ExtractConfiguration
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String	stTemplateName = IDataUtil.getString( pipelineCursor, "templateName" ); 
+		pipelineCursor.destroy();
+		
+		LogUtils.logDebug("Get Configuration Object by Template");
+		
+		File templateFile = new File(ExtractConfiguration.EXTRACT_CONFIG_DIRECTORY.getPath() + File.separator + stTemplateName + ".json");
+		
+		if (!templateFile.exists()) { 
+			LogUtils.logError("Get Configuration: No file exists :: " + templateFile.getPath()); 
+			return;
+		}
+			
+		ExtractConfiguration extConfig = ExtractConfiguration.instantiate(templateFile); 
+		
+		// pipeline
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
+		IDataUtil.put( pipelineCursor2, "ExtractConfiguration", extConfig );
+		pipelineCursor2.destroy(); 
+		
+		LogUtils.logDebug("Got Configuration Object by Template");
+					
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void getTemplate (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(getTemplate)>> ---
+		// @sigtype java 3.5
+		// [i] field:0:required templateName
+		// [o] field:0:required json_response
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		String	stTemplateName = IDataUtil.getString( pipelineCursor, "templateName" );
+		pipelineCursor.destroy();
+		
+		LogUtils.logDebug("Get Template"); 
+		
+		String msg = "Success";
+		int rc = 0;
+		
+		String json = null;
+		File templateFile = new File(ExtractConfiguration.EXTRACT_CONFIG_DIRECTORY.getPath() + File.separator + stTemplateName + ".json");
+		if (!templateFile.exists()) {
+			LogUtils.logError("Get Template: No file exists :: " + templateFile.getPath());
+			msg = "Failure: No template file exists.";
+			rc = -1;
+		} else { 
+			ExtractConfiguration extConfig = ExtractConfiguration.instantiate(templateFile);
+			if (extConfig == null) {
+				rc = -1;
+				msg = "Failure getting configuration ";
+			} else {
+				json = JsonUtils.convertJavaObjectToJson(extConfig);
 			}
 		}
 		
-		// --------------------------------------------------------------------
-		// Construct Current date time for report
-		// --------------------------------------------------------------------
-		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd'_'HH-mm");
-		Date cDate = new Date(System.currentTimeMillis());
-		String cDateTime = formatter.format(cDate);
+		// pipeline
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
 		
-		// --------------------------------------------------------------------
-		// Read in Inventory
-		// --------------------------------------------------------------------
-		Inventory inv = Inventory.instantiate(opencmConfig);
+		String jResp = JsonUtils.createJsonField("rc", new Integer(rc).toString());
+		if (rc < 0) {
+			jResp = JsonUtils.addField(jResp,"msg",msg);
+		} else {
+			jResp = JsonUtils.addField(jResp,"content", json);
+		}
+		LogUtils.logDebug("getTemplate : " + jResp);
+		IDataUtil.put( pipelineCursor2, "json_response", jResp);
+		pipelineCursor2.destroy(); 
 		
-		// --------------------------------------------------------------------
-		// Ensure Encrypted passwords ...
-		// --------------------------------------------------------------------
-		inv.ensureEncryptedPasswords(opencmConfig);
+		LogUtils.logDebug("Got Template");
+					
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void getTemplates (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(getTemplates)>> ---
+		// @sigtype java 3.5
+		// [o] field:0:required json_response
+		LogUtils.logDebug("Get Templates"); 
 		
-		// --------------------------------------------------------------------
-		// Define which nodes to extract 
-		// --------------------------------------------------------------------
-		LinkedList<Installation> installations = new LinkedList<Installation>();
+		String msg = "Success"; 
+		int rc = 0;
 		
-		installations = inv.createInventory(opencmConfig, opencmConfig.getExtract()).getAllInstallations();
+		LinkedList<String> lTemplates = new LinkedList<String>();
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Connectivity Report: Installations: " + installations.size());
-		
-		// ------------------------------------------------------
-		// Create Fix Script Content
-		// ------------------------------------------------------
-		StringBuffer sb = new StringBuffer();
-		sb.append("------------------------------------------------------" + System.lineSeparator());
-		sb.append(" Connectivity Report :: " + cDateTime + System.lineSeparator());
-		sb.append("------------------------------------------------------" + System.lineSeparator());
-		sb.append(System.lineSeparator());
-		
-		HttpClient client = new HttpClient();
-		// --------------------------------------------------------------------
-		// Check All nodes
-		// --------------------------------------------------------------------
-		for (int i = 0; i < installations.size(); i++) {
-			Installation installation = installations.get(i);
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"  Verifying Installation: " + installation.getName());
-			RuntimeComponent spmRC = installation.getRuntimeComponent(RuntimeComponent.RUNTIME_COMPONENT_NAME_SPM);
-			if (spmRC == null) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"   --- No SPM defined ... ");
-				continue;
-			}
-			String spmRequestURL = spmRC.getProtocol() + "://" + inv.getNodeServer(installation.getName()).getName() + ":" + spmRC.getPort() + "/spm/inventory/platform";
-			client.setURL(spmRequestURL);
-			client.setCredentials(spmRC.getUsername(), spmRC.getDecryptedPassword());
+		ExtractConfiguration.checkDirectory();
+		if (!ExtractConfiguration.EXTRACT_CONFIG_DIRECTORY.exists()) {
+			msg = "Failure: Unable to get templates directory.";
+			rc = -1;
+		} else {
 			try {
-				client.get();
-				if (client.getStatusCode() == 200) {
-					sb.append("  SPM OK :: " + installation.getName() + System.lineSeparator());
-				} else {
-					sb.append("------------------------------------------------------" + System.lineSeparator());
-					sb.append("  " + installation.getName() + " SPM --> URL: " + spmRequestURL + System.lineSeparator());
-					sb.append("  HTTP Status Code = " + client.getStatusCode() + " (" + client.getResponse() + ")" + System.lineSeparator());
-					sb.append("------------------------------------------------------" + System.lineSeparator());
-				}
-			} catch (ServiceException ex) {
-				sb.append("------------------------------------------------------" + System.lineSeparator());
-				sb.append("  " + installation.getName() + " SPM --> URL: " + spmRequestURL + System.lineSeparator());
-				sb.append("  " + ex.toString() + System.lineSeparator());
-				sb.append("------------------------------------------------------" + System.lineSeparator());
-			}
-			// -----------------------------------------
-			// Check Integration Server connectivity
-			// -----------------------------------------
-			for (int c = 0; c < installation.getRuntimes().size(); c++) {
-				RuntimeComponent rc = installation.getRuntimes().get(c);
-				if (rc.getName().startsWith("integrationServer-")) {
-					String isRequestURL = rc.getProtocol() + "://" + inv.getNodeServer(installation.getName()).getName() + ":" + rc.getPort();
-					client.setURL(isRequestURL);
-					client.setCredentials(rc.getUsername(), rc.getDecryptedPassword());
-					try {
-						client.get();
-						if (client.getStatusCode() == 200) {
-							sb.append("  Integration Server OK :: " + installation.getName() + " IS instance: " + rc.getName() + System.lineSeparator());
-						} else {
-							sb.append("------------------------------------------------------" + System.lineSeparator());
-							sb.append("  " + installation.getName() + " IS instance: " + rc.getName() + " --> URL: " + isRequestURL + System.lineSeparator());
-							sb.append("  HTTP Status Code = " + client.getStatusCode() + " (" + client.getResponse() + ")" + System.lineSeparator());
-							sb.append("------------------------------------------------------" + System.lineSeparator());
-						}
-					} catch (ServiceException ex) {
-						sb.append("------------------------------------------------------" + System.lineSeparator());
-						sb.append("  " + installation.getName() + " IS instance: " + rc.getName() + " URL: " + isRequestURL + System.lineSeparator());
-						sb.append("  " + ex.toString() + System.lineSeparator());
-						sb.append("------------------------------------------------------" + System.lineSeparator());
+				File [] fDirectories = ExtractConfiguration.EXTRACT_CONFIG_DIRECTORY.listFiles();
+				for(File path : fDirectories) {
+					if ((path.isFile() && path.getName().endsWith(".json"))) {
+						lTemplates.add(path.getName().substring(0,path.getName().lastIndexOf(".")));
 					}
 				}
-				
+			} catch (Exception ex) {
+				LogUtils.logError("getTemplates: Exception: " + ex.getMessage());
 			}
-			
 		}
 		
-		sb.append(System.lineSeparator());
-		sb.append("------------------------------------------------------" + System.lineSeparator());
+		String json = JsonUtils.convertJavaObjectToJson(lTemplates);
 		
-		// ------------------------------------------------------
-		// Write Fix Script Content to file
-		// ------------------------------------------------------
-		try {
-			BufferedWriter bwr = new BufferedWriter(new FileWriter(opencmConfig.getOutput_dir() + File.separator + "ConnectivityReport_" + cDateTime + ".txt"));
-		    bwr.write(sb.toString());
-		   
-		    //flush the stream
-		    bwr.flush();
-		   
-		    //close the stream
-		    bwr.close();
-		    
-		} catch (IOException ex) {
-			LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL," Connectivity Report :: Exception: " + ex.toString());
+		// -----------------------------------------------------
+		// Pass back result
+		// -----------------------------------------------------
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
+		String jResp = JsonUtils.createJsonField("rc", new Integer(rc).toString());
+		if (rc < 0) {
+			jResp = JsonUtils.addField(jResp,"msg",msg);
+		} else {
+			jResp = JsonUtils.addField(jResp,"content", json);
 		}
+		IDataUtil.put( pipelineCursor2, "json_response", jResp);
+		pipelineCursor2.destroy(); 
 		
-			
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"--------------   Connectivity Report Process Completed... -------------- ");
+		LogUtils.logDebug("Got Templates");
 			
 		// --- <<IS-END>> ---
 
@@ -198,81 +214,102 @@ public final class extract
 
 
 
-	public static final void run (IData pipeline)
+	public static final void performExtract (IData pipeline)
         throws ServiceException
 	{
-		// --- <<IS-START(run)>> ---
+		// --- <<IS-START(performExtract)>> ---
 		// @sigtype java 3.5
-		// [i] field:0:required node
-		IDataCursor pipelineCursor = pipeline.getCursor(); 
-		String	stNode = IDataUtil.getString( pipelineCursor, "node" );
-		pipelineCursor.destroy();
+		// [i] object:0:required ExtractConfiguration
+		// [i] field:0:required keepassPassword
+		// [i] field:0:required vaultToken
+		// pipeline
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		ExtractConfiguration extConfig = (ExtractConfiguration) IDataUtil.get( pipelineCursor, "ExtractConfiguration" );
+		String keepassPassword = IDataUtil.getString( pipelineCursor, "keepassPassword" );
+		String vaultToken = IDataUtil.getString( pipelineCursor, "vaultToken" );
+		pipelineCursor.destroy(); 
 		
-		// --------------------------------------------------------------------
-		// Read in Default Package Properties 
-		// --------------------------------------------------------------------
-		PkgConfiguration pkgConfig = PkgConfiguration.instantiate();
-		
-		// --------------------------------------------------------------------
-		// Read in OpenCM Properties
-		// --------------------------------------------------------------------
-		Configuration opencmConfig = Configuration.instantiate(pkgConfig.getConfig_directory());
-		opencmConfig.setConfigDirectory(pkgConfig.getConfig_directory());
-		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Extraction Process Started... ========== ");
-		
-		// --------------------------------------------------------------------
-		// Ensure that master password is stored in cache
-		// --------------------------------------------------------------------
-		if (KeyUtils.getMasterPassword() == null) {
-			try {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Extraction: Master Pwd NULL - running startup service ... ");
-				Service.doInvoke(com.wm.lang.ns.NSName.create("org.opencm.pub.startup", "startup"), IDataFactory.create());
-			} catch (Exception ex) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_CRITICAL,"OpenCM extract:run :: " + ex.getMessage());
-			}
+		if (extConfig.getPaths().isEmpty()) { 
+			LogUtils.logError("Extraction: No paths received "); 
+			return;
 		}
 		
-		// --------------------------------------------------------------------
-		// Read in Inventory
-		// --------------------------------------------------------------------
-		Inventory inv = Inventory.instantiate(opencmConfig);
-		
-		// --------------------------------------------------------------------
-		// Ensure Encrypted passwords ...
-		// --------------------------------------------------------------------
-		inv.ensureEncryptedPasswords(opencmConfig);
-		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_DEBUG," Extraction job parameter: " + stNode);
-		
-		// --------------------------------------------------------------------
-		// Define which nodes to extract 
-		// --------------------------------------------------------------------
-		LinkedList<Installation> installations = new LinkedList<Installation>();
-		
-		if (stNode.equals("PROPS")) {
-			installations = inv.createInventory(opencmConfig, opencmConfig.getExtract()).getAllInstallations();
-		} else {
-			// Single node extract
-			installations.add(inv.getInstallation(stNode));
+		if ((keepassPassword == null) || (vaultToken == null)) { 
+			LogUtils.logError("Extraction: No secrets password received "); 
+			return;
 		}
 		
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Extraction: Installations to be extracted: " + installations.size());
+		LogUtils.logInfo("Extraction Started");
 		
 		// --------------------------------------------------------------------
-		// Extract All nodes
+		// Read in Inventory 
 		// --------------------------------------------------------------------
-		for (int i = 0; i < installations.size(); i++) {
-			Installation installation = installations.get(i);
-			SpmOps spm = new SpmOps(opencmConfig, inv, installation);
-			if (spm.getNode() != null) {
-				LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO," Extraction: Processing Node " + installation.getName());
-				spm.extractAll();
-				spm.persist(); 
-			}
+		Inventory inv = Inventory.getInstance();
+		
+		// -----------------------------------------------------
+		// Get all Installations from this inventory based on paths
+		// -----------------------------------------------------
+		LinkedList<InventoryInstallation> extractInstallations = new LinkedList<InventoryInstallation>();
+		Inventory.getInstallations(inv.getRootGroup(), extractInstallations, extConfig.getPaths());
+		LogUtils.logDebug("Extraction: Installations to be extracted: " + extractInstallations.size());
+		for (InventoryInstallation inst : extractInstallations) {
+			LogUtils.logInfo("Extraction: Processing: " + inst.getName()); 
+			new ExtractRuntimes(inst, keepassPassword, vaultToken); 
 		}
+		
+		LogUtils.logInfo("Extraction Completed");
 			
-		LogUtils.log(opencmConfig.getDebug_level(),Configuration.OPENCM_LOG_INFO,"=========   Extraction Process Completed... ========== ");
+			
+		// --- <<IS-END>> ---
+
+                
+	}
+
+
+
+	public static final void saveTemplate (IData pipeline)
+        throws ServiceException
+	{
+		// --- <<IS-START(saveTemplate)>> ---
+		// @sigtype java 3.5
+		// [i] object:0:required ExtractConfiguration
+		// [o] field:0:required json_response
+		IDataCursor pipelineCursor = pipeline.getCursor();
+		ExtractConfiguration extConfig = (ExtractConfiguration) IDataUtil.get( pipelineCursor, "ExtractConfiguration" );
+		
+		pipelineCursor.destroy(); 
+		
+		LogUtils.logDebug("Save Template");
+		
+		// -----------------------------------------------------
+		// Validate
+		// -----------------------------------------------------
+		String msg = "Success"; 
+		int rc = 0;
+		
+		// -----------------------------------------------------
+		// Save template
+		// -----------------------------------------------------
+		ExtractConfiguration.checkDirectory();
+		if (!ExtractConfiguration.EXTRACT_CONFIG_DIRECTORY.exists()) {
+			rc = -1;
+			msg = "Unable to get directory " + ExtractConfiguration.EXTRACT_CONFIG_DIRECTORY.getPath();
+			
+		} else {
+			extConfig.save();
+			LogUtils.logDebug("Template Saved");
+		}
+		
+		// pipeline
+		IDataCursor pipelineCursor2 = pipeline.getCursor();
+		
+		String jResp = JsonUtils.createJsonField("msg",msg);
+		jResp = JsonUtils.addField(jResp,"rc", new Integer(rc).toString());
+		
+		IDataUtil.put( pipelineCursor2, "json_response", jResp);
+		pipelineCursor.destroy(); 
+		
+		LogUtils.logDebug("Saved Template");
 			
 		// --- <<IS-END>> ---
 
@@ -280,6 +317,9 @@ public final class extract
 	}
 
 	// --- <<IS-START-SHARED>> ---
+
+
+
 	
 	// --- <<IS-END-SHARED>> ---
 }

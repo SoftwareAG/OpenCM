@@ -1,0 +1,37 @@
+{
+	"configuration": {
+		"status": "error",
+		"name": "OpenCMConfig",
+		"packages": "",
+		"properties": {
+			"property": {
+				"name": "filename",
+				"value": "logs/opencm.log"
+			}
+		},
+		"appenders": {
+			"RollingFile": {
+				"name": "OpenCMLogFile",
+				"fileName": "${filename}",
+				"filePattern": "logs/opencm.%i.log",
+				"PatternLayout": {
+					"pattern": "%d %p %m%n"
+				},
+				"SizeBasedTriggeringPolicy": {
+					"size": "50 MB"
+				}
+			}
+		},
+		"loggers": {
+			"logger": {
+				"name": "org.opencm.util.LogUtils",
+				"level": "info",
+				"additivity": "false",
+				"AppenderRef": {
+					"ref": "OpenCMLogFile"
+				}
+			},
+			"root": { "level": "OFF"}
+		}
+	}
+}

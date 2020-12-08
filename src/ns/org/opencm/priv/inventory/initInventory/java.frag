@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Values version="2.0">
+  <value name="name">initInventory</value>
+  <value name="encodeutf8">true</value>
+  <value name="body">TG9nVXRpbHMubG9nRGVidWcoIkluaXQgSW52ZW50b3J5Iik7DQoNCi8vIC0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQov
+LyBSZWZyZXNoIEludmVudG9yeQ0KLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkNhY2hlLmdldEluc3RhbmNlKCku
+c2V0KEludmVudG9yeS5JTlZFTlRPUllfQ0FDSEVfS0VZLCBudWxsKTsNCkNhY2hlLmdldEluc3Rh
+bmNlKCkuc2V0KEludmVudG9yeS5JTlZFTlRPUllfU0VDUkVUU19DQUNIRV9LRVksIG51bGwpOw0K
+SW52ZW50b3J5Lmluc3RhbnRpYXRlKCk7DQoNCkxvZ1V0aWxzLmxvZ0luZm8oIkludmVudG9yeSBJ
+bml0aWFsaXplZCIpOw0KCQ==</value>
+</Values>

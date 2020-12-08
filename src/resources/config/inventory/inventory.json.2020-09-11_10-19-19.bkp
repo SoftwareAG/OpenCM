@@ -1,0 +1,816 @@
+{
+  "root_group" : {
+    "name" : "OpenCM",
+    "path" : [ "OpenCM" ],
+    "groups" : [ {
+      "name" : "Acme",
+      "path" : [ "OpenCM", "Acme" ],
+      "groups" : [ {
+        "name" : "Dev Zone",
+        "path" : [ "OpenCM", "Acme", "Dev Zone" ],
+        "groups" : [ {
+          "name" : "Central Admin",
+          "path" : [ "OpenCM", "Acme", "Dev Zone", "Central Admin" ],
+          "groups" : [ ],
+          "installations" : [ {
+            "name" : "ACME_DEVZ_ADM_V103_IS_01",
+            "description" : "Central DEV Admin IS",
+            "hostname" : "srv124.acme.local",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "Central Admin", "ACME_DEVZ_ADM_V103_IS_01" ],
+            "runtimes" : [ {
+              "name" : "OSGI-SPM",
+              "protocol" : "http",
+              "port" : "10092",
+              "username" : "Administrator",
+              "password" : "",
+              "password_handle" : "/OpenCM/Acme/Dev Zone/Central Admin/ACME_DEVZ_ADM_V103_IS_01/OSGI-SPM",
+              "alt_hostname" : null
+            }, {
+              "name" : "OPENCM-SYNCH",
+              "protocol" : "ftps",
+              "port" : "10021",
+              "username" : "Administrator",
+              "password" : "",
+              "password_handle" : "/OpenCM/Acme/Dev Zone/Central Admin/ACME_DEVZ_ADM_V103_IS_01/OPENCM-SYNCH",
+              "alt_hostname" : null
+            } ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          }, {
+            "name" : "ACME_DEVZ_ADM_V103_CCE_01",
+            "description" : "",
+            "hostname" : "srv123.acme.local",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "Central Admin", "ACME_DEVZ_ADM_V103_CCE_01" ],
+            "runtimes" : [ {
+              "name" : "OSGI-SPM",
+              "protocol" : "http",
+              "port" : "18092",
+              "username" : "Administrator",
+              "password" : "",
+              "password_handle" : "/OpenCM/Acme/Dev Zone/Central Admin/ACME_DEVZ_ADM_V103_CCE_01/OSGI-SPM",
+              "alt_hostname" : null
+            } ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          } ]
+        }, {
+          "name" : "Database Servers",
+          "path" : [ "OpenCM", "Acme", "Dev Zone", "Database Servers" ],
+          "groups" : [ ],
+          "installations" : [ {
+            "name" : "ORA_V12G",
+            "description" : "Oracle version 12g for Development",
+            "hostname" : "db311.acme.local",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "Database Servers", "ORA_V12G" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          }, {
+            "name" : "MSSQL_V2016",
+            "description" : "MS SQL Server 2016",
+            "hostname" : "db345.acme.local",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "Database Servers", "MSSQL_V2016" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          }, {
+            "name" : "DB2_V123",
+            "description" : "DB2",
+            "hostname" : "db369.acme.local",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "Database Servers", "DB2_V123" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          } ]
+        }, {
+          "name" : "Local Dev",
+          "path" : [ "OpenCM", "Acme", "Dev Zone", "Local Dev" ],
+          "groups" : [ ],
+          "installations" : [ {
+            "name" : "ACME_LDEV_S124_V104_01",
+            "description" : "Used by John Smith",
+            "hostname" : "srv124.acme.local",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "Local Dev", "ACME_LDEV_S124_V104_01" ],
+            "runtimes" : [ {
+              "name" : "OSGI-SPM",
+              "protocol" : "http",
+              "port" : "10092",
+              "username" : "Administrator",
+              "password" : "",
+              "password_handle" : "/OpenCM/Acme/Dev Zone/Local Dev/ACME_LDEV_S124_V104_01/OSGI-SPM",
+              "alt_hostname" : null
+            }, {
+              "name" : "integrationServer-default",
+              "protocol" : "http",
+              "port" : "10055",
+              "username" : "Administrator",
+              "password" : "",
+              "password_handle" : "/OpenCM/Acme/Dev Zone/Local Dev/ACME_LDEV_S124_V104_01/integrationServer-default",
+              "alt_hostname" : null
+            } ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ {
+              "url" : "https://acme.lb.com:80",
+              "port" : "10055"
+            } ]
+          }, {
+            "name" : "ACME_LDEV_S125_V104_01",
+            "description" : "",
+            "hostname" : "srv125.acme.local",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "Local Dev", "ACME_LDEV_S125_V104_01" ],
+            "runtimes" : [ {
+              "name" : "OSGI-SPM",
+              "protocol" : "http",
+              "port" : "10092",
+              "username" : "Administrator",
+              "password" : "",
+              "password_handle" : "/OpenCM/Acme/Dev Zone/Local Dev/ACME_LDEV_S125_V104_01/OSGI-SPM",
+              "alt_hostname" : null
+            } ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          } ]
+        }, {
+          "name" : "System Test",
+          "path" : [ "OpenCM", "Acme", "Dev Zone", "System Test" ],
+          "groups" : [ {
+            "name" : "ESB",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "System Test", "ESB" ],
+            "groups" : [ {
+              "name" : "Batch Cluster",
+              "path" : [ "OpenCM", "Acme", "Dev Zone", "System Test", "ESB", "Batch Cluster" ],
+              "groups" : [ ],
+              "installations" : [ {
+                "name" : "ACME_SYS_ESB_V103_BATCH_01",
+                "description" : "",
+                "hostname" : "srv134.acme.local",
+                "path" : [ "OpenCM", "Acme", "Dev Zone", "System Test", "ESB", "Batch Cluster", "ACME_SYS_ESB_V103_BATCH_01" ],
+                "runtimes" : [ {
+                  "name" : "OSGI-SPM",
+                  "protocol" : "http",
+                  "port" : "10092",
+                  "username" : "Administrator",
+                  "password" : "",
+                  "password_handle" : "/OpenCM/Acme/Dev Zone/System Test/ESB/Batch Cluster/ACME_SYS_ESB_V103_BATCH_01/OSGI-SPM",
+                  "alt_hostname" : null
+                } ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              }, {
+                "name" : "ACME_SYS_ESB_V103_BATCH_02",
+                "description" : "",
+                "hostname" : "srv135.acme.local",
+                "path" : [ "OpenCM", "Acme", "Dev Zone", "System Test", "ESB", "Batch Cluster", "ACME_SYS_ESB_V103_BATCH_02" ],
+                "runtimes" : [ {
+                  "name" : "OSGI-SPM",
+                  "protocol" : "http",
+                  "port" : "10092",
+                  "username" : "Administrator",
+                  "password" : "",
+                  "password_handle" : "/OpenCM/Acme/Dev Zone/System Test/ESB/Batch Cluster/ACME_SYS_ESB_V103_BATCH_02/OSGI-SPM",
+                  "alt_hostname" : null
+                } ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              } ]
+            }, {
+              "name" : "Online Cluster",
+              "path" : [ "OpenCM", "Acme", "Dev Zone", "System Test", "ESB", "Online Cluster" ],
+              "groups" : [ ],
+              "installations" : [ {
+                "name" : "ACME_SYS_ESB_V103_ONLINE_01",
+                "description" : "",
+                "hostname" : "srv137.acme.local",
+                "path" : [ "OpenCM", "Acme", "Dev Zone", "System Test", "ESB", "Online Cluster", "ACME_SYS_ESB_V103_ONLINE_01" ],
+                "runtimes" : [ {
+                  "name" : "OSGI-SPM",
+                  "protocol" : "http",
+                  "port" : "10092",
+                  "username" : "Administrator",
+                  "password" : "",
+                  "password_handle" : "/OpenCM/Acme/Dev Zone/System Test/ESB/Online Cluster/ACME_SYS_ESB_V103_ONLINE_01/OSGI-SPM",
+                  "alt_hostname" : null
+                } ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              }, {
+                "name" : "ACME_SYS_ESB_V103_ONLINE_02",
+                "description" : "",
+                "hostname" : "srv138.acme.local",
+                "path" : [ "OpenCM", "Acme", "Dev Zone", "System Test", "ESB", "Online Cluster", "ACME_SYS_ESB_V103_ONLINE_02" ],
+                "runtimes" : [ {
+                  "name" : "OSGI-SPM",
+                  "protocol" : "http",
+                  "port" : "10092",
+                  "username" : "Administrator",
+                  "password" : "",
+                  "password_handle" : "/OpenCM/Acme/Dev Zone/System Test/ESB/Online Cluster/ACME_SYS_ESB_V103_ONLINE_02/OSGI-SPM",
+                  "alt_hostname" : null
+                } ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              } ]
+            } ],
+            "installations" : [ ]
+          }, {
+            "name" : "Messaging",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "System Test", "Messaging" ],
+            "groups" : [ ],
+            "installations" : [ {
+              "name" : "ACME_SYS_MSG_V105_UM_01",
+              "description" : "",
+              "hostname" : "srv149.acme.local",
+              "path" : [ "OpenCM", "Acme", "Dev Zone", "System Test", "Messaging", "ACME_SYS_MSG_V105_UM_01" ],
+              "runtimes" : [ {
+                "name" : "OSGI-SPM",
+                "protocol" : "http",
+                "port" : "10092",
+                "username" : "Administrator",
+                "password" : "",
+                "password_handle" : "/OpenCM/Acme/Dev Zone/System Test/Messaging/ACME_SYS_MSG_V105_UM_01/OSGI-SPM",
+                "alt_hostname" : null
+              } ],
+              "instances" : [ ],
+              "repoExists" : false,
+              "load_balancers" : [ ]
+            } ]
+          } ],
+          "installations" : [ ]
+        }, {
+          "name" : "UAT",
+          "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT" ],
+          "groups" : [ {
+            "name" : "API",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "API" ],
+            "groups" : [ ],
+            "installations" : [ {
+              "name" : "ACME_UAT_API_V105_APIGW_01",
+              "description" : "",
+              "hostname" : "srv249.acme.local",
+              "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "API", "ACME_UAT_API_V105_APIGW_01" ],
+              "runtimes" : [ {
+                "name" : "OSGI-SPM",
+                "protocol" : "http",
+                "port" : "10092",
+                "username" : "Administrator",
+                "password" : "",
+                "password_handle" : "/OpenCM/Acme/Dev Zone/UAT/API/ACME_UAT_API_V105_APIGW_01/OSGI-SPM",
+                "alt_hostname" : null
+              } ],
+              "instances" : [ ],
+              "repoExists" : false,
+              "load_balancers" : [ ]
+            } ]
+          }, {
+            "name" : "ESB",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "ESB" ],
+            "groups" : [ {
+              "name" : "Batch Cluster",
+              "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "ESB", "Batch Cluster" ],
+              "groups" : [ ],
+              "installations" : [ {
+                "name" : "ACME_UAT_ESB_V103_BATCH_01",
+                "description" : "",
+                "hostname" : "srv234.acme.local",
+                "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "ESB", "Batch Cluster", "ACME_UAT_ESB_V103_BATCH_01" ],
+                "runtimes" : [ {
+                  "name" : "OSGI-SPM",
+                  "protocol" : "http",
+                  "port" : "10092",
+                  "username" : "Administrator",
+                  "password" : "",
+                  "password_handle" : "/OpenCM/Acme/Dev Zone/UAT/ESB/Batch Cluster/ACME_UAT_ESB_V103_BATCH_01/OSGI-SPM",
+                  "alt_hostname" : null
+                } ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              }, {
+                "name" : "ACME_UAT_ESB_V103_BATCH_02",
+                "description" : "",
+                "hostname" : "srv235.acme.local",
+                "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "ESB", "Batch Cluster", "ACME_UAT_ESB_V103_BATCH_02" ],
+                "runtimes" : [ {
+                  "name" : "OSGI-SPM",
+                  "protocol" : "http",
+                  "port" : "10092",
+                  "username" : "Administrator",
+                  "password" : "",
+                  "password_handle" : "/OpenCM/Acme/Dev Zone/UAT/ESB/Batch Cluster/ACME_UAT_ESB_V103_BATCH_02/OSGI-SPM",
+                  "alt_hostname" : null
+                } ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              } ]
+            }, {
+              "name" : "Online Cluster",
+              "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "ESB", "Online Cluster" ],
+              "groups" : [ ],
+              "installations" : [ {
+                "name" : "ACME_UAT_ESB_V103_ONLINE_01",
+                "description" : "",
+                "hostname" : "srv237.acme.local",
+                "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "ESB", "Online Cluster", "ACME_UAT_ESB_V103_ONLINE_01" ],
+                "runtimes" : [ {
+                  "name" : "OSGI-SPM",
+                  "protocol" : "http",
+                  "port" : "10092",
+                  "username" : "Administrator",
+                  "password" : "",
+                  "password_handle" : "/OpenCM/Acme/Dev Zone/UAT/ESB/Online Cluster/ACME_UAT_ESB_V103_ONLINE_01/OSGI-SPM",
+                  "alt_hostname" : null
+                } ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              }, {
+                "name" : "ACME_UAT_ESB_V103_ONLINE_02",
+                "description" : "",
+                "hostname" : "srv238.acme.local",
+                "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "ESB", "Online Cluster", "ACME_UAT_ESB_V103_ONLINE_02" ],
+                "runtimes" : [ {
+                  "name" : "OSGI-SPM",
+                  "protocol" : "http",
+                  "port" : "10092",
+                  "username" : "Administrator",
+                  "password" : "",
+                  "password_handle" : "/OpenCM/Acme/Dev Zone/UAT/ESB/Online Cluster/ACME_UAT_ESB_V103_ONLINE_02/OSGI-SPM",
+                  "alt_hostname" : null
+                } ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              } ]
+            } ],
+            "installations" : [ ]
+          }, {
+            "name" : "Messaging",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "Messaging" ],
+            "groups" : [ ],
+            "installations" : [ {
+              "name" : "ACME_UAT_MSG_V105_UM_01",
+              "description" : "",
+              "hostname" : "srv249.acme.local",
+              "path" : [ "OpenCM", "Acme", "Dev Zone", "UAT", "Messaging", "ACME_UAT_MSG_V105_UM_01" ],
+              "runtimes" : [ {
+                "name" : "OSGI-SPM",
+                "protocol" : "http",
+                "port" : "10092",
+                "username" : "Administrator",
+                "password" : "",
+                "password_handle" : "/OpenCM/Acme/Dev Zone/UAT/Messaging/ACME_UAT_MSG_V105_UM_01/OSGI-SPM",
+                "alt_hostname" : ""
+              }, {
+                "name" : "universalMessaging-default",
+                "protocol" : "ftps",
+                "port" : "29000",
+                "username" : "Administrator",
+                "password" : "",
+                "password_handle" : "/OpenCM/Acme/Dev Zone/UAT/Messaging/ACME_UAT_MSG_V105_UM_01/universalMessaging-default",
+                "alt_hostname" : "virt-hostname.acme.local"
+              } ],
+              "instances" : [ ],
+              "repoExists" : false,
+              "load_balancers" : [ ]
+            } ]
+          } ],
+          "installations" : [ ]
+        }, {
+          "name" : "Unassigned",
+          "path" : [ "OpenCM", "Acme", "Dev Zone", "Unassigned" ],
+          "groups" : [ {
+            "name" : "srv161.acme.local",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "Unassigned", "srv161.acme.local" ],
+            "groups" : [ ],
+            "installations" : [ {
+              "name" : "New Installation",
+              "description" : "Available for use",
+              "hostname" : "srv161.acme.local",
+              "path" : [ "OpenCM", "Acme", "Dev Zone", "Unassigned", "srv161.acme.local", "New Installation" ],
+              "runtimes" : [ ],
+              "instances" : [ ],
+              "repoExists" : false,
+              "load_balancers" : [ ]
+            } ]
+          }, {
+            "name" : "srv162.acme.local",
+            "path" : [ "OpenCM", "Acme", "Dev Zone", "Unassigned", "srv162.acme.local" ],
+            "groups" : [ ],
+            "installations" : [ {
+              "name" : "New Installation",
+              "description" : "Free after clean-up next week",
+              "hostname" : "srv162.acme.local",
+              "path" : [ "OpenCM", "Acme", "Dev Zone", "Unassigned", "srv162.acme.local", "New Installation" ],
+              "runtimes" : [ ],
+              "instances" : [ ],
+              "repoExists" : false,
+              "load_balancers" : [ ]
+            } ]
+          } ],
+          "installations" : [ ]
+        } ],
+        "installations" : [ ]
+      }, {
+        "name" : "High Security Zone",
+        "path" : [ "OpenCM", "Acme", "High Security Zone" ],
+        "groups" : [ {
+          "name" : "Central Admin",
+          "path" : [ "OpenCM", "Acme", "High Security Zone", "Central Admin" ],
+          "groups" : [ ],
+          "installations" : [ {
+            "name" : "ACME_SECZ_ADM_V103_CCE_01",
+            "description" : "",
+            "hostname" : "srv311.acme.local",
+            "path" : [ "OpenCM", "Acme", "High Security Zone", "Central Admin", "ACME_SECZ_ADM_V103_CCE_01" ],
+            "runtimes" : [ {
+              "name" : "OSGI-SPM",
+              "protocol" : "http",
+              "port" : "10092",
+              "username" : "Administrator",
+              "password" : "",
+              "password_handle" : "/OpenCM/Acme/High Security Zone/Central Admin/ACME_SECZ_ADM_V103_CCE_01/OSGI-SPM",
+              "alt_hostname" : null
+            } ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          }, {
+            "name" : "ACME_SECZ_ADM_V103_IS_01",
+            "description" : "",
+            "hostname" : "srv311.acme.local",
+            "path" : [ "OpenCM", "Acme", "High Security Zone", "Central Admin", "ACME_SECZ_ADM_V103_IS_01" ],
+            "runtimes" : [ {
+              "name" : "OSGI-SPM",
+              "protocol" : "http",
+              "port" : "10092",
+              "username" : "Administrator",
+              "password" : "",
+              "password_handle" : "/OpenCM/Acme/High Security Zone/Central Admin/ACME_SECZ_ADM_V103_IS_01/OSGI-SPM",
+              "alt_hostname" : null
+            } ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          } ]
+        }, {
+          "name" : "Pre Production",
+          "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production" ],
+          "groups" : [ {
+            "name" : "API",
+            "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "API" ],
+            "groups" : [ ],
+            "installations" : [ {
+              "name" : "ACME_PRE_API_V105_APIGW_01",
+              "description" : "",
+              "hostname" : "srv349.acme.local",
+              "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "API", "ACME_PRE_API_V105_APIGW_01" ],
+              "runtimes" : [ ],
+              "instances" : [ ],
+              "repoExists" : false,
+              "load_balancers" : [ ]
+            } ]
+          }, {
+            "name" : "ESB",
+            "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "ESB" ],
+            "groups" : [ {
+              "name" : "Batch Cluster",
+              "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "ESB", "Batch Cluster" ],
+              "groups" : [ ],
+              "installations" : [ {
+                "name" : "ACME_PRE_ESB_V103_BATCH_01",
+                "description" : "",
+                "hostname" : "srv334.acme.local",
+                "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "ESB", "Batch Cluster", "ACME_PRE_ESB_V103_BATCH_01" ],
+                "runtimes" : [ ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              }, {
+                "name" : "ACME_PRE_ESB_V103_BATCH_02",
+                "description" : "",
+                "hostname" : "srv335.acme.local",
+                "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "ESB", "Batch Cluster", "ACME_PRE_ESB_V103_BATCH_02" ],
+                "runtimes" : [ ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              } ]
+            }, {
+              "name" : "Online Cluster",
+              "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "ESB", "Online Cluster" ],
+              "groups" : [ ],
+              "installations" : [ {
+                "name" : "ACME_PRE_ESB_V103_ONLINE_01",
+                "description" : "",
+                "hostname" : "srv337.acme.local",
+                "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "ESB", "Online Cluster", "ACME_PRE_ESB_V103_ONLINE_01" ],
+                "runtimes" : [ ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              }, {
+                "name" : "ACME_UAT_ESB_V103_ONLINE_02",
+                "description" : "",
+                "hostname" : "srv338.acme.local",
+                "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "ESB", "Online Cluster", "ACME_UAT_ESB_V103_ONLINE_02" ],
+                "runtimes" : [ ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              } ]
+            } ],
+            "installations" : [ ]
+          }, {
+            "name" : "Messaging",
+            "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "Messaging" ],
+            "groups" : [ ],
+            "installations" : [ {
+              "name" : "ACME_PRE_MSG_V105_UM_01",
+              "description" : "",
+              "hostname" : "srv393.acme.local",
+              "path" : [ "OpenCM", "Acme", "High Security Zone", "Pre Production", "Messaging", "ACME_PRE_MSG_V105_UM_01" ],
+              "runtimes" : [ ],
+              "instances" : [ ],
+              "repoExists" : false,
+              "load_balancers" : [ ]
+            } ]
+          } ],
+          "installations" : [ ]
+        }, {
+          "name" : "Production",
+          "path" : [ "OpenCM", "Acme", "High Security Zone", "Production" ],
+          "groups" : [ {
+            "name" : "API",
+            "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "API" ],
+            "groups" : [ ],
+            "installations" : [ {
+              "name" : "ACME_PROD_API_V105_APIGW_01",
+              "description" : "",
+              "hostname" : "srv449.acme.com",
+              "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "API", "ACME_PROD_API_V105_APIGW_01" ],
+              "runtimes" : [ ],
+              "instances" : [ ],
+              "repoExists" : false,
+              "load_balancers" : [ ]
+            } ]
+          }, {
+            "name" : "ESB",
+            "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "ESB" ],
+            "groups" : [ {
+              "name" : "Batch Cluster",
+              "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "ESB", "Batch Cluster" ],
+              "groups" : [ ],
+              "installations" : [ {
+                "name" : "ACME_PROD_ESB_V103_BATCH_01",
+                "description" : "",
+                "hostname" : "srv434.acme.com",
+                "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "ESB", "Batch Cluster", "ACME_PROD_ESB_V103_BATCH_01" ],
+                "runtimes" : [ ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              }, {
+                "name" : "ACME_PROD_ESB_V103_BATCH_02",
+                "description" : "",
+                "hostname" : "srv445.acme.com",
+                "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "ESB", "Batch Cluster", "ACME_PROD_ESB_V103_BATCH_02" ],
+                "runtimes" : [ ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              } ]
+            }, {
+              "name" : "Online Cluster",
+              "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "ESB", "Online Cluster" ],
+              "groups" : [ ],
+              "installations" : [ {
+                "name" : "ACME_PROD_ESB_V103_ONLINE_01",
+                "description" : "",
+                "hostname" : "srv437.acme.com",
+                "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "ESB", "Online Cluster", "ACME_PROD_ESB_V103_ONLINE_01" ],
+                "runtimes" : [ ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              }, {
+                "name" : "ACME_PROD_ESB_V103_ONLINE_02",
+                "description" : "",
+                "hostname" : "srv438.acme.com",
+                "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "ESB", "Online Cluster", "ACME_PROD_ESB_V103_ONLINE_02" ],
+                "runtimes" : [ ],
+                "instances" : [ ],
+                "repoExists" : false,
+                "load_balancers" : [ ]
+              } ]
+            } ],
+            "installations" : [ ]
+          }, {
+            "name" : "Messaging",
+            "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "Messaging" ],
+            "groups" : [ ],
+            "installations" : [ {
+              "name" : "ACME_PROD_MSG_V105_UM_01",
+              "description" : "",
+              "hostname" : "srv493.acme.com",
+              "path" : [ "OpenCM", "Acme", "High Security Zone", "Production", "Messaging", "ACME_PROD_MSG_V105_UM_01" ],
+              "runtimes" : [ ],
+              "instances" : [ ],
+              "repoExists" : false,
+              "load_balancers" : [ ]
+            } ]
+          } ],
+          "installations" : [ ]
+        } ],
+        "installations" : [ ]
+      }, {
+        "name" : "DMZ",
+        "path" : [ "OpenCM", "Acme", "DMZ" ],
+        "groups" : [ {
+          "name" : "Central Admin",
+          "path" : [ "OpenCM", "Acme", "DMZ", "Central Admin" ],
+          "groups" : [ ],
+          "installations" : [ {
+            "name" : "ACME_SECZ_ADM_V103_CCE_01",
+            "description" : "",
+            "hostname" : "srv511.acme.dmz.dom",
+            "path" : [ "OpenCM", "Acme", "DMZ", "Central Admin", "ACME_SECZ_ADM_V103_CCE_01" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          }, {
+            "name" : "ACME_SECZ_ADM_V103_IS_01",
+            "description" : "",
+            "hostname" : "srv511.acme.dmz.dom",
+            "path" : [ "OpenCM", "Acme", "DMZ", "Central Admin", "ACME_SECZ_ADM_V103_IS_01" ],
+            "runtimes" : [ {
+              "name" : "OSGI-SPM",
+              "protocol" : "http",
+              "port" : "1232",
+              "username" : "Administrator",
+              "password" : "",
+              "password_handle" : "/OpenCM/Acme/DMZ/Central Admin/ACME_SECZ_ADM_V103_IS_01/OSGI-SPM",
+              "alt_hostname" : null
+            }, {
+              "name" : "OPENCM-SYNCH",
+              "protocol" : "ftps",
+              "port" : "10021",
+              "username" : "Administrator",
+              "password" : "",
+              "password_handle" : "/OpenCM/Acme/DMZ/Central Admin/ACME_SECZ_ADM_V103_IS_01/OPENCM-SYNCH",
+              "alt_hostname" : null
+            } ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          } ]
+        }, {
+          "name" : "Gateways",
+          "path" : [ "OpenCM", "Acme", "DMZ", "Gateways" ],
+          "groups" : [ ],
+          "installations" : [ {
+            "name" : "ACME_PROD_SGW_V103_APIGW_01",
+            "description" : "",
+            "hostname" : "srv533.acme.dmz.dom",
+            "path" : [ "OpenCM", "Acme", "DMZ", "Gateways", "ACME_PROD_SGW_V103_APIGW_01" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          }, {
+            "name" : "ACME_PROD_SGW_V103_MFT_01",
+            "description" : "",
+            "hostname" : "srv534.acme.dmz.dom",
+            "path" : [ "OpenCM", "Acme", "DMZ", "Gateways", "ACME_PROD_SGW_V103_MFT_01" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          } ]
+        } ],
+        "installations" : [ ]
+      } ],
+      "installations" : [ ]
+    }, {
+      "name" : "Acyou",
+      "path" : [ "OpenCM", "Acyou" ],
+      "groups" : [ {
+        "name" : "Dev Zone",
+        "path" : [ "OpenCM", "Acyou", "Dev Zone" ],
+        "groups" : [ {
+          "name" : "Central Dev",
+          "path" : [ "OpenCM", "Acyou", "Dev Zone", "Central Dev" ],
+          "groups" : [ ],
+          "installations" : [ {
+            "name" : "ACY_DEV_ESB_V103_SUPPLY_01",
+            "description" : "",
+            "hostname" : "srv164.acy.domain",
+            "path" : [ "OpenCM", "Acyou", "Dev Zone", "Central Dev", "ACY_DEV_ESB_V103_SUPPLY_01" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          }, {
+            "name" : "ACY_DEV_ESB_V103_SUPPLY_02",
+            "description" : "",
+            "hostname" : "srv165.acy.domain",
+            "path" : [ "OpenCM", "Acyou", "Dev Zone", "Central Dev", "ACY_DEV_ESB_V103_SUPPLY_02" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          } ]
+        } ],
+        "installations" : [ ]
+      }, {
+        "name" : "Test Zone",
+        "path" : [ "OpenCM", "Acyou", "Test Zone" ],
+        "groups" : [ {
+          "name" : "Integration Test",
+          "path" : [ "OpenCM", "Acyou", "Test Zone", "Integration Test" ],
+          "groups" : [ ],
+          "installations" : [ {
+            "name" : "ACY_INT_ESB_V103_SUPPLY_01",
+            "description" : "",
+            "hostname" : "srv264.acy.domain",
+            "path" : [ "OpenCM", "Acyou", "Test Zone", "Integration Test", "ACY_INT_ESB_V103_SUPPLY_01" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          }, {
+            "name" : "ACY_INT_ESB_V103_SUPPLY_02",
+            "description" : "",
+            "hostname" : "srv265.acy.domain",
+            "path" : [ "OpenCM", "Acyou", "Test Zone", "Integration Test", "ACY_INT_ESB_V103_SUPPLY_02" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          } ]
+        }, {
+          "name" : "PreProd",
+          "path" : [ "OpenCM", "Acyou", "Test Zone", "PreProd" ],
+          "groups" : [ ],
+          "installations" : [ {
+            "name" : "ACY_PPE_ESB_V103_SUPPLY_01",
+            "description" : "",
+            "hostname" : "srv364.acy.domain",
+            "path" : [ "OpenCM", "Acyou", "Test Zone", "PreProd", "ACY_PPE_ESB_V103_SUPPLY_01" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          }, {
+            "name" : "ACY_PPE_ESB_V103_SUPPLY_02",
+            "description" : "",
+            "hostname" : "srv365.acy.domain",
+            "path" : [ "OpenCM", "Acyou", "Test Zone", "PreProd", "ACY_PPE_ESB_V103_SUPPLY_02" ],
+            "runtimes" : [ ],
+            "instances" : [ ],
+            "repoExists" : false,
+            "load_balancers" : [ ]
+          } ]
+        } ],
+        "installations" : [ ]
+      }, {
+        "name" : "Live Zone",
+        "path" : [ "OpenCM", "Acyou", "Live Zone" ],
+        "groups" : [ ],
+        "installations" : [ {
+          "name" : "ACY_PROD_ESB_V103_SUPPLY_01",
+          "description" : "",
+          "hostname" : "srv464.acy.com",
+          "path" : [ "OpenCM", "Acyou", "Live Zone", "ACY_PROD_ESB_V103_SUPPLY_01" ],
+          "runtimes" : [ ],
+          "instances" : [ ],
+          "repoExists" : false,
+          "load_balancers" : [ ]
+        }, {
+          "name" : "ACY_PROD_ESB_V103_SUPPLY_02",
+          "description" : "",
+          "hostname" : "srv465.acy.com",
+          "path" : [ "OpenCM", "Acyou", "Live Zone", "ACY_PROD_ESB_V103_SUPPLY_02" ],
+          "runtimes" : [ ],
+          "instances" : [ ],
+          "repoExists" : false,
+          "load_balancers" : [ ]
+        } ]
+      } ],
+      "installations" : [ ]
+    } ],
+    "installations" : [ ]
+  }
+}
