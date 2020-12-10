@@ -6,20 +6,24 @@ In addition, OpenCM can act the "source of truth" for any configuration properti
 ## Description
 OpenCM is an Integration Server package that is centrally installed on an (administration) IS. Main external dependency to OpenCM is SoftwareAG Platform Manager for all remote webMethods installations, which are used to perform property extractions (retrievals) and subsequent storing of the information into a local, file-based, repository. OpenCM comes with a user interface for easy navigation and visualization of property information.
 
+### Installation Inventory
 ![Alt text](/github_images/inventory.png?raw=true "OpenCM User Interface")
 
 The OpenMC user interface can visualize the integration platform servers and installations via a treestructure (see above), and by selecting portions of the tree. Once selected, a list of installations defined will then be shown in the center table.
 
+### Configuration Repository
 The configuration properties of an installation can be inspected by clicking on an installation in the inventory table. 
 
 ![Alt text](/github_images/Repository.png?raw=true "OpenCM User Interface")
 
-Comparing differences is referred to as "Runtime Auditing" and is performed by describing which installations to audit, and what properties to compare:
+### Runtime Audits
+Comparing differences between multiple installations is referred to as "Runtime Auditing" and is performed by describing which installations to audit, and what properties to compare:
 
 ![Alt text](/github_images/RuntimeAudit.png?raw=true "OpenCM Auditing")
 
 This example shows that there are differences in extended settings between the two installations selected. The result table can also be saved off as an Excel sheet for offline viewing.
 
+### Governance Audits
 In addition to Runtime Audits, it is also possible to perform "Governance Audits", which is to ensure that configuration properties are according to a so-called "source of truth". I.e., a particular configuration property must be of a certain value.
 
 ![Alt text](/github_images/GovernanceAudit.png?raw=true "OpenCM Auditing")
