@@ -7,6 +7,8 @@ import org.opencm.extract.IntegrationServerExtractor;
 public class Component {
 
     public static final String 	COMPONENT_NAME_OSGI_SPM					= "OSGI-SPM";
+    public static final String 	COMPONENT_PREFIX_OSGI_IS				= "OSGI-IS_";
+    public static final String 	COMPONENT_PREFIX_OSGI_MWS				= "OSGI-MWS_";
     public static final String 	COMPONENT_PREFIX_INTEGRATION_SERVER		= "integrationServer-";
     public static final String 	COMPONENT_PREFIX_UNIVERSAL_MESSAGING	= "Universal-Messaging-";
     public static final String 	COMPONENT_PREFIX_MY_WEBMETHODS_SERVER	= "MwsProgramFiles-";

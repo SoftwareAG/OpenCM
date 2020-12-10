@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Values version="2.0">
-  <value name="name">OpenCM_20201104b</value>
+  <value name="name">OpenCM_20201210</value>
   <value name="version">3.0.0</value>
   <value name="build"></value>
   <value name="patch_nums"></value>
@@ -10,7 +10,7 @@
   <value name="jvm_version">1.8.0_222</value>
   <value name="source_server_version">10.3.0.0</value>
   <value name="target_server_version">10.3.0.0</value>
-  <value name="time">2020-11-04 14:37:12 UTC</value>
+  <value name="time">2020-12-10 08:07:36 UTC</value>
   <value name="type">full</value>
   <null name="retainPatchHistory"/>
   <value name="target_pkg_name">OpenCM</value>

@@ -49,7 +49,7 @@
               "username" : "Administrator",
               "password" : "",
               "password_handle" : "/OpenCM/Acme/Dev Zone/Central Admin/ACME_DEVZ_ADM_V103_CCE_01/OSGI-SPM",
-              "alt_hostname" : ""
+              "alt_hostname" : null
             } ],
             "instances" : [ ],
             "repoExists" : false,

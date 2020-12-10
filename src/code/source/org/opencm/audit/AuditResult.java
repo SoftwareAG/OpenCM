@@ -68,8 +68,10 @@ public class AuditResult {
                 	if (auditProp.getAuditValues().getFirst().getInstance().equals(av.getInstance())) {
                 		String newComponent = auditProp.getAuditValues().getFirst().getComponent();
                     	if (newComponent.equals(av.getComponent()) || 
+                       		(newComponent.startsWith(Component.COMPONENT_PREFIX_OSGI_IS) && av.getComponent().startsWith(Component.COMPONENT_PREFIX_OSGI_IS)) ||
                     		(newComponent.startsWith(Component.COMPONENT_PREFIX_INTEGRATION_SERVER) && av.getComponent().startsWith(Component.COMPONENT_PREFIX_INTEGRATION_SERVER)) ||
                     		(newComponent.startsWith(Component.COMPONENT_PREFIX_UNIVERSAL_MESSAGING) && av.getComponent().startsWith(Component.COMPONENT_PREFIX_UNIVERSAL_MESSAGING)) ||
+                       		(newComponent.startsWith(Component.COMPONENT_PREFIX_OSGI_MWS) && av.getComponent().startsWith(Component.COMPONENT_PREFIX_OSGI_MWS)) ||
                     		(newComponent.startsWith(Component.COMPONENT_PREFIX_MY_WEBMETHODS_SERVER) && av.getComponent().startsWith(Component.COMPONENT_PREFIX_MY_WEBMETHODS_SERVER))) 
                     	{
 	                		ap.addAuditValue(auditProp.getAuditValues().getFirst());
