@@ -1,5 +1,5 @@
 # OpenCM
-OpenCM is a Configuration Management Repository for webMethods components and is primarily an operational/runtime governance tool of integration platform wM components. OpenCM provides an inventory of installation components and can thereafter (when defined) support the ability to audit & compare configuration property information in order to detect discrepancies. 
+OpenCM is a Configuration Management Repository for webMethods components and is primarily an operational/runtime governance tool of integration platform wM components. OpenCM provides an inventory of installation components and can thereafter (when defined) support the ability to audit & compare configuration property information in order to detect discrepancies.  
 
 In addition, OpenCM can act the "source of truth" for any configuration properties within the landscape. By defining what properties should be, it is then possible to generate compliance reports to detect which runtime installations that are not configured according to the source of truth.
 
